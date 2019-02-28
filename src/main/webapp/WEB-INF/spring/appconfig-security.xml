@@ -20,18 +20,18 @@
                     username-parameter="userName" password-parameter="password"/>
 
         <logout logout-success-url="/railroad"/>
-        <remember-me user-service-ref="" key="myKey" token-validity-seconds="300"/>
+        <remember-me user-service-ref="userDetailsServiceImpl" key="myKey" token-validity-seconds="300"/>
         <csrf disabled="true"/>
     </http>
 
     <authentication-manager alias="authenticationManager">
-        <authentication-provider user-service-ref="">
+        <authentication-provider user-service-ref="userDetailsServiceImpl">
             <password-encoder ref="encoder"></password-encoder>
         </authentication-provider>
     </authentication-manager>
 
     <beans:bean id="userDetailsServiceImpl"
-                class="com.railroad.service">
+                class="com.railroad.service.impl.UserDetailServiceImpl">
     </beans:bean>
 
     <beans:bean id="encoder"
