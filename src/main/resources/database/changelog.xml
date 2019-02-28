@@ -1,0 +1,46 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--CREATING TABLES-->
+    <changeSet id="1" author="Stas" runOnChange="true">
+
+        <!--CREATING USERS TABLE-->
+        <createTable tableName="users">
+            <column  name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" unique="true" nullable="false"/>
+            </column>
+            <column name="username" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+
+        <!--CREATING ROLES TABLE-->
+        <createTable tableName="roles">
+            <column  name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" unique="true" nullable="false"/>
+            </column>
+            <column name="role_name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!--CREATING USER_ROLES TABLE-->
+        <createTable tableName="user_roles">
+            <column  name="user_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column  name="role_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
