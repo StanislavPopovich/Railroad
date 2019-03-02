@@ -1,6 +1,9 @@
 package com.railroad.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -16,7 +19,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "roles")
-@Data
+@Getter
+@Setter
+@ToString
 public class Role extends BaseEntity {
 
     @Column(name = "role_name", nullable = false)

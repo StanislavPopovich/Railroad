@@ -1,6 +1,9 @@
 package com.railroad.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -14,7 +17,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
+@ToString
 public class User extends BaseEntity {
 
     @Column(name = "username", nullable = false)
