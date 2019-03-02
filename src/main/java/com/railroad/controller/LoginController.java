@@ -3,6 +3,7 @@ package com.railroad.controller;
 import com.railroad.model.User;
 import com.railroad.service.SecurityService;
 import com.railroad.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = {"/","/railroad"}, method = RequestMethod.GET)
 public class LoginController {
+
+    private static final Logger logger = Logger.getLogger(LoginController.class);
+
 
     @Autowired
     private UserService userService;
@@ -34,6 +38,7 @@ public class LoginController {
 
     @RequestMapping(value = "/login")
     public ModelAndView login(){
+        logger.info("Trying to log in.");
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("user", new User());
         modelAndView.setViewName("login_page");

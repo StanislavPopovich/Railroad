@@ -21,6 +21,7 @@
     <liquibase.version>3.5.3</liquibase.version>
     <jstl.version>1.2</jstl.version>
     <lombok.version>1.18.4</lombok.version>
+      <log4j.version>1.2.17</log4j.version>
     <tomcat.plugin.version>2.2</tomcat.plugin.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
@@ -111,6 +112,13 @@
       <version>${lombok.version}</version>
       <scope>provided</scope>
     </dependency>
+
+      <!-- Log4j -->
+      <dependency>
+          <groupId>log4j</groupId>
+          <artifactId>log4j</artifactId>
+          <version>${log4j.version}</version>
+      </dependency>
 
     <dependency>
       <groupId>junit</groupId>
