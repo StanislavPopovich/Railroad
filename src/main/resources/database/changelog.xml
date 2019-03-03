@@ -42,18 +42,33 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-    </changeSet>
 
-    <changeSet id="2" author="Stas">
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="user_roles"
+                                 constraintName="fk_user_role"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users"/>
+
+        <addForeignKeyConstraint baseColumnNames="role_id"
+                                 baseTableName="user_roles"
+                                 constraintName="fk_role_user"
+                                 referencedColumnNames="id"
+                                 referencedTableName="roles"/>
+
+        <addPrimaryKey columnNames="user_id, role_id"
+                       constraintName="pk_user_role"
+                       tableName="user_roles"/>
+
         <!--INSERTING ROLES IN 'ROLES' TABLE-->
         <insert tableName="roles">
-            <column name="role_name" value="USER_ROLE"></column>
+            <column name="role_name" value="ROLE_USER"></column>
         </insert>
         <insert tableName="roles">
-            <column name="role_name" value="MODERATOR_ROLE"></column>
+            <column name="role_name" value="ROLE_MODERATOR"></column>
         </insert>
         <insert tableName="roles">
-            <column name="role_name" value="ADMIN_ROLE"></column>
+            <column name="role_name" value="ROLE_ADMIN"></column>
         </insert>
+
     </changeSet>
 </databaseChangeLog>

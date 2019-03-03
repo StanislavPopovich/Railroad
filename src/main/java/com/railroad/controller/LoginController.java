@@ -1,18 +1,24 @@
 package com.railroad.controller;
-
 import com.railroad.model.User;
 import com.railroad.service.SecurityService;
 import com.railroad.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import java.util.Collection;
+
 
 
 @Controller
-@RequestMapping(value = {"/","/railroad"}, method = RequestMethod.GET)
+@RequestMapping(value = {"/","/railroad"})
 public class LoginController {
 
     private static final Logger logger = Logger.getLogger(LoginController.class);
@@ -29,13 +35,15 @@ public class LoginController {
      *
      * @return index page
      */
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public ModelAndView index(){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("index");
-        return modelAndView;
+    @RequestMapping(value = "")
+    public String index(){
+        return "index";
     }
 
+    /**
+     *
+     * @return
+     */
     @RequestMapping(value = "/login")
     public ModelAndView login(){
         logger.info("Trying to log in.");
@@ -46,11 +54,34 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public ModelAndView register(){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("user", new User());
-        modelAndView.setViewName("registration_page");
-        return modelAndView;
+    public String registration(Model model){
+        model.addAttribute("userForm", new User());
+        return "registration_page";
+    }
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public String registration(@ModelAttribute("userForm") User userForm) {
+        userService.save(userForm);
+        securityService.autoLogin(userForm.getUserName(), userForm.getConfirmPassword());
+        return getRolePage();
+    }
+
+    @RequestMapping(value = "/login/result", method = RequestMethod.GET)
+    public String registration() {
+        logger.info("Login result method.");
+        return getRolePage();
+    }
+
+    @SuppressWarnings("unchecked")
+    private String getRolePage(){
+        Collection<GrantedAuthority> authorities = (Collection)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        for(GrantedAuthority authority: authorities){
+            if(authority.getAuthority().equals("ROLE_ADMIN")){
+                return "admin_page";
+            }else if(authority.getAuthority().equals("ROLE_MODERATOR")){
+                return "moderator_page";
+            }
+        }
+        return "user_page";
     }
 
 }

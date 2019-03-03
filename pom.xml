@@ -12,16 +12,15 @@
   <name>Railroad application</name>
 
   <properties>
-    <spring.version>4.2.0.RELEASE</spring.version>
+    <spring.version>5.0.0.RELEASE</spring.version>
     <spring-security.version>4.0.2.RELEASE</spring-security.version>
-    <spring-data-jpa.version>1.8.2.RELEASE</spring-data-jpa.version>
-    <hibernate.version>4.3.11.Final</hibernate.version>
+    <hibernate.version>5.2.8.Final</hibernate.version>
     <mysql-connector.version>8.0.11</mysql-connector.version>
     <commons-dbcp.version>1.4</commons-dbcp.version>
     <liquibase.version>3.5.3</liquibase.version>
     <jstl.version>1.2</jstl.version>
     <lombok.version>1.18.4</lombok.version>
-      <log4j.version>1.2.17</log4j.version>
+    <log4j.version>1.2.17</log4j.version>
     <tomcat.plugin.version>2.2</tomcat.plugin.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
@@ -30,6 +29,30 @@
   <dependencies>
 
     <!--Spring-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
@@ -63,13 +86,6 @@
       <scope>compile</scope>
     </dependency>
 
-    <!--Spring Data-->
-    <dependency>
-      <groupId>org.springframework.data</groupId>
-      <artifactId>spring-data-jpa</artifactId>
-      <version>${spring-data-jpa.version}</version>
-    </dependency>
-
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>jstl</artifactId>
@@ -77,6 +93,12 @@
     </dependency>
 
     <!--Hibernate-->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>5.2.8.Final</version>
+    </dependency>
+
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>

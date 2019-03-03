@@ -14,7 +14,7 @@
         <intercept-url pattern="/railroad/moderator/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')"/>
         <intercept-url pattern="/railroad/admin/**" access="hasRole('ROLE_ADMIN')"/>
 
-        <form-login login-page="/railroad" default-target-url="/railroad/login/result"
+        <form-login login-page="/railroad/login" default-target-url="/railroad/login/result"
                     login-processing-url="/railroad/login/process"
                     authentication-failure-url="/railroad/login?error"
                     username-parameter="userName" password-parameter="password"/>

@@ -1,14 +1,14 @@
 package com.railroad.service.impl;
 
-import com.railroad.dao.RoleDao;
-import com.railroad.dao.UserDao;
+import com.railroad.dao.impl.RoleDaoImpl;
+import com.railroad.dao.impl.UserDaoImpl;
 import com.railroad.model.Role;
 import com.railroad.model.User;
 import com.railroad.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,11 +22,13 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserDao userDao;
+    private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
 
     @Autowired
-    private RoleDao roleDao;
+    private UserDaoImpl userDao;
+
+    @Autowired
+    private RoleDaoImpl roleDao;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -34,19 +36,18 @@ public class UserServiceImpl implements UserService {
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         Set<Role> roles = new HashSet<>();
-        System.out.println("1");
-        roles.add(roleDao.getRoleById(1L));
-        System.out.println(2);
+        roles.add(roleDao.findById(1L, Role.class));
         user.setRoles(roles);
-        userDao.save(user);
-
+        userDao.persist(user);
     }
 
     public User findByUsername(String userName) {
+        logger.info("in finByUserName method");
         return userDao.findByUserName(userName);
     }
 
     public List<User> getAllUsers() {
-        return userDao.findAll();
+        userDao.setClazz(User.class);
+        return userDao.getAll();
     }
 }

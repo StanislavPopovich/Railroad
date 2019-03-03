@@ -1,6 +1,7 @@
 package com.railroad.service.impl;
 
 import com.railroad.service.SecurityService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SecurityServiceImpl implements SecurityService {
+    private static final Logger logger = Logger.getLogger(SecurityServiceImpl.class);
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -20,6 +22,7 @@ public class SecurityServiceImpl implements SecurityService {
     UserDetailsService userDetailsService;
 
     public String findLoggedInUsername() {
+        logger.info("in findLoggedInUsername method");
         Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
         if(userDetails instanceof UserDetails){
             return ((UserDetails) userDetails).getUsername();
@@ -28,6 +31,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     public void autoLogin(String userName, String password) {
+        logger.info("in autoLogin method");
         UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
