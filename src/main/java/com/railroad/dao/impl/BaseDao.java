@@ -1,26 +1,30 @@
 package com.railroad.dao.impl;
 
 import com.railroad.dao.Dao;
-import lombok.Setter;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import java.io.Serializable;
 import java.util.List;
 
-@Setter
-public class BaseDao<T> implements Dao<T, Long> {
+public class BaseDao<T, ID extends Serializable> implements Dao<T, ID> {
+
 
     private Class<T> clazz;
+
+    public BaseDao(Class<T> clazz) {
+        this.clazz = clazz;
+    }
 
     @Autowired
     private SessionFactory sessionFactory;
 
 
     @Override
-    public void persist(T entity) {
-        Session session = this.sessionFactory.openSession();
+    public void save(T entity) {
+        Session session = getSession();
         Transaction transaction = session.beginTransaction();
         session.persist(entity);
         transaction.commit();
@@ -29,7 +33,7 @@ public class BaseDao<T> implements Dao<T, Long> {
 
     @Override
     public void remove(T entity) {
-        Session session = this.sessionFactory.openSession();
+        Session session = getSession();
         Transaction transaction = session.beginTransaction();
         session.remove(entity);
         transaction.commit();
@@ -37,21 +41,30 @@ public class BaseDao<T> implements Dao<T, Long> {
 
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public T findById(Long id, Class<?> persistClass) {
-        Session session = this.sessionFactory.openSession();
-        T entity = (T)session.get(persistClass, id);
+    public T getById(ID id) {
+        Session session = getSession();
+        T entity = session.get(clazz, id);
         session.close();
         return entity;
-
     }
+
     @SuppressWarnings("unchecked")
     @Override
     public List<T> getAll() {
-        Session session = this.sessionFactory.openSession();
+        Session session = getSession();
         List<T> allEntities = session.createQuery("from " + clazz.getName()).list();
         session.close();
         return allEntities;
+    }
+
+    protected final Session getSession(){
+        Session session;
+        try{
+            session = this.sessionFactory.getCurrentSession();
+        }catch (HibernateException e){
+            session = sessionFactory.openSession();
+        }
+        return session;
     }
 }

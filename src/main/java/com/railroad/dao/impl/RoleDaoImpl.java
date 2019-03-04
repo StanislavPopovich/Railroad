@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class RoleDaoImpl extends BaseDao<Role> implements RoleDao {
+public class RoleDaoImpl extends BaseDao<Role, Long> implements RoleDao {
 
-
+    public RoleDaoImpl() {
+        super(Role.class);
+    }
 }

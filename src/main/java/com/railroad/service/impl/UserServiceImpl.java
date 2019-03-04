@@ -22,7 +22,6 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
 
     @Autowired
     private UserDaoImpl userDao;
@@ -36,18 +35,17 @@ public class UserServiceImpl implements UserService {
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         Set<Role> roles = new HashSet<>();
-        roles.add(roleDao.findById(1L, Role.class));
+        roles.add(roleDao.getById(1L));
         user.setRoles(roles);
-        userDao.persist(user);
+        userDao.save(user);
     }
 
     public User findByUsername(String userName) {
-        logger.info("in finByUserName method");
         return userDao.findByUserName(userName);
     }
 
     public List<User> getAllUsers() {
-        userDao.setClazz(User.class);
+        userDao.getAll();
         return userDao.getAll();
     }
 }

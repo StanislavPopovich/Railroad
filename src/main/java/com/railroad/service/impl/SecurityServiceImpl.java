@@ -22,7 +22,6 @@ public class SecurityServiceImpl implements SecurityService {
     UserDetailsService userDetailsService;
 
     public String findLoggedInUsername() {
-        logger.info("in findLoggedInUsername method");
         Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
         if(userDetails instanceof UserDetails){
             return ((UserDetails) userDetails).getUsername();
@@ -31,7 +30,6 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     public void autoLogin(String userName, String password) {
-        logger.info("in autoLogin method");
         UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());

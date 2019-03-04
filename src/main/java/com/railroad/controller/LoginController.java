@@ -8,7 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,10 +39,6 @@ public class LoginController {
         return "index";
     }
 
-    /**
-     *
-     * @return
-     */
     @RequestMapping(value = "/login")
     public ModelAndView login(){
         logger.info("Trying to log in.");
@@ -55,6 +50,7 @@ public class LoginController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model){
+        logger.info("Trying to registration");
         model.addAttribute("userForm", new User());
         return "registration_page";
     }
@@ -67,7 +63,6 @@ public class LoginController {
 
     @RequestMapping(value = "/login/result", method = RequestMethod.GET)
     public String registration() {
-        logger.info("Login result method.");
         return getRolePage();
     }
 
@@ -76,12 +71,15 @@ public class LoginController {
         Collection<GrantedAuthority> authorities = (Collection)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         for(GrantedAuthority authority: authorities){
             if(authority.getAuthority().equals("ROLE_ADMIN")){
-                return "admin_page";
+                logger.info("Logged as Admin");
+                return "redirect:/railroad/admin";
             }else if(authority.getAuthority().equals("ROLE_MODERATOR")){
-                return "moderator_page";
+                logger.info("Logged as Moderator");
+                return "redirect:/railroad/moderator";
             }
         }
-        return "user_page";
+        logger.info("Logged as User");
+        return "redirect:/railroad/user";
     }
 
 }

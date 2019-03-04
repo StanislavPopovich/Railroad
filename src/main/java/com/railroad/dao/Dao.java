@@ -1,11 +1,12 @@
 package com.railroad.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface Dao<T, ID> {
+public interface Dao<T, ID extends Serializable> {
 
-    void persist(T t);
-    void remove(T t);
-    T findById(ID id, Class<?> persistClass);
+    void save(T entity);
+    void remove(T entity);
+    T getById(ID id);
     List<T> getAll();
 }
