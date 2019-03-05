@@ -1,4 +1,4 @@
-package com.railroad.service;
+package com.railroad.service.api;
 
 import com.railroad.model.User;
 import java.util.List;
@@ -12,5 +12,5 @@ public interface UserService {
 
     void save(User user);
     User findByUsername(String userName);
-    List<User> getAllUsers();
+    List<User> getAll();
 }

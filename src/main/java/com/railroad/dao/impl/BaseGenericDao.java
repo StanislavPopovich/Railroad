@@ -1,6 +1,6 @@
 package com.railroad.dao.impl;
 
-import com.railroad.dao.Dao;
+import com.railroad.dao.api.GenericDao;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.Serializable;
 import java.util.List;
 
-public class BaseDao<T, ID extends Serializable> implements Dao<T, ID> {
+public class BaseGenericDao<T, ID extends Serializable> implements GenericDao<T, ID> {
 
 
     private Class<T> clazz;
 
-    public BaseDao(Class<T> clazz) {
+    public BaseGenericDao(Class<T> clazz) {
         this.clazz = clazz;
     }
 

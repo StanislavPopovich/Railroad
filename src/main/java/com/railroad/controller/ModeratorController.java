@@ -1,15 +1,15 @@
 package com.railroad.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping(value = "/railroad/moderator")
 public class ModeratorController {
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public String registration(){
+    @GetMapping(value = "")
+    public String moderatorPage(){
         return "moderator_page";
     }
 }

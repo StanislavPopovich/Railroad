@@ -1,16 +1,14 @@
 package com.railroad.controller;
 import com.railroad.model.User;
-import com.railroad.service.SecurityService;
-import com.railroad.service.UserService;
+import com.railroad.service.api.SecurityService;
+import com.railroad.service.api.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.Collection;
 
@@ -21,7 +19,6 @@ import java.util.Collection;
 public class LoginController {
 
     private static final Logger logger = Logger.getLogger(LoginController.class);
-
 
     @Autowired
     private UserService userService;
@@ -34,12 +31,13 @@ public class LoginController {
      *
      * @return index page
      */
-    @RequestMapping(value = "")
+
+    @GetMapping
     public String index(){
         return "index";
     }
 
-    @RequestMapping(value = "/login")
+    @GetMapping(value = "/login")
     public ModelAndView login(){
         logger.info("Trying to log in.");
         ModelAndView modelAndView = new ModelAndView();
@@ -48,20 +46,23 @@ public class LoginController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    @GetMapping(value = "/registration")
     public String registration(Model model){
         logger.info("Trying to registration");
         model.addAttribute("userForm", new User());
         return "registration_page";
     }
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+
+    @PostMapping(value = "/registration")
     public String registration(@ModelAttribute("userForm") User userForm) {
         userService.save(userForm);
         securityService.autoLogin(userForm.getUserName(), userForm.getConfirmPassword());
         return getRolePage();
     }
 
-    @RequestMapping(value = "/login/result", method = RequestMethod.GET)
+
+
+    @GetMapping(value = "/login/result")
     public String registration() {
         return getRolePage();
     }

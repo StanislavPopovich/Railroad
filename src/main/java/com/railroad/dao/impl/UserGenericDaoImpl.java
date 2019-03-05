@@ -1,17 +1,16 @@
 package com.railroad.dao.impl;
 
-import com.railroad.dao.UserDao;
+import com.railroad.dao.api.UserGenericDao;
 import com.railroad.model.User;
-import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class UserDaoImpl extends BaseDao<User, Long> implements UserDao {
+public class UserGenericDaoImpl extends BaseGenericDao<User, Long> implements UserGenericDao {
 
-    public UserDaoImpl() {
+    public UserGenericDaoImpl() {
         super(User.class);
     }
 

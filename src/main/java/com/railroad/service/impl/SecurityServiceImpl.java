@@ -1,6 +1,6 @@
 package com.railroad.service.impl;
 
-import com.railroad.service.SecurityService;
+import com.railroad.service.api.SecurityService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;

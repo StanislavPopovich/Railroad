@@ -1,4 +1,4 @@
-package com.railroad.service;
+package com.railroad.service.api;
 
 public interface SecurityService {
     String findLoggedInUsername();

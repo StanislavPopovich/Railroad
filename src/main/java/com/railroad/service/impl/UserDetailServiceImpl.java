@@ -1,7 +1,7 @@
 package com.railroad.service.impl;
 
 
-import com.railroad.dao.UserDao;
+import com.railroad.dao.api.UserGenericDao;
 import com.railroad.model.Role;
 import com.railroad.model.User;
 import org.apache.log4j.Logger;
@@ -20,7 +20,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     private static final Logger logger = Logger.getLogger(UserDetailServiceImpl.class);
 
     @Autowired
-    private UserDao userDao;
+    private UserGenericDao userDao;
 
     @Override
     @Transactional

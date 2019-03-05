@@ -34,14 +34,4 @@
             </props>
         </property>
     </bean>
-
-    <!--UserDao and UserService beans-->
-    <bean id="userDao" class="com.railroad.dao.impl.UserDaoImpl"/>
-
-    <bean id="userService" class="com.railroad.service.impl.UserServiceImpl">
-    </bean>
-
-    <!--RoleDao bean-->
-    <bean id="roleDao" class="com.railroad.dao.impl.RoleDaoImpl"/>
-
 </beans>

@@ -1,11 +1,10 @@
 package com.railroad.service.impl;
 
-import com.railroad.dao.impl.RoleDaoImpl;
-import com.railroad.dao.impl.UserDaoImpl;
+import com.railroad.dao.impl.RoleGenericDaoImpl;
+import com.railroad.dao.impl.UserGenericDaoImpl;
 import com.railroad.model.Role;
 import com.railroad.model.User;
-import com.railroad.service.UserService;
-import org.apache.log4j.Logger;
+import com.railroad.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,10 +23,10 @@ public class UserServiceImpl implements UserService {
 
 
     @Autowired
-    private UserDaoImpl userDao;
+    private UserGenericDaoImpl userDao;
 
     @Autowired
-    private RoleDaoImpl roleDao;
+    private RoleGenericDaoImpl roleDao;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -44,7 +43,7 @@ public class UserServiceImpl implements UserService {
         return userDao.findByUserName(userName);
     }
 
-    public List<User> getAllUsers() {
+    public List<User> getAll() {
         userDao.getAll();
         return userDao.getAll();
     }
