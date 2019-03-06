@@ -8,8 +8,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 import java.util.Collection;
 
 
@@ -46,6 +49,12 @@ public class LoginController {
         return modelAndView;
     }
 
+    @GetMapping(value = "login/result")
+    public String resultLogin() {
+        return getRolePage();
+    }
+
+
     @GetMapping(value = "/registration")
     public String registration(Model model){
         logger.info("Trying to registration");
@@ -54,16 +63,17 @@ public class LoginController {
     }
 
     @PostMapping(value = "/registration")
-    public String registration(@ModelAttribute("userForm") User userForm) {
+    public String registration(@Valid @ModelAttribute("userForm") User userForm, BindingResult bindingResult,
+                               Model model) {
+        if(bindingResult.hasErrors()){
+            return "registration_page";
+        }
+        if(userService.isAlreadyExist(userForm.getUserName())){
+            model.addAttribute("exist", true);
+            return "registration_page";
+        }
         userService.save(userForm);
         securityService.autoLogin(userForm.getUserName(), userForm.getConfirmPassword());
-        return getRolePage();
-    }
-
-
-
-    @GetMapping(value = "/login/result")
-    public String registration() {
         return getRolePage();
     }
 

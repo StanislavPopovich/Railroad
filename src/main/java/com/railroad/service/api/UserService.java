@@ -13,4 +13,5 @@ public interface UserService {
     void save(User user);
     User findByUsername(String userName);
     List<User> getAll();
+    boolean isAlreadyExist(String userName);
 }

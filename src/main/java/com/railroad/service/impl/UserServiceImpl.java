@@ -5,6 +5,7 @@ import com.railroad.dao.impl.UserGenericDaoImpl;
 import com.railroad.model.Role;
 import com.railroad.model.User;
 import com.railroad.service.api.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,6 @@ import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
-
 
     @Autowired
     private UserGenericDaoImpl userDao;
@@ -47,4 +47,15 @@ public class UserServiceImpl implements UserService {
         userDao.getAll();
         return userDao.getAll();
     }
+
+    @Override
+    public boolean isAlreadyExist(String userName) {
+        User user = userDao.findByUserName(userName);
+        if(user != null){
+            return true;
+        }
+        return false;
+    }
+
+
 }

@@ -1,12 +1,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Start page</title>
+    <link rel="stylesheet" href="/resources/css/style.css" type="text/css"/>
 </head>
 <body>
-<div>
-    <a href="/railroad/login"><button>Log in</button></a> <br/>
-    <a href="/railroad/registration"><button>Registration</button></a>
+<div class="wrapper">
+    <jsp:include page="header.jsp"/>
 </div>
 </body>
 </html>

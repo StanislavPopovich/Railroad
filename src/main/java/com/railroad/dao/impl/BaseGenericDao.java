@@ -1,6 +1,7 @@
 package com.railroad.dao.impl;
 
 import com.railroad.dao.api.GenericDao;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,8 +12,7 @@ import java.util.List;
 
 public class BaseGenericDao<T, ID extends Serializable> implements GenericDao<T, ID> {
 
-
-    private Class<T> clazz;
+       private Class<T> clazz;
 
     public BaseGenericDao(Class<T> clazz) {
         this.clazz = clazz;

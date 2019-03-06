@@ -1,0 +1,44 @@
+.wrapper{
+    position: relative;
+    width: 100%;
+}
+.header {
+    padding-top: 25px;
+    padding-bottom: 10px;
+    font-size: 1px;
+    line-height: 0;
+}
+.header div{
+    font-size: 16em;
+    font-size: 1rem;
+    line-height: normal;
+}
+.logo_header {
+    display: inline-block;
+    vertical-align: middle;
+    width: 300px;
+    text-decoration: none;
+}
+.header_words{
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 3%;
+    max-width: 50%;
+    text-align: center;
+    color: #000;
+    font-size: 24em;
+    font-size: 1.5rem;
+    line-height: normal;
+    font-weight: 400;
+
+}
+.log_reg_menu{
+    display: inline-block;
+    vertical-align: middle;
+    width: 27%;
+    text-align: right;
+
+}
+.login_form{
+
+}

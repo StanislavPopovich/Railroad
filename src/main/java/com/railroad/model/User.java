@@ -1,11 +1,11 @@
 package com.railroad.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 /**
@@ -18,15 +18,14 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+@Data
 public class User extends BaseEntity {
 
+    @Size(min = 3, max = 25, message = "{name.size.error}")
     @Column(name = "username", nullable = false)
     private String userName;
 
+    @Size(min = 3, message = "{password.size.error}")
     @Column(name = "password", nullable = false)
     private String password;
 

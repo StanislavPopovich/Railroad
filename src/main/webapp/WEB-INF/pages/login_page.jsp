@@ -3,14 +3,22 @@
 <html>
 <head>
     <title>Login page</title>
+    <link rel="stylesheet" href="/resources/css/style.css" type="text/css"/>
 </head>
 <body>
-<h1>Log in</h1>
-    <form:form modelAttribute="user" method="POST" action="/railroad/login/process">
-        <form:input type="text" path="userName" placeholder="Username"
-                    autofocus="true"></form:input>
-        <form:input type="password" path="password"  placeholder="Password"></form:input>
+<div class="wrapper">
+    <jsp:include page="header.jsp"/>
+    <h1>Login</h1>
+    <form:form cssClass="login_form" modelAttribute="user" method="POST" action="/railroad/login/process">
+        <form:label path="userName">Username</form:label>
+        <form:input type="text" cssClass="loginfiled" path="userName" autofocus="true"></form:input>
+        <form:errors path="userName" cssClass="error"/>
+
+        <form:label path="password">Password</form:label>
+        <form:input type="password" cssClass="loginfiled" path="password"></form:input>
+        <form:errors path="password" cssClass="error"/>
         <button  type="submit">Submit</button>
     </form:form>
+</div>
 </body>
 </html>
