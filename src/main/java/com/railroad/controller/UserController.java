@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
 
     @GetMapping(value = "")
-    public String userPage(){
+    public String showUserPage(){
         return "user_page";
     }
 }

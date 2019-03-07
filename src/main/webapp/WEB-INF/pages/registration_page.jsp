@@ -31,6 +31,9 @@
                     onkeyup="javascript: checkPasswordConfirm(); return false;"></form:input><br/>
         <button id="button" type="submit" disabled="true"><spring:message code="submit"/></button>
     </form:form>
+    <div>
+        <a href="/railroad"><button class="button"><spring:message code="start_page"/></button></a>
+    </div>
 </div>
 <script type="text/javascript" src="/resources/js/registration_valid_check.js"></script>
 

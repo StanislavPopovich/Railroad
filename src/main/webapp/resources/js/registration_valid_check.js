@@ -2,6 +2,9 @@
 // registration_page
 
 var username = document.getElementById("username");
+var password = document.getElementById("password");
+var passwordConfirm = document.getElementById("passwordConfirm");
+var regbutton = document.getElementById("button");
 
 function checkUsername() {
     if (username.value == "" || username.value.length < 3) {
@@ -18,8 +21,6 @@ function checkUsername() {
     }
 }
 
-var password = document.getElementById("password");
-
 function checkPassword() {
     if (password.value == "" || password.value.length < 3) {
         if (password.classList.contains("correct")) {
@@ -34,8 +35,6 @@ function checkPassword() {
         }
     }
 }
-
-var passwordConfirm = document.getElementById("passwordConfirm");
 
 function checkPasswordConfirm() {
     if (passwordConfirm.value == "" ||passwordConfirm.value.length < 3
@@ -53,7 +52,6 @@ function checkPasswordConfirm() {
     }
 }
 
-var regbutton = document.getElementById("button");
 
 function turnOnButton() {
     if (username.classList.contains("correct") && password.classList.contains("correct")

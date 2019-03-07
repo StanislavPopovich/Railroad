@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ModeratorController {
 
     @GetMapping(value = "")
-    public String moderatorPage(){
+    public String showModeratorPage(){
         return "moderator_page";
     }
 }

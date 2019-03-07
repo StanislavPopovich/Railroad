@@ -1,5 +1,6 @@
 package com.railroad.service.api;
 
+import com.railroad.dto.UserDto;
 import com.railroad.model.User;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface UserService {
 
-    void save(User user);
+    void save(UserDto userDto);
     User findByUsername(String userName);
     List<User> getAll();
     boolean isAlreadyExist(String userName);

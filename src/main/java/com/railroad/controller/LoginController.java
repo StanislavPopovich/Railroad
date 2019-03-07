@@ -1,4 +1,5 @@
 package com.railroad.controller;
+import com.railroad.dto.UserDto;
 import com.railroad.model.User;
 import com.railroad.service.api.SecurityService;
 import com.railroad.service.api.UserService;
@@ -36,15 +37,15 @@ public class LoginController {
      */
 
     @GetMapping
-    public String index(){
+    public String showIndexPage(){
         return "index";
     }
 
     @GetMapping(value = "/login")
-    public ModelAndView login(){
+    public ModelAndView showLoginPage(){
         logger.info("Trying to log in.");
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("user", new User());
+        modelAndView.addObject("user", new UserDto());
         modelAndView.setViewName("login_page");
         return modelAndView;
     }
@@ -56,24 +57,24 @@ public class LoginController {
 
 
     @GetMapping(value = "/registration")
-    public String registration(Model model){
+    public String showRegistrationPage(Model model){
         logger.info("Trying to registration");
-        model.addAttribute("userForm", new User());
+        model.addAttribute("userForm", new UserDto());
         return "registration_page";
     }
 
     @PostMapping(value = "/registration")
-    public String registration(@Valid @ModelAttribute("userForm") User userForm, BindingResult bindingResult,
+    public String resultRegistration(@Valid @ModelAttribute("userForm") UserDto userDto, BindingResult bindingResult,
                                Model model) {
         if(bindingResult.hasErrors()){
             return "registration_page";
         }
-        if(userService.isAlreadyExist(userForm.getUserName())){
+        if(userService.isAlreadyExist(userDto.getUserName())){
             model.addAttribute("exist", true);
             return "registration_page";
         }
-        userService.save(userForm);
-        securityService.autoLogin(userForm.getUserName(), userForm.getConfirmPassword());
+        userService.save(userDto);
+        securityService.autoLogin(userDto.getUserName(), userDto.getConfirmPassword());
         return getRolePage();
     }
 
@@ -92,5 +93,4 @@ public class LoginController {
         logger.info("Logged as User");
         return "redirect:/railroad/user";
     }
-
 }

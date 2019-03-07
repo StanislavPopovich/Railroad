@@ -3,9 +3,8 @@ package com.railroad.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -18,6 +17,8 @@ public class Train extends BaseEntity {
     @Column(name = "number", nullable = false)
     private Integer number;
 
+    @JoinTable(name = "train_stations", joinColumns = @JoinColumn(name = "train_id"),
+            inverseJoinColumns = @JoinColumn(name = "station_id"))
     private Set<Station> stations;
 
     @Column(name = "seats", nullable = false)
