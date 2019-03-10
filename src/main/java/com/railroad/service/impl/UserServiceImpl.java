@@ -49,7 +49,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<User> getAll() {
-        userDao.getAll();
         return userDao.getAll();
     }
 
