@@ -11,10 +11,10 @@ import javax.persistence.Table;
 @Data
 public class Way extends BaseEntity{
 
-    @Column(name = "f_station_id", nullable = false)
+    @Column(name = "first_station_id", nullable = false)
     private Long firstStationId;
 
-    @Column(name = "s_station_id", nullable = false)
+    @Column(name = "second_station_id", nullable = false)
     private Long secondStationId;
 
     @Column(name = "distance", nullable = false)

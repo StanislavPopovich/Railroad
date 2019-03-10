@@ -69,6 +69,74 @@
         <insert tableName="roles">
             <column name="role_name" value="ROLE_ADMIN"></column>
         </insert>
+    </changeSet>
 
+    <changeSet id="2" author="Stas" runOnChange="true">
+
+        <!--CREATING A TABLE TRAINS-->
+        <createTable tableName="trains">
+            <column  name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" unique="true" nullable="false"/>
+            </column>
+            <column  name="number" type="int" >
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column  name="seats" type="int" >
+                <constraints unique="true" nullable="false"/>
+            </column>
+
+        </createTable>
+
+        <!--CREATING A TABLE STATIONS-->
+        <createTable tableName="stations">
+            <column  name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" unique="true" nullable="false"/>
+            </column>
+            <column name="station_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!--CREATING A TABLE TRAIN_STATIONS-->
+        <createTable tableName="train_stations">
+            <column  name="train_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column  name="station_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="train_id"
+                                 baseTableName="train_stations"
+                                 constraintName="fk_train_station"
+                                 referencedColumnNames="id"
+                                 referencedTableName="trains"/>
+
+        <addForeignKeyConstraint baseColumnNames="station_id"
+                                 baseTableName="train_stations"
+                                 constraintName="fk_station_train"
+                                 referencedColumnNames="id"
+                                 referencedTableName="stations"/>
+
+        <addPrimaryKey columnNames="train_id, station_id"
+                       constraintName="pk_train_station"
+                       tableName="train_stations"/>
+
+        <!--CREATING A TABLE WAYS-->
+        <createTable tableName="ways">
+            <column  name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" unique="true" nullable="false"/>
+            </column>
+            <column  name="first_station_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column  name="second_station_id" type="int" >
+                <constraints nullable="false"/>
+            </column>
+            <column  name="distance" type="double" >
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
     </changeSet>
 </databaseChangeLog>
