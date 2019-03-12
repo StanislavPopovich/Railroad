@@ -12,7 +12,7 @@ import java.util.List;
 
 public class BaseGenericDao<T, ID extends Serializable> implements GenericDao<T, ID> {
 
-       private Class<T> clazz;
+    private Class<T> clazz;
 
     public BaseGenericDao(Class<T> clazz) {
         this.clazz = clazz;
@@ -25,19 +25,18 @@ public class BaseGenericDao<T, ID extends Serializable> implements GenericDao<T,
     @Override
     public void save(T entity) {
         Session session = getSession();
-        Transaction transaction = session.beginTransaction();
-        session.persist(entity);
-        transaction.commit();
-        session.close();
+        try{
+            session.persist(entity);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override
     public void remove(T entity) {
         Session session = getSession();
-        Transaction transaction = session.beginTransaction();
         session.remove(entity);
-        transaction.commit();
-        session.close();
 
     }
 
@@ -45,7 +44,6 @@ public class BaseGenericDao<T, ID extends Serializable> implements GenericDao<T,
     public T getById(ID id) {
         Session session = getSession();
         T entity = session.get(clazz, id);
-        session.close();
         return entity;
     }
 
@@ -54,7 +52,6 @@ public class BaseGenericDao<T, ID extends Serializable> implements GenericDao<T,
     public List<T> getAll() {
         Session session = getSession();
         List<T> allEntities = session.createQuery("from " + clazz.getName()).list();
-        session.close();
         return allEntities;
     }
 

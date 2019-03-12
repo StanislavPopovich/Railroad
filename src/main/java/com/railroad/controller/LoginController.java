@@ -1,6 +1,5 @@
 package com.railroad.controller;
 import com.railroad.dto.UserDto;
-import com.railroad.model.User;
 import com.railroad.service.api.SecurityService;
 import com.railroad.service.api.UserService;
 import org.apache.log4j.Logger;
@@ -69,12 +68,11 @@ public class LoginController {
         if(bindingResult.hasErrors()){
             return "registration_page";
         }
-        if(userService.isAlreadyExist(userDto.getUserName())){
+        if(securityService.isAlreadyExist(userDto.getUserName())){
             model.addAttribute("exist", true);
             return "registration_page";
         }
-        userService.save(userDto);
-        securityService.autoLogin(userDto.getUserName(), userDto.getConfirmPassword());
+        securityService.registration(userDto);
         return getRolePage();
     }
 

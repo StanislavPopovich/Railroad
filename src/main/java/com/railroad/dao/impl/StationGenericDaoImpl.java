@@ -17,7 +17,6 @@ public class StationGenericDaoImpl extends BaseGenericDao<Station, Long> impleme
         Session session = getSession();
         Station station = (Station) session.createQuery("from Station p where p.name=:name").
                 setParameter("name", name).uniqueResult();
-        session.close();
         return station;
     }
 }

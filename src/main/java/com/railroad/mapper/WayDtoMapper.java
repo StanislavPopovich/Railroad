@@ -11,11 +11,11 @@ public interface WayDtoMapper {
     @Mapping(source = "firstStationId", target = "firstStationId")
     @Mapping(source = "secondStationId", target = "secondStationId")
     @Mapping(source = "distance", target = "distance")
-    Way WayDtoToWay(WayDto wayDto);
+    Way wayDtoToWay(WayDto wayDto);
 
     @Mapping(source = "firstStationId", target = "firstStationId")
     @Mapping(source = "secondStationId", target = "secondStationId")
     @Mapping(source = "distance", target = "distance")
-    WayDto WayToWayDto(Way way);
+    WayDto wayToWayDto(Way way);
 
 }

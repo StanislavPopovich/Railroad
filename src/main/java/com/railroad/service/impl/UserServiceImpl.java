@@ -1,7 +1,7 @@
 package com.railroad.service.impl;
 
-import com.railroad.dao.impl.RoleGenericDaoImpl;
-import com.railroad.dao.impl.UserGenericDaoImpl;
+import com.railroad.dao.api.RoleGenericDao;
+import com.railroad.dao.api.UserGenericDao;
 import com.railroad.dto.UserDto;
 import com.railroad.mapper.UserDtoMapper;
 import com.railroad.model.Role;
@@ -10,6 +10,8 @@ import com.railroad.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,17 +29,19 @@ public class UserServiceImpl implements UserService {
     private UserDtoMapper userDtoMapper;
 
     @Autowired
-    private UserGenericDaoImpl userDao;
+    private UserGenericDao userDao;
 
     @Autowired
-    private RoleGenericDaoImpl roleDao;
+    private RoleGenericDao roleDao;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Override
+    @Transactional
     public void save(UserDto userDto) {
         userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
-        User user = userDtoMapper.UserDtoToUser(userDto);
+        User user = userDtoMapper.userDtoToUser(userDto);
         Set<Role> roles = new HashSet<>();
         roles.add(roleDao.getById(1L));
         user.setRoles(roles);

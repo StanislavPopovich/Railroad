@@ -10,10 +10,10 @@ public interface UserDtoMapper {
     @Mapping(source = "userName", target = "userName")
     @Mapping(source = "password", target = "password")
     @Mapping(source = "confirmPassword", target = "confirmPassword")
-    User UserDtoToUser(UserDto userDto);
+    User userDtoToUser(UserDto userDto);
 
     @Mapping(source = "userName", target = "userName")
     @Mapping(source = "password", target = "password")
     @Mapping(source = "confirmPassword", target = "confirmPassword")
-    UserDto UserToUserDto(User user);
+    UserDto userToUserDto(User user);
 }

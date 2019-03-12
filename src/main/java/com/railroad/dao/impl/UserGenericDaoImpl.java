@@ -20,19 +20,12 @@ public class UserGenericDaoImpl extends BaseGenericDao<User, Long> implements Us
         Session session = getSession();
         User user = (User)session.createQuery("from User p where p.userName=:userName").
                 setParameter("userName", userName).uniqueResult();
-        if(user != null){
-            Hibernate.initialize(user.getRoles());
-        }
-        session.close();
         return user;
     }
 
     @Override
     public User findById(Long id) {
         User user = getById(id);
-        if(user != null){
-            Hibernate.initialize(user.getRoles());
-        }
         return user;
     }
 }

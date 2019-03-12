@@ -20,7 +20,7 @@ public class WayServiceImpl implements WayService {
 
     @Override
     public void save(WayDto wayDto) {
-        Way way = wayDtoMapper.WayDtoToWay(wayDto);
+        Way way = wayDtoMapper.wayDtoToWay(wayDto);
         wayGenericDao.save(way);
 
     }
