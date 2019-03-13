@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class StationServiceImpl implements StationService {
@@ -27,8 +28,14 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
-    public List<StationDto> getAll() {
-        return stationDtoMapper.stationsToDtos(stationGenericDao.getAll());
+    @Transactional
+    public List<String> getAll() {
+        List<StationDto> stationDtos = stationDtoMapper.stationsToDtos(stationGenericDao.getAll());
+        List<String> stationsName = new ArrayList<>();
+        for(StationDto stationDto : stationDtos){
+            stationsName.add(stationDto.getName());
+        }
+        return stationsName;
     }
 
     @Override

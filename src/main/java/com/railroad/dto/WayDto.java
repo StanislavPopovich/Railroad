@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class WayDto {
-    private Long firstStationId;
-    private Long secondStationId;
-    private Double distance;
+    private String firstStation;
+    private String secondStation;
+    private String distance;
 }

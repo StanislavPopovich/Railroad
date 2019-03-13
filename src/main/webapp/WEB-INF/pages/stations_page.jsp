@@ -5,6 +5,7 @@
     <title>Stations</title>
 </head>
 <body>
+<jsp:include page="header.jsp"/>
 <div>
     <table>
         <tr>
@@ -12,7 +13,7 @@
         </tr>
         <c:forEach items="${stations}" var="station">
             <tr>
-                <td>${station.name}</td>
+                <td>${station}</td>
             </tr>
         </c:forEach>
     </table>

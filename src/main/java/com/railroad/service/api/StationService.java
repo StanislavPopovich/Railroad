@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface StationService {
     void save(StationDto stationDto);
-    List<StationDto> getAll();
+    List<String> getAll();
     StationDto getStationByName(String stationName);
 }

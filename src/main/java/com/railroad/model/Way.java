@@ -2,20 +2,21 @@ package com.railroad.model;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "ways")
 @Data
 public class Way extends BaseEntity{
+    @ManyToOne
+    @JoinColumn(name = "first_station_id")
+    //@Column(name = "first_station_id", nullable = false)
+    private Station firstStation;
 
-    @Column(name = "first_station_id", nullable = false)
-    private Long firstStationId;
-
-    @Column(name = "second_station_id", nullable = false)
-    private Long secondStationId;
+    @ManyToOne
+    @JoinColumn(name = "second_station_id")
+    //@Column(name = "second_station_id", nullable = false)
+    private Station secondStation;
 
     @Column(name = "distance", nullable = false)
     private Double distance;

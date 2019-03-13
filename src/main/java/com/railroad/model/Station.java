@@ -2,6 +2,7 @@ package com.railroad.model;
 
 import lombok.Data;
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "stations")
@@ -12,7 +13,13 @@ public class Station extends BaseEntity{
     private String name;
 
     @ManyToMany(mappedBy = "stations")
-    private Train train;
+    private Set<Train> trains;
+
+    @OneToMany(mappedBy = "firstStation")
+    private Set<Way> waysFromThisStation;
+
+    @OneToMany(mappedBy = "secondStation")
+    private Set<Way> waysToThisStation;
 
 
 }

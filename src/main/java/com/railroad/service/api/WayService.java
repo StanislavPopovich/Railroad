@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface WayService {
     void save(WayDto wayDto);
-    List<Way> getAll();
+    List<WayDto> getAll();
 
 }
