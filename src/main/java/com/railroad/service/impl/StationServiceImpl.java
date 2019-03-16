@@ -42,4 +42,10 @@ public class StationServiceImpl implements StationService {
     public StationDto getStationByName(String stationName) {
         return stationDtoMapper.stationToStationDto(stationGenericDao.findByStationName(stationName));
     }
+
+    @Override
+    public StationDto getStationById(Long id) {
+        Station station = stationGenericDao.getById(id);
+        return stationDtoMapper.stationToStationDto(station);
+    }
 }

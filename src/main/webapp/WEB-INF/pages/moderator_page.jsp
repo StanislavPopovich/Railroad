@@ -12,6 +12,10 @@
     <h1>This is moderator page</h1>
     <p class=""> <a href="/railroad/moderator/all_stations" class="log_reg_page">
         <spring:message code="all_stations"/> </a></p>
+    <p class=""> <a href="/railroad/moderator/all_ways" class="log_reg_page">
+        All ways</a></p>
+    <p class=""> <a href="/railroad/moderator/all_trains" class="log_reg_page">
+        All trains</a></p>
     <form id="logoutForm" method="post" action="${contextPath}/logout">
     </form>
     <h2> <a onclick="document.forms['logoutForm'].submit()">Logout</a></h2>

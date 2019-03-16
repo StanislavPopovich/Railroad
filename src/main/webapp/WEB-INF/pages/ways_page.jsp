@@ -6,6 +6,7 @@
     <title>All ways</title>
 </head>
 <body>
+<jsp:include page="header.jsp"/>
 <div>
     <table>
         <tr>

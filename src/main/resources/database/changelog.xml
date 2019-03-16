@@ -22,7 +22,6 @@
             </column>
         </createTable>
 
-
         <!--CREATING A TABLE ROLES-->
         <createTable tableName="roles">
             <column  name="id" type="int" autoIncrement="true">
@@ -69,22 +68,24 @@
         <insert tableName="roles">
             <column name="role_name" value="ROLE_ADMIN"></column>
         </insert>
-    </changeSet>
-
-    <changeSet id="2" author="Stas" runOnChange="true">
 
         <!--CREATING A TABLE TRAINS-->
         <createTable tableName="trains">
             <column  name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" unique="true" nullable="false"/>
             </column>
+            <column  name="start_station" type="int" >
+                <constraints nullable="false"/>
+            </column>
+            <column  name="end_station" type="int" >
+                <constraints nullable="false"/>
+            </column>
             <column  name="number" type="int" >
                 <constraints unique="true" nullable="false"/>
             </column>
             <column  name="seats" type="int" >
-                <constraints unique="true" nullable="false"/>
+                <constraints nullable="false"/>
             </column>
-
         </createTable>
 
         <!--CREATING A TABLE STATIONS-->

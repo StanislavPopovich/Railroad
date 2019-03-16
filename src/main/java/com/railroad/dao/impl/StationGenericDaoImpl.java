@@ -2,6 +2,7 @@ package com.railroad.dao.impl;
 
 import com.railroad.dao.api.StationGenericDao;
 import com.railroad.model.Station;
+import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
