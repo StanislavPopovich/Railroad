@@ -1,6 +1,7 @@
 package com.railroad.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -11,5 +12,10 @@ public class UserController {
     @GetMapping(value = "")
     public String showUserPage(){
         return "user_page";
+    }
+
+    @GetMapping(value = "/users")
+    public String showAllUsersPage(Model model){
+        return null;
     }
 }

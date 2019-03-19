@@ -1,21 +1,22 @@
 package com.railroad.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tickets")
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"passenger, train"})
+@EqualsAndHashCode(exclude = {"passenger, train"})
 public class Ticket extends BaseEntity {
 
+    @ManyToOne
+    @JoinColumn(name = "train_id", nullable = false)
     private Train train;
 
     @ManyToOne

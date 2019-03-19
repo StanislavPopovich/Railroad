@@ -140,4 +140,35 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="2" author="Stas">
+        <!--CREATING A TABLE PASSENGERS-->
+        <createTable tableName="passengers">
+            <column  name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" unique="true" nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="birth_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!--CREATING A TABLE TICKETS-->
+        <createTable tableName="tickets">
+            <column  name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" unique="true" nullable="false"/>
+            </column>
+            <column name="train_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="passenger_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

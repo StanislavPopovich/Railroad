@@ -55,6 +55,13 @@ public class BaseGenericDao<T, ID extends Serializable> implements GenericDao<T,
         return allEntities;
     }
 
+    @Override
+    public void update(T entity) {
+        Session session = getSession();
+        session.clear();
+        session.update(entity);
+    }
+
     protected final Session getSession(){
         Session session;
         try{

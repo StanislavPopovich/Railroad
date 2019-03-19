@@ -28,6 +28,8 @@
                 <value>com.railroad.model.Station</value>
                 <value>com.railroad.model.Train</value>
                 <value>com.railroad.model.Way</value>
+                <value>com.railroad.model.Passenger</value>
+                <value>com.railroad.model.Ticket</value>
             </list>
         </property>
         <property name="hibernateProperties">

@@ -25,11 +25,6 @@ public class Station extends BaseEntity{
     @OneToMany(mappedBy = "secondStation")
     private Set<Way> waysToThisStation;
 
-    /*@OneToMany(mappedBy = "startStation")
-    private Set<Train> trainsWithStartStation;
-
-    @OneToMany(mappedBy = "endStation")
-    private Set<Train> trainsWithEndStation;*/
 
 
 }

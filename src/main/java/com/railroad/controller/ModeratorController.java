@@ -25,12 +25,6 @@ public class ModeratorController {
     private static final Logger logger = Logger.getLogger(ModeratorController.class);
 
     @Autowired
-    private StationService stationService;
-
-    @Autowired
-    private WayService wayService;
-
-    @Autowired
     private BusinessService businessService;
 
 
@@ -41,7 +35,7 @@ public class ModeratorController {
 
     @GetMapping(value = "/all_stations")
     public String showAllStations(Model model){
-        model.addAttribute("stations", stationService.getAll());
+        model.addAttribute("stations", businessService.getAllStations());
         return "stations_page";
     }
 
@@ -54,26 +48,26 @@ public class ModeratorController {
 
     @PostMapping(value = "/add_station")
     public String showAddStationPage(@ModelAttribute("station") StationDto stationDto){
-        stationService.save(stationDto);
+        businessService.saveStation(stationDto);
         return "redirect:/railroad/moderator/all_stations";
     }
 
     @GetMapping(value = "/all_ways")
     public String showAllWays(Model model){
-        model.addAttribute("ways", wayService.getAll());
+        model.addAttribute("ways", businessService.getAllWay());
         return "ways_page";
     }
 
     @GetMapping(value = "/add_way")
     public String showAddWayPage(Model model){
         model.addAttribute("way", new WayDto());
-        model.addAttribute("stations", stationService.getAll());
+        model.addAttribute("stations", businessService.getAllStations());
         return "add_way";
     }
 
     @PostMapping(value = "/add_way")
     public String showAddWayPage(@ModelAttribute("way") WayDto wayDto){
-        wayService.save(wayDto);
+        businessService.saveWay(wayDto);
         return "redirect:/railroad/moderator/all_ways";
     }
 

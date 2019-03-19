@@ -1,6 +1,7 @@
 package com.railroad.service.impl;
 
 import com.railroad.dto.UserDto;
+import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.SecurityService;
 import com.railroad.service.api.UserService;
 import org.apache.log4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -25,6 +27,9 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private BusinessService businessService;
 
     public String findLoggedInUsername() {
         Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
@@ -45,7 +50,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     public void registration(UserDto userDto){
-        userService.save(userDto);
+        businessService.saveUser(userDto);
         autoLogin(userDto.getUserName(), userDto.getConfirmPassword());
     }
 

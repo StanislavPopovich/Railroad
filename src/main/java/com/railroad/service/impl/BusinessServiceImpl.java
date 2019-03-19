@@ -1,11 +1,7 @@
 package com.railroad.service.impl;
 
-import com.railroad.dto.StationDto;
-import com.railroad.dto.TrainDto;
-import com.railroad.service.api.BusinessService;
-import com.railroad.service.api.StationService;
-import com.railroad.service.api.TrainService;
-import com.railroad.service.api.WayService;
+import com.railroad.dto.*;
+import com.railroad.service.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +21,12 @@ public class BusinessServiceImpl implements BusinessService {
     @Autowired
     private WayService wayService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
+
 
     @Transactional
     @Override
@@ -32,6 +34,25 @@ public class BusinessServiceImpl implements BusinessService {
         trainService.save(trainDto);
     }
 
+    @Transactional
+    @Override
+    public void saveStation(StationDto stationDto) {
+        stationService.save(stationDto);
+    }
+
+    @Transactional
+    @Override
+    public void saveWay(WayDto wayDto) {
+        wayService.save(wayDto);
+    }
+
+    @Transactional
+    @Override
+    public void saveUser(UserDto userDto) {
+        userService.save(userDto);
+    }
+
+    @Transactional
     @Override
     public List<String> getAllStations() {
         return stationService.getAll();
@@ -41,6 +62,24 @@ public class BusinessServiceImpl implements BusinessService {
     @Override
     public List<TrainDto> getAllTrains() {
         return trainService.getAll();
+    }
+
+    @Transactional
+    @Override
+    public List<RoleDto> getAllRoles() {
+        return roleService.getAll();
+    }
+
+    @Transactional
+    @Override
+    public List<WayDto> getAllWay() {
+        return wayService.getAll();
+    }
+
+    @Transactional
+    @Override
+    public List<UserDto> getAllUsers() {
+        return userService.getAll();
     }
 
     @Transactional
@@ -57,5 +96,16 @@ public class BusinessServiceImpl implements BusinessService {
             targetRoutes.add(route);
         }
         return targetRoutes;
+    }
+
+    @Override
+    public UserDto getUserByUserName(String userName) {
+        return userService.findByUsername(userName);
+    }
+
+    @Transactional
+    @Override
+    public void updateUser(UserDto userDto) {
+        userService.update(userDto);
     }
 }

@@ -22,7 +22,6 @@ public class Train extends BaseEntity {
     @Column(name = "end_station", nullable = false)
     private Long endStationId;
 
-
     @ManyToMany
     @JoinTable(name = "train_stations", joinColumns = @JoinColumn(name = "train_id"),
             inverseJoinColumns = @JoinColumn(name = "station_id"))
@@ -30,4 +29,7 @@ public class Train extends BaseEntity {
 
     @Column(name = "seats", nullable = false)
     private Integer seats;
+
+    @OneToMany(mappedBy = "train")
+    private Set<Ticket> tickets;
 }

@@ -1,13 +1,11 @@
 package com.railroad.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
@@ -15,7 +13,8 @@ import java.util.Set;
 @Table(name = "passengers")
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {""})
+@EqualsAndHashCode(exclude = {""})
 public class Passenger extends BaseEntity {
 
     @Column(name = "last_name", nullable = false)
@@ -24,7 +23,8 @@ public class Passenger extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "birt_hdate", nullable = false)
+    @Temporal(TemporalType.DATE)
+    @Column(name = "birth_date", nullable = false)
     private Date BirthDate;
 
     @OneToMany(mappedBy = "passenger")

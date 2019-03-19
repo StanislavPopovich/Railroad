@@ -21,14 +21,12 @@ public class StationServiceImpl implements StationService {
     private StationDtoMapper stationDtoMapper;
 
     @Override
-    @Transactional
     public void save(StationDto stationDto) {
         Station station = stationDtoMapper.stationDtoToStation(stationDto);
         stationGenericDao.save(station);
     }
 
     @Override
-    @Transactional
     public List<String> getAll() {
         List<StationDto> stationDtos = stationDtoMapper.stationsToDtos(stationGenericDao.getAll());
         List<String> stationsName = new ArrayList<>();

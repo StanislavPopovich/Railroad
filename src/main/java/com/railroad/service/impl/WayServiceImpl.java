@@ -27,7 +27,6 @@ public class WayServiceImpl implements WayService {
     private StationGenericDao stationGenericDao;
 
     @Override
-    @Transactional
     public void save(WayDto wayDto) {
         Way way = new Way();
         way.setFirstStation(stationGenericDao.findByStationName(wayDto.getFirstStation()));

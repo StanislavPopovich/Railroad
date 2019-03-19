@@ -1,5 +1,6 @@
 package com.railroad.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,7 +22,8 @@ import java.util.Set;
 @Table(name = "roles")
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "users")
+@EqualsAndHashCode(exclude = "users")
 public class Role extends BaseEntity {
 
     @Column(name = "role_name", nullable = false)

@@ -12,7 +12,8 @@ import java.util.List;
 public interface UserService {
 
     void save(UserDto userDto);
-    User findByUsername(String userName);
-    List<User> getAll();
+    UserDto findByUsername(String userName);
+    List<UserDto> getAll();
     boolean isAlreadyExist(String userName);
+    void update(UserDto userDto);
 }
