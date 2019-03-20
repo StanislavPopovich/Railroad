@@ -3,6 +3,7 @@ package com.railroad.service.impl;
 import com.railroad.dao.api.StationGenericDao;
 import com.railroad.dao.api.WayGenericDao;
 import com.railroad.dto.WayDto;
+import com.railroad.mapper.api.WayDtoMapper;
 import com.railroad.model.Way;
 import com.railroad.service.api.WayService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,48 +27,20 @@ public class WayServiceImpl implements WayService {
     @Autowired
     private StationGenericDao stationGenericDao;
 
+    @Autowired
+    private WayDtoMapper wayDtoMapper;
+
     @Override
     public void save(WayDto wayDto) {
-        Way way = new Way();
-        way.setFirstStation(stationGenericDao.findByStationName(wayDto.getFirstStation()));
-        way.setSecondStation(stationGenericDao.findByStationName(wayDto.getSecondStation()));
-        way.setDistance(new Double(wayDto.getDistance()));
-        wayGenericDao.save(way);
+        wayGenericDao.save(wayDtoMapper.wayDtoToWay(wayDto));
 
     }
 
     @Override
     public List<WayDto> getAll() {
-        List<Way> ways = wayGenericDao.getAll();
-        List<WayDto> wayDtos = new ArrayList<>();
-        for(Way way: ways){
-            WayDto wayDto = new WayDto();
-            wayDto.setFirstStation(way.getFirstStation().getName());
-            wayDto.setSecondStation(way.getSecondStation().getName());
-            wayDto.setDistance(way.getDistance().toString());
-            wayDtos.add(wayDto);
-        }
-      return wayDtos;
+              return wayDtoMapper.waysToWayDtos(wayGenericDao.getAll());
     }
 
-    /*public void print(){
-        int[][] matrix = getSmegMatrix(wayGenericDao.getAll());
-        for(int i = 0; i < matrix.length; i++){
-            for(int j = 0; j < matrix[i].length; j++){
-                System.out.print(matrix[i][j] + "\t");
-            }
-            System.out.println();
-        }
-        List<String> route = null;
-        try {
-            route = getAllRoutes();
-        } catch (RouteNotFindException e) {
-            System.out.println(e.getMessage());
-        }
-        for(String s: route){
-            System.out.println(s);
-        }
-    }*/
     @Override
     public List<String> getAllRoutes(String startStation, String endStation) {
         list = new ArrayList<>();
@@ -103,7 +76,7 @@ public class WayServiceImpl implements WayService {
             allRoutes.add(sb.toString());
         }
 
-        for(int i = 1; i<= 5; i++){
+        for(int i = 1; i<= visited.length - 1; i++){
             // if there's an edge between  startStationId and i station
             if(graph[startStationId][i] == 1){
                 //and that station is not visited yet

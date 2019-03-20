@@ -7,12 +7,23 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
+/**
+ * DAO implementation for the {@link com.railroad.model.Station} objects.
+ *
+ * @author Stanislav Popovich
+ */
 @Repository
 public class StationGenericDaoImpl extends BaseGenericDao<Station, Long> implements StationGenericDao {
     public StationGenericDaoImpl() {
         super(Station.class);
     }
 
+    /**
+     *Method for finding Station in DB
+     *
+     * @param name
+     * @return Station with selected name
+     */
     @Override
     public Station findByStationName(String name) {
         Session session = getSession();

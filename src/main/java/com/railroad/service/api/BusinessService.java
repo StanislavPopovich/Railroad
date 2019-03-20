@@ -8,7 +8,7 @@ public interface BusinessService {
     void saveStation(StationDto stationDto);
     void saveWay(WayDto wayDto);
     void saveUser(UserDto userDto);
-    List<String> getAllStations();
+    List<String> getAllNamesStations();
     List<TrainDto> getAllTrains();
     List<RoleDto> getAllRoles();
     List<WayDto> getAllWay();

@@ -7,7 +7,11 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 
-
+/**
+ * DAO implementation for the {@link com.railroad.model.Role} objects.
+ *
+ * @author Stanislav Popovich
+ */
 @Repository
 public class RoleGenericDaoImpl extends BaseGenericDao<Role, Long> implements RoleGenericDao {
 
@@ -15,6 +19,12 @@ public class RoleGenericDaoImpl extends BaseGenericDao<Role, Long> implements Ro
         super(Role.class);
     }
 
+    /**
+     * *Method for finding Role in DB
+     *
+     * @param name
+     * @return Role with selected name
+     */
     @Override
     public Role findByName(String name) {
         Session session = getSession();

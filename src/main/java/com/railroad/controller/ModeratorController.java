@@ -4,8 +4,6 @@ import com.railroad.dto.StationDto;
 import com.railroad.dto.TrainDto;
 import com.railroad.dto.WayDto;
 import com.railroad.service.api.BusinessService;
-import com.railroad.service.api.StationService;
-import com.railroad.service.api.WayService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +33,7 @@ public class ModeratorController {
 
     @GetMapping(value = "/all_stations")
     public String showAllStations(Model model){
-        model.addAttribute("stations", businessService.getAllStations());
+        model.addAttribute("stations", businessService.getAllNamesStations());
         return "stations_page";
     }
 
@@ -61,7 +59,7 @@ public class ModeratorController {
     @GetMapping(value = "/add_way")
     public String showAddWayPage(Model model){
         model.addAttribute("way", new WayDto());
-        model.addAttribute("stations", businessService.getAllStations());
+        model.addAttribute("stations", businessService.getAllNamesStations());
         return "add_way";
     }
 
@@ -81,7 +79,7 @@ public class ModeratorController {
     public ModelAndView showAddTrainPage(){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("train", new TrainDto());
-        modelAndView.addObject("stations", businessService.getAllStations());
+        modelAndView.addObject("stations", businessService.getAllNamesStations());
         modelAndView.setViewName("add_train");
         return modelAndView;
     }

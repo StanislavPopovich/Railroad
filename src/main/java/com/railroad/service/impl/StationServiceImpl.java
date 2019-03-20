@@ -2,14 +2,12 @@ package com.railroad.service.impl;
 
 import com.railroad.dao.api.StationGenericDao;
 import com.railroad.dto.StationDto;
-import com.railroad.mapper.StationDtoMapper;
+import com.railroad.mapper.api.StationDtoMapper;
 import com.railroad.model.Station;
 import com.railroad.service.api.StationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 @Service
 public class StationServiceImpl implements StationService {
@@ -20,6 +18,7 @@ public class StationServiceImpl implements StationService {
     @Autowired
     private StationDtoMapper stationDtoMapper;
 
+
     @Override
     public void save(StationDto stationDto) {
         Station station = stationDtoMapper.stationDtoToStation(stationDto);
@@ -27,13 +26,13 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
-    public List<String> getAll() {
-        List<StationDto> stationDtos = stationDtoMapper.stationsToDtos(stationGenericDao.getAll());
-        List<String> stationsName = new ArrayList<>();
-        for(StationDto stationDto : stationDtos){
-            stationsName.add(stationDto.getName());
-        }
-        return stationsName;
+    public List<StationDto> getAll() {
+        return stationDtoMapper.stationsToStationDtos(stationGenericDao.getAll());
+    }
+
+    @Override
+    public List<String> getAllStationsName() {
+        return stationDtoMapper.stationsToStationsName(stationGenericDao.getAll());
     }
 
     @Override

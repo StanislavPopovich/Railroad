@@ -13,8 +13,8 @@ import java.util.Set;
 @Table(name = "passengers")
 @Getter
 @Setter
-@ToString(exclude = {""})
-@EqualsAndHashCode(exclude = {""})
+@ToString(exclude = {"tickets, users"})
+@EqualsAndHashCode(exclude = {"tickets, users"})
 public class Passenger extends BaseEntity {
 
     @Column(name = "last_name", nullable = false)
@@ -29,4 +29,7 @@ public class Passenger extends BaseEntity {
 
     @OneToMany(mappedBy = "passenger")
     private Set<Ticket> tickets;
+
+    @ManyToMany(mappedBy = "passengers")
+    private Set<User> users;
 }

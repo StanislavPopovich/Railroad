@@ -30,12 +30,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserGenericDao userDao;
 
-    @Autowired
-    private RoleGenericDao roleDao;
-
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
 
     @Override
     public void save(UserDto userDto) {

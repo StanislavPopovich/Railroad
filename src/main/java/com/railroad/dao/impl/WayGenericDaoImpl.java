@@ -7,6 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * DAO implementation for the {@link com.railroad.model.Way} objects.
+ *
+ * @author Stanislav Popovich
+ */
 @Repository
 public class WayGenericDaoImpl extends BaseGenericDao<Way, Long> implements WayGenericDao {
 
@@ -14,6 +19,12 @@ public class WayGenericDaoImpl extends BaseGenericDao<Way, Long> implements WayG
         super(Way.class);
     }
 
+    /**
+     *Method for finding Ways in DB
+     *
+     * @param stationId
+     * @return List of ways with selected station id
+     */
     @SuppressWarnings("unchecked")
     @Override
     public List<Way> findByStationId(Long stationId) {

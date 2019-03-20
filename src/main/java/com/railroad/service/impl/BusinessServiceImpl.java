@@ -2,6 +2,7 @@ package com.railroad.service.impl;
 
 import com.railroad.dto.*;
 import com.railroad.service.api.*;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Service
 public class BusinessServiceImpl implements BusinessService {
+    private static final Logger logger = Logger.getLogger(BusinessServiceImpl.class);
 
     @Autowired
     private StationService stationService;
@@ -54,8 +56,8 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Transactional
     @Override
-    public List<String> getAllStations() {
-        return stationService.getAll();
+    public List<String> getAllNamesStations() {
+        return stationService.getAllStationsName();
     }
 
     @Transactional

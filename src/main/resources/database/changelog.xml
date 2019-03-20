@@ -171,4 +171,32 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="3" author="Stas">
+
+        <!--CREATING A TABLE USER_PASSENGERS-->
+        <createTable tableName="user_passengers">
+            <column  name="user_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column  name="passenger_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="user_passengers"
+                                 constraintName="fk_user_passenger"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users"/>
+
+        <addForeignKeyConstraint baseColumnNames="passenger_id"
+                                 baseTableName="user_passengers"
+                                 constraintName="fk_passenger_user"
+                                 referencedColumnNames="id"
+                                 referencedTableName="passengers"/>
+
+        <addPrimaryKey columnNames="user_id, passenger_id"
+                       constraintName="pk_user_passenger"
+                       tableName="user_passengers"/>
+    </changeSet>
 </databaseChangeLog>
