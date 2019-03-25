@@ -2,8 +2,8 @@ package com.railroad.service.impl;
 
 
 import com.railroad.dao.api.UserGenericDao;
-import com.railroad.model.Role;
-import com.railroad.model.User;
+import com.railroad.model.RoleEntity;
+import com.railroad.model.UserEntity;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,13 +24,13 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        User user = userDao.findByUserName(userName);
+        UserEntity userEntity = userDao.findByUserName(userName);
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        for(Role role: user.getRoles()){
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+        for(RoleEntity roleEntity : userEntity.getRoleEntities()){
+            grantedAuthorities.add(new SimpleGrantedAuthority(roleEntity.getName()));
         }
 
-        return new org.springframework.security.core.userdetails.User(user.getUserName(),
-                user.getPassword(), grantedAuthorities);
+        return new org.springframework.security.core.userdetails.User(userEntity.getUserName(),
+                userEntity.getPassword(), grantedAuthorities);
     }
 }

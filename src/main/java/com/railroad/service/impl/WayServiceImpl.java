@@ -3,12 +3,12 @@ package com.railroad.service.impl;
 import com.railroad.dao.api.StationGenericDao;
 import com.railroad.dao.api.WayGenericDao;
 import com.railroad.dto.WayDto;
-import com.railroad.mapper.api.WayDtoMapper;
-import com.railroad.model.Way;
+import com.railroad.mapper.WayEntityDtoMapper;
+import com.railroad.model.WayEntity;
 import com.railroad.service.api.WayService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,7 @@ import java.util.List;
 @Service
 public class WayServiceImpl implements WayService {
 
+    private static final Logger logger = Logger.getLogger(WayServiceImpl.class);
     private List<Integer> list;
     private boolean[] visited;
     private int size;
@@ -28,17 +29,22 @@ public class WayServiceImpl implements WayService {
     private StationGenericDao stationGenericDao;
 
     @Autowired
-    private WayDtoMapper wayDtoMapper;
+    private WayEntityDtoMapper wayDtoMapper;
+
+
 
     @Override
     public void save(WayDto wayDto) {
-        wayGenericDao.save(wayDtoMapper.wayDtoToWay(wayDto));
+        WayEntity wayEntity = wayDtoMapper.wayDtoToWayEntity(wayDto);
+        wayEntity.setFirstStationEntity(stationGenericDao.findByStationName(wayDto.getFirstStation()));
+        wayEntity.setSecondStationEntity(stationGenericDao.findByStationName(wayDto.getSecondStation()));
+        wayGenericDao.save(wayEntity);
 
     }
 
     @Override
     public List<WayDto> getAll() {
-              return wayDtoMapper.waysToWayDtos(wayGenericDao.getAll());
+              return wayDtoMapper.wayEntitiesToWayDtos(wayGenericDao.getAll());
     }
 
     @Override
@@ -47,6 +53,16 @@ public class WayServiceImpl implements WayService {
         visited = new boolean[stationGenericDao.getAll().size() + 1];
         graph = getSmegMatrix(wayGenericDao.getAll());
         size = 0;
+        logger.info(stationGenericDao.findByStationName(startStation).getId().intValue());
+        logger.info(stationGenericDao.findByStationName(endStation).getId().intValue());
+        logger.info(graph.length);
+        System.out.println("--------------------------------------------");
+        for(int i = 0; i < graph.length; i++){
+            for(int j = 0; j < graph[i].length; j++){
+                System.out.print(graph[i][j] + " ");
+            }
+            System.out.println();
+        }
         List<String> allRoutes = dfs(stationGenericDao.findByStationName(startStation).getId().intValue(),
                 stationGenericDao.findByStationName(endStation).getId().intValue(), new ArrayList<>());
         return allRoutes;
@@ -92,11 +108,17 @@ public class WayServiceImpl implements WayService {
         return allRoutes;
     }
 
-    private int[][] getSmegMatrix(List<Way> ways){
-        int[][] matrix = getEmptyMatrix(ways.size());
-        for(Way way:ways){
-            matrix[way.getFirstStation().getId().intValue()][way.getSecondStation().getId().intValue()] = 1;
-            matrix[way.getSecondStation().getId().intValue()][way.getFirstStation().getId().intValue()] = 1;
+    private int[][] getSmegMatrix(List<WayEntity> wayEntities){
+        int[][] matrix = getEmptyMatrix(wayEntities.size());
+        for(int i = 0; i < matrix.length; i++){
+            for(int j = 0; j < matrix[i].length; j++){
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println("-----------");
+        }
+        for(WayEntity wayEntity : wayEntities){
+            matrix[wayEntity.getFirstStationEntity().getId().intValue()][wayEntity.getSecondStationEntity().getId().intValue()] = 1;
+            matrix[wayEntity.getSecondStationEntity().getId().intValue()][wayEntity.getFirstStationEntity().getId().intValue()] = 1;
         }
         return matrix;
     }

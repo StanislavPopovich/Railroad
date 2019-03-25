@@ -8,34 +8,38 @@
 <jsp:include page="header.jsp"/>
 <div>
     <h2>Trains</h2>
-
         <table>
             <tr>
                 <th width="100">number</th>
-                <th width="100">start station</th>
-                <th width="100">end station</th>
                 <th width="100">seats</th>
                 <th width="100">route</th>
             </tr>
             <c:forEach items="${trains}" var="train">
                 <tr>
                     <td>${train.number}</td>
-                    <td>${train.startStation}</td>
-                    <td>${train.endStation}</td>
                     <td>${train.seats}</td>
                     <td>
-                        <c:forEach items="${train.stations}" var="station">
-                            ${station},
+                        <c:forEach items="${train.stations}" var="station" varStatus="status">
+                            ${station}
+                            <c:if test="${!status.last}">
+                               =>
+                            </c:if>
                         </c:forEach>
                     </td>
                 </tr>
             </c:forEach>
         </table>
-
     <h3>
-        <a href="<c:url value="/railroad/moderator/add_train"/>">Add new train</a>
+        <c:if test="${pageContext.request.isUserInRole('ROLE_MODERATOR')}">
+            <a href="<c:url value="/railroad/moderator/add-train"/>"><button>Add new train</button></a><br/>
+            <a href="<c:url value='/railroad/moderator/'/>"><button>to moderator page</button></a>
+        </c:if>
+        <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
+            <a href="<c:url value="/railroad/admin/add-train"/>"><button>Add new train</button></a><br/>
+            <a href="<c:url value='/railroad/admin/'/>"><button>to admin page</button></a>
+        </c:if>
     </h3>
 </div>
-
+<jsp:include page="footer.jsp"/>
 </body>
 </html>

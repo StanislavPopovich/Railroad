@@ -1,19 +1,19 @@
 package com.railroad.dao.api;
 
-import com.railroad.model.Station;
+import com.railroad.model.StationEntity;
 
 /**
- * DAO for the {@link com.railroad.model.Station} objects.
+ * DAO for the {@link StationEntity} objects.
  *
  * @author Stanislav Popovich
  */
-public interface StationGenericDao extends GenericDao<Station, Long> {
+public interface StationGenericDao extends GenericDao<StationEntity, Long> {
 
     /**
-     *Method for finding Station in DB
+     *Method for finding StationEntity in DB
      *
      * @param name
-     * @return Station with selected name
+     * @return StationEntity with selected name
      */
-    Station findByStationName(String name);
+    StationEntity findByStationName(String name);
 }

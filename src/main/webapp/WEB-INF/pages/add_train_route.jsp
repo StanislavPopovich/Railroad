@@ -7,12 +7,16 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-<h1>Add route to train</h1>
+<h1>Add route to trainEntity</h1>
 <div>
-    <form:form method="POST" modelAttribute="train" action="/railroad/moderator/add_train">
+    <c:if test="${pageContext.request.isUserInRole('ROLE_MODERATOR')}">
+        <c:set var="role_path" value="/railroad/moderator/add-train"/>
+    </c:if>
+    <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
+        <c:set var="role_path" value="/railroad/admin/add-train"/>
+    </c:if>
+    <form:form method="POST" modelAttribute="train" action="${role_path}">
         <form:hidden path="number"/>
-        <form:hidden path="startStation"/>
-        <form:hidden path="endStation"/>
         <form:hidden path="seats"/>
         <form:label path="stations"> Route </form:label>
         <form:select type="text" path="stations">

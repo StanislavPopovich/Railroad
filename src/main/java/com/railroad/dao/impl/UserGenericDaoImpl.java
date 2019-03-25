@@ -1,35 +1,34 @@
 package com.railroad.dao.impl;
 
 import com.railroad.dao.api.UserGenericDao;
-import com.railroad.model.User;
-import org.hibernate.Hibernate;
+import com.railroad.model.UserEntity;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 /**
- * DAO implementation for the {@link com.railroad.model.User} objects.
+ * DAO implementation for the {@link UserEntity} objects.
  *
  * @author Stanislav Popovich
  */
 @Repository
-public class UserGenericDaoImpl extends BaseGenericDao<User, Long> implements UserGenericDao {
+public class UserGenericDaoImpl extends BaseGenericDao<UserEntity, Long> implements UserGenericDao {
 
     public UserGenericDaoImpl() {
-        super(User.class);
+        super(UserEntity.class);
     }
 
     /**
-     *Method for finding User in DB
+     *Method for finding UserEntity in DB
      *
      * @param userName
-     * @return User with selected name
+     * @return UserEntity with selected name
      */
     @Override
-    public User findByUserName(String userName) {
+    public UserEntity findByUserName(String userName) {
         Session session = getSession();
-        User user = (User)session.createQuery("from User p where p.userName=:userName").
+        UserEntity userEntity = (UserEntity)session.createQuery("select u from UserEntity u where u.userName=:userName").
                 setParameter("userName", userName).uniqueResult();
-        return user;
+        return userEntity;
     }
 
 }

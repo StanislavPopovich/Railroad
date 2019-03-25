@@ -13,6 +13,7 @@ public interface BusinessService {
     List<RoleDto> getAllRoles();
     List<WayDto> getAllWay();
     List<UserDto> getAllUsers();
+    List<StationDto> getAllStations();
     List<List<String>> getAllRoutes(String startStation, String endStation);
     UserDto getUserByUserName(String userName);
     void updateUser(UserDto userDto);

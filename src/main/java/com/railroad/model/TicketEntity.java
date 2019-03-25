@@ -11,15 +11,13 @@ import javax.persistence.*;
 @Table(name = "tickets")
 @Getter
 @Setter
-@ToString(exclude = {"passenger, train"})
-@EqualsAndHashCode(exclude = {"passenger, train"})
-public class Ticket extends BaseEntity {
+public class TicketEntity extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "train_id", nullable = false)
-    private Train train;
+    private TrainEntity trainEntity;
 
     @ManyToOne
     @JoinColumn(name = "passenger_id", nullable = false)
-    private Passenger passenger;
+    private PassengerEntity passengerEntity;
 }

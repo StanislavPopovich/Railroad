@@ -1,34 +1,32 @@
 package com.railroad.dao.impl;
 
 import com.railroad.dao.api.StationGenericDao;
-import com.railroad.model.Station;
-import org.apache.log4j.Logger;
-import org.hibernate.Hibernate;
+import com.railroad.model.StationEntity;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 /**
- * DAO implementation for the {@link com.railroad.model.Station} objects.
+ * DAO implementation for the {@link StationEntity} objects.
  *
  * @author Stanislav Popovich
  */
 @Repository
-public class StationGenericDaoImpl extends BaseGenericDao<Station, Long> implements StationGenericDao {
+public class StationGenericDaoImpl extends BaseGenericDao<StationEntity, Long> implements StationGenericDao {
     public StationGenericDaoImpl() {
-        super(Station.class);
+        super(StationEntity.class);
     }
 
     /**
-     *Method for finding Station in DB
+     *Method for finding StationEntity in DB
      *
      * @param name
-     * @return Station with selected name
+     * @return StationEntity with selected name
      */
     @Override
-    public Station findByStationName(String name) {
+    public StationEntity findByStationName(String name) {
         Session session = getSession();
-        Station station = (Station) session.createQuery("from Station p where p.name=:name").
+        StationEntity stationEntity = (StationEntity) session.createQuery("select s from StationEntity s where s.name=:name").
                 setParameter("name", name).uniqueResult();
-        return station;
+        return stationEntity;
     }
 }

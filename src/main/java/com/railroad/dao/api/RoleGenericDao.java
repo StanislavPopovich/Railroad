@@ -1,19 +1,19 @@
 package com.railroad.dao.api;
 
-import com.railroad.model.Role;
+import com.railroad.model.RoleEntity;
 
 /**
- * DAO for the {@link com.railroad.model.Role} objects.
+ * DAO for the {@link RoleEntity} objects.
  *
  * @author Stanislav Popovich
  */
-public interface RoleGenericDao extends GenericDao<Role, Long> {
+public interface RoleGenericDao extends GenericDao<RoleEntity, Long> {
 
     /**
-     *Method for finding Role in DB
+     *Method for finding RoleEntity in DB
      *
      * @param name
-     * @return Role with selected name
+     * @return RoleEntity with selected name
      */
-    Role findByName(String name);
+    RoleEntity findByName(String name);
 }

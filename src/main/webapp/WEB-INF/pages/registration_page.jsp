@@ -18,24 +18,24 @@
     <form:form method="POST" modelAttribute="userForm" >
         <form:label path="userName"> <spring:message code="username"/> </form:label>
         <form:input id="username" type="text" path="userName" autofocus="true"
-                    onkeyup="javascript: checkUsername(); return false;"></form:input><br/>
+                    onkeyup="javascript: checkUsername(); return false;"/><br/>
         <form:errors path="userName"/><br/>
 
         <form:label path="password"><spring:message code="password"/></form:label>
         <form:input id="password" type="password" path="password"
-                    onkeyup="javascript: checkPassword(); return false;"></form:input><br/>
+                    onkeyup="javascript: checkPassword(); return false;"/><br/>
         <form:errors path="password"/><br/>
 
         <form:label path="confirmPassword"><spring:message code="confirmPassword"/></form:label>
         <form:input id="passwordConfirm" type="password" path="confirmPassword"
-                    onkeyup="javascript: checkPasswordConfirm(); return false;"></form:input><br/>
+                    onkeyup="javascript: checkPasswordConfirm(); return false;"/><br/>
         <button id="button" type="submit" disabled="true"><spring:message code="submit"/></button>
     </form:form>
     <div>
-        <a href="/railroad"><button class="button"><spring:message code="start_page"/></button></a>
+        <a href="<c:url value="/railroad"/>"><button class="button"><spring:message code="start_page"/></button></a>
     </div>
+    <jsp:include page="footer.jsp"/>
 </div>
 <script type="text/javascript" src="/resources/js/registration_valid_check.js"></script>
-
 </body>
 </html>

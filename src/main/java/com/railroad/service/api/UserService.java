@@ -1,11 +1,11 @@
 package com.railroad.service.api;
 
 import com.railroad.dto.UserDto;
-import com.railroad.model.User;
+import com.railroad.model.UserEntity;
 import java.util.List;
 
 /**
- * Service interface for {@link com.railroad.model.User}
+ * Service interface for {@link UserEntity}
  * @author Stanislav Popovich
  * @version 1.0
  */

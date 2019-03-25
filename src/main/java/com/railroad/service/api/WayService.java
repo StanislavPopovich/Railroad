@@ -1,7 +1,6 @@
 package com.railroad.service.api;
 
 import com.railroad.dto.WayDto;
-import com.railroad.model.Way;
 
 import java.util.List;
 

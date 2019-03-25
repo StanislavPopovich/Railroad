@@ -23,13 +23,13 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="annotatedClasses">
             <list>
-                <value>com.railroad.model.User</value>
-                <value>com.railroad.model.Role</value>
-                <value>com.railroad.model.Station</value>
-                <value>com.railroad.model.Train</value>
-                <value>com.railroad.model.Way</value>
-                <value>com.railroad.model.Passenger</value>
-                <value>com.railroad.model.Ticket</value>
+                <value>com.railroad.model.UserEntity</value>
+                <value>com.railroad.model.RoleEntity</value>
+                <value>com.railroad.model.StationEntity</value>
+                <value>com.railroad.model.TrainEntity</value>
+                <value>com.railroad.model.WayEntity</value>
+                <value>com.railroad.model.PassengerEntity</value>
+                <value>com.railroad.model.TicketEntity</value>
             </list>
         </property>
         <property name="hibernateProperties">

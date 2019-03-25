@@ -100,6 +100,10 @@ public class BusinessServiceImpl implements BusinessService {
         return targetRoutes;
     }
 
+    public List<StationDto> getAllStations(){
+        return stationService.getAll();
+    }
+
     @Override
     public UserDto getUserByUserName(String userName) {
         return userService.findByUsername(userName);

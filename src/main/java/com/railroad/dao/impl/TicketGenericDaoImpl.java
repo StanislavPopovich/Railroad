@@ -1,18 +1,18 @@
 package com.railroad.dao.impl;
 
 import com.railroad.dao.api.TicketGenericDao;
-import com.railroad.model.Ticket;
+import com.railroad.model.TicketEntity;
 import org.springframework.stereotype.Repository;
 
 /**
- * DAO implementation for the {@link com.railroad.model.Ticket} objects.
+ * DAO implementation for the {@link TicketEntity} objects.
  *
  * @author Stanislav Popovich
  */
 @Repository
-public class TicketGenericDaoImpl extends BaseGenericDao<Ticket, Long> implements TicketGenericDao {
+public class TicketGenericDaoImpl extends BaseGenericDao<TicketEntity, Long> implements TicketGenericDao {
 
     public TicketGenericDaoImpl() {
-        super(Ticket.class);
+        super(TicketEntity.class);
     }
 }

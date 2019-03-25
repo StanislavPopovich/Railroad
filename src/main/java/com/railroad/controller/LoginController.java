@@ -1,11 +1,8 @@
 package com.railroad.controller;
 import com.railroad.dto.UserDto;
 import com.railroad.service.api.SecurityService;
-import com.railroad.service.api.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Collection;
-
 
 
 @Controller
@@ -48,7 +43,7 @@ public class LoginController {
 
     @GetMapping(value = "login/result")
     public String resultLogin() {
-        return getRolePage();
+        return "user_page";
     }
 
 
@@ -70,22 +65,6 @@ public class LoginController {
             return "registration_page";
         }
         securityService.registration(userDto);
-        return getRolePage();
-    }
-
-    @SuppressWarnings("unchecked")
-    private String getRolePage(){
-        Collection<GrantedAuthority> authorities = (Collection)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        for(GrantedAuthority authority: authorities){
-            if(authority.getAuthority().equals("ROLE_ADMIN")){
-                logger.info("Logged as Admin");
-                return "redirect:/railroad/admin";
-            }else if(authority.getAuthority().equals("ROLE_MODERATOR")){
-                logger.info("Logged as Moderator");
-                return "redirect:/railroad/moderator";
-            }
-        }
-        logger.info("Logged as User");
-        return "redirect:/railroad/user";
+        return "user_page";
     }
 }

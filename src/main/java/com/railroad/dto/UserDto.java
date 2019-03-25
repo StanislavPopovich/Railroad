@@ -1,13 +1,17 @@
 package com.railroad.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@ToString
 public class UserDto {
     private String userName;
     private String password;
     private String confirmPassword;
-    Set<String> roles;
+    private Set<String> roles;
 }

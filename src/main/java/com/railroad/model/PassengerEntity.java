@@ -13,9 +13,7 @@ import java.util.Set;
 @Table(name = "passengers")
 @Getter
 @Setter
-@ToString(exclude = {"tickets, users"})
-@EqualsAndHashCode(exclude = {"tickets, users"})
-public class Passenger extends BaseEntity {
+public class PassengerEntity extends BaseEntity {
 
     @Column(name = "last_name", nullable = false)
     private String lastName;
@@ -27,9 +25,9 @@ public class Passenger extends BaseEntity {
     @Column(name = "birth_date", nullable = false)
     private Date BirthDate;
 
-    @OneToMany(mappedBy = "passenger")
-    private Set<Ticket> tickets;
+    @OneToMany(mappedBy = "passengerEntity")
+    private Set<TicketEntity> ticketEntities;
 
-    @ManyToMany(mappedBy = "passengers")
-    private Set<User> users;
+    @ManyToMany(mappedBy = "passengerEntities")
+    private Set<UserEntity> userEntities;
 }

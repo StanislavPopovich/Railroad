@@ -1,22 +1,22 @@
 package com.railroad.dao.impl;
 
 import com.railroad.dao.api.WayGenericDao;
-import com.railroad.model.Way;
+import com.railroad.model.WayEntity;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
- * DAO implementation for the {@link com.railroad.model.Way} objects.
+ * DAO implementation for the {@link WayEntity} objects.
  *
  * @author Stanislav Popovich
  */
 @Repository
-public class WayGenericDaoImpl extends BaseGenericDao<Way, Long> implements WayGenericDao {
+public class WayGenericDaoImpl extends BaseGenericDao<WayEntity, Long> implements WayGenericDao {
 
     public WayGenericDaoImpl() {
-        super(Way.class);
+        super(WayEntity.class);
     }
 
     /**
@@ -27,9 +27,9 @@ public class WayGenericDaoImpl extends BaseGenericDao<Way, Long> implements WayG
      */
     @SuppressWarnings("unchecked")
     @Override
-    public List<Way> findByStationId(Long stationId) {
+    public List<WayEntity> findByStationId(Long stationId) {
         Session session = getSession();
-        return session.createQuery("from Way p where p.firstStation=:firstStation").
+        return session.createQuery("select w from WayEntity w where w.firstStation=:firstStation").
                 setParameter("firstStation", stationId).list();
     }
 }

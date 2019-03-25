@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import java.util.Set;
 
 /**
- * Simple JavaBean domain object that represents Role
+ * Simple JavaBean domain object that represents RoleEntity
  *
  * @author Stanislav Popovich
  * @version 1.0
@@ -22,13 +22,11 @@ import java.util.Set;
 @Table(name = "roles")
 @Getter
 @Setter
-@ToString(exclude = "users")
-@EqualsAndHashCode(exclude = "users")
-public class Role extends BaseEntity {
+public class RoleEntity extends BaseEntity {
 
     @Column(name = "role_name", nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    @ManyToMany(mappedBy = "roleEntities")
+    private Set<UserEntity> userEntities;
 }

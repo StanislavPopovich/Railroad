@@ -77,7 +77,7 @@ public class BaseGenericDao<T, ID extends Serializable> implements GenericDao<T,
     @Override
     public List<T> getAll() {
         Session session = getSession();
-        List<T> allEntities = session.createQuery("from " + clazz.getName()).list();
+        List<T> allEntities = session.createQuery("select e from " + clazz.getName() + " e").list();
         return allEntities;
     }
 

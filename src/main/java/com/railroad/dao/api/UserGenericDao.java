@@ -1,21 +1,21 @@
 package com.railroad.dao.api;
 
-import com.railroad.model.User;
+import com.railroad.model.UserEntity;
 
 /**
- * DAO for the {@link com.railroad.model.User} objects.
+ * DAO for the {@link UserEntity} objects.
  *
  * @author Stanislav Popovich
  */
-public interface UserGenericDao extends GenericDao<User, Long> {
+public interface UserGenericDao extends GenericDao<UserEntity, Long> {
 
     /**
-     *Method for finding User in DB
+     *Method for finding UserEntity in DB
      *
      * @param userName
-     * @return User with selected name
+     * @return UserEntity with selected name
      */
-    User findByUserName(String userName);
+    UserEntity findByUserName(String userName);
 
 }
 

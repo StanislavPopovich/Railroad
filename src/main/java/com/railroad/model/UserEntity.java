@@ -1,15 +1,13 @@
 package com.railroad.model;
 
 import lombok.*;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
 /**
- * Simple JavaBean domain object that represents User
+ * Simple JavaBean domain object that represents UserEntity
  *
  * @author Stanislav Popovich
  * @version 1.0
@@ -18,8 +16,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@Data
-public class User extends BaseEntity {
+@Setter
+@Getter
+public class UserEntity extends BaseEntity {
 
     @Size(min = 3, max = 25, message = "{name.size.error}")
     @Column(name = "username", nullable = false)
@@ -33,10 +32,10 @@ public class User extends BaseEntity {
     @ManyToMany
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    private Set<RoleEntity> roleEntities;
 
     @ManyToMany
     @JoinTable(name = "user_passengers", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "passenger_id"))
-    private Set<Passenger> passengers;
+    private Set<PassengerEntity> passengerEntities;
 }

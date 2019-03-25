@@ -2,13 +2,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
-    <title>Edit user</title>
+    <title>Edit userEntity</title>
 </head>
 <body>
 <div>
-<form:form modelAttribute="userDto" action="/railroad/admin/all_users/edit/result" >
+<form:form modelAttribute="userDto" action="/railroad/admin/all-users/edit/result" >
     <table>
         <tr>
             <td>
@@ -32,9 +33,9 @@
             </td>
         </tr>
         <tr>
-        <td colspan="2">
-            <input type="submit" value="<spring:message text="Edit User"/>"/>
-        </td>
+            <td colspan="2">
+                <input type="submit" value="<spring:message text="Edit User"/>"/>
+            </td>
     </table>
 </form:form>
 </div>

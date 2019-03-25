@@ -2,13 +2,12 @@ package com.railroad.dto;
 
 import lombok.Data;
 
-import java.util.List;
+
+import java.util.LinkedList;
 
 @Data
 public class TrainDto {
     private Integer number;
     private Integer seats;
-    private String startStation;
-    private String endStation;
-    private List<String> stations;
+    private LinkedList<String> stations;
 }
