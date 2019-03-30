@@ -5,7 +5,6 @@ import com.railroad.model.StationEntity;
 import com.railroad.model.TrainEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;

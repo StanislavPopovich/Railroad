@@ -58,16 +58,6 @@
                        constraintName="pk_user_role"
                        tableName="user_roles"/>
 
-        <!--INSERTING ROLES IN 'ROLES' TABLE-->
-        <insert tableName="roles">
-            <column name="role_name" value="ROLE_USER"></column>
-        </insert>
-        <insert tableName="roles">
-            <column name="role_name" value="ROLE_MODERATOR"></column>
-        </insert>
-        <insert tableName="roles">
-            <column name="role_name" value="ROLE_ADMIN"></column>
-        </insert>
 
         <!--CREATING A TABLE TRAINS-->
         <createTable tableName="trains">
@@ -81,6 +71,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+
 
         <!--CREATING A TABLE STATIONS-->
         <createTable tableName="stations">
@@ -137,6 +128,18 @@
             </column>
         </createTable>
 
+        <addForeignKeyConstraint baseColumnNames="first_station_id"
+                                 baseTableName="ways"
+                                 constraintName="fk_first_station_way"
+                                 referencedColumnNames="id"
+                                 referencedTableName="stations"/>
+
+        <addForeignKeyConstraint baseColumnNames="second_station_id"
+                                 baseTableName="ways"
+                                 constraintName="fk_second_station_way"
+                                 referencedColumnNames="id"
+                                 referencedTableName="stations"/>
+
         <!--CREATING A TABLE PASSENGERS-->
         <createTable tableName="passengers">
             <column  name="id" type="int" autoIncrement="true">
@@ -191,31 +194,47 @@
         <addPrimaryKey columnNames="user_id, passenger_id"
                        constraintName="pk_user_passenger"
                        tableName="user_passengers"/>
+
+        <addForeignKeyConstraint baseColumnNames="passenger_id"
+                                 baseTableName="tickets"
+                                 constraintName="fk_passenger_ticket"
+                                 referencedColumnNames="id"
+                                 referencedTableName="passengers"/>
+
+        <!--CREATING A TABLE SCHEDULES-->
+        <createTable tableName="schedules">
+            <column  name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" unique="true" nullable="false"/>
+            </column>
+            <column name="data" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="station_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="train_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="train_id"
+                                 baseTableName="schedules"
+                                 constraintName="fk_schedule_train"
+                                 referencedColumnNames="id"
+                                 referencedTableName="trains"/>
+
+        <addForeignKeyConstraint baseColumnNames="station_id"
+                                 baseTableName="schedules"
+                                 constraintName="fk_schedule_station"
+                                 referencedColumnNames="id"
+                                 referencedTableName="stations"/>
+
+
     </changeSet>
     <changeSet id="2" author="Stas">
-        <insert tableName="users">
-            <column name="username" value="User"></column>
-            <column name="password" value="$2a$11$BqISx4.JkNWbDHED1OmPOu8I34mGKf4.CwQbKGsDrODDnAjoB16eG"></column>
-        </insert>
-        <insert tableName="users">
-            <column name="username" value="Moderator"></column>
-            <column name="password" value="$$2a$11$Vq5Ei1ZSXfShIoY8xXcnze5XzjE4NoKghKzto0UmTlmtPHbE"></column>
-        </insert>
-        <insert tableName="users">
-            <column name="username" value="Admin"></column>
-            <column name="password" value="$2a$11$/qcpIJk3sHYy0ANMQvMVMOj7ZBT5EE12V61rPOn1i9pQrZFr3yCAq"></column>
-        </insert>
-        <insert tableName="user_roles">
-            <column name="user_id" value="1"></column>
-            <column name="role_id" value="1"></column>
-        </insert>
-        <insert tableName="user_roles">
-            <column name="user_id" value="2"></column>
-            <column name="role_id" value="2"></column>
-        </insert>
-        <insert tableName="user_roles">
-            <column name="user_id" value="3"></column>
-            <column name="role_id" value="3"></column>
-        </insert>
+        <sqlFile path="src/main/resources/database/insertRoles.sql"/>
+        <sqlFile path="src/main/resources/database/insertUsers.sql"/>
+        <sqlFile path="src/main/resources/database/insertStations.sql"/>
+        <sqlFile path="src/main/resources/database/insertWays.sql"/>
     </changeSet>
 </databaseChangeLog>

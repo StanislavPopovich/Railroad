@@ -21,6 +21,8 @@
         All ways</a></p>
     <p class=""> <a href="<c:url value='/railroad/moderator/all-trains'/>" class="log_reg_page">
         All trains</a></p>
+    <p class=""> <a href="<c:url value='/railroad/moderator/schedule'/>" class="log_reg_page">
+        schedule page</a></p>
 </c:if>
 <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
     <h1>This is admin page</h1>
@@ -32,6 +34,8 @@
         All trains</a></p>
     <p class=""> <a href="<c:url value='/railroad/admin/all-users'/>" class="log_reg_page">
         All users</a></p>
+    <p class=""> <a href="<c:url value='/railroad/admin/schedule'/>" class="log_reg_page">
+        schedule page</a></p>
 </c:if>
     <form:form id="logoutForm" method="post" action="${contextPath}/logout"
                onclick="document.forms['logoutForm'].submit()"><button>Logout</button></form:form>

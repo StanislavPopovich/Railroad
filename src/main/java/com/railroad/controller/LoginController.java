@@ -1,5 +1,6 @@
 package com.railroad.controller;
 import com.railroad.dto.UserDto;
+import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.SecurityService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +11,20 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @Controller
 @RequestMapping(value = {"/","/railroad"})
-public class LoginController {
+public class LoginController extends BaseController {
 
     private static final Logger logger = Logger.getLogger(LoginController.class);
 
     @Autowired
     private SecurityService securityService;
+
+    @Autowired
+    private BusinessService businessService;
 
     /**
      * Returns index page
@@ -28,9 +33,19 @@ public class LoginController {
      */
 
     @GetMapping
-    public String showIndexPage(){
-        return "index";
+    public ModelAndView showIndexPage(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("stations", businessService.getAllNamesStations());
+        modelAndView.addObject("startStation", new String());
+        modelAndView.addObject("endStation", new String());
+        modelAndView.setViewName("index");
+        return modelAndView;
     }
+    @PostMapping(value = "/dest-station")
+    public @ResponseBody String ajax(@RequestParam String start) {
+        return getStation(start, businessService.getAllNamesStations());
+    }
+
 
     @GetMapping(value = "/login")
     public ModelAndView showLoginPage(){

@@ -53,16 +53,6 @@ public class WayServiceImpl implements WayService {
         visited = new boolean[stationGenericDao.getAll().size() + 1];
         graph = getSmegMatrix(wayGenericDao.getAll());
         size = 0;
-        logger.info(stationGenericDao.findByStationName(startStation).getId().intValue());
-        logger.info(stationGenericDao.findByStationName(endStation).getId().intValue());
-        logger.info(graph.length);
-        System.out.println("--------------------------------------------");
-        for(int i = 0; i < graph.length; i++){
-            for(int j = 0; j < graph[i].length; j++){
-                System.out.print(graph[i][j] + " ");
-            }
-            System.out.println();
-        }
         List<String> allRoutes = dfs(stationGenericDao.findByStationName(startStation).getId().intValue(),
                 stationGenericDao.findByStationName(endStation).getId().intValue(), new ArrayList<>());
         return allRoutes;
@@ -110,12 +100,6 @@ public class WayServiceImpl implements WayService {
 
     private int[][] getSmegMatrix(List<WayEntity> wayEntities){
         int[][] matrix = getEmptyMatrix(wayEntities.size());
-        for(int i = 0; i < matrix.length; i++){
-            for(int j = 0; j < matrix[i].length; j++){
-                System.out.print(matrix[i][j] + " ");
-            }
-            System.out.println("-----------");
-        }
         for(WayEntity wayEntity : wayEntities){
             matrix[wayEntity.getFirstStationEntity().getId().intValue()][wayEntity.getSecondStationEntity().getId().intValue()] = 1;
             matrix[wayEntity.getSecondStationEntity().getId().intValue()][wayEntity.getFirstStationEntity().getId().intValue()] = 1;

@@ -30,6 +30,7 @@
                 <value>com.railroad.model.WayEntity</value>
                 <value>com.railroad.model.PassengerEntity</value>
                 <value>com.railroad.model.TicketEntity</value>
+                <value>com.railroad.model.ScheduleEntity</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -46,4 +47,9 @@
     </bean>
 
     <tx:annotation-driven transaction-manager="myTransactionManager" />
+
+    <!-- REST template configuration -->
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
+
+
 </beans>

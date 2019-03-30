@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Collection;
+import java.util.List;
 
 public abstract class BaseController {
 
@@ -20,4 +21,20 @@ public abstract class BaseController {
         }
         return url;
     }
+
+    public String getStation(String station, List<String> stations){
+        StringBuilder strStations = new StringBuilder();
+        for(int i = 0; i < stations.size(); i++){
+            if(!stations.get(i).equals(station)){
+                if(i == stations.size() - 1){
+                    strStations.append(stations.get(i));
+                }else{
+                    strStations.append(stations.get(i) + "/");
+                }
+            }
+        }
+        return strStations.toString();
+    }
+
+
 }

@@ -3,7 +3,6 @@ package com.railroad.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -27,4 +26,10 @@ public class TrainEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "trainEntity")
     private Set<TicketEntity> ticketEntities;
+
+    @OneToMany(mappedBy = "trainEntity")
+    private Set<ScheduleEntity> scheduleEntities;
+
+
+
 }

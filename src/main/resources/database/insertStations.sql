@@ -1,0 +1,13 @@
+INSERT INTO railroad.stations(station_name) VALUE('Moscow');
+INSERT INTO railroad.stations(station_name) VALUE('Saint-Petersburg');
+INSERT INTO railroad.stations(station_name) VALUE('	Veliky Novgorod');
+INSERT INTO railroad.stations(station_name) VALUE('Pskov');
+INSERT INTO railroad.stations(station_name) VALUE('Tver');
+INSERT INTO railroad.stations(station_name) VALUE('Ryazan');
+INSERT INTO railroad.stations(station_name) VALUE('Tambov');
+INSERT INTO railroad.stations(station_name) VALUE('Volgograd');
+INSERT INTO railroad.stations(station_name) VALUE('	Saratov');
+INSERT INTO railroad.stations(station_name) VALUE('Samara');
+INSERT INTO railroad.stations(station_name) VALUE('Ufa');
+INSERT INTO railroad.stations(station_name) VALUE('Kazan');
+INSERT INTO railroad.stations(station_name) VALUE('Nizhny Novgorod');

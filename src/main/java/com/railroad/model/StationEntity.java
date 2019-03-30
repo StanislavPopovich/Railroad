@@ -24,6 +24,9 @@ public class StationEntity extends BaseEntity{
     @OneToMany(mappedBy = "secondStationEntity")
     private Set<WayEntity> waysToThisStation;
 
+    @OneToMany(mappedBy = "stationEntity")
+    private Set<ScheduleEntity> scheduleEntities;
+
 
 
 

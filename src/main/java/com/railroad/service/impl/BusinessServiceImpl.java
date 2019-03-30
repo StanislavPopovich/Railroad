@@ -29,6 +29,9 @@ public class BusinessServiceImpl implements BusinessService {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private ScheduleService scheduleService;
+
 
     @Transactional
     @Override
@@ -56,6 +59,12 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Transactional
     @Override
+    public void saveSchedule(ScheduleDto scheduleDto) {
+        scheduleService.save(scheduleDto);
+    }
+
+    @Transactional
+    @Override
     public List<String> getAllNamesStations() {
         return stationService.getAllStationsName();
     }
@@ -64,6 +73,17 @@ public class BusinessServiceImpl implements BusinessService {
     @Override
     public List<TrainDto> getAllTrains() {
         return trainService.getAll();
+    }
+
+    @Override
+    public List<TrainDto> getDirectTrains(String startStation, String destStation) {
+        return trainService.getDirectTrains(startStation, destStation);
+    }
+
+    @Transactional
+    @Override
+    public void getTransferTrains(String startStation, String destStation) {
+        trainService.getTrainsWithOneTransfer(startStation, destStation);
     }
 
     @Transactional
@@ -86,16 +106,20 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Transactional
     @Override
-    public List<List<String>> getAllRoutes(String startStation, String endStation) {
-        List<List<String>> targetRoutes = new ArrayList<>();
+    public List<String> getAllRoutes(String startStation, String endStation) {
+        List<String> targetRoutes = new ArrayList<>();
         List<String> routes = wayService.getAllRoutes(startStation, endStation);
         for(String str: routes){
-            List<String> route = new ArrayList<>();
+            StringBuilder route = new StringBuilder();
             String[] stationsId = str.split(",");
-            for(String stationId: stationsId){
-                route.add(stationService.getStationById(new Long(stationId)).getName());
+            for(int i = 0; i < stationsId.length; i++){
+                if(i == stationsId.length - 1){
+                    route.append(stationService.getStationById(new Long(stationsId[i])).getName());
+                }else{
+                    route.append(stationService.getStationById(new Long(stationsId[i])).getName() + "=>");
+                }
             }
-            targetRoutes.add(route);
+            targetRoutes.add(route.toString());
         }
         return targetRoutes;
     }
@@ -114,4 +138,15 @@ public class BusinessServiceImpl implements BusinessService {
     public void updateUser(UserDto userDto) {
         userService.update(userDto);
     }
+
+    @Override
+    public List<ScheduleDto> getSchedulesByTrainNumber(Integer trainNumber) {
+        return scheduleService.getScheduleByTrainNumber(trainNumber);
+    }
+
+    @Override
+    public List<ScheduleDto> getSchedulesByStationName(String stationName) {
+        return scheduleService.getScheduleByStationName(stationName);
+    }
+
 }
