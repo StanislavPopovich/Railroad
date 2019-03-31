@@ -8,12 +8,14 @@ var regbutton = document.getElementById("button");
 
 function checkUsername() {
     if (username.value == "" || username.value.length < 3) {
+        getMessage("Имя должно состоять от 3 до 25 символов", "error_name");
         if (username.classList.contains("correct")) {
             username.classList.remove("correct");
             turnOnButton();
         }
     }
     else {
+        deleteMessage("error_name");
         if (!username.classList.contains("correct")) {
             username.classList.add("correct");
             turnOnButton();
@@ -22,6 +24,7 @@ function checkUsername() {
 }
 
 function checkPassword() {
+    getMessage("Пароль должен быть более 3 символов", "error_password");
     if (password.value == "" || password.value.length < 3) {
         if (password.classList.contains("correct")) {
             password.classList.remove("correct");
@@ -29,6 +32,7 @@ function checkPassword() {
         }
     }
     else {
+        deleteMessage("error_password");
         if (!password.classList.contains("correct")) {
             password.classList.add("correct");
             turnOnButton();
@@ -45,6 +49,7 @@ function checkPasswordConfirm() {
         }
     }
     else {
+
         if (!passwordConfirm.classList.contains("correct")) {
             passwordConfirm.classList.add("correct");
             turnOnButton();
@@ -61,4 +66,10 @@ function turnOnButton() {
     else {
         regbutton.disabled = true;
     }
+}
+function getMessage(message, id) {
+    document.getElementById(id).textContent = message;
+}
+function deleteMessage(id) {
+    document.getElementById(id).textContent = "";
 }

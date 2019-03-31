@@ -7,16 +7,16 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-<div>
-    <c:if test="${pageContext.request.isUserInRole('ROLE_MODERATOR')}">
-        <p class=""> <a href="<c:url value='/railroad/moderator/add-schedule'/>">Add schedule</a></p>
-    </c:if>
-    <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
-        <p class=""> <a href="<c:url value='/railroad/admin/add-schedule'/>">Add schedule</a></p>
-
-    </c:if>
-
-</div>
+<section class="main">
+    <div class="container">
+        <c:if test="${pageContext.request.isUserInRole('ROLE_MODERATOR')}">
+            <p class=""> <a href="<c:url value='/railroad/moderator/add-schedule'/>">Add schedule</a></p>
+        </c:if>
+        <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
+            <p class=""> <a href="<c:url value='/railroad/admin/add-schedule'/>">Add schedule</a></p>
+        </c:if>
+    </div>
+</section>
 <jsp:include page="footer.jsp"/>
 </body>
 </html>

@@ -2,6 +2,7 @@ package com.railroad.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -19,7 +20,7 @@ public class ScheduleEntity extends BaseEntity {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date", nullable = false)
-    private Date dataAndTime;
+    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "station_id", nullable = false)

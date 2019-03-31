@@ -1,9 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-<body>
-<div>
-</div>
+<footer class="footer">FOOTER</footer>
 </body>
-</head>
 </html>

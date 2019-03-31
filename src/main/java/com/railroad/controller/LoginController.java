@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 
@@ -38,6 +39,7 @@ public class LoginController extends BaseController {
         modelAndView.addObject("stations", businessService.getAllNamesStations());
         modelAndView.addObject("startStation", new String());
         modelAndView.addObject("endStation", new String());
+        modelAndView.addObject("date", new Date());
         modelAndView.setViewName("index");
         return modelAndView;
     }
