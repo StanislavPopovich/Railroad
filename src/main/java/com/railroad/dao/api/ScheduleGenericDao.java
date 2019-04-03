@@ -9,8 +9,10 @@ import java.util.List;
 
 public interface ScheduleGenericDao extends GenericDao<ScheduleEntity, Long> {
 
-    List<ScheduleEntity> findScheduleByStationIdAndDate(Long stationId, Date date);
+    List<ScheduleEntity> findScheduleByStationIdAndDepartDate(Long stationId, Date date);
 
     ScheduleEntity getScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date date);
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.railroad.service.api;
 import com.railroad.dto.*;
+import com.railroad.model.PassengerEntity;
 
 import java.util.Date;
 import java.util.List;
@@ -103,6 +104,9 @@ public interface BusinessService {
      * @param userName
      */
     void deleteUser(String userName);
+
+
+    PassengerEntity savePas(PassengerDto passengerDto);
 
 
 

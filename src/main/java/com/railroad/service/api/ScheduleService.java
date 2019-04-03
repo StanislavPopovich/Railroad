@@ -24,11 +24,14 @@ public interface ScheduleService {
      * @param departDate
      * @return list of ScheduleEntities
      */
-    List<ScheduleEntity> getScheduleByStationName(String stationName, Date departDate);
+    List<ScheduleEntity> getScheduleByStationNameAndDepartDate(String stationName, Date departDate);
 
     /**
      * The method returns all scheduleDto from dao layer
      * @return list of ScheduleDto
      */
     List<ScheduleDto> getAll();
+
+
+
 }

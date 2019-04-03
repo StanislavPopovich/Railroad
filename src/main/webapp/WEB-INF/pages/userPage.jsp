@@ -10,38 +10,21 @@
 <body>
 <jsp:include page="header.jsp"/>
 <section class="main">
-    <c:if test="${pageContext.request.isUserInRole('ROLE_MODERATOR')}">
+    <div class="container">
+        <c:if test="${pageContext.request.isUserInRole('ROLE_MODERATOR')}">
+            <div id="find">
 
-    </c:if>
-    <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
-        <div class="content_table">
-            <table class="table">
-                <tr>
-                    <th>User Name</th>
-                    <th>Roles</th>
-                    <th class="th_edit"></th>
-                    <th class="th_delete"></th>
-                </tr>
-                <c:forEach items="${users}" var="user">
-                    <tr>
-                        <td>${user.userName}</td>
-                        <td>
-                            <c:forEach items="${user.roles}" var="role" varStatus="status">
-                                ${role}
-                                <c:if test="${!status.last}">
-                                    /
-                                </c:if>
-                            </c:forEach>
-                        </td>
-                        <td class="btn btn_edit"><a href="<c:url value='/railroad/user/edit-user/${user.userName}'/>">Edit</a></td>
-                        <td class="btn btn_delete"><a href="<c:url value='/railroad/user/delete-user/${user.userName}'/>">Delete</a></td>
-                    </tr>
-                </c:forEach>
-            </table>
+            </div>
+        </c:if>
+        <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
+            <div id="find_user">
 
-        </div>
-    </c:if>
+            </div>
+        </c:if>
+    </div>
 </section>
 <jsp:include page="footer.jsp"/>
+<script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/resources/js/ajax_admin_handler.js"></script>
 </body>
 </html>

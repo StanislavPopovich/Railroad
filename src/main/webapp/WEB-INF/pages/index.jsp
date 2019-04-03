@@ -2,6 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix ="fmt" uri ="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,13 +16,13 @@
         <div class="find_container">
             <form id="start_station">
                 <form:select cssClass="select" id="start" type="text" path="startStation">
-                    <form:option value="0" label="Select start station"/>
+                    <form:option value="0"><spring:message code="departStation"/></form:option>
                     <form:options items="${stations}"/>
                 </form:select>
             </form>
             <form id="end_station_login">
                 <form:select cssClass="select" id="end" type="text" path="endStation">
-                    <form:option value="0" label="Select destination station"/>
+                    <form:option value="0"><spring:message code="arrivalStation"/></form:option>
                 </form:select>
             </form>
             <form id="date_depart">
@@ -29,7 +30,7 @@
                 <form:input cssClass="date" id="date" type="date" path="date" value="${trainDate}"/>
             </form>
             <form id="findButton">
-                <button>Submit</button>
+                <button><spring:message code="findButton"/></button>
             </form>
         </div>
         <div id="find">

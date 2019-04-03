@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
         userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         if(userDto.getRoles() == null){
             Set<String> roles = new HashSet<>();
-            roles.add("ROLE_USER");
+            roles.add("USER");
             userDto.setRoles(roles);
         }
         UserEntity userEntity = userDtoMapper.userDtoToUserEntity(userDto);

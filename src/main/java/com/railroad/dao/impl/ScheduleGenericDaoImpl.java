@@ -24,7 +24,7 @@ public class ScheduleGenericDaoImpl extends BaseGenericDao<ScheduleEntity, Long>
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<ScheduleEntity> findScheduleByStationIdAndDate(Long stationId, Date date) {
+    public List<ScheduleEntity> findScheduleByStationIdAndDepartDate(Long stationId, Date date) {
         Session session = getSession();
         List<ScheduleEntity> scheduleEntities = session.createQuery("select s from ScheduleEntity s " +
                 "where s.departDate > :dayBefore and s.departDate < :dayAfter and s.stationEntity.id= :id").

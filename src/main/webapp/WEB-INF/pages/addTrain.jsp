@@ -7,12 +7,6 @@
     <title>Add trainEntity</title>
 </head>
 <body>
-<c:if test="${pageContext.request.isUserInRole('ROLE_MODERATOR')}">
-    <c:set var="role_path" value="/railroad/moderator/add-train"/>
-</c:if>
-<c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
-    <c:set var="role_path" value="/railroad/admin/add-train"/>
-</c:if>
 <jsp:include page="header.jsp"/>
 <section class="main">
     <div class="container">
@@ -27,7 +21,7 @@
                 <form:option value="0" label="Select destination station"/>
             </form:select>
         </form>
-        <form:form method="POST" modelAttribute="train" action="${role_path}">
+        <form:form method="POST" modelAttribute="train" action="/railroad/user">
 
             <form:select cssClass="select" id="routes"  type="text" path="stations" >
                 <form:option  value="0" label="Select route"/>

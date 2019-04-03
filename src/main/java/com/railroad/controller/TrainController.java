@@ -1,10 +1,6 @@
 package com.railroad.controller;
 
-import com.railroad.dao.api.ScheduleGenericDao;
-import com.railroad.dao.api.StationGenericDao;
 import com.railroad.dto.TrainDto;
-import com.railroad.model.ScheduleEntity;
-import com.railroad.model.StationEntity;
 import com.railroad.service.api.BusinessService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;

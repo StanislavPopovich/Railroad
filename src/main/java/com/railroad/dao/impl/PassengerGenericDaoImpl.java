@@ -21,7 +21,7 @@ public class PassengerGenericDaoImpl extends BaseGenericDao<PassengerEntity, Lon
     public PassengerEntity findPassengerByLastnameAndName(String lastName, String name) {
         Session session = getSession();
         PassengerEntity passengerEntity = (PassengerEntity)session.createQuery("select p from PassengerEntity p " +
-                "where p.lastname= :lastName and p.name= :name").setParameter("lastName", lastName).
+                "where p.lastName= :lastName and p.name= :name").setParameter("lastName", lastName).
                 setParameter("name", name).uniqueResult();
         return passengerEntity;
     }

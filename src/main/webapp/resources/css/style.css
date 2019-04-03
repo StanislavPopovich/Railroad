@@ -78,6 +78,7 @@ img {
     padding: 0px;
 }
 
+
 .main {
     background-image: url("/resources/img/start_page.jpg");
     background-repeat: no-repeat;
@@ -85,7 +86,7 @@ img {
     background-size: cover;
     width: 100%;
     height: 100vh;
-    padding-top: 125px;
+    padding-top: 135px;
     padding-bottom: 50px;
 }
 .main .container {
@@ -149,60 +150,7 @@ img {
 }
 
 
-.header_table th,
-.find_content td{
-    width: 120px;
-    padding: 5px 10px;
-}
-.header_table th {
-    background-color: rgba(43, 158, 247, 0.45);
-}
-.header_table th:last-child {
-    background-color: transparent;
-}
-.header_table th:last-child {
-    background-color: transparent;
-}
 
-.header_table th:first-child {
-    border-top-left-radius: 3px;
-}
-.header_table th:nth-child(5) {
-     border-top-right-radius: 3px;
- }
-
-.find_content {
-    max-height: 305px;
-    overflow: hidden;
-    overflow-y: auto;
-}
-.header_table,
-.find_content table {
-    border-collapse: collapse;
-}
-
-
-.find_content table tr > td:last-child {
-    background-color: transparent;
-    border-color: transparent;
-}
-
-.find_content td {
-    border: 1px solid black;
-    text-align: center;
-    background-color: white;
-}
-
-.find_content .buy_button {
-    padding: 5px;
-    background-color: rgba(0, 142, 255, 0.7);
-    border-radius: 3px;
-    color: white;
-    transition: all 0.3s ease-in-out;
-}
-.find_content .buy_button:hover {
-    background-color: #008eff;
-}
 
 
 .reg_main {
@@ -211,7 +159,13 @@ img {
 
 .reg_form {
     padding: 30px;
-    background-color: white;
+    background-color: rgba(25, 24, 24, 0.5);
+    border-radius: 3px;
+    color: white;
+}
+
+.reg_form form {
+    margin: 0px;
 }
 
 .reg_form h1 {
@@ -221,11 +175,14 @@ img {
 .wrapper_input {
     position: relative;
     padding-bottom: 20px;
-    width: 225px;
+    width: 230px;
 }
 .wrapper_input input {
     width: 100%;
-    outline: none;
+    padding: 5px;
+    border-radius: 3px;
+    border: none;
+    background-color: white;
 }
 
 .wrapper_input label {
@@ -237,8 +194,32 @@ img {
 .wrapper_input .error {
     position: absolute;
     bottom: 4px;
+    width: 100%;
     font-size: 12px;
+    font-weight: bold;
     color: red;
+    text-align: center;
+}
+
+.reg_form button {
+    display: table;
+    margin: 0px auto;
+    border-radius: 3px;
+    border: 0px;
+    padding: 8px 15px;
+    color: white;
+    background-color: #008eff;
+    cursor: pointer;
+}
+
+.not_found {
+    display: table;
+    margin: 0px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #00b8ff;
+    color: white;
+    font-size: 26px;
 }
 
 
@@ -266,73 +247,83 @@ img {
 
 
 
-.content_table {
-
-
-  display: flex;
-    justify-content: center;
-    max-height: 305px;
-    overflow: hidden;
-    overflow-y: auto;
-
-}
-.content_table .table {
+.header_table,
+.find_content table {
     border-collapse: collapse;
 }
-
-.content_table .table th,
-.content_table .table td{
+.header_table th,
+.find_content td {
+    width: 120px;
     padding: 5px 10px;
 }
-
-.content_table .table  th {
+.header_table th {
     background-color: rgba(43, 158, 247, 0.45);
 }
-
-.content_table .table  th:first-child {
-    border-top-left-radius: 3px;
-}
-.content_table .table  th:nth-child(5) {
-    border-top-right-radius: 3px;
-}
-
-.content_table .table  .th_edit,
-.content_table .table  .th_delete {
+.header_table .th_hidden {
+    width: auto;
     background-color: transparent;
 }
 
-.content_table .table td {
+.header_table th:first-child {
+    border-top-left-radius: 3px;
+}
+.header_table th:nth-child(5) {
+    border-top-right-radius: 3px;
+}
+
+.find_content {
+    max-height: 305px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+.find_content td {
     border: 1px solid black;
     text-align: center;
     background-color: white;
 }
-
-.content_table .table tr .btn {
+.find_content tr .btn {
+    width: auto;
     background-color: transparent;
     border-color: transparent;
 }
-
-.content_table .table tr .btn_edit {
+.find_content tr .btn_edit {
     padding-right: 0px;
 }
-
-.content_table .table tr .btn a {
+.find_content tr .btn a {
     padding: 5px 15px;
     background-color: rgba(0, 142, 255, 0.7);
     border-radius: 3px;
     color: white;
     transition: all 0.3s ease-in-out;
 }
-.content_table .table tr .btn a:hover {
+.find_content tr .btn a:hover {
+    background-color: #008eff;
+}
+.find_content tr .btn_delete a {
+    background-color: rgba(255, 0, 0, 0.7);
+}
+.find_content tr .btn_delete a:hover {
+    background-color: #ff0000;
+}
+
+.find_content tr .btn_buy a{
+    background-color: rgba(0, 142, 255, 0.7);
+}
+.find_content tr .btn_buy a:hover {
     background-color: #008eff;
 }
 
-.content_table .table tr .btn_delete a {
-    background-color: rgba(255, 0, 0, 0.7);
-}
-.content_table .table tr .btn_delete a:hover {
-    background-color: #ff0000;
-}
+
+
+
+
+
+
+
+
+
+
+
 
 .footer {
     position: fixed;

@@ -11,21 +11,18 @@
 <jsp:include page="header.jsp"/>
 <section class="main">
     <div class="container">
-        <div class="find_container">
-                <form:form method="POST" modelAttribute="passenger">
+        <div>
+                <form:form method="POST" modelAttribute="passenger" action="/railroad/user/buy-ticket/result">
                     <div class="wrapper_input">
                         <form:label path="lastName"> Lastname</form:label>
-                        <form:input id="username" type="text" path="lastName" autofocus="true"/>
-                    </div>
-                    <div class="wrapper_input">
+                        <form:input id="lastname" type="text" path="lastName" autofocus="true"/>
                         <form:label path="name">name</form:label>
-                        <form:input id="name" type="text" path="name" autofocus="true"/>
+                        <form:input id="name" type="text" path="name"/>
+                        <fmt:formatDate value="${birthDate}" pattern="yyyy-MM-dd" var="Date"/>
+                        <form:input cssClass="date" id="date" type="date" path="birthDate" value="${Date}"/>
+                        <form:hidden path="userName" value="${pageContext.request.remoteUser}"/>
+                        <button id="button" type="submit">Buy</button>
                     </div>
-                        <fmt:formatDate value="${birthDate}" pattern="yyyy-MM-dd" var="birthDate"/>
-                        <form:input cssClass="date" id="date" type="date" path="birthDate" value="${birthDate}"/>
-                        <form:hidden path="trainNumber" value="${train}"/>
-                        <form:hidden path="departDate" value="${departDate}"/>
-                    <button id="button" type="submit">Buy</button>
                 </form:form>
         </div>
     </div>

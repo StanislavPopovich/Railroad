@@ -23,7 +23,7 @@ public interface UserEntityDtoMapper {
         Set<RoleEntity> roleEntities = new HashSet<>();
         for(String name: roles){
             RoleEntity roleEntity = new RoleEntity();
-            roleEntity.setName(name);
+            roleEntity.setName("ROLE_" + name);
             roleEntities.add(roleEntity);
         }
         return roleEntities;
@@ -32,7 +32,8 @@ public interface UserEntityDtoMapper {
     default Set<String> roleEntitiesToRoleNames(Set<RoleEntity> roleEntities){
         Set<String> roles = new HashSet<>();
         for(RoleEntity roleEntity: roleEntities){
-            roles.add(roleEntity.getName());
+            String[] roleArr = roleEntity.getName().split("_");
+            roles.add(roleArr[1]);
         }
         return roles;
     }

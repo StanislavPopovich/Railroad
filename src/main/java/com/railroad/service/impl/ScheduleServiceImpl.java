@@ -11,11 +11,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 
 @Service
@@ -39,9 +36,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<ScheduleEntity> getScheduleByStationName(String stationName, Date departDate) {
+    public List<ScheduleEntity> getScheduleByStationNameAndDepartDate(String stationName, Date departDate) {
         Long stationId = stationDao.findByStationName(stationName).getId();
-        List<ScheduleEntity> schedules = scheduleDao.findScheduleByStationIdAndDate(stationId, departDate);
+        List<ScheduleEntity> schedules = scheduleDao.findScheduleByStationIdAndDepartDate(stationId, departDate);
         return schedules;
     }
 

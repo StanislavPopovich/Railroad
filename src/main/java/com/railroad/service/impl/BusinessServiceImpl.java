@@ -4,10 +4,7 @@ import com.railroad.dao.api.*;
 import com.railroad.dto.*;
 import com.railroad.mapper.PassengerEntityDtoMapper;
 import com.railroad.mapper.TrainEntityDtoMapper;
-import com.railroad.model.PassengerEntity;
-import com.railroad.model.ScheduleEntity;
-import com.railroad.model.TicketEntity;
-import com.railroad.model.TrainEntity;
+import com.railroad.model.*;
 import com.railroad.service.api.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class BusinessServiceImpl implements BusinessService {
@@ -63,6 +58,9 @@ public class BusinessServiceImpl implements BusinessService {
     @Autowired
     private ScheduleGenericDao scheduleGenericDao;
 
+    @Autowired
+    private UserGenericDao userGenericDao;
+
 
     @Transactional
     @Override
@@ -99,12 +97,10 @@ public class BusinessServiceImpl implements BusinessService {
     @Transactional
     @Override
     public void saveTicketAndPassenger(PassengerDto passengerDto) {
-        PassengerEntity passengerEntity = passengerEntityDtoMapper.passengerDtoToEntity(passengerDto);
-        passengerGenericDao.save(passengerEntity);
         TicketEntity ticketEntity = new TicketEntity();
         ticketEntity.setPassengerEntity(passengerGenericDao.
                 findPassengerByLastnameAndName(passengerDto.getLastName(), passengerDto.getName()));
-        TrainEntity trainEntity = trainGenericDao.findTrainByNumber(new Integer(passengerDto.getTrainNumber()));
+        TrainEntity trainEntity = trainGenericDao.findTrainByNumber(1);
         ticketEntity.setTrainEntity(trainEntity);
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         try {
@@ -116,6 +112,16 @@ public class BusinessServiceImpl implements BusinessService {
         }
 
 
+    }
+    @Transactional
+    @Override
+    public PassengerEntity savePas(PassengerDto passengerDto){
+        PassengerEntity passengerEntity = passengerEntityDtoMapper.passengerDtoToEntity(passengerDto);
+        Set<UserEntity> users = new HashSet<>();
+        users.add(userGenericDao.findByUserName(passengerDto.getUserName()));
+        passengerEntity.setUserEntities(users);
+        passengerGenericDao.save(passengerEntity);
+        return passengerEntity;
     }
 
 
@@ -132,7 +138,7 @@ public class BusinessServiceImpl implements BusinessService {
     @Transactional
     @Override
     public List<TrainDto> getDirectTrains(String startStation, String destStation, Date date) {
-        List<ScheduleEntity> scheduleEntities = scheduleService.getScheduleByStationName(startStation, date);
+        List<ScheduleEntity> scheduleEntities = scheduleService.getScheduleByStationNameAndDepartDate(startStation, date);
         List<TrainDto> trains = new ArrayList<>();
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         for(ScheduleEntity scheduleEntity: scheduleEntities){
@@ -154,7 +160,8 @@ public class BusinessServiceImpl implements BusinessService {
     public List<String> getRolesNames() {
         List<String> roles = new ArrayList<>();
         for(RoleDto roleDto: roleService.getAll()){
-            roles.add(roleDto.getName());
+            String[] roleArr = roleDto.getName().split("_");
+            roles.add(roleArr[1]);
         }
         return roles;
     }

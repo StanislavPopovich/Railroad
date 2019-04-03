@@ -11,4 +11,5 @@ public class PassengerDto {
     private Date BirthDate;
     private String trainNumber;
     private String departDate;
+    private String userName;
 }

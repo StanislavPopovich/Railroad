@@ -25,7 +25,7 @@
                                 onkeyup="javascript: checkPassword(); return false;"/>
                     <div class="error" id="error_password"><form:errors path="password"/></div>
                 </div>
-                <button  type="submit">Submit</button><br/>
+                <button  type="submit"><spring:message code="submit"/></button>
             </form:form>
         </div>
     </div>
