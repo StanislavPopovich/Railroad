@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -54,12 +55,16 @@ public class UserServiceImpl implements UserService {
         userDao.save(userEntity);
     }
 
-    private void setIdToRoles(Set<RoleEntity> roleEntities){
-        for(RoleEntity roleEntity: roleEntities){
+    private Set<RoleEntity> setIdToRoles(Set<RoleEntity> roleEntities){
+        Set<RoleEntity> roles = roleEntities;
+        for(RoleEntity roleEntity: roles){
             roleEntity.setId(roleDao.findByName(roleEntity.getName()).getId());
         }
+        return roles;
     }
 
+    @Transactional
+    @Override
     public UserDto findByUsername(String userName) {
         return userDtoMapper.userEntityToUserDto(userDao.findByUserName(userName));
     }
@@ -82,13 +87,20 @@ public class UserServiceImpl implements UserService {
     public void update(UserDto userDto) {
         UserEntity userEntity = userDtoMapper.userDtoToUserEntity(userDto);
         userEntity.setId(userDao.findByUserName(userEntity.getUserName()).getId());
-        setIdToRoles(userEntity.getRoleEntities());
-        Set<RoleEntity> roleEntities1 = userEntity.getRoleEntities();
-        for(RoleEntity entity: roleEntities1){
+        Set<RoleEntity> roles = setIdToRoles(userEntity.getRoleEntities());
+        userEntity.setRoleEntities(roles);
+        logger.info("id = " + userEntity.getId());
+        for(RoleEntity entity: roles){
             logger.info(entity.getId());
             logger.info(entity.getName());
         }
         userDao.update(userEntity);
+    }
+
+    @Override
+    public void delete(String userName) {
+        UserEntity userEntity = userDao.findByUserName(userName);
+        userDao.remove(userEntity);
     }
 
 

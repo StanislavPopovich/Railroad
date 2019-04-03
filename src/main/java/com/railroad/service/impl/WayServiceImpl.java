@@ -44,7 +44,7 @@ public class WayServiceImpl implements WayService {
 
     @Override
     public List<WayDto> getAll() {
-              return wayDtoMapper.wayEntitiesToWayDtos(wayGenericDao.getAll());
+        return wayDtoMapper.wayEntitiesToWayDtos(wayGenericDao.getAll());
     }
 
     @Override

@@ -6,34 +6,50 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
-@RequestMapping(value = {"/railroad/moderator", "/railroad/admin"})
-public class StationController extends BaseController {
+@RequestMapping(value = "/railroad")
+public class StationController {
     private static final Logger logger = Logger.getLogger(StationController.class);
 
     @Autowired
     private BusinessService businessService;
 
-    @GetMapping(value = "/all-stations")
-    public String showAllStations(Model model){
+    @GetMapping(value = "/user/all-stations")
+    public String getAllStations(Model model){
         model.addAttribute("stations", businessService.getAllNamesStations());
-        return "stations_page";
+        return "stationPage";
     }
 
-    @GetMapping(value = "/add-station")
-    public String showAddStationPage(Model model){
+    @GetMapping(value = "/user/add-station")
+    public String getAddStationPage(Model model){
         model.addAttribute("station", new StationDto());
-        return "add_station";
+        return "addStation";
     }
 
-    @PostMapping(value = "/add-station")
-    public String showAddStationPage(@ModelAttribute("station") StationDto stationDto){
+    @PostMapping(value = "/user/add-station")
+    public String resultAddStation(@ModelAttribute("station") StationDto stationDto){
         businessService.saveStation(stationDto);
-        return getUrl() + "all-stations";
+        return "redirect:/railroad/user";
+    }
+
+    @PostMapping(value = "/dest-station")
+    public @ResponseBody
+    List<String> getStationsWithoutStartStation(@RequestParam String start) {
+        return getStations(start, businessService.getAllNamesStations());
+    }
+
+    public List<String> getStations(String startStation, List<String> stations){
+        List<String> list = new ArrayList<>();
+        for(String station: stations){
+            if(!station.equals(startStation)){
+                list.add(station);
+            }
+        }
+        return list;
     }
 }

@@ -2,7 +2,6 @@ package com.railroad.dao.api;
 
 import com.railroad.model.TrainEntity;
 
-import java.util.List;
 
 /**
  * DAO for the {@link TrainEntity} objects.
@@ -11,6 +10,5 @@ import java.util.List;
  */
 public interface TrainGenericDao extends GenericDao<TrainEntity, Long> {
 
-    List<TrainEntity > getTrainsByStations(Long startStationId, Long destStationId);
     TrainEntity findTrainByNumber(Integer trainNumber);
 }

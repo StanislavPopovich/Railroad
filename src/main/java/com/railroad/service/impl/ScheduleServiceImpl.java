@@ -11,10 +11,11 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParsePosition;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 @Service
@@ -34,23 +35,19 @@ public class ScheduleServiceImpl implements ScheduleService {
         ScheduleEntity scheduleEntity = scheduleMapper.scheduleDtoToScheduleEntity(scheduleDto);
         scheduleEntity.setStationEntity(stationDao.findByStationName(scheduleDto.getStationName()));
         scheduleEntity.setTrainEntity(trainDao.findTrainByNumber(scheduleDto.getTrainNumber()));
-        logger.info(scheduleEntity.getDate());
-        logger.info(scheduleEntity.getStationEntity().getName());
-        logger.info(scheduleEntity.getTrainEntity().getNumber());
         scheduleDao.save(scheduleEntity);
     }
 
     @Override
-    public List<ScheduleDto> getScheduleByStationName(String stationName) {
-        List<ScheduleEntity> scheduleEntities = scheduleDao.
-                findScheduleByStationId(stationDao.findByStationName(stationName).getId());
-        return scheduleMapper.scheduleEntitiesToScheduleDtos(scheduleEntities);
+    public List<ScheduleEntity> getScheduleByStationName(String stationName, Date departDate) {
+        Long stationId = stationDao.findByStationName(stationName).getId();
+        List<ScheduleEntity> schedules = scheduleDao.findScheduleByStationIdAndDate(stationId, departDate);
+        return schedules;
     }
 
+
     @Override
-    public List<ScheduleDto> getScheduleByTrainNumber(Integer trainNumber) {
-        List<ScheduleEntity> scheduleEntities = scheduleDao.
-                findScheduleByStationId(trainDao.findTrainByNumber(trainNumber).getId());
-        return scheduleMapper.scheduleEntitiesToScheduleDtos(scheduleEntities);
+    public List<ScheduleDto> getAll(){
+        return scheduleMapper.scheduleEntitiesToScheduleDtos(scheduleDao.getAll());
     }
 }

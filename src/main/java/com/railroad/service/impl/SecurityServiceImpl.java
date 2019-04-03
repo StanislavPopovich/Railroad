@@ -31,6 +31,7 @@ public class SecurityServiceImpl implements SecurityService {
     @Autowired
     private BusinessService businessService;
 
+    @Override
     public String findLoggedInUsername() {
         Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
         if(userDetails instanceof UserDetails){

@@ -9,7 +9,7 @@
 </head>
 <body>
 <div>
-<form:form modelAttribute="userDto" action="/railroad/admin/all-users/edit/result" >
+<form:form modelAttribute="userDto" action="/railroad/user/edit-user/result" >
     <table>
         <tr>
             <td>

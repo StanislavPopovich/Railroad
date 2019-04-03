@@ -21,12 +21,12 @@
                 <form:option value="0" label="Select"/>
                 <form:options items="${stations}"/>
             </form:select><br/>
-            <h1>${now}</h1>
-            <%--<fmt:parseDate value="${now}" pattern="EEE MMM dd HH:mm:ss zzz yyyy" var="myDate"/>--%>
-            <fmt:formatDate  value="${now}" pattern="dd-MM-yyyy" type="date" var="Date"/>
-            <h1>${Date}</h1>
-            <form:label path="date"> Date </form:label>
-            <form:input type="text" path="date" value="${Date}" /><br/>
+            <form:label path="arrivalDate"> arrival date </form:label>
+            <fmt:formatDate value="${schedule.arrivalDate}" pattern="dd-MM-yyyy" var="arrivalDate"/>
+            <form:input type="datetime" path="arrivalDate" value="${arrivalDate}" placeholder="dd-MM-yyyy HH:mm:ss"/><br/>
+            <form:label path="departDate"> Depart date </form:label>
+            <fmt:formatDate value="${schedule.departDate}" pattern="dd-MM-yyyy" var="departDate"/>
+            <form:input type="datetime" path="departDate" value="${departDate}" placeholder="dd-MM-yyyy HH:mm:ss"/><br/>
             <button id="button" type="submit">Add</button>
         </form:form>
         <c:if test="${pageContext.request.isUserInRole('ROLE_MODERATOR')}">

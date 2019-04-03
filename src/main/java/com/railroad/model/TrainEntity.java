@@ -15,7 +15,7 @@ public class TrainEntity extends BaseEntity {
     @Column(name = "number", nullable = false)
     private Integer number;
 
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name = "train_stations", joinColumns = @JoinColumn(name = "train_id"),
             inverseJoinColumns = @JoinColumn(name = "station_id"))
     @OrderColumn(name = "id", nullable = false)

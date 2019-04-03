@@ -1,31 +1,44 @@
 package com.railroad.controller;
-
+import com.railroad.dto.UserDto;
+import com.railroad.service.api.BusinessService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping(value = "/railroad/user")
+@RequestMapping(value = "/railroad")
 public class UserController {
 
-    @GetMapping(value = "")
-    public String showUserPage(){
-        return "user_page";
-    }
+    @Autowired
+    private BusinessService businessService;
 
-    @GetMapping(value = "/users")
-    public String showAllUsersPage(Model model){
-        return null;
-    }
-
-    @GetMapping(value = "buy-ticket/{train_number}")
-    public ModelAndView buyTicket(@PathVariable("train_number") String train_number){
+    @GetMapping(value = "/user")
+    public ModelAndView getUserPage() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("buy_ticket_page");
+        modelAndView.addObject("users", businessService.getAllUsers());
+        modelAndView.setViewName("userPage");
         return modelAndView;
+    }
+
+    @GetMapping(value = "/user/edit-user/{userName}")
+    public ModelAndView editUserPage(@PathVariable("userName") String userName){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("roles", businessService.getRolesNames());
+        modelAndView.addObject("userDto", businessService.getUserByUserName(userName));
+        modelAndView.setViewName("userEditPage");
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/user/edit-user/result")
+    public String resultEditUser(@ModelAttribute("userDto") UserDto userDto){
+        businessService.updateUser(userDto);
+        return "redirect:/railroad/user";
+    }
+
+    @GetMapping(value = "/user/delete-user/{userName}")
+    public String resultDeleteUser(@PathVariable("userName") String userName){
+        businessService.deleteUser(userName);
+        return "redirect:/railroad/user";
     }
 }

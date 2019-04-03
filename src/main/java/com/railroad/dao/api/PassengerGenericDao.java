@@ -9,4 +9,5 @@ import com.railroad.model.PassengerEntity;
  */
 public interface PassengerGenericDao extends GenericDao<PassengerEntity, Long> {
 
+    PassengerEntity findPassengerByLastnameAndName(String lastName, String name);
 }

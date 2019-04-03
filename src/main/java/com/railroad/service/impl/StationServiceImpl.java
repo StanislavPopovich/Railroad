@@ -7,9 +7,8 @@ import com.railroad.model.StationEntity;
 import com.railroad.service.api.StationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class StationServiceImpl implements StationService {
 
@@ -33,7 +32,7 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public List<String> getAllStationsName() {
-        return getNames(stationDtoMapper.stationEntitiesToStationDtos(stationGenericDao.getAll()));
+        return stationGenericDao.getAllStationNames();
     }
 
     @Override
@@ -47,11 +46,4 @@ public class StationServiceImpl implements StationService {
         return stationDtoMapper.stationEntityToStationDto(stationEntity);
     }
 
-    private List<String> getNames(List<StationDto> stationDtos){
-        List<String> names = new ArrayList<>();
-        for(StationDto stationDto: stationDtos){
-            names.add(stationDto.getName());
-        }
-        return names;
-    }
 }

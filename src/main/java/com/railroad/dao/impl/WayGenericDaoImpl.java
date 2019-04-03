@@ -29,7 +29,9 @@ public class WayGenericDaoImpl extends BaseGenericDao<WayEntity, Long> implement
     @Override
     public List<WayEntity> findByStationId(Long stationId) {
         Session session = getSession();
-        return session.createQuery("select w from WayEntity w where w.firstStation=:firstStation").
+        List<WayEntity> ways = session.createQuery("select w from WayEntity w where w.firstStation=:firstStation").
                 setParameter("firstStation", stationId).list();
+        session.close();
+        return ways;
     }
 }

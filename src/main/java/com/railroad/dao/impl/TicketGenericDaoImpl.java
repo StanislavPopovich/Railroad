@@ -2,10 +2,14 @@ package com.railroad.dao.impl;
 
 import com.railroad.dao.api.TicketGenericDao;
 import com.railroad.model.TicketEntity;
+import com.railroad.model.TrainEntity;
 import org.hibernate.Session;
+import org.joda.time.LocalDate;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityNotFoundException;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,13 +26,13 @@ public class TicketGenericDaoImpl extends BaseGenericDao<TicketEntity, Long> imp
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<TicketEntity> getTicketsByTrainId(Long trainId) throws EntityNotFoundException {
+    public Long getCountTicketsByTrain(TrainEntity train, Date departDate){
         Session session = getSession();
-        List<TicketEntity> tickets = session.createQuery("select t from " +
-                "TicketEntity t where t.train_id=:train_id ").setParameter("train_id", trainId).list();
-        if(tickets.size() == 0){
-            throw new EntityNotFoundException("not found any tickets");
-        }
-        return tickets;
+        Long count = (Long) session.createQuery("select count(t) from " +
+                "TicketEntity t where t.trainEntity= :train and t.startData.departDate > :departDate " +
+                "and t.startData.departDate < :afterDate").setParameter("train", train).
+                setParameter("departDate", departDate).
+                setParameter("afterDate", new LocalDate(departDate).plusDays(1).toDate()).uniqueResult();
+        return count;
     }
 }

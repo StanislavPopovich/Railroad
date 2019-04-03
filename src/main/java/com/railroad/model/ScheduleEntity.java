@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "schedules")
@@ -13,18 +14,28 @@ import java.util.Date;
 @Setter
 public class ScheduleEntity extends BaseEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "train_id", nullable = false)
     private TrainEntity trainEntity;
 
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "date", nullable = false)
-    private Date date;
+    @Column(name = "arrival_date", nullable = false)
+    private Date arrivalDate;
 
-    @ManyToOne
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "depart_date", nullable = false)
+    private Date departDate;
+
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "station_id", nullable = false)
     private StationEntity stationEntity;
+
+    @OneToMany(mappedBy = "startData")
+    private Set<TicketEntity> startTicket;
+
+    @OneToMany(mappedBy = "endData")
+    private Set<TicketEntity> destTicket;
 
 
 }

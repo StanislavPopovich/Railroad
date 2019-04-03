@@ -11,11 +11,19 @@ import javax.persistence.*;
 @Setter
 public class TicketEntity extends BaseEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "train_id", nullable = false)
     private TrainEntity trainEntity;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "passenger_id", nullable = false)
     private PassengerEntity passengerEntity;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "start_data", nullable = false)
+    private ScheduleEntity startData;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "dest_data", nullable = false)
+    private ScheduleEntity endData;
 }

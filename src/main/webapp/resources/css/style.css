@@ -11,7 +11,10 @@ body {
 }
 
 * {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
+    outline: none;
 }
 
 a {
@@ -33,6 +36,7 @@ img {
 .header .container {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .header .logo {
@@ -53,10 +57,25 @@ img {
 
 .log_reg_menu {
     padding-left: 65px;
+    align-self: center;
+    width: 200px;
+    text-align: right;
 }
 .log_reg_menu a:first-child{
     margin-bottom: 5px;
+}
 
+.log_reg_menu .logout {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0px;
+}
+
+.log_reg_menu .logout button {
+   background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0px;
 }
 
 .main {
@@ -66,7 +85,7 @@ img {
     background-size: cover;
     width: 100%;
     height: 100vh;
-    padding-top: 80px;
+    padding-top: 125px;
     padding-bottom: 50px;
 }
 .main .container {
@@ -81,23 +100,51 @@ img {
     width: 590px;
 }
 
+
 .main .container > div {
     align-self: center;
 }
 
+.find_container form:nth-child(1) .select{
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.find_container form:nth-child(2) .select{
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.find_container button {
+    border: none;
+    background-color: rgba(25, 24, 24, 0.09);
+    padding: 9px 20px;
+    height: 36px;
+    border-left: 1px solid black;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    font-size: 15px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+.find_container button:hover {
+    background-color: rgba(25, 24, 24, 0.3);
+}
 
 .select,
 .date {
-    border-radius: 3px;
+
     outline: none;
     display: block;
+    border: none;
 }
 .select {
     padding: 10px 15px;
     width: 205px;
 }
 .date {
-    padding: 7px 15px;
+    padding: 8px 15px;
     width: 160px;
 }
 
@@ -107,10 +154,25 @@ img {
     width: 120px;
     padding: 5px 10px;
 }
+.header_table th {
+    background-color: rgba(43, 158, 247, 0.45);
+}
+.header_table th:last-child {
+    background-color: transparent;
+}
+.header_table th:last-child {
+    background-color: transparent;
+}
+
+.header_table th:first-child {
+    border-top-left-radius: 3px;
+}
+.header_table th:nth-child(5) {
+     border-top-right-radius: 3px;
+ }
 
 .find_content {
     max-height: 305px;
-    background-color: white;
     overflow: hidden;
     overflow-y: auto;
 }
@@ -118,18 +180,29 @@ img {
 .find_content table {
     border-collapse: collapse;
 }
+
+
+.find_content table tr > td:last-child {
+    background-color: transparent;
+    border-color: transparent;
+}
+
 .find_content td {
     border: 1px solid black;
     text-align: center;
+    background-color: white;
 }
 
 .find_content .buy_button {
     padding: 5px;
-    background: blue;
+    background-color: rgba(0, 142, 255, 0.7);
     border-radius: 3px;
-    color: black;
+    color: white;
+    transition: all 0.3s ease-in-out;
 }
-
+.find_content .buy_button:hover {
+    background-color: #008eff;
+}
 
 
 .reg_main {
@@ -169,7 +242,97 @@ img {
 }
 
 
+.main_menu {
+    width: 100%;
+}
+.main_menu .menu {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin-bottom: 0px;
+    padding: 0px;
 
+}
+.main_menu  .menu li a {
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: rgba(25, 24, 24, 0.09);
+    transition: all 0.3s ease-in-out;
+}
+.main_menu  .menu li a:hover {
+    background-color: rgba(25, 24, 24, 0.3);
+}
+
+
+
+.content_table {
+
+
+  display: flex;
+    justify-content: center;
+    max-height: 305px;
+    overflow: hidden;
+    overflow-y: auto;
+
+}
+.content_table .table {
+    border-collapse: collapse;
+}
+
+.content_table .table th,
+.content_table .table td{
+    padding: 5px 10px;
+}
+
+.content_table .table  th {
+    background-color: rgba(43, 158, 247, 0.45);
+}
+
+.content_table .table  th:first-child {
+    border-top-left-radius: 3px;
+}
+.content_table .table  th:nth-child(5) {
+    border-top-right-radius: 3px;
+}
+
+.content_table .table  .th_edit,
+.content_table .table  .th_delete {
+    background-color: transparent;
+}
+
+.content_table .table td {
+    border: 1px solid black;
+    text-align: center;
+    background-color: white;
+}
+
+.content_table .table tr .btn {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.content_table .table tr .btn_edit {
+    padding-right: 0px;
+}
+
+.content_table .table tr .btn a {
+    padding: 5px 15px;
+    background-color: rgba(0, 142, 255, 0.7);
+    border-radius: 3px;
+    color: white;
+    transition: all 0.3s ease-in-out;
+}
+.content_table .table tr .btn a:hover {
+    background-color: #008eff;
+}
+
+.content_table .table tr .btn_delete a {
+    background-color: rgba(255, 0, 0, 0.7);
+}
+.content_table .table tr .btn_delete a:hover {
+    background-color: #ff0000;
+}
 
 .footer {
     position: fixed;

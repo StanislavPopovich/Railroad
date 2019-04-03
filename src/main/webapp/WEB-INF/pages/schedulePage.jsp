@@ -9,12 +9,7 @@
 <jsp:include page="header.jsp"/>
 <section class="main">
     <div class="container">
-        <c:if test="${pageContext.request.isUserInRole('ROLE_MODERATOR')}">
-            <p class=""> <a href="<c:url value='/railroad/moderator/add-schedule'/>">Add schedule</a></p>
-        </c:if>
-        <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
-            <p class=""> <a href="<c:url value='/railroad/admin/add-schedule'/>">Add schedule</a></p>
-        </c:if>
+        <p class=""> <a href="<c:url value='/railroad/user/add-schedule'/>">Add schedule</a></p>
     </div>
 </section>
 <jsp:include page="footer.jsp"/>

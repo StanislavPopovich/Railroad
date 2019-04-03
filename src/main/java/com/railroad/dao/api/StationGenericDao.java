@@ -2,6 +2,8 @@ package com.railroad.dao.api;
 
 import com.railroad.model.StationEntity;
 
+import java.util.List;
+
 /**
  * DAO for the {@link StationEntity} objects.
  *
@@ -16,4 +18,5 @@ public interface StationGenericDao extends GenericDao<StationEntity, Long> {
      * @return StationEntity with selected name
      */
     StationEntity findByStationName(String name);
+    List<String> getAllStationNames();
 }

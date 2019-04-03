@@ -1,7 +1,9 @@
 package com.railroad.dao.api;
 
 import com.railroad.model.TicketEntity;
+import com.railroad.model.TrainEntity;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -11,10 +13,6 @@ import java.util.List;
  */
 public interface TicketGenericDao extends GenericDao<TicketEntity, Long> {
 
-    /**
-     * Method for finding TicketEntities in DB by trainId
-     * @param trainId
-     * @return list of entities from DB
-     */
-    List<TicketEntity> getTicketsByTrainId(Long trainId);
+
+    Long getCountTicketsByTrain(TrainEntity train, Date departDate);
 }

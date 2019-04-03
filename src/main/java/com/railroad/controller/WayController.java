@@ -11,27 +11,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value = {"/railroad/moderator", "/railroad/admin"})
-public class WayController extends BaseController {
+@RequestMapping(value = "/railroad/user")
+public class WayController {
     @Autowired
     private BusinessService businessService;
 
     @GetMapping(value = "/all-ways")
     public String showAllWays(Model model){
         model.addAttribute("ways", businessService.getAllWay());
-        return "ways_page";
+        return "waysPage";
     }
 
     @GetMapping(value = "/add-way")
     public String showAddWayPage(Model model){
         model.addAttribute("way", new WayDto());
         model.addAttribute("stations", businessService.getAllNamesStations());
-        return "add_way";
+        return "addWay";
     }
 
     @PostMapping(value = "/add-way")
     public String showAddWayPage(@ModelAttribute("way") WayDto wayDto){
         businessService.saveWay(wayDto);
-        return getUrl()+"all-ways";
+        return "redirect:/railroad/user";
     }
 }
