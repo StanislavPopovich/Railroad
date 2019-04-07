@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -42,24 +41,13 @@ public class BusinessServiceImpl implements BusinessService {
     private TrainEntityDtoMapper trainEntityDtoMapper;
 
     @Autowired
-    private TicketGenericDao ticketDao;
+    private TicketService ticketService;
 
-    @Autowired
-    private TicketGenericDao ticketGenericDao;
     @Autowired
     private PassengerGenericDao passengerGenericDao;
 
     @Autowired
     private PassengerEntityDtoMapper passengerEntityDtoMapper;
-
-    @Autowired
-    private TrainGenericDao trainGenericDao;
-
-    @Autowired
-    private ScheduleGenericDao scheduleGenericDao;
-
-    @Autowired
-    private UserGenericDao userGenericDao;
 
 
     @Transactional
@@ -97,7 +85,7 @@ public class BusinessServiceImpl implements BusinessService {
     @Transactional
     @Override
     public void saveTicketAndPassenger(PassengerDto passengerDto) {
-        TicketEntity ticketEntity = new TicketEntity();
+       /* TicketEntity ticketEntity = new TicketEntity();
         ticketEntity.setPassengerEntity(passengerGenericDao.
                 findPassengerByLastnameAndName(passengerDto.getLastName(), passengerDto.getName()));
         TrainEntity trainEntity = trainGenericDao.findTrainByNumber(1);
@@ -105,20 +93,19 @@ public class BusinessServiceImpl implements BusinessService {
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         try {
             Date date = format.parse(passengerDto.getDepartDate());
-            ticketEntity.setStartData(scheduleGenericDao.getScheduleByTrainAndDepartDate(trainEntity, date));
+            ticketEntity.setStartData(scheduleGenericDao.findScheduleByTrainAndDepartDate(trainEntity, date));
             ticketDao.save(ticketEntity);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
+*/
     }
+
     @Transactional
     @Override
     public PassengerEntity savePas(PassengerDto passengerDto){
         PassengerEntity passengerEntity = passengerEntityDtoMapper.passengerDtoToEntity(passengerDto);
         Set<UserEntity> users = new HashSet<>();
-        users.add(userGenericDao.findByUserName(passengerDto.getUserName()));
         passengerEntity.setUserEntities(users);
         passengerGenericDao.save(passengerEntity);
         return passengerEntity;
@@ -130,6 +117,7 @@ public class BusinessServiceImpl implements BusinessService {
         return stationService.getAllStationsName();
     }
 
+    @Transactional
     @Override
     public List<TrainDto> getAllTrains() {
         return trainService.getAll();
@@ -137,18 +125,38 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Transactional
     @Override
-    public List<TrainDto> getDirectTrains(String startStation, String destStation, Date date) {
-        List<ScheduleEntity> scheduleEntities = scheduleService.getScheduleByStationNameAndDepartDate(startStation, date);
+    public List<TrainDto> getDirectTrains(String departStation, String arrivalStation, Date departDate) {
+        //getting schedules for station on departing date
+        List<ScheduleEntity> startStationSchedule = scheduleService.getScheduleByStationNameAndDepartDate(departStation, departDate);
         List<TrainDto> trains = new ArrayList<>();
+
+        //format for client
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-        for(ScheduleEntity scheduleEntity: scheduleEntities){
+
+
+        for(ScheduleEntity scheduleEntity: startStationSchedule){
+
             TrainDto trainDto = trainEntityDtoMapper.trainEntityToTrainDto(scheduleEntity.getTrainEntity());
-            trainDto.setDepartDate(format.format(scheduleEntity.getDepartDate()));
-            if(trainDto.getStations().contains(startStation) && trainDto.getStations().contains(destStation)){
-                if(trainDto.getStations().indexOf(startStation) < trainDto.getStations().indexOf(destStation)){
-                    Long count = ticketDao.getCountTicketsByTrain(scheduleEntity.getTrainEntity(), date);
-                    trainDto.setSeats(trainDto.getSeats() - count.intValue());
-                    trains.add(trainDto);
+
+            //check train on having start departing station and arrival station
+            if(trainDto.getStations().contains(departStation) && trainDto.getStations().contains(arrivalStation)){
+
+                //checking that depart station is before arrival station
+                if(trainDto.getStations().indexOf(departStation) < trainDto.getStations().indexOf(arrivalStation)){
+
+                    //getting arrival station schedule for train by departing date
+                    List<ScheduleEntity> destStationsArrival = scheduleService.findScheduleByTrainAndDepartDate(scheduleEntity.getTrainEntity(), scheduleEntity.getDepartDate());
+                    for(ScheduleEntity arrivalSchedule : destStationsArrival){
+                        if(arrivalSchedule.getStationEntity().getName().equals(arrivalStation)){
+                            trainDto.setDepartDate(format.format(scheduleEntity.getDepartDate()));
+                            trainDto.setArrivalDate(format.format(arrivalSchedule.getArrivalDate()));
+                            //getting counts  bought tickets
+                            Long count = ticketService.getCountTicketsByTrainAndDate(scheduleEntity.getTrainEntity(), departDate);
+                            //set counts free tickets
+                            trainDto.setSeats(trainDto.getSeats() - count.intValue());
+                            trains.add(trainDto);
+                        }
+                    }
                 }
             }
         }

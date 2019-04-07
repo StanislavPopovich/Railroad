@@ -1,45 +1,29 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
     <title>Trains</title>
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-<div>
-    <h2>Trains</h2>
-        <table>
-            <tr>
-                <th width="100">number</th>
-                <th width="100">seats</th>
-                <th width="100">route</th>
-            </tr>
-            <c:forEach items="${trains}" var="train">
-                <tr>
-                    <td>${train.number}</td>
-                    <td>${train.seats}</td>
-                    <td>
-                        <c:forEach items="${train.stations}" var="station" varStatus="status">
-                            ${station}
-                            <c:if test="${!status.last}">
-                               =>
-                            </c:if>
-                        </c:forEach>
-                    </td>
-                </tr>
-            </c:forEach>
-        </table>
-    <h3>
-        <c:if test="${pageContext.request.isUserInRole('ROLE_MODERATOR')}">
-            <a href="<c:url value="/railroad/moderator/add-train"/>"><button>Add new train</button></a><br/>
-            <a href="<c:url value='/railroad/moderator/'/>"><button>to moderator page</button></a>
+<section class="main">
+    <div class="container">
+        <security:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')" var="isUser"/>
+        <c:if test="${isUser}">
+            <div id="find_trains">
+
+            </div>
+            <div class="admin_panel">
+                <a href="<c:url value="/railroad/user/add-train"/>"><button>Add new train</button></a>
+            </div>
+
         </c:if>
-        <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
-            <a href="<c:url value="/railroad/admin/add-train"/>"><button>Add new train</button></a><br/>
-            <a href="<c:url value='/railroad/admin/'/>"><button>to admin page</button></a>
-        </c:if>
-    </h3>
-</div>
+    </div>
+</section>
 <jsp:include page="footer.jsp"/>
+<script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/resources/js/ajaxUserHandler.js"></script>
 </body>
 </html>

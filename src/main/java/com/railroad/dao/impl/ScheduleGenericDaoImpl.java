@@ -7,6 +7,8 @@ import com.railroad.model.StationEntity;
 import com.railroad.model.TrainEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -34,16 +36,18 @@ public class ScheduleGenericDaoImpl extends BaseGenericDao<ScheduleEntity, Long>
         return scheduleEntities;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public ScheduleEntity getScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date date) {
+    public List<ScheduleEntity> findScheduleByTrainAndDates(TrainEntity trainEntity, Date departDate, Date arrivalDate) {
         Session session = getSession();
-        ScheduleEntity scheduleEntity = (ScheduleEntity)session.createQuery("select s from ScheduleEntity s " +
-                "where s.trainEntity= : train and s.departDate > :dayBefore and s.departDate < :dayAfter").
+        List<ScheduleEntity> scheduleEntity = session.createQuery("select s from ScheduleEntity s " +
+                "where s.trainEntity= :train and s.arrivalDate <= :arrivalDate and s.arrivalDate > :startDate").
                 setParameter("train", trainEntity).
-                setParameter("dayBefore", date).
-                setParameter("dayAfter", new LocalDate(date).plusDays(1).toDate()).
-                uniqueResult();
+                setParameter("startDate", departDate).
+                setParameter("arrivalDate", arrivalDate).list();
         return scheduleEntity;
     }
+
+
 
 }

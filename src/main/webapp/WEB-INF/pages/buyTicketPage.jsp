@@ -12,18 +12,7 @@
 <section class="main">
     <div class="container">
         <div>
-                <form:form method="POST" modelAttribute="passenger" action="/railroad/user/buy-ticket/result">
-                    <div class="wrapper_input">
-                        <form:label path="lastName"> Lastname</form:label>
-                        <form:input id="lastname" type="text" path="lastName" autofocus="true"/>
-                        <form:label path="name">name</form:label>
-                        <form:input id="name" type="text" path="name"/>
-                        <fmt:formatDate value="${birthDate}" pattern="yyyy-MM-dd" var="Date"/>
-                        <form:input cssClass="date" id="date" type="date" path="birthDate" value="${Date}"/>
-                        <form:hidden path="userName" value="${pageContext.request.remoteUser}"/>
-                        <button id="button" type="submit">Buy</button>
-                    </div>
-                </form:form>
+
         </div>
     </div>
 </section>

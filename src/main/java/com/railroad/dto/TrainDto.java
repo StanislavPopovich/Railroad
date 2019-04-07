@@ -11,5 +11,6 @@ public class TrainDto {
     private Integer seats;
     private LinkedList<String> stations;
     private String departDate;
+    private String arrivalDate;
 
 }

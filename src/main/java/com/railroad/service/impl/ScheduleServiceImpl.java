@@ -6,8 +6,11 @@ import com.railroad.dao.api.TrainGenericDao;
 import com.railroad.dto.ScheduleDto;
 import com.railroad.mapper.ScheduleEntityDtoMapper;
 import com.railroad.model.ScheduleEntity;
+import com.railroad.model.TrainEntity;
 import com.railroad.service.api.ScheduleService;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,9 +45,22 @@ public class ScheduleServiceImpl implements ScheduleService {
         return schedules;
     }
 
+    @Override
+    public List<ScheduleEntity> findScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date departDate) {
+        Date arrivalDate = getArrivalDate(trainEntity.getTimeWay(), departDate);
+        return scheduleDao.findScheduleByTrainAndDates(trainEntity, departDate,arrivalDate);
+    }
+
 
     @Override
     public List<ScheduleDto> getAll(){
         return scheduleMapper.scheduleEntitiesToScheduleDtos(scheduleDao.getAll());
+    }
+
+    private Date getArrivalDate(Date trainTimeWay, Date departDate){
+        DateTime dateTime = new DateTime(departDate);
+        DateTime timeWay = new DateTime(trainTimeWay, DateTimeZone.UTC);
+        DateTime arrivalDate = dateTime.plusHours(timeWay.getHourOfDay()).plusMinutes(timeWay.getMinuteOfHour());
+        return arrivalDate.toDate();
     }
 }

@@ -31,7 +31,7 @@ public class TrainController {
     }
 
 
-    @GetMapping(value = "/user/all-trains")
+    @GetMapping(value = "/user/trains")
     public String getAllTrains(Model model) {
         List<TrainDto> trainDtos = businessService.getAllTrains();
         model.addAttribute("trains", trainDtos);
@@ -58,9 +58,6 @@ public class TrainController {
     @PostMapping(value = "/find-trains-with-date")
     public @ResponseBody List<TrainDto> getTrains(@RequestParam String start,@RequestParam String end,
                                                    @RequestParam Date date){
-        logger.info(start);
-        logger.info(end);
-        logger.info(date);
         List<TrainDto> trainDtos = businessService.getDirectTrains(start,end,date);
         return trainDtos;
     }

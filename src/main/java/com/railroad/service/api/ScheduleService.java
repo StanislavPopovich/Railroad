@@ -2,6 +2,7 @@ package com.railroad.service.api;
 
 import com.railroad.dto.ScheduleDto;
 import com.railroad.model.ScheduleEntity;
+import com.railroad.model.TrainEntity;
 
 import java.util.Date;
 import java.util.List;
@@ -25,6 +26,8 @@ public interface ScheduleService {
      * @return list of ScheduleEntities
      */
     List<ScheduleEntity> getScheduleByStationNameAndDepartDate(String stationName, Date departDate);
+
+    List<ScheduleEntity> findScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
 
     /**
      * The method returns all scheduleDto from dao layer

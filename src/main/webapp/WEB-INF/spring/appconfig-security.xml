@@ -9,7 +9,7 @@
 
     <http auto-config="true">
         <access-denied-handler error-page="/railroad/accessDenied"/>
-        <intercept-url pattern="/railroad" access="permitAll"/>
+        <intercept-url pattern="/railroad/passenger/**" access="permitAll"/>
         <intercept-url pattern="/railroad/user/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_MODERATOR')"/>
         <intercept-url pattern="/railroad/moderator/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')"/>
         <intercept-url pattern="/railroad/admin/**" access="hasRole('ROLE_ADMIN')"/>

@@ -6,8 +6,14 @@
     <title>LoginResult</title>
 </head>
 <body>
-<c:if test="${not empty pageContext.request.userPrincipal}">
+<c:if test="${pageContext.request.isUserInRole('ROLE_USER')}">
     <meta http-equiv="refresh" content="1;http://localhost:8080/railroad/user" />
+</c:if>
+<c:if test="${pageContext.request.isUserInRole('ROLE_MODERATOR')}">
+    <meta http-equiv="refresh" content="1;http://localhost:8080/railroad/user-moderator" />
+</c:if>
+<c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
+    <meta http-equiv="refresh" content="1;http://localhost:8080/railroad/user-admin" />
 </c:if>
 </body>
 </html>

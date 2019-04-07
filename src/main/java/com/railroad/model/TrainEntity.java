@@ -3,6 +3,7 @@ package com.railroad.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -29,6 +30,10 @@ public class TrainEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "trainEntity")
     private Set<ScheduleEntity> scheduleEntities;
+
+    @Temporal(TemporalType.TIME)
+    @Column(name = "time_way", nullable = false)
+    private Date timeWay;
 
 
 

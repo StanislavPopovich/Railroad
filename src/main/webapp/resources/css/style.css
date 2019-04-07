@@ -89,6 +89,9 @@ img {
     padding-top: 135px;
     padding-bottom: 50px;
 }
+.reg_main {
+    display: flex;
+}
 .main .container {
     display: flex;
     flex-direction: column;
@@ -153,31 +156,32 @@ img {
 
 
 
-.reg_main {
-    display: flex;
-}
 
-.reg_form {
+
+.modal_form {
     padding: 30px;
     background-color: rgba(25, 24, 24, 0.5);
-    border-radius: 3px;
+    border-radius: 5px;
     color: white;
 }
 
-.reg_form form {
+.modal_form form {
     margin: 0px;
 }
 
-.reg_form h1 {
+.modal_form h1 {
     margin: 0px auto 20px;
     text-align: center;
 }
-.wrapper_input {
+
+.modal_form .wrapper_input {
     position: relative;
     padding-bottom: 20px;
     width: 230px;
 }
-.wrapper_input input {
+
+.modal_form .wrapper_input input,
+.modal_form .wrapper_input select{
     width: 100%;
     padding: 5px;
     border-radius: 3px;
@@ -185,13 +189,14 @@ img {
     background-color: white;
 }
 
-.wrapper_input label {
+.modal_form .wrapper_input label {
     width: 150px;
     display: block;
     margin-bottom: 5px;
 }
 
-.wrapper_input .error {
+
+.modal_form .wrapper_input .error {
     position: absolute;
     bottom: 4px;
     width: 100%;
@@ -201,13 +206,20 @@ img {
     text-align: center;
 }
 
-.reg_form button {
+
+.modal_form button {
     display: table;
-    margin: 0px auto;
+    margin: 10px auto 0px;
     border-radius: 3px;
     border: 0px;
     padding: 8px 15px;
     color: white;
+    background-color:  #008eff; /*   rgba(0, 142, 255, 0.51);*/
+
+    cursor: pointer;
+}
+
+.modal_form button.acrive {
     background-color: #008eff;
     cursor: pointer;
 }
@@ -256,6 +268,11 @@ img {
     width: 120px;
     padding: 5px 10px;
 }
+.header_table .th_route,
+.find_content .td_route {
+    width: 300px;
+}
+
 .header_table th {
     background-color: rgba(43, 158, 247, 0.45);
 }
@@ -313,13 +330,73 @@ img {
     background-color: #008eff;
 }
 
+.admin_panel {
+    display: flex;
+    margin-top: 40px;
+}
+
+.admin_panel button {
+    border: none;
+    margin-right: 20px;
+    padding: 10px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.admin_panel a {
+    margin-right: 20px;
+}
+.admin_panel button:last-child,
+.admin_panel a:last-child {
+    margin-right: 0px;
+}
+
+.admin_panel button:hover {
+    background-color: white;
+}
 
 
+.form_add_train {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 485px;
+    padding: 30px;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.form_add_train .select_route {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 0px;
+}
+.form_add_train .select_route,
+.form_add_train .select_route .select {
+    width: 100%;
+}
 
+.form_add_train .select_route .select {
+    margin-bottom: 20px;
+}
 
+.form_add_train .wrapper_input {
+    position: relative;
+    width: 205px;
+}
+.form_add_train .wrapper_input input {
+    width: 100%;
+    padding: 5px;
+    border-radius: 3px;
+    border: none;
+    background-color: white;
+}
 
-
-
+.form_add_train .wrapper_input label {
+    width: 150px;
+    display: block;
+    margin-bottom: 5px;
+    color: white;
+}
 
 
 

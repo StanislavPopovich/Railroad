@@ -9,7 +9,5 @@ public class PassengerDto {
     private String lastName;
     private String name;
     private Date BirthDate;
-    private String trainNumber;
-    private String departDate;
-    private String userName;
+    private TrainDto train;
 }

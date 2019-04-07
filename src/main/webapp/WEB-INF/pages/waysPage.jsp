@@ -8,28 +8,30 @@
 <body>
 <jsp:include page="header.jsp"/>
 <section class="main">
-    <security:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')" var="isUser"/>
-    <c:if test="${isUser}">
-        <div>
-            <table>
-                <tr>
-                    <th width="200">Start stationEntity</th>
-                    <th width="200">End stationEntity</th>
-                    <th width="200">Distance</th>
-                </tr>
-                <c:forEach items="${ways}" var="way">
+    <div class="container">
+        <security:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')" var="isUser"/>
+        <c:if test="${isUser}">
+            <div>
+                <table>
                     <tr>
-                        <td>${way.firstStation}</td>
-                        <td>${way.secondStation}</td>
-                        <td>${way.distance}</td>
+                        <th width="200">Start stationEntity</th>
+                        <th width="200">End stationEntity</th>
+                        <th width="200">Distance</th>
                     </tr>
-                </c:forEach>
-            </table>
-            <h2>
-                <a href="<c:url value="/railroad/user/add-way"/>"><button>Add new way</button></a><br/>
-            </h2>
-        </div>
-    </c:if>
+                    <c:forEach items="${ways}" var="way">
+                        <tr>
+                            <td>${way.firstStation}</td>
+                            <td>${way.secondStation}</td>
+                            <td>${way.distance}</td>
+                        </tr>
+                    </c:forEach>
+                </table>
+                <h2>
+                    <a href="<c:url value="/railroad/user/add-way"/>"><button>Add new way</button></a><br/>
+                </h2>
+            </div>
+        </c:if>
+    </div>
 </section>
 <jsp:include page="footer.jsp"/>
 </body>

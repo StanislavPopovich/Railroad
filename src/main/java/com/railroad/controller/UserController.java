@@ -1,4 +1,5 @@
 package com.railroad.controller;
+import com.railroad.dto.TrainDto;
 import com.railroad.dto.UserDto;
 import com.railroad.service.api.BusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,22 +16,22 @@ public class UserController {
     @Autowired
     private BusinessService businessService;
 
-   /* @GetMapping(value = "/user")
-    public ModelAndView getUserPage() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("users", businessService.getAllUsers());
-        modelAndView.setViewName("userPage");
-        return modelAndView;
-    }*/
     @GetMapping(value = "/user")
     public String getUserPage() {
         return "userPage";
     }
 
+
     @GetMapping(value = "/user/admin")
     public @ResponseBody
-    List<UserDto> getStartContentUserPage() {
+    List<UserDto> getStartContentAdminPage() {
         return businessService.getAllUsers();
+    }
+
+    @GetMapping(value = "/user/moderator")
+    public @ResponseBody
+    List<TrainDto> getStartContentModeratorPage() {
+        return businessService.getAllTrains();
     }
 
     @GetMapping(value = "/user/edit-user/{userName}")

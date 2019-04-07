@@ -21,7 +21,8 @@
             <div class="log_reg_menu">
                 <a href="<c:url value='/railroad/user'/>" class="log_reg_page">${pageContext.request.remoteUser}</a>
                 <form:form cssClass="logout" method="post" action="${contextPath}/logout"
-                           onclick="document.forms['logoutForm'].submit()"><button>Logout</button>
+                           onclick="document.forms['logoutForm'].submit()">
+                    <button><spring:message code="logoutButton"/></button>
                 </form:form>
             </div>
 
@@ -41,11 +42,7 @@
             <c:if test="${pageContext.request.isUserInRole('ROLE_MODERATOR')}">
                 <div class="main_menu">
                     <ul class="menu">
-                        <li><a href="<c:url value='/railroad/user/all-stations'/>" class="log_reg_page">
-                            <spring:message code="all_stations"/></a></li>
-                        <li><a href="<c:url value='/railroad/user/all-ways'/>" class="log_reg_page">
-                            <spring:message code="all_ways"/></a></li>
-                        <li><a href="<c:url value='/railroad/user/all-trains'/>" class="log_reg_page">
+                        <li><a href="<c:url value='/railroad/user/trains'/>" class="log_reg_page">
                             <spring:message code="all_trains"/></a></li>
                         <li><a href="<c:url value='/railroad/user/schedule'/>" class="log_reg_page">
                             <spring:message code="all_schedules"/></a></li>
@@ -60,11 +57,7 @@
             <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
                 <div class="main_menu">
                      <ul class="menu">
-                        <li><a href="<c:url value='/railroad/user/all-stations'/>" class="log_reg_page">
-                            <spring:message code="all_stations"/></a></li>
-                         <li><a href="<c:url value='/railroad/user/all-ways'/>" class="log_reg_page">
-                             <spring:message code="all_ways"/></a></li>
-                         <li><a href="<c:url value='/railroad/user/all-trains'/>" class="log_reg_page">
+                         <li><a href="<c:url value='/railroad/user/trains'/>" class="log_reg_page">
                              <spring:message code="all_trains"/></a></li>
                         <li><a href="<c:url value='/railroad/user'/>" class="log_reg_page">
                             <spring:message code="all_users"/></a></li>

@@ -12,7 +12,7 @@
 <jsp:include page="header.jsp"/>
 <section class="main reg_main">
     <div class="container">
-        <div class="reg_form">
+        <div class="modal_form">
             <h1><spring:message code="registration_form"/></h1>
             <c:if test="${exist}">
                 <h2><spring:message code="exist"/></h2>
@@ -34,6 +34,7 @@
                     <form:label path="confirmPassword"><spring:message code="confirmPassword"/></form:label>
                     <form:input id="passwordConfirm" type="password" path="confirmPassword"
                                 onkeyup="javascript: checkPasswordConfirm(); return false;"/>
+                    <div class="error" id="error_password_confirm"><form:errors path="confirmPassword"/></div>
                 </div>
                 <button id="button" type="submit" disabled="true"><spring:message code="submit"/></button>
             </form:form>

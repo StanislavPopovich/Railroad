@@ -5,39 +5,33 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
-    <title>Edit userEntity</title>
+    <title>Edit user</title>
 </head>
 <body>
-<div>
-<form:form modelAttribute="userDto" action="/railroad/user/edit-user/result" >
-    <table>
-        <tr>
-            <td>
-                <form:label path="userName">
-                    <spring:message text="User Name"/>
-                </form:label>
-            </td>
-            <td>
-                <form:input path="userName" readonly="true" size="8" disabled="true"/>
-                <form:hidden path="userName"/>
-                <form:hidden path="password"/>
-            </td>
-        </tr>
-        <tr>
-            <td>Roles:</td>
-            <td>
-                <form:select path="roles">
-                    <form:option value="0" label="Select"/>
-                    <form:options items="${roles}"/>
-                </form:select>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="<spring:message text="Edit User"/>"/>
-            </td>
-    </table>
-</form:form>
-</div>
+<jsp:include page="header.jsp"/>
+<section class="main">
+    <div class="container">
+        <div class="modal_form">
+            <form:form modelAttribute="userDto" action="/railroad/user/edit-user/result" >
+                <div class="wrapper_input">
+                    <form:label path="userName"><spring:message text="User Name"/></form:label>
+                    <form:input path="userName" readonly="true" size="8" disabled="true"/>
+                    <form:hidden path="userName"/>
+                    <form:hidden path="password"/>
+                </div>
+                <div class="wrapper_input">
+                    <form:label path="userName">Roles:</form:label>
+                    <form:select path="roles">
+                        <form:option value="0" label="Select"/>
+                        <form:options items="${roles}"/>
+                    </form:select>
+                </div>
+                <button type="submit"><spring:message text="Edit User"/></button>
+            </form:form>
+        </div>
+
+    </div>
+</section>
+<jsp:include page="footer.jsp"/>
 </body>
 </html>

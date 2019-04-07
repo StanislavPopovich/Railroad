@@ -12,12 +12,12 @@
 <section class="main">
     <div class="container">
         <c:if test="${pageContext.request.isUserInRole('ROLE_MODERATOR')}">
-            <div id="find">
+            <div id="find_trains">
 
             </div>
         </c:if>
         <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
-            <div id="find_user">
+            <div id="find_users">
 
             </div>
         </c:if>
@@ -25,6 +25,6 @@
 </section>
 <jsp:include page="footer.jsp"/>
 <script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="/resources/js/ajax_admin_handler.js"></script>
+<script type="text/javascript" src="/resources/js/ajaxUserHandler.js"></script>
 </body>
 </html>

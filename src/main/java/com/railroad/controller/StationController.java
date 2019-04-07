@@ -19,11 +19,11 @@ public class StationController {
     @Autowired
     private BusinessService businessService;
 
-    @GetMapping(value = "/user/all-stations")
+    /*@GetMapping(value = "/user/all-stations")
     public String getAllStations(Model model){
         model.addAttribute("stations", businessService.getAllNamesStations());
         return "stationPage";
-    }
+    }*/
 
     @GetMapping(value = "/user/add-station")
     public String getAddStationPage(Model model){

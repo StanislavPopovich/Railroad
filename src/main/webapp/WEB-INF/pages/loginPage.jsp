@@ -10,7 +10,7 @@
 <jsp:include page="header.jsp"/>
 <section class="main reg_main">
     <div class="container">
-        <div class="reg_form">
+        <div class="modal_form">
             <h1><spring:message code="login_form"/></h1>
             <form:form cssClass="login_form" modelAttribute="user" method="POST" action="/railroad/login/process">
                 <div class="wrapper_input">

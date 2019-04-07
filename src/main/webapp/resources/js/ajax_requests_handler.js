@@ -6,12 +6,12 @@ $().ready(function () {
             departureStation: "Станция отправления",
             arrivalStation: "Станция прибытия",
             departureDate: "Дата отправления",
-            arrivalDat: "Дата прибытия",
+            arrivalDate: "Дата прибытия",
             tickets: "Количество билетов",
             buyButton: "Купить",
             trainNotFound: "Поезда не найдены",
-            departStation: "Откуда",
-            arrivalStation: "Куда"
+            depart: "Откуда",
+            arrival: "Куда"
         },
         en: {
             trainNumber: "Train number",
@@ -22,8 +22,8 @@ $().ready(function () {
             tickets: "Count of tickets",
             buyButton: "Buy",
             trainNotFound: "Trains not found",
-            departStation: "From",
-            arrivalStation: "To"
+            depart: "From",
+            arrival: "To"
         }
     };
 
@@ -37,7 +37,7 @@ $().ready(function () {
             data : station,
             success : function (data) {
                 var markup = '';
-                markup+= '<option value="0">' + findTableText[local].arrivalStation + '</option>';
+                markup+= '<option value="0">' + findTableText[local].arrival + '</option>';
                 for(var i = 0; i < data.length; i++){
                     markup+= '<option value="' + data[i] + '">' + data[i] + '</option>'
                 }
@@ -87,8 +87,9 @@ $().ready(function () {
                 } else {
                     markup = '<table class="header_table"> <tr> <th>' + findTableText[local].trainNumber +
                         '</th> <th>' + findTableText[local].departureStation + '</th><th>' +
-                        findTableText[local].arrivalStation + '</th><th>' + findTableText[local].departureDate +
-                        '</th><th>' + findTableText[local].tickets + '</th><th class="th_hidden"></th></tr></table>'
+                        findTableText[local].arrivalStation + '</th><th>' + findTableText[local].departureDate + '</th>'
+                        + '<th>' + findTableText[local].arrivalDate + '</th><th>' + findTableText[local].tickets +
+                        '</th><th class="th_hidden"></th></tr></table>'
                     markup+='<div class="find_content"><table>';
 
                     for(var i = 0; i < data.length; i++){
@@ -97,15 +98,15 @@ $().ready(function () {
                         markup+= '<td>' + stations.start + '</td>';
                         markup+= '<td>' + stations.end + '</td>';
                         markup+= '<td>' + data[i].departDate + '</td>';
+                        markup+= '<td>' + data[i].arrivalDate + '</td>';
                         markup+= '<td>' + data[i].seats + '</td>';
-                        markup+='<td class="btn btn_edit">' + '<a href="/railroad/user/buy-ticket/' + data[i].number + '/' +
-                            data[i].departDate + '">' + findTableText[local].buyButton + '</a></td>';
+                        markup+='<td class="btn btn_edit">' + '<a href="/railroad/user/add-passenger/' + data[i].number + '/' +
+                            data[i].departDate + '/' + stations.start + '/' + stations.end +'">' + findTableText[local].buyButton + '</a></td>';
                         markup+='</tr>';
                     }
                     markup+='</table></div>';
                     $('#find').append().html(markup);
                 }
-
             }
         })
     });

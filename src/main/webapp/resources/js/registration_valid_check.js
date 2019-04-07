@@ -36,11 +36,16 @@ function checkPassword() {
         if (!password.classList.contains("correct")) {
             password.classList.add("correct");
             turnOnButton();
+            checkPasswordConfirm()
+        }
+        else{
+            checkPasswordConfirm()
         }
     }
 }
 
 function checkPasswordConfirm() {
+    getMessage("Повторите пароль", "error_password_confirm");
     if (passwordConfirm.value == "" ||passwordConfirm.value.length < 3
         || passwordConfirm.value != password.value) {
         if (passwordConfirm.classList.contains("correct")) {
@@ -49,7 +54,7 @@ function checkPasswordConfirm() {
         }
     }
     else {
-
+        deleteMessage("error_password_confirm");
         if (!passwordConfirm.classList.contains("correct")) {
             passwordConfirm.classList.add("correct");
             turnOnButton();
@@ -72,4 +77,8 @@ function getMessage(message, id) {
 }
 function deleteMessage(id) {
     document.getElementById(id).textContent = "";
+}
+
+function activeBtn(id) {
+    var form = document.getElementById("user");
 }

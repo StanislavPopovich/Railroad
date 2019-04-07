@@ -7,7 +7,6 @@
 <html>
 <head>
     <title>Start page</title>
-    <link rel="stylesheet" href="/resources/css/style.css" type="text/css"/>
 </head>
 <body>
 <jsp:include page="header.jsp"/>
