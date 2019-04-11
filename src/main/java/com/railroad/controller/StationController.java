@@ -2,6 +2,7 @@ package com.railroad.controller;
 
 import com.railroad.dto.StationDto;
 import com.railroad.service.api.BusinessService;
+import com.railroad.service.api.StationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,13 +18,7 @@ public class StationController {
     private static final Logger logger = Logger.getLogger(StationController.class);
 
     @Autowired
-    private BusinessService businessService;
-
-    /*@GetMapping(value = "/user/all-stations")
-    public String getAllStations(Model model){
-        model.addAttribute("stations", businessService.getAllNamesStations());
-        return "stationPage";
-    }*/
+    private StationService stationService;
 
     @GetMapping(value = "/user/add-station")
     public String getAddStationPage(Model model){
@@ -33,14 +28,14 @@ public class StationController {
 
     @PostMapping(value = "/user/add-station")
     public String resultAddStation(@ModelAttribute("station") StationDto stationDto){
-        businessService.saveStation(stationDto);
+        stationService.save(stationDto);
         return "redirect:/railroad/user";
     }
 
     @PostMapping(value = "/dest-station")
     public @ResponseBody
     List<String> getStationsWithoutStartStation(@RequestParam String start) {
-        return getStations(start, businessService.getAllNamesStations());
+        return getStations(start, stationService.getAllStationsName());
     }
 
     public List<String> getStations(String startStation, List<String> stations){

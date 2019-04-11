@@ -5,6 +5,8 @@ import com.railroad.model.StationEntity;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -14,6 +16,10 @@ import java.util.List;
  */
 @Repository
 public class StationGenericDaoImpl extends BaseGenericDao<StationEntity, Long> implements StationGenericDao {
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
     public StationGenericDaoImpl() {
         super(StationEntity.class);
     }
@@ -26,17 +32,14 @@ public class StationGenericDaoImpl extends BaseGenericDao<StationEntity, Long> i
      */
     @Override
     public StationEntity findByStationName(String name) {
-        Session session = getSession();
-        StationEntity stationEntity = (StationEntity) session.createQuery("select s from StationEntity s where s.name=:name").
-                setParameter("name", name).uniqueResult();
+        StationEntity stationEntity = (StationEntity) entityManager.createQuery("select s from StationEntity s where s.name=:name").
+                setParameter("name", name).getSingleResult();
         return stationEntity;
     }
 
     @Override
     public List<String> getAllStationNames() {
-        Session session = getSession();
-        List<String> stationNames = session.createQuery("select s.name from StationEntity s").list();
-        session.close();
+        List<String> stationNames = entityManager.createQuery("select s.name from StationEntity s").getResultList();
         return stationNames;
     }
 }

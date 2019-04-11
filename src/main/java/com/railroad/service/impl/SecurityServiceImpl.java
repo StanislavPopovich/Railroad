@@ -28,8 +28,6 @@ public class SecurityServiceImpl implements SecurityService {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private BusinessService businessService;
 
     @Override
     public String findLoggedInUsername() {
@@ -51,7 +49,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     public void registration(UserDto userDto){
-        businessService.saveUser(userDto);
+       userService.save(userDto);
         autoLogin(userDto.getUserName(), userDto.getConfirmPassword());
     }
 

@@ -20,10 +20,14 @@ public class TicketEntity extends BaseEntity {
     private PassengerEntity passengerEntity;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "start_data", nullable = false)
-    private ScheduleEntity startData;
+    @JoinColumn(name = "depart_date", nullable = false)
+    private ScheduleEntity departDate;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "dest_data", nullable = false)
-    private ScheduleEntity endData;
+    @JoinColumn(name = "arrival_date", nullable = false)
+    private ScheduleEntity arrivalDate;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity userEntity;
 }

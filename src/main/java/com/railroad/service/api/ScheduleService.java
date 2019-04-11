@@ -4,6 +4,7 @@ import com.railroad.dto.ScheduleDto;
 import com.railroad.model.ScheduleEntity;
 import com.railroad.model.TrainEntity;
 
+import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.List;
 
@@ -25,9 +26,8 @@ public interface ScheduleService {
      * @param departDate
      * @return list of ScheduleEntities
      */
-    List<ScheduleEntity> getScheduleByStationNameAndDepartDate(String stationName, Date departDate);
+    List<ScheduleEntity> getSchedulesByStationNameAndDepartDate(String stationName, Date departDate);
 
-    List<ScheduleEntity> findScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
 
     /**
      * The method returns all scheduleDto from dao layer
@@ -35,6 +35,10 @@ public interface ScheduleService {
      */
     List<ScheduleDto> getAll();
 
+    ScheduleEntity findScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
+    ScheduleEntity findScheduleByTrainAndArrivalDate(TrainEntity trainEntity, Date arrivalDate);
 
+    //all schedules for train
+    List<ScheduleEntity> findSchedulesForTrain(TrainEntity trainEntity, Date departDate);
 
 }

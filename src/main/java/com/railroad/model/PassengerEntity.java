@@ -21,7 +21,7 @@ public class PassengerEntity extends BaseEntity {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "birth_date", nullable = false)
-    private Date BirthDate;
+    private Date birthDate;
 
     @OneToMany(mappedBy = "passengerEntity")
     private Set<TicketEntity> ticketEntities;

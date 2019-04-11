@@ -31,11 +31,11 @@ public class ScheduleEntity extends BaseEntity {
     @JoinColumn(name = "station_id", nullable = false)
     private StationEntity stationEntity;
 
-    @OneToMany(mappedBy = "startData")
-    private Set<TicketEntity> startTicket;
+    @OneToMany(mappedBy = "departDate")
+    private Set<TicketEntity> departDateTicket;
 
-    @OneToMany(mappedBy = "endData")
-    private Set<TicketEntity> destTicket;
+    @OneToMany(mappedBy = "arrivalDate")
+    private Set<TicketEntity> arrivalDateTicket;
 
 
 }

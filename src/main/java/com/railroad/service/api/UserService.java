@@ -30,7 +30,6 @@ public interface UserService {
      */
     List<UserDto> getAll();
 
-    //Надо переписать
     boolean isAlreadyExist(String userName);
 
     /**
@@ -44,4 +43,6 @@ public interface UserService {
      * @param userName
      */
     void delete(String userName);
+
+    UserEntity getCurrentUser();
 }

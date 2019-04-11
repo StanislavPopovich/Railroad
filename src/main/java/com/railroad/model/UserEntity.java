@@ -38,4 +38,7 @@ public class UserEntity extends BaseEntity {
     @JoinTable(name = "user_passengers", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "passenger_id"))
     private Set<PassengerEntity> passengerEntities;
+
+    @OneToMany(mappedBy = "userEntity")
+    private Set<TicketEntity> ticketEntities;
 }

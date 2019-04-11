@@ -7,6 +7,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.List;
 
@@ -23,8 +26,8 @@ public class BaseGenericDao<T, ID extends Serializable> implements GenericDao<T,
         this.clazz = clazz;
     }
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
 
     /**
@@ -34,12 +37,7 @@ public class BaseGenericDao<T, ID extends Serializable> implements GenericDao<T,
      */
     @Override
     public void save(T entity) {
-        Session session = getSession();
-        try{
-            session.persist(entity);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        entityManager.persist(entity);
 
     }
 
@@ -50,8 +48,7 @@ public class BaseGenericDao<T, ID extends Serializable> implements GenericDao<T,
      */
     @Override
     public void remove(T entity) {
-        Session session = getSession();
-        session.remove(entity);
+        entityManager.remove(entity);
 
     }
 
@@ -63,8 +60,7 @@ public class BaseGenericDao<T, ID extends Serializable> implements GenericDao<T,
      */
     @Override
     public T getById(ID id) {
-        Session session = getSession();
-        T entity = session.get(clazz, id);
+        T entity = entityManager.find(clazz, id);
         return entity;
     }
 
@@ -76,9 +72,8 @@ public class BaseGenericDao<T, ID extends Serializable> implements GenericDao<T,
     @SuppressWarnings("unchecked")
     @Override
     public List<T> getAll() {
-        Session session = getSession();
-        List<T> allEntities = session.createQuery("select e from " + clazz.getName() + " e").list();
-        return allEntities;
+        List<T> allEntities = entityManager.createQuery("select e from " + clazz.getName() + " e").getResultList();
+       return allEntities;
     }
 
     /**
@@ -88,21 +83,8 @@ public class BaseGenericDao<T, ID extends Serializable> implements GenericDao<T,
      */
     @Override
     public void update(T entity) {
-        Session session = getSession();
-        session.clear();
-        session.update(entity);
+
+        entityManager.merge(entity);
     }
 
-    /**
-     * Method for getting session
-     */
-    protected final Session getSession(){
-        Session session;
-        try{
-            session = this.sessionFactory.getCurrentSession();
-        }catch (HibernateException e){
-            session = sessionFactory.openSession();
-        }
-        return session;
-    }
 }

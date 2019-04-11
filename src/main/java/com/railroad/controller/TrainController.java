@@ -2,6 +2,8 @@ package com.railroad.controller;
 
 import com.railroad.dto.TrainDto;
 import com.railroad.service.api.BusinessService;
+import com.railroad.service.api.StationService;
+import com.railroad.service.api.TrainService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -23,6 +25,12 @@ public class TrainController {
     @Autowired
     private BusinessService businessService;
 
+    @Autowired
+    private TrainService trainService;
+    @Autowired
+    private StationService stationService;
+
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -33,7 +41,7 @@ public class TrainController {
 
     @GetMapping(value = "/user/trains")
     public String getAllTrains(Model model) {
-        List<TrainDto> trainDtos = businessService.getAllTrains();
+        List<TrainDto> trainDtos = trainService.getAll();
         model.addAttribute("trains", trainDtos);
         return "trainPage";
     }
@@ -42,9 +50,9 @@ public class TrainController {
     public ModelAndView getAddTrainPage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("train", new TrainDto());
-        modelAndView.addObject("startStation", new String());
-        modelAndView.addObject("endStation", new String());
-        modelAndView.addObject("stations", businessService.getAllNamesStations());
+        modelAndView.addObject("startStation", "");
+        modelAndView.addObject("endStation", "");
+        modelAndView.addObject("stations", stationService.getAllStationsName());
         modelAndView.setViewName("addTrain");
         return modelAndView;
     }
@@ -65,7 +73,7 @@ public class TrainController {
 
     @PostMapping(value = "/user/add-train")
     public String resultAddTrainPage(@ModelAttribute("train") TrainDto trainDto) {
-        businessService.saveTrain(trainDto);
+       trainService.save(trainDto);
         return "redirect:/railroad/user";
     }
 }

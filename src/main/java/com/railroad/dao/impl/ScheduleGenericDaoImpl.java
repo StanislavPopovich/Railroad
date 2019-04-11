@@ -14,39 +14,64 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Date;
 import java.util.List;
 
 @Repository
 public class ScheduleGenericDaoImpl extends BaseGenericDao<ScheduleEntity, Long> implements ScheduleGenericDao {
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
     public ScheduleGenericDaoImpl() {
         super(ScheduleEntity.class);
     }
 
-
     @SuppressWarnings("unchecked")
     @Override
     public List<ScheduleEntity> findScheduleByStationIdAndDepartDate(Long stationId, Date date) {
-        Session session = getSession();
-        List<ScheduleEntity> scheduleEntities = session.createQuery("select s from ScheduleEntity s " +
+        List<ScheduleEntity> scheduleEntities = entityManager.createQuery("select s from ScheduleEntity s " +
                 "where s.departDate > :dayBefore and s.departDate < :dayAfter and s.stationEntity.id= :id").
                 setParameter("dayBefore", date).
                 setParameter("dayAfter", new LocalDate(date).plusDays(1).toDate()).
-                setParameter("id", stationId).list();
+                setParameter("id", stationId).getResultList();
         return scheduleEntities;
     }
 
-    @SuppressWarnings("unchecked")
+
     @Override
-    public List<ScheduleEntity> findScheduleByTrainAndDates(TrainEntity trainEntity, Date departDate, Date arrivalDate) {
-        Session session = getSession();
-        List<ScheduleEntity> scheduleEntity = session.createQuery("select s from ScheduleEntity s " +
-                "where s.trainEntity= :train and s.arrivalDate <= :arrivalDate and s.arrivalDate > :startDate").
+    public ScheduleEntity findScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date departDate){
+        ScheduleEntity scheduleEntity = (ScheduleEntity) entityManager.createQuery("select s from ScheduleEntity s " +
+                "where s.trainEntity= :train and s.departDate= :departDate").
                 setParameter("train", trainEntity).
-                setParameter("startDate", departDate).
-                setParameter("arrivalDate", arrivalDate).list();
+                setParameter("departDate", departDate).getSingleResult();
         return scheduleEntity;
     }
+
+    @Override
+    public ScheduleEntity findScheduleByTrainAndArrivalDate(TrainEntity trainEntity, Date arrivalDate){
+        ScheduleEntity scheduleEntity = (ScheduleEntity) entityManager.createQuery("select s from ScheduleEntity s " +
+                "where s.trainEntity= :train and s.arrivalDate= :arrivalDate").
+                setParameter("train", trainEntity).
+                setParameter("arrivalDate", arrivalDate).getSingleResult();
+        return scheduleEntity;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<ScheduleEntity> findSchedulesForTrain(TrainEntity trainEntity, Date departDate, Date arrivalDate){
+        List<ScheduleEntity> scheduleEntity = entityManager.createQuery("select s from ScheduleEntity s " +
+                "where s.trainEntity= :train and s.departDate >= :departDate and s.departDate <= :arrivalDate").
+                setParameter("train", trainEntity).
+                setParameter("departDate", departDate).
+                setParameter("arrivalDate", arrivalDate).getResultList();
+        return scheduleEntity;
+    }
+
+
+
 
 
 

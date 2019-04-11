@@ -1,11 +1,14 @@
 package com.railroad.controller;
+import com.railroad.dto.TrainDto;
 import com.railroad.dto.UserDto;
 import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.SecurityService;
+import com.railroad.service.api.StationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,40 +25,36 @@ public class LoginController {
     @Autowired
     private SecurityService securityService;
 
+
     @Autowired
-    private BusinessService businessService;
+    private StationService stationService;
 
     /**
      * The method returns the index page that allows you to search for trains from
-     * the starting station to the destination station on a specific date
-     *
-     * @return model - list if stations names, strings for names of stations;
-     * view - index pagejsp
+     * the departing station to the arrival station on a specific date
+     * @param modelMap
+     * @return
      */
-
     @GetMapping
-    public ModelAndView getIndexPage(){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("stations", businessService.getAllNamesStations());
-        modelAndView.addObject("startStation", new String());
-        modelAndView.addObject("endStation", new String());
-        modelAndView.addObject("date", new Date());
-        modelAndView.setViewName("index");
-        return modelAndView;
+    public String getIndexPage(ModelMap modelMap){
+        modelMap.addAttribute("stations", stationService.getAllStationsName());
+        modelMap.addAttribute("startStation", "");
+        modelMap.addAttribute("endStation", "");
+        modelMap.addAttribute("date", new Date());
+        modelMap.addAttribute("train", new TrainDto());
+        return "index";
     }
 
     /**
      * The method returns the page with login form
-     * @return model - userDto;
-     * view - loginPage.jsp
+     * @param model
+     * @return login page
      */
     @GetMapping(value = "/login")
-    public ModelAndView getLoginPage(){
+    public String getLoginPage(Model model){
         logger.info("Trying to log in.");
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("user", new UserDto());
-        modelAndView.setViewName("loginPage");
-        return modelAndView;
+        model.addAttribute("user", new UserDto());
+        return "loginPage";
     }
 
     /**
@@ -70,8 +69,7 @@ public class LoginController {
     /**
      * The method returns the page with registration form
      * @param model
-     * @return model - userDto;
-     * view - registrationPage.jsp
+     * @return registration page
      */
     @GetMapping(value = "/registration")
     public String getRegistrationPage(Model model){

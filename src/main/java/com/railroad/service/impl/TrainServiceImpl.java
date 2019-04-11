@@ -10,6 +10,7 @@ import com.railroad.service.api.TrainService;
 import com.railroad.service.api.WayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -31,7 +32,9 @@ public class TrainServiceImpl implements TrainService {
      * The method send train in dao layer
      * @param trainDto
      */
+    // +
     @Override
+    @Transactional
     public void save(TrainDto trainDto) {
         LinkedList<String> trainStations = new LinkedList<>();
         String[] stationsArr = trainDto.getStations().getFirst().split("=>");
@@ -54,8 +57,16 @@ public class TrainServiceImpl implements TrainService {
      * @return
      */
     @Override
+    @Transactional
+    //+
     public List<TrainDto> getAll() {
         return trainDtoMapper.trainEntitiesToTrainDto(trainGenericDao.getAll());
+    }
+
+    @Override
+    //+
+    public TrainEntity findTrainEntityByNumber(Integer trainNumber) {
+        return trainGenericDao.findTrainByNumber(trainNumber);
     }
 
 

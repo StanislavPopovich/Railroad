@@ -17,5 +17,7 @@ public interface UserGenericDao extends GenericDao<UserEntity, Long> {
      */
     UserEntity findByUserName(String userName);
 
+    Long getCountUserBuUserName(String userName);
+
 }
 

@@ -1,5 +1,6 @@
 package com.railroad.dao.api;
 
+import com.railroad.model.ScheduleEntity;
 import com.railroad.model.TicketEntity;
 import com.railroad.model.TrainEntity;
 
@@ -15,4 +16,5 @@ public interface TicketGenericDao extends GenericDao<TicketEntity, Long> {
 
 
     Long getCountTicketsByTrain(TrainEntity train, Date departDate);
+    Long getCountTicketsByTrainAndSchedules(TrainEntity trainEntity, ScheduleEntity depart, ScheduleEntity arrival);
 }

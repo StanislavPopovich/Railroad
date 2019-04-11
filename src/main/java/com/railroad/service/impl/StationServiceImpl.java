@@ -7,6 +7,8 @@ import com.railroad.model.StationEntity;
 import com.railroad.service.api.StationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -20,6 +22,8 @@ public class StationServiceImpl implements StationService {
 
 
     @Override
+    @Transactional
+    // +
     public void save(StationDto stationDto) {
         StationEntity stationEntity = stationDtoMapper.stationDtoToStationEntity(stationDto);
         stationGenericDao.save(stationEntity);
@@ -31,16 +35,19 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
+    //+
     public List<String> getAllStationsName() {
         return stationGenericDao.getAllStationNames();
     }
 
     @Override
-    public StationDto getStationByName(String stationName) {
-        return stationDtoMapper.stationEntityToStationDto(stationGenericDao.findByStationName(stationName));
+    public StationEntity getStationEntityByStationName(String name) {
+        return stationGenericDao.findByStationName(name);
     }
 
+
     @Override
+    //+
     public StationDto getStationById(Long id) {
         StationEntity stationEntity = stationGenericDao.getById(id);
         return stationDtoMapper.stationEntityToStationDto(stationEntity);

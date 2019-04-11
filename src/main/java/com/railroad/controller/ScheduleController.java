@@ -2,6 +2,8 @@ package com.railroad.controller;
 
 import com.railroad.dto.ScheduleDto;
 import com.railroad.service.api.BusinessService;
+import com.railroad.service.api.ScheduleService;
+import com.railroad.service.api.StationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -16,8 +18,11 @@ import java.util.Date;
 @RequestMapping(value = "/railroad/user")
 public class ScheduleController {
     private static final Logger logger = Logger.getLogger(ScheduleController.class);
+
     @Autowired
-    private BusinessService businessService;
+    private StationService stationService;
+    @Autowired
+    private ScheduleService scheduleService;
 
     @GetMapping(value = "/schedule")
     public String getSchedulePage(){
@@ -26,7 +31,7 @@ public class ScheduleController {
 
     @GetMapping(value = "/add-schedule")
     public String addSchedule(Model model){
-        model.addAttribute("stations", businessService.getAllNamesStations());
+        model.addAttribute("stations", stationService.getAllStationsName());
         model.addAttribute("schedule", new ScheduleDto());
         return "addSchedulePage";
     }
@@ -34,7 +39,7 @@ public class ScheduleController {
     @PostMapping(value = "/add-schedule")
     public String addSchedule(@ModelAttribute("schedule") ScheduleDto scheduleDto){
         logger.info(scheduleDto.toString());
-        businessService.saveSchedule(scheduleDto);
+        scheduleService.save(scheduleDto);
         return "redirect:/railroad/user";
     }
 

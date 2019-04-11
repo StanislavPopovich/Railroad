@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -30,7 +31,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     private TrainGenericDao trainDao;
 
+    @Transactional
     @Override
+    //+
     public void save(ScheduleDto scheduleDto) {
         ScheduleEntity scheduleEntity = scheduleMapper.scheduleDtoToScheduleEntity(scheduleDto);
         scheduleEntity.setStationEntity(stationDao.findByStationName(scheduleDto.getStationName()));
@@ -39,17 +42,13 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<ScheduleEntity> getScheduleByStationNameAndDepartDate(String stationName, Date departDate) {
+    //+ Надо заменить id
+    public List<ScheduleEntity> getSchedulesByStationNameAndDepartDate(String stationName, Date departDate) {
         Long stationId = stationDao.findByStationName(stationName).getId();
         List<ScheduleEntity> schedules = scheduleDao.findScheduleByStationIdAndDepartDate(stationId, departDate);
         return schedules;
     }
 
-    @Override
-    public List<ScheduleEntity> findScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date departDate) {
-        Date arrivalDate = getArrivalDate(trainEntity.getTimeWay(), departDate);
-        return scheduleDao.findScheduleByTrainAndDates(trainEntity, departDate,arrivalDate);
-    }
 
 
     @Override
@@ -57,10 +56,41 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleMapper.scheduleEntitiesToScheduleDtos(scheduleDao.getAll());
     }
 
+    @Override
+    //+
+    public ScheduleEntity findScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date departDate) {
+        return scheduleDao.findScheduleByTrainAndDepartDate(trainEntity, departDate);
+    }
+
+    @Override
+    //+
+    public ScheduleEntity findScheduleByTrainAndArrivalDate(TrainEntity trainEntity, Date arrivalDate) {
+        return scheduleDao.findScheduleByTrainAndArrivalDate(trainEntity, arrivalDate);
+    }
+
+    @Override
+    //+
+    public List<ScheduleEntity> findSchedulesForTrain(TrainEntity trainEntity, Date departDate) {
+        Date arrivalDate = getArrivalDate(trainEntity.getTimeWay(), departDate);
+        Date newDepartDate = getDepartDate(trainEntity.getTimeWay(), departDate);
+        return scheduleDao.findSchedulesForTrain(trainEntity,newDepartDate,arrivalDate);
+    }
+
     private Date getArrivalDate(Date trainTimeWay, Date departDate){
         DateTime dateTime = new DateTime(departDate);
         DateTime timeWay = new DateTime(trainTimeWay, DateTimeZone.UTC);
-        DateTime arrivalDate = dateTime.plusHours(timeWay.getHourOfDay()).plusMinutes(timeWay.getMinuteOfHour());
+        DateTime arrivalDate = dateTime.plusHours(timeWay.getHourOfDay()).plusMinutes(timeWay.getMinuteOfHour()).plusMinutes(30);
         return arrivalDate.toDate();
     }
+
+    private Date getDepartDate(Date trainTimeWay, Date departDate){
+        DateTime dateTime = new DateTime(departDate);
+        DateTime timeWay = new DateTime(trainTimeWay, DateTimeZone.UTC);
+        DateTime newDepartDate = dateTime.minusHours(timeWay.getHourOfDay()).minusMinutes(timeWay.getMinuteOfHour());
+        return newDepartDate.toDate();
+    }
+
+
+
+
 }

@@ -1,6 +1,7 @@
 package com.railroad.service.api;
 
 import com.railroad.dto.StationDto;
+import com.railroad.model.StationEntity;
 
 import java.util.List;
 
@@ -29,12 +30,7 @@ public interface StationService {
      */
     List<String> getAllStationsName();
 
-    /**
-     * The method return stationDto by name drom dao layer
-     * @param stationName
-     * @return StationDto
-     */
-    StationDto getStationByName(String stationName);
+    StationEntity getStationEntityByStationName(String name);
 
     /**
      * The method returns stationDto by id from dao layer

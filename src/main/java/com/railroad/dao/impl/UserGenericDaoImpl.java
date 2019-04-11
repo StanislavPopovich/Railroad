@@ -5,6 +5,9 @@ import com.railroad.model.UserEntity;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 /**
  * DAO implementation for the {@link UserEntity} objects.
  *
@@ -12,6 +15,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class UserGenericDaoImpl extends BaseGenericDao<UserEntity, Long> implements UserGenericDao {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public UserGenericDaoImpl() {
         super(UserEntity.class);
@@ -25,10 +31,16 @@ public class UserGenericDaoImpl extends BaseGenericDao<UserEntity, Long> impleme
      */
     @Override
     public UserEntity findByUserName(String userName) {
-        Session session = getSession();
-        UserEntity userEntity = (UserEntity)session.createQuery("select u from UserEntity u where u.userName=:userName").
-                setParameter("userName", userName).uniqueResult();
+        UserEntity userEntity = (UserEntity)entityManager.createQuery("select u from UserEntity u where u.userName=:userName").
+                setParameter("userName", userName).getSingleResult();
         return userEntity;
+    }
+
+    @Override
+    public Long getCountUserBuUserName(String userName) {
+        Long count = (Long) entityManager.createQuery("select count(u) from " +
+                "UserEntity u where u.userName= :userName").setParameter("userName", userName).getSingleResult();
+        return count;
     }
 
 }

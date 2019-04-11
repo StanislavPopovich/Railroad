@@ -35,6 +35,14 @@
         <div id="find">
 
         </div>
+        <div>
+            <form:form modelAttribute="train" action="/railroad/user/add-passenger" method="post">
+                <form:hidden id="ticket_buy_form_trainNumber" path="number" value=""/>
+                <form:hidden id="ticket_buy_form_departDate" path="departDate" value=""/>
+                <form:hidden id="ticket_buy_form_arrivalDate" path="arrivalDate" value=""/>
+                <form:hidden id="ticket_buy_form_stations" path="stations" value=""/>
+            </form:form>
+        </div>
     </div>
 </section>
 <jsp:include page="footer.jsp"/>

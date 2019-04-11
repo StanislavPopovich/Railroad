@@ -9,5 +9,4 @@ public class PassengerDto {
     private String lastName;
     private String name;
     private Date BirthDate;
-    private TrainDto train;
 }

@@ -9,6 +9,8 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -18,19 +20,20 @@ import java.util.List;
  */
 @Repository
 public class TrainGenericDaoImpl extends BaseGenericDao<TrainEntity, Long> implements TrainGenericDao {
-    private static final Logger logger = Logger.getLogger(TrainGenericDaoImpl.class);
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
     public TrainGenericDaoImpl() {
         super(TrainEntity.class);
     }
 
-    @Autowired
-    private StationGenericDao stationGenericDao;
 
     @Override
     public TrainEntity findTrainByNumber(Integer trainNumber) {
-        Session session = getSession();
-        TrainEntity trainEntity = (TrainEntity)session.createQuery("select t from TrainEntity t where t.number=:trainNumber").
-                setParameter("trainNumber", trainNumber).uniqueResult();
+
+        TrainEntity trainEntity = (TrainEntity)entityManager.createQuery("select t from TrainEntity t where t.number=:trainNumber").
+                setParameter("trainNumber", trainNumber).getSingleResult();
         return trainEntity;
     }
 }

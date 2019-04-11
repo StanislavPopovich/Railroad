@@ -79,18 +79,18 @@ $().ready(function () {
             data : stations,
             dataType : "json",
             success: function (data) {
-                var markup
+                var markup;
                 if(data.length === 0){
                     markup = '<div class="not_found">' + findTableText[local].trainNotFound + '</div>';
                     $('#find').append().html(markup);
 
                 } else {
-                    markup = '<table class="header_table"> <tr> <th>' + findTableText[local].trainNumber +
-                        '</th> <th>' + findTableText[local].departureStation + '</th><th>' +
+                    markup = '<table class="header_table"><tr><th>' + findTableText[local].trainNumber +
+                        '</th><th>' + findTableText[local].departureStation + '</th><th>' +
                         findTableText[local].arrivalStation + '</th><th>' + findTableText[local].departureDate + '</th>'
                         + '<th>' + findTableText[local].arrivalDate + '</th><th>' + findTableText[local].tickets +
-                        '</th><th class="th_hidden"></th></tr></table>'
-                    markup+='<div class="find_content"><table>';
+                        '</th><th class="th_hidden"></th></tr></table>';
+                    markup+='<div class="find_content"><table id="tickets_table_buy">';
 
                     for(var i = 0; i < data.length; i++){
                         markup+='<tr>';
@@ -100,14 +100,42 @@ $().ready(function () {
                         markup+= '<td>' + data[i].departDate + '</td>';
                         markup+= '<td>' + data[i].arrivalDate + '</td>';
                         markup+= '<td>' + data[i].seats + '</td>';
-                        markup+='<td class="btn btn_edit">' + '<a href="/railroad/user/add-passenger/' + data[i].number + '/' +
-                            data[i].departDate + '/' + stations.start + '/' + stations.end +'">' + findTableText[local].buyButton + '</a></td>';
+                        markup+='<td class="btn btn_edit"><button>'+ findTableText[local].buyButton + '</button></td>';
                         markup+='</tr>';
                     }
                     markup+='</table></div>';
                     $('#find').append().html(markup);
+                    buyTicketButton();
                 }
             }
         })
     });
+    /*+ '<a href="/railroad/user/add-passenger/' + data[i].number + '/' +
+                                data[i].departDate + '/' + data[i].arrivalDate + '/'+ stations.start + '/'
+                                + stations.end +'"> + findTableText[local].buyButton + '</a>*/
+
+
+    // Set values in trainForm for buy ticket
+    function buyTicketButton(){
+        $('#tickets_table_buy').on('click', function (event) {
+            event.preventDefault();
+            var tr_event = event.target;
+            if(tr_event.tagName === 'BUTTON'){
+                var curret_tr = tr_event.parentElement.parentElement;
+                var current_tds = curret_tr.querySelectorAll("td");
+                var stations =[current_tds[1].textContent, current_tds[2].textContent];
+                $('#ticket_buy_form_trainNumber').val(current_tds[0].textContent);
+                $('#ticket_buy_form_departDate').val(current_tds[3].textContent);
+                $('#ticket_buy_form_arrivalDate').val(current_tds[4].textContent);
+                $('#ticket_buy_form_stations').val(stations);
+                autoSubmitTrainFrom();
+            }
+        })
+    }
+
+    function autoSubmitTrainFrom() {
+        var form =document.getElementById("train");
+        form.submit();
+    }
+
 });

@@ -5,6 +5,8 @@ import com.railroad.model.WayEntity;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -14,6 +16,9 @@ import java.util.List;
  */
 @Repository
 public class WayGenericDaoImpl extends BaseGenericDao<WayEntity, Long> implements WayGenericDao {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public WayGenericDaoImpl() {
         super(WayEntity.class);
@@ -28,10 +33,8 @@ public class WayGenericDaoImpl extends BaseGenericDao<WayEntity, Long> implement
     @SuppressWarnings("unchecked")
     @Override
     public List<WayEntity> findByStationId(Long stationId) {
-        Session session = getSession();
-        List<WayEntity> ways = session.createQuery("select w from WayEntity w where w.firstStation=:firstStation").
-                setParameter("firstStation", stationId).list();
-        session.close();
+        List<WayEntity> ways = entityManager.createQuery("select w from WayEntity w where w.firstStation=:firstStation").
+                setParameter("firstStation", stationId).getResultList();
         return ways;
     }
 }

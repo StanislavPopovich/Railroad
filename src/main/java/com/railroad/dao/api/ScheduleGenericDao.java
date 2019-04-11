@@ -11,8 +11,11 @@ public interface ScheduleGenericDao extends GenericDao<ScheduleEntity, Long> {
 
     List<ScheduleEntity> findScheduleByStationIdAndDepartDate(Long stationId, Date date);
 
-    List<ScheduleEntity> findScheduleByTrainAndDates(TrainEntity trainEntity, Date departDate, Date arrivalDate);
 
 
+    ScheduleEntity findScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
+    ScheduleEntity findScheduleByTrainAndArrivalDate(TrainEntity trainEntity, Date arrivalDate);
+
+    List<ScheduleEntity> findSchedulesForTrain(TrainEntity trainEntity, Date departDate, Date arrivalDate);
 
 }

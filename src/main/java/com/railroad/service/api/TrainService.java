@@ -1,6 +1,7 @@
 package com.railroad.service.api;
 
 import com.railroad.dto.TrainDto;
+import com.railroad.model.TrainEntity;
 
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface TrainService {
      * @return list of TrainDto
      */
     List<TrainDto> getAll();
+
+    TrainEntity findTrainEntityByNumber(Integer trainNumber);
 }

@@ -10,6 +10,8 @@ import com.railroad.service.api.RoleService;
 import com.railroad.service.api.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +45,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Transactional
+    //+
     public void save(UserDto userDto) {
         userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         if(userDto.getRoles() == null){
@@ -65,42 +69,51 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
+    //+
     public UserDto findByUsername(String userName) {
         return userDtoMapper.userEntityToUserDto(userDao.findByUserName(userName));
     }
 
+    @Transactional
+    //+
     public List<UserDto> getAll() {
         List<UserDto> userDtos = userDtoMapper.userEntitiesToUserDtos(userDao.getAll());
         return userDtos;
     }
 
     @Override
+    //+
     public boolean isAlreadyExist(String userName) {
-        UserEntity userEntity = userDao.findByUserName(userName);
-        if(userEntity != null){
+        if(userDao.getCountUserBuUserName(userName) > 0){
             return true;
         }
         return false;
     }
 
     @Override
+    @Transactional
+    //+
     public void update(UserDto userDto) {
         UserEntity userEntity = userDtoMapper.userDtoToUserEntity(userDto);
         userEntity.setId(userDao.findByUserName(userEntity.getUserName()).getId());
         Set<RoleEntity> roles = setIdToRoles(userEntity.getRoleEntities());
         userEntity.setRoleEntities(roles);
-        logger.info("id = " + userEntity.getId());
-        for(RoleEntity entity: roles){
-            logger.info(entity.getId());
-            logger.info(entity.getName());
-        }
         userDao.update(userEntity);
     }
 
     @Override
+    @Transactional
+    //+
     public void delete(String userName) {
         UserEntity userEntity = userDao.findByUserName(userName);
         userDao.remove(userEntity);
+    }
+
+    @Override
+    //+
+    public UserEntity getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return userDao.findByUserName(authentication.getName());
     }
 
 
