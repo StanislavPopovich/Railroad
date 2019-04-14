@@ -1,17 +1,10 @@
 package com.railroad.dao.impl;
 
 import com.railroad.dao.api.TicketGenericDao;
-import com.railroad.model.ScheduleEntity;
-import com.railroad.model.TicketEntity;
-import com.railroad.model.TrainEntity;
-import org.hibernate.Session;
-import org.joda.time.LocalDate;
+import com.railroad.model.*;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -30,14 +23,23 @@ public class TicketGenericDaoImpl extends BaseGenericDao<TicketEntity, Long> imp
         super(TicketEntity.class);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Long getCountTicketsByTrain(TrainEntity train, Date departDate){
-        Long count = (Long) entityManager.createQuery("select count(t) from " +
-                "TicketEntity t where t.trainEntity= :train and t.departDate.departDate > :departDate " +
-                "and t.departDate.departDate < :afterDate").setParameter("train", train).
-                setParameter("departDate", departDate).
-                setParameter("afterDate", new LocalDate(departDate).plusDays(1).toDate()).getSingleResult();
-        return count;
+    public List<TicketEntity> getAllTickets(UserEntity userEntity) {
+        List<TicketEntity> tickets = entityManager.createQuery("select t from TicketEntity t " +
+                "where t.userEntity= :userEntity").setParameter("userEntity" , userEntity).getResultList();
+        return tickets;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<TicketEntity> getActualTickets(UserEntity userEntity) {
+        Date currentDate = new Date();
+        List<TicketEntity> tickets = entityManager.createQuery("select t from TicketEntity t " +
+                "where t.userEntity= :userEntity and t.departDate.departDate > :currentDate").
+                setParameter("userEntity" , userEntity).
+                setParameter("currentDate", currentDate).getResultList();
+        return tickets;
     }
 
     @Override
@@ -48,5 +50,13 @@ public class TicketGenericDaoImpl extends BaseGenericDao<TicketEntity, Long> imp
                 setParameter("departDate", depart).
                 setParameter("arrivalDate", arrival).getSingleResult();
         return count;
+    }
+
+    @Override
+    public List<PassengerEntity> getAllUserPassengers(UserEntity userEntity) {
+        List<PassengerEntity> passengers = entityManager.createQuery("select " +
+                "t.passengerEntity from TicketEntity t where t.userEntity= :userEntity").
+                setParameter("userEntity" , userEntity).getResultList();
+        return passengers;
     }
 }

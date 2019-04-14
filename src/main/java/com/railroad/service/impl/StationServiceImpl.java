@@ -53,4 +53,9 @@ public class StationServiceImpl implements StationService {
         return stationDtoMapper.stationEntityToStationDto(stationEntity);
     }
 
+    @Override
+    public int getIdOfLastStation() {
+        return stationGenericDao.getIdOfLastStation();
+    }
+
 }

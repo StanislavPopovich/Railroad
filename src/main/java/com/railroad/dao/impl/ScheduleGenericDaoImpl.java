@@ -31,12 +31,12 @@ public class ScheduleGenericDaoImpl extends BaseGenericDao<ScheduleEntity, Long>
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<ScheduleEntity> findScheduleByStationIdAndDepartDate(Long stationId, Date date) {
+    public List<ScheduleEntity> findScheduleByStationAndDepartDate(StationEntity stationEntity, Date date) {
         List<ScheduleEntity> scheduleEntities = entityManager.createQuery("select s from ScheduleEntity s " +
-                "where s.departDate > :dayBefore and s.departDate < :dayAfter and s.stationEntity.id= :id").
+                "where s.departDate > :dayBefore and s.departDate < :dayAfter and s.stationEntity= :station").
                 setParameter("dayBefore", date).
                 setParameter("dayAfter", new LocalDate(date).plusDays(1).toDate()).
-                setParameter("id", stationId).getResultList();
+                setParameter("station", stationEntity).getResultList();
         return scheduleEntities;
     }
 
@@ -61,12 +61,11 @@ public class ScheduleGenericDaoImpl extends BaseGenericDao<ScheduleEntity, Long>
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<ScheduleEntity> findSchedulesForTrain(TrainEntity trainEntity, Date departDate, Date arrivalDate){
+    public List<ScheduleEntity> findSchedulesForTrain(TrainEntity trainEntity, Date departDateFromFirstStation){
         List<ScheduleEntity> scheduleEntity = entityManager.createQuery("select s from ScheduleEntity s " +
-                "where s.trainEntity= :train and s.departDate >= :departDate and s.departDate <= :arrivalDate").
+                "where s.trainEntity= :train and s.departDateFromFirstStation= :departDateFromFirstStation").
                 setParameter("train", trainEntity).
-                setParameter("departDate", departDate).
-                setParameter("arrivalDate", arrivalDate).getResultList();
+                setParameter("departDateFromFirstStation", departDateFromFirstStation).getResultList();
         return scheduleEntity;
     }
 

@@ -1,6 +1,7 @@
 package com.railroad.controller;
 
 import com.railroad.dto.TrainDto;
+import com.railroad.dto.TrainSearchDto;
 import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.StationService;
 import com.railroad.service.api.TrainService;
@@ -39,41 +40,42 @@ public class TrainController {
     }
 
 
-    @GetMapping(value = "/user/trains")
+    @GetMapping(value = "/train/all")
     public String getAllTrains(Model model) {
-        List<TrainDto> trainDtos = trainService.getAll();
-        model.addAttribute("trains", trainDtos);
+        model.addAttribute("trains", trainService.getAll());
         return "trainPage";
     }
 
-    @GetMapping(value = "/user/add-train")
-    public ModelAndView getAddTrainPage() {
+    @GetMapping(value = "/train/add")
+    public ModelAndView addTrainPage() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("train", new TrainDto());
-        modelAndView.addObject("startStation", "");
-        modelAndView.addObject("endStation", "");
+        modelAndView.addObject("trainForm", new TrainDto());
+        modelAndView.addObject("departStation", "");
+        modelAndView.addObject("arrivalStation", "");
         modelAndView.addObject("stations", stationService.getAllStationsName());
         modelAndView.setViewName("addTrain");
         return modelAndView;
     }
 
-    @PostMapping(value = "/user/all-routes")
-    public @ResponseBody List<String> getAllRoutesForStartAndEndStations(@RequestParam String start,@RequestParam String end ) {
-        List<String> routes = businessService.getAllRoutes(start, end);
+    @PostMapping(value = "/train/all-routes")
+    public @ResponseBody List<String> getAllRoutesForStartAndEndStations(@RequestParam String departStation,
+                                                                         @RequestParam String arrivalStation ) {
+        List<String> routes = businessService.getAllRoutes(departStation, arrivalStation);
         return routes;
     }
 
     @PostMapping(value = "/find-trains-with-date")
-    public @ResponseBody List<TrainDto> getTrains(@RequestParam String start,@RequestParam String end,
-                                                   @RequestParam Date date){
-        List<TrainDto> trainDtos = businessService.getDirectTrains(start,end,date);
-        return trainDtos;
+    public @ResponseBody List<TrainSearchDto> getTrains(@RequestParam String departStation,
+                                                        @RequestParam String arrivalStation,
+                                                        @RequestParam Date date){
+        List<TrainSearchDto> trainSearchDtos = businessService.getDirectTrains(departStation,arrivalStation,date);
+        return trainSearchDtos;
     }
 
 
-    @PostMapping(value = "/user/add-train")
-    public String resultAddTrainPage(@ModelAttribute("train") TrainDto trainDto) {
-       trainService.save(trainDto);
+    @PostMapping(value = "/train/add")
+    public String resultAddTrainPage(@ModelAttribute("trainForm") TrainDto trainDto) {
+        trainService.save(trainDto);
         return "redirect:/railroad/user";
     }
 }

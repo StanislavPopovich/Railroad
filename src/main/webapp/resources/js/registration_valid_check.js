@@ -36,10 +36,14 @@ function checkPassword() {
         if (!password.classList.contains("correct")) {
             password.classList.add("correct");
             turnOnButton();
-            checkPasswordConfirm()
+            if(passwordConfirm){
+                checkPasswordConfirm()
+            }
         }
         else{
-            checkPasswordConfirm()
+            if(passwordConfirm){
+                checkPasswordConfirm()
+            }
         }
     }
 }
@@ -64,12 +68,17 @@ function checkPasswordConfirm() {
 
 
 function turnOnButton() {
-    if (username.classList.contains("correct") && password.classList.contains("correct")
-        && passwordConfirm.classList.contains("correct")) {
-        regbutton.disabled = false;
-    }
-    else {
-        regbutton.disabled = true;
+    var inputs = document.getElementsByTagName("input");
+
+    for(var i = 0; i < inputs.length; i++) {
+        if (inputs[i].classList.contains("correct")) {
+            regbutton.disabled = false;
+            regbutton.classList.add("active");
+        }
+        else {
+            regbutton.classList.remove("active");
+            return regbutton.disabled = true;
+        }
     }
 }
 function getMessage(message, id) {
@@ -79,6 +88,3 @@ function deleteMessage(id) {
     document.getElementById(id).textContent = "";
 }
 
-function activeBtn(id) {
-    var form = document.getElementById("user");
-}

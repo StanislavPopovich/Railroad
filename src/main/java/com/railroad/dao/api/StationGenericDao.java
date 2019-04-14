@@ -19,4 +19,5 @@ public interface StationGenericDao extends GenericDao<StationEntity, Long> {
      */
     StationEntity findByStationName(String name);
     List<String> getAllStationNames();
+    int getIdOfLastStation();
 }

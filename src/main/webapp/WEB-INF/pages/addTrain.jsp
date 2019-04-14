@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib  prefix = "spring"  uri = "http://www.springframework.org/tags" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix ="fmt" uri ="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
@@ -16,17 +17,17 @@
     <div class="container">
         <div class="form_add_train">
             <form id="start_station">
-                <form:select cssClass="select" id="start" type="text" path="startStation">
+                <form:select cssClass="select" id="start" type="text" path="departStation">
                     <form:option value="0"><spring:message code="departStation"/></form:option>
                     <form:options items="${stations}"/>
                 </form:select>
             </form>
             <form id="end_station">
-                <form:select cssClass="select" id="end" type="text" path="endStation">
+                <form:select cssClass="select" id="end" type="text" path="arrivalStation">
                     <form:option value="0"><spring:message code="arrivalStation"/></form:option>
                 </form:select>
             </form>
-            <form:form method="POST" cssClass="select_route" modelAttribute="train" action="/railroad/user">
+            <form:form method="POST" cssClass="select_route" modelAttribute="trainForm">
                 <form:select cssClass="select" id="routes"  type="text" path="stations" >
                     <form:option value="0"><spring:message code="selectRoute"/></form:option>
                 </form:select>
@@ -39,14 +40,13 @@
                     <form:label path="seats"> Seats </form:label>
                     <form:input path="seats"/>
                 </div>
-
+                <button id="button" type="submit">Add train</button>
             </form:form>
 
         </div>
         <div class="admin_panel">
-            <button id="button" type="submit">Add train</button>
-            <a href="<c:url value="/railroad/user/add-station"/>"><button>Add new station</button></a>
-            <a href="<c:url value="/railroad/user/add-way"/>"> <button>Add train</button></a>
+            <a href="<c:url value="/railroad/station/add"/>"><button>Add new station</button></a>
+            <a href="<c:url value="/railroad/way/add"/>"> <button>Add new way</button></a>
         </div>
     </div>
     </c:if>

@@ -165,6 +165,18 @@ img {
     color: white;
 }
 
+.modal_form > p {
+    width: 230px;
+    margin: 0px auto 15px;
+    padding: 5px 10px;
+    font-size: 14px;
+    text-align: center;
+    font-weight: bold;
+    color: red;
+    background-color: rgba(255, 255, 255, 0.53);
+    border-radius: 5px;
+}
+
 .modal_form form {
     margin: 0px;
 }
@@ -214,12 +226,10 @@ img {
     border: 0px;
     padding: 8px 15px;
     color: white;
-    background-color:  #008eff; /*   rgba(0, 142, 255, 0.51);*/
-
-    cursor: pointer;
+    background-color:  rgba(0, 142, 255, 0.51);
 }
 
-.modal_form button.acrive {
+.modal_form button.active {
     background-color: #008eff;
     cursor: pointer;
 }
@@ -398,9 +408,118 @@ img {
     color: white;
 }
 
+#find_orders {
+    width: 100%;
+}
+.items {
+    width: 795px;
+    height: 435px;
+    margin: 0px auto;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.items .caption {
+    display: flex;
+}
+.items .caption > div {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+.items .caption > div:first-child {
+    width: 90px;
+}
+
+.items .caption > div:nth-child(2) {
+    width: 300px;
+}
+
+.items .item {
+    display: flex;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #f0f4f8;
+    cursor: pointer;
+    position: relative;
+    border: 1px solid #e1e1e1;
+    border-radius: 6px;
+    transition: all 0.3s ease-in;
+}
+
+.items .item:hover {
+    box-shadow: 0 5px 30px 0 rgba(145,178,201,.65);
+    background-color: #f0f4f8;
+}
+
+.items .item .train {
+    width: 50px;
+    margin-right: 20px;
+    text-align: center;
+}
+
+.items .item .train img {
+    width: 30px;
+    margin: 0px auto 5px;
+}
+
+.items .item .route {
+    display: flex;
+    justify-content: center;
+    width: 280px;
+    margin-right: 20px;
+}
+
+.items .item .route > div {
+    position: relative;
+    align-self: center;
+}
+
+.items .item .route > div:first-child {
+    padding-right: 40px;
+}
+.items .item .route > div:first-child:after{
+    position: absolute;
+    top: 0px;
+    right: 12px;
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-image: url(/resources/img/arrow-right.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 16px auto;
+}
+.items .item .date_departure {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    width: 172px;
+    margin-right: 20px;
+}
 
 
-
+.item_btn {
+    display: flex;
+}
+.item_btn > div {
+    align-self: center;
+    height: 30px;
+    padding: 5px 15px;
+    border-radius: 3px;
+    color: white;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+}
+.item_btn > div:first-child {
+    background-color: rgba(0, 142, 255, 0.7);
+    margin-right: 20px;
+}
+.item_btn > div:last-child {
+    background-color: rgba(0, 142, 255, 0.7);
+}
 
 .footer {
     position: fixed;

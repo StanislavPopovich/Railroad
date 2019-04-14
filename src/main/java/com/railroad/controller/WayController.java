@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value = "/railroad/user")
+@RequestMapping(value = "/railroad")
 public class WayController {
 
     @Autowired
@@ -25,22 +25,25 @@ public class WayController {
     @Autowired
     private StationService stationService;
 
-    @GetMapping(value = "/all-ways")
+    @GetMapping(value = "/way/all")
     public String showAllWays(Model model){
         model.addAttribute("ways", wayService.getAllWayDtos());
         return "waysPage";
     }
 
-    @GetMapping(value = "/add-way")
-    public String showAddWayPage(Model model){
-        model.addAttribute("way", new WayDto());
+    @GetMapping(value = "/way/add")
+    public String addWayPage(Model model){
+        model.addAttribute("departStation","");
+        model.addAttribute("arrivalStation","");
+        model.addAttribute("distanceForm","");
+        model.addAttribute("wayForm", new WayDto());
         model.addAttribute("stations", stationService.getAllStationsName());
         return "addWay";
     }
 
-    @PostMapping(value = "/add-way")
-    public String showAddWayPage(@ModelAttribute("way") WayDto wayDto){
+    @PostMapping(value = "/way/add")
+    public String addWayPage(@ModelAttribute("way") WayDto wayDto){
         wayService.save(wayDto);
-        return "redirect:/railroad/user";
+        return "redirect:/railroad/train/add";
     }
 }

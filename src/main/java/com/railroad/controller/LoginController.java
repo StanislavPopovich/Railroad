@@ -1,7 +1,6 @@
 package com.railroad.controller;
-import com.railroad.dto.TrainDto;
+import com.railroad.dto.TrainTicketDto;
 import com.railroad.dto.UserDto;
-import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.SecurityService;
 import com.railroad.service.api.StationService;
 import org.apache.log4j.Logger;
@@ -11,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.Date;
 
@@ -38,10 +36,10 @@ public class LoginController {
     @GetMapping
     public String getIndexPage(ModelMap modelMap){
         modelMap.addAttribute("stations", stationService.getAllStationsName());
-        modelMap.addAttribute("startStation", "");
-        modelMap.addAttribute("endStation", "");
+        modelMap.addAttribute("departStation", "");
+        modelMap.addAttribute("arrivalStation", "");
         modelMap.addAttribute("date", new Date());
-        modelMap.addAttribute("train", new TrainDto());
+        modelMap.addAttribute("trainForm", new TrainTicketDto());
         return "index";
     }
 

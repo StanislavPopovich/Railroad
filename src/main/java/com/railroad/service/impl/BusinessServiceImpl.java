@@ -77,7 +77,7 @@ public class BusinessServiceImpl implements BusinessService {
         currentUser.setPassengerEntities(userPassengers);
 
         //getting trainEntity by trainNumber
-        TrainEntity trainEntity = trainService.findTrainEntityByNumber(ticketDto.getTrainDto().getNumber());
+        TrainEntity trainEntity = trainService.findTrainEntityByNumber(ticketDto.getTrainTicketDto().getNumber());
 
         //creating new ticketEntity and setting fields
         TicketEntity ticketEntity = new TicketEntity();
@@ -85,11 +85,11 @@ public class BusinessServiceImpl implements BusinessService {
         //getting schedule for departing station
 
         ScheduleEntity departStationSchedule = scheduleService.findScheduleByTrainAndDepartDate(trainEntity,
-                getDate(ticketDto.getTrainDto().getDepartDate()));
+                getDate(ticketDto.getTrainTicketDto().getDepartDate()));
 
         //getting schedule for arrival station
         ScheduleEntity arrivalStationSchedule = scheduleService.findScheduleByTrainAndArrivalDate(trainEntity,
-                getDate(ticketDto.getTrainDto().getArrivalDate()));
+                getDate(ticketDto.getTrainTicketDto().getArrivalDate()));
         ticketEntity.setTrainEntity(trainEntity);
         ticketEntity.setDepartDate(departStationSchedule);
         ticketEntity.setArrivalDate(arrivalStationSchedule);
@@ -121,51 +121,65 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Transactional
     @Override
-    public List<TrainDto> getDirectTrains(String departStation, String arrivalStation, Date departDate) {
-        getTrainsWithIneTransfer(departStation, arrivalStation, departDate);
+    public List<TrainSearchDto> getDirectTrains(String departStation, String arrivalStation, Date departDate) {
 
         //getting schedules for station on departing date
         List<ScheduleEntity> departStationSchedule = scheduleService.
                 getSchedulesByStationNameAndDepartDate(departStation, departDate);
 
         //creating list for target trains
-        List<TrainDto> trains = new ArrayList<>();
+        List<TrainSearchDto> trains = new ArrayList<>();
 
         //date format for client
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
-
         for(ScheduleEntity scheduleEntity: departStationSchedule){
+            TrainEntity trainEntity = scheduleEntity.getTrainEntity();
+            List<StationEntity> trainStation = trainEntity.getStationEntities();
 
-            TrainDto trainDto = trainEntityDtoMapper.trainEntityToTrainDto(scheduleEntity.getTrainEntity());
+            int indexOfDepartStation = geiIndexOfStation(trainStation, departStation);
+            int indexOfArrivalStation = geiIndexOfStation(trainStation, arrivalStation);
 
-            //checking train on having departing station and arrival station
-            if(trainDto.getStations().contains(departStation) && trainDto.getStations().contains(arrivalStation)){
+            if(checkRouteOfTrain(indexOfDepartStation, indexOfArrivalStation)){
+                TrainSearchDto trainSearchDto = trainEntityDtoMapper.
+                        trainEntityToTrainSearchDto(scheduleEntity.getTrainEntity());
 
-                //checking that depart station is before arrival station
-                if(trainDto.getStations().indexOf(departStation) < trainDto.getStations().indexOf(arrivalStation)){
+                List<ScheduleEntity> trainSchedules = scheduleService.
+                        findSchedulesForTrain(trainEntity, scheduleEntity.getDepartDateFromFirstStation());
 
-                    TrainEntity trainEntity = scheduleEntity.getTrainEntity();
+                //getting count tickets from first station of train until destination station
+                int tickets = getCountTickets(trainSchedules, trainEntity, indexOfDepartStation, indexOfArrivalStation);
 
-                    List<ScheduleEntity> trainSchedules = scheduleService.
-                            findSchedulesForTrain(trainEntity, scheduleEntity.getDepartDate());
-
-                    //getting count tickets from first station of train until destination station
-                    int tickets = getCountTickets(trainSchedules, trainEntity, departStation, arrivalStation);
-
-                    //setting trainDto fields
-                    for(ScheduleEntity schedule: trainSchedules){
-                        if(schedule.getStationEntity().getName().equals(arrivalStation)){
-                            trainDto.setDepartDate(format.format(scheduleEntity.getDepartDate()));
-                            trainDto.setArrivalDate(format.format(schedule.getArrivalDate()));
-                            trainDto.setSeats(trainDto.getSeats() - tickets);
-                        }
+                //setting trainDto fields
+                for(ScheduleEntity schedule: trainSchedules){
+                    if(schedule.getStationEntity().getName().equals(arrivalStation)){
+                        trainSearchDto.setDepartDate(format.format(scheduleEntity.getDepartDate()));
+                        trainSearchDto.setArrivalDate(format.format(schedule.getArrivalDate()));
+                        trainSearchDto.setSeats(trainSearchDto.getSeats() - tickets);
                     }
-                    trains.add(trainDto);
                 }
+                trains.add(trainSearchDto);
             }
         }
         return trains;
+    }
+
+    private boolean checkRouteOfTrain(int indexOfDepartStation, int indexOfArrivalStation){
+        if((indexOfDepartStation != -1 && indexOfArrivalStation != -1) &&
+                (indexOfDepartStation < indexOfArrivalStation)){
+            return true;
+        }
+        return false;
+    }
+
+    private int geiIndexOfStation(List<StationEntity> trainStation, String station){
+        int index = -1;
+        for(int i = 0; i < trainStation.size(); i++){
+            if(trainStation.get(i).getName().equals(station)){
+                index = i;
+            }
+        }
+        return index;
     }
 
     public List<TrainDto> getTrainsWithIneTransfer(String departStation, String arrivalStation, Date departDate){
@@ -185,7 +199,12 @@ public class BusinessServiceImpl implements BusinessService {
 
             List<ScheduleEntity> trainSchedules = scheduleService.
                     findSchedulesForTrain(trainEntity, scheduleEntity.getDepartDate());
-            for(int i = 1; i < trainSchedules.size(); i++){
+            int index = 0;
+            for(int i = 0; i < trainSchedules.size(); i++){
+                if(trainSchedules.get(i).getStationEntity().getName().equals(departStation))
+                    index = i;
+            }
+            for(int i = index; i < trainSchedules.size(); i++){
                 System.out.println();
                 System.out.println(trainSchedules.size());
                 System.out.println(trainSchedules.get(i).getStationEntity().getName());
@@ -211,32 +230,23 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     /**
-     * The method returns count of tickets in the interesting part of route
+     * Returns count of tickets in the interesting part of route
      * @param trainSchedules - schedule of current train
      * @param trainEntity - current train
-     * @param departStation - departing station
-     * @param arrivalStation - arrival station
+     * @param departStationIndex - index of departing station
+     * @param arrivalStationIndex - index of arrival station
      * @return count of tickets of current train
      */
     private int getCountTickets(List<ScheduleEntity> trainSchedules, TrainEntity trainEntity,
-                                String departStation, String arrivalStation){
-        int indexDepartStation = 0;
-        int indexArrivalStation = 0;
+                                int departStationIndex, int arrivalStationIndex){
         int countTickets = 0;
-        // getting indexes for stations in schedules list
-        for(int i = 0; i < trainSchedules.size(); i++){
-            if(trainSchedules.get(i).getStationEntity().getName().equals(departStation)){
-                indexDepartStation = i;
-            }else if(trainSchedules.get(i).getStationEntity().getName().equals(arrivalStation)){
-                indexArrivalStation = i;
-            }
-        }
+
         //getting matrix of ticket for all train route
         int[][] tickets = getTicketMatrix(trainSchedules,trainEntity);
 
         //getting the number of tickets in the interesting part of route
-        for(int i = indexArrivalStation; i > indexDepartStation; i--){
-            for(int j = 0; j < indexArrivalStation; j++){
+        for(int i = trainSchedules.size() - 1; i > departStationIndex; i--){
+            for(int j = 0; j < arrivalStationIndex; j++){
                 countTickets += tickets[i][j];
             }
         }
@@ -249,7 +259,7 @@ public class BusinessServiceImpl implements BusinessService {
         int[][] ticketMatrix = getEmptyMatrix(trainSchedule.size());
         for(int i = 0; i < trainSchedule.size() - 1; i++){
             for(int j = trainSchedule.size() - 1; j > i; j--){
-                ticketMatrix[j][i] = ticketService.getCountTicketByTrainAndSchedeles(trainEntity,
+                ticketMatrix[j][i] = ticketService.getCountTicketByTrainAndSchedules(trainEntity,
                         trainSchedule.get(i), trainSchedule.get(j)).intValue();
             }
         }
@@ -259,9 +269,9 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Transactional
     @Override
-    public List<String> getAllRoutes(String startStation, String endStation) {
+    public List<String> getAllRoutes(String departStation, String arrivalStation) {
         List<String> targetRoutes = new ArrayList<>();
-        List<String> routes = getRoutes(startStation, endStation);
+        List<String> routes = getRoutes(departStation, arrivalStation);
         for(String str: routes){
             StringBuilder route = new StringBuilder();
             String[] stationsId = str.split(",");
@@ -277,12 +287,49 @@ public class BusinessServiceImpl implements BusinessService {
         return targetRoutes;
     }
 
+    @Override
+    public void saveStationAndWay(WayDto wayDto) {
+        StationDto stationDto = new StationDto();
+        stationDto.setName(wayDto.getFirstStation());
+        stationService.save(stationDto);
+        wayService.save(wayDto);
+
+    }
+
+    @Override
+    public List<TrainScheduleDto> getTrainsFromSchedule(String station, Date date) {
+        //getting schedules for station on departing date
+        List<ScheduleEntity> stationSchedule = scheduleService.
+                getSchedulesByStationNameAndDepartDate(station, date);
+        List<TrainScheduleDto> trainScheduleDtos = new ArrayList<>();
+        for(ScheduleEntity scheduleEntity: stationSchedule){
+            trainScheduleDtos.add(trainEntityDtoMapper.trainEntityToTrainScheduleDto(scheduleEntity.getTrainEntity()));
+        }
+        return trainScheduleDtos;
+    }
+
+    @Override
+    @Transactional
+    public List<TicketDto> getAllTickets() {
+        //getting current User
+        UserEntity currentUser = userService.getCurrentUser();
+        List<TicketDto> tickets = ticketService.getAllTickets(currentUser);
+        return tickets;
+    }
+
+    @Override
+    @Transactional
+    public List<TicketDto> getActualTickets() {
+        UserEntity currentUser = userService.getCurrentUser();
+        return ticketService.getActualTickets(currentUser);
+    }
 
 
     private List<String> getRoutes(String startStation, String endStation) {
         list = new ArrayList<>();
-        visited = new boolean[stationService.getAll().size() + 1];
-        graph = getSmegMatrix(wayService.getAll());
+        int countStations = stationService.getIdOfLastStation();
+        visited = new boolean[countStations + 1];
+        graph = getSmegMatrix(wayService.getAll(), countStations);
         size = 0;
         List<String> allRoutes = dfs(stationService.getStationEntityByStationName(startStation).getId().intValue(),
                 stationService.getStationEntityByStationName(endStation).getId().intValue(), new ArrayList<>());
@@ -322,8 +369,8 @@ public class BusinessServiceImpl implements BusinessService {
         return allRoutes;
     }
 
-    private int[][] getSmegMatrix(List<WayEntity> wayEntities){
-        int[][] matrix = getEmptyMatrix(wayEntities.size());
+    private int[][] getSmegMatrix(List<WayEntity> wayEntities, int countStation){
+        int[][] matrix = getEmptyMatrix(countStation + 1);
         for(WayEntity wayEntity : wayEntities){
             matrix[wayEntity.getFirstStationEntity().getId().intValue()][wayEntity.getSecondStationEntity().getId().intValue()] = 1;
             matrix[wayEntity.getSecondStationEntity().getId().intValue()][wayEntity.getFirstStationEntity().getId().intValue()] = 1;

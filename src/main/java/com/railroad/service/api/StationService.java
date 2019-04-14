@@ -39,4 +39,6 @@ public interface StationService {
      */
     StationDto getStationById(Long id);
 
+    int getIdOfLastStation();
+
 }

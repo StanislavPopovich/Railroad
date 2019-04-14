@@ -42,4 +42,11 @@ public class StationGenericDaoImpl extends BaseGenericDao<StationEntity, Long> i
         List<String> stationNames = entityManager.createQuery("select s.name from StationEntity s").getResultList();
         return stationNames;
     }
+
+    @Override
+    public int getIdOfLastStation() {
+        StationEntity stationEntity = (StationEntity)entityManager.
+                createQuery("select s from StationEntity s order by s.id desc ").setMaxResults(1).getSingleResult();
+        return stationEntity.getId().intValue();
+    }
 }

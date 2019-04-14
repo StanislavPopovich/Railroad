@@ -6,6 +6,7 @@ import com.railroad.dao.api.TrainGenericDao;
 import com.railroad.dto.ScheduleDto;
 import com.railroad.mapper.ScheduleEntityDtoMapper;
 import com.railroad.model.ScheduleEntity;
+import com.railroad.model.StationEntity;
 import com.railroad.model.TrainEntity;
 import com.railroad.service.api.ScheduleService;
 import org.apache.log4j.Logger;
@@ -42,10 +43,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    //+ Надо заменить id
     public List<ScheduleEntity> getSchedulesByStationNameAndDepartDate(String stationName, Date departDate) {
-        Long stationId = stationDao.findByStationName(stationName).getId();
-        List<ScheduleEntity> schedules = scheduleDao.findScheduleByStationIdAndDepartDate(stationId, departDate);
+        StationEntity stationEntity = stationDao.findByStationName(stationName);
+        List<ScheduleEntity> schedules = scheduleDao.findScheduleByStationAndDepartDate(stationEntity, departDate);
         return schedules;
     }
 
@@ -70,10 +70,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     //+
-    public List<ScheduleEntity> findSchedulesForTrain(TrainEntity trainEntity, Date departDate) {
-        Date arrivalDate = getArrivalDate(trainEntity.getTimeWay(), departDate);
-        Date newDepartDate = getDepartDate(trainEntity.getTimeWay(), departDate);
-        return scheduleDao.findSchedulesForTrain(trainEntity,newDepartDate,arrivalDate);
+    public List<ScheduleEntity> findSchedulesForTrain(TrainEntity trainEntity, Date departDateFromFirstStation) {
+        return scheduleDao.findSchedulesForTrain(trainEntity,departDateFromFirstStation);
     }
 
     private Date getArrivalDate(Date trainTimeWay, Date departDate){

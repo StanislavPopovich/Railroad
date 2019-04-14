@@ -25,10 +25,10 @@
                     <form:input cssClass="date" id="date" type="date" path="passengerDto.birthDate" value="${Date}"/>
                 </div>
                 <div class="wrapper_input">
-                    <form:hidden id="number"  path="trainDto.number" value="${train.number}"/>
-                    <form:hidden id="number"  path="trainDto.departDate" value="${train.departDate}"/>
-                    <form:hidden id="number"  path="trainDto.arrivalDate" value="${train.arrivalDate}"/>
-                    <form:hidden id="number"  path="trainDto.stations" value="${train.stations}"/>
+                    <form:hidden id="number"  path="trainTicketDto.number" value="${trainForm.number}"/>
+                    <form:hidden id="number"  path="trainTicketDto.departDate" value="${trainForm.departDate}"/>
+                    <form:hidden id="number"  path="trainTicketDto.arrivalDate" value="${trainForm.arrivalDate}"/>
+                    <form:hidden id="number"  path="trainTicketDto.stations" value="${trainForm.stations}"/>
                 </div>
                 <button id="b_button" type="submit">Buy</button>
             </form:form>

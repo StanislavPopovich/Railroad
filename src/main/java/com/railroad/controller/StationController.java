@@ -1,12 +1,14 @@
 package com.railroad.controller;
 
 import com.railroad.dto.StationDto;
+import com.railroad.dto.WayDto;
 import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.StationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -20,22 +22,26 @@ public class StationController {
     @Autowired
     private StationService stationService;
 
-    @GetMapping(value = "/user/add-station")
-    public String getAddStationPage(Model model){
-        model.addAttribute("station", new StationDto());
+    @Autowired
+    private BusinessService businessService;
+
+    @GetMapping(value = "/station/add")
+    public String addStationPage(Model model){
+        model.addAttribute("stations", stationService.getAllStationsName());
+        model.addAttribute("way", new WayDto());
         return "addStation";
     }
 
-    @PostMapping(value = "/user/add-station")
-    public String resultAddStation(@ModelAttribute("station") StationDto stationDto){
-        stationService.save(stationDto);
-        return "redirect:/railroad/user";
+    @PostMapping(value = "/station/add")
+    public String resultAddStation(@ModelAttribute("way") WayDto way){
+        businessService.saveStationAndWay(way);
+        return "redirect:/railroad/train/add";
     }
 
     @PostMapping(value = "/dest-station")
     public @ResponseBody
-    List<String> getStationsWithoutStartStation(@RequestParam String start) {
-        return getStations(start, stationService.getAllStationsName());
+    List<String> getStationsWithoutStartStation(@RequestParam String departStation) {
+        return getStations(departStation, stationService.getAllStationsName());
     }
 
     public List<String> getStations(String startStation, List<String> stations){

@@ -31,9 +31,6 @@ public class TrainEntity extends BaseEntity {
     @OneToMany(mappedBy = "trainEntity")
     private Set<ScheduleEntity> scheduleEntities;
 
-    @Temporal(TemporalType.TIME)
-    @Column(name = "time_way", nullable = false)
-    private Date timeWay;
 
 
 

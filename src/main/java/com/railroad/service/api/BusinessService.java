@@ -13,23 +13,33 @@ public interface BusinessService {
 
     /**
      * The method returns direct trains from starting station to destination station on a specific date
-     * @param startStation
-     * @param destStation
-     * @param date
+     * @param departStation
+     * @param arrivalStation
+     * @param departDate
      * @return list of trainDto
      */
-    List<TrainDto> getDirectTrains(String startStation, String destStation, Date date);
+    List<TrainSearchDto> getDirectTrains(String departStation, String arrivalStation, Date departDate);
 
 
     /**
-     * The method returns all routes from starting station to destination station
-     * @param startStation
-     * @param endStation
-     * @return list of Strings
+     * Returns all routes from departing station to arrival station
+     * @param departStation departing station of route
+     * @param arrivalStation arrival station of route
+     * @return list of strings which is routes from departing station to arrival station
      */
-    List<String> getAllRoutes(String startStation, String endStation);
+    List<String> getAllRoutes(String departStation, String arrivalStation);
 
+    /**
+     *
+     * @param wayDto
+     */
+    void saveStationAndWay(WayDto wayDto);
 
+    List<TrainScheduleDto> getTrainsFromSchedule(String station, Date date);
+
+    List<TicketDto> getAllTickets();
+
+    List<TicketDto> getActualTickets();
 
 
 

@@ -10,12 +10,17 @@
 <body>
 <jsp:include page="header.jsp"/>
 <section class="main">
-
     <security:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')" var="isUser"/>
     <c:if test="${isUser}">
-        <form:form method="POST" modelAttribute="station">
-            <form:label path="name"> Station </form:label>
-            <form:input id="name" type="text" path="name" autofocus="true"/><br/>
+        <form:form method="POST" modelAttribute="way">
+            <form:label path="firstStation"> First Station </form:label>
+            <form:input id="name" type="text" path="firstStation" autofocus="true"/><br/>
+            <form:select cssClass="select" type="text" path="secondStation">
+                <form:option value="0">Second Station</form:option>
+                <form:options items="${stations}"/>
+            </form:select>
+            <form:label path="distance"> Distance </form:label>
+            <form:input type="text" path="distance"/><br/>
             <button id="button" type="submit">Add</button>
         </form:form>
         </c:if>

@@ -15,7 +15,7 @@
         <div class="modal_form">
             <h1><spring:message code="registration_form"/></h1>
             <c:if test="${exist}">
-                <h2><spring:message code="exist"/></h2>
+                <p><spring:message code="exist"/></p>
             </c:if>
             <form:form method="POST" modelAttribute="userForm" >
                 <div class="wrapper_input">

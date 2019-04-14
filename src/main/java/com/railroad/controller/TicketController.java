@@ -25,6 +25,13 @@ public class TicketController {
         return "redirect:/railroad/user";
     }
 
+    @PostMapping(value = "ticket-more")
+    public String ticketMorePage(@ModelAttribute("ticket")TicketDto ticketDto){
+        System.out.println("\n");
+        System.out.println(ticketDto);
+        return "redirect:/railroad/user";
+    }
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

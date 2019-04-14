@@ -8,13 +8,13 @@ import lombok.ToString;
 @Getter
 @ToString
 public class TicketDto {
-    private TrainDto trainDto;
+    private TrainTicketDto trainTicketDto;
     private PassengerDto passengerDto;
 
     public TicketDto(){}
 
-    public TicketDto(TrainDto trainDto, PassengerDto passengerDto){
-        this.trainDto = trainDto;
+    public TicketDto(TrainTicketDto trainTicketDto, PassengerDto passengerDto){
+        this.trainTicketDto = trainTicketDto;
         this.passengerDto = passengerDto;
     }
 }

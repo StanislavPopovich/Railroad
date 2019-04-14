@@ -3,6 +3,7 @@ package com.railroad.controller;
 import com.railroad.dto.PassengerDto;
 import com.railroad.dto.TicketDto;
 import com.railroad.dto.TrainDto;
+import com.railroad.dto.TrainTicketDto;
 import com.railroad.service.api.BusinessService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,9 @@ public class PassengerController {
 
 
     @PostMapping(value = "/add-passenger")
-    public ModelAndView addPassengerPage(@ModelAttribute("train") TrainDto trainDto, ModelMap modelMap){
+    public ModelAndView addPassengerPage(@ModelAttribute("trainForm") TrainTicketDto trainTicketDto, ModelMap modelMap){
         ModelAndView modelAndView = new ModelAndView();
-        TicketDto ticketDto = new TicketDto(trainDto, new PassengerDto());
+        TicketDto ticketDto = new TicketDto(trainTicketDto, new PassengerDto());
         modelMap.addAttribute("ticket", ticketDto);
         modelAndView.addAllObjects(modelMap);
         modelAndView.setViewName("addPassengerPage");

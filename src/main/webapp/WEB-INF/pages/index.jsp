@@ -14,13 +14,13 @@
     <div class="container">
         <div class="find_container">
             <form id="start_station">
-                <form:select cssClass="select" id="start" type="text" path="startStation">
+                <form:select cssClass="select" id="start" type="text" path="departStation">
                     <form:option value="0"><spring:message code="departStation"/></form:option>
                     <form:options items="${stations}"/>
                 </form:select>
             </form>
             <form id="end_station_login">
-                <form:select cssClass="select" id="end" type="text" path="endStation">
+                <form:select cssClass="select" id="end" type="text" path="arrivalStation">
                     <form:option value="0"><spring:message code="arrivalStation"/></form:option>
                 </form:select>
             </form>
@@ -36,7 +36,7 @@
 
         </div>
         <div>
-            <form:form modelAttribute="train" action="/railroad/user/add-passenger" method="post">
+            <form:form modelAttribute="trainForm" action="/railroad/user/add-passenger" method="post">
                 <form:hidden id="ticket_buy_form_trainNumber" path="number" value=""/>
                 <form:hidden id="ticket_buy_form_departDate" path="departDate" value=""/>
                 <form:hidden id="ticket_buy_form_arrivalDate" path="arrivalDate" value=""/>

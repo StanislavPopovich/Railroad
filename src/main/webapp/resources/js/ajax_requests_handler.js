@@ -26,11 +26,11 @@ $().ready(function () {
             arrival: "To"
         }
     };
-
+    // Returns station without departing station
     $('#start_station').on('change',function () {
         // var station = $("#start").val();
         var station = {};
-        station["start"] = $("#start").val();
+        station["departStation"] = $("#start").val();
         $.ajax({
             url : '/railroad/dest-station',
             type : "POST",
@@ -45,12 +45,14 @@ $().ready(function () {
             }
         })
     });
+
+    //Returns all routes between departing and arrival stations
     $('#end_station').on('change', function () {
         var stations = {};
-        stations["start"] = $("#start").val();
-        stations["end"] = $("#end").val();
+        stations["departStation"] = $("#start").val();
+        stations["arrivalStation"] = $("#end").val();
         $.ajax({
-            url : '/railroad/user/all-routes',
+            url : '/railroad/train/all-routes',
             type : "POST",
             data : stations,
             dataType : "json",
@@ -70,8 +72,8 @@ $().ready(function () {
     $('#findButton').on('submit', function (event) {
         event.preventDefault();
         var stations = {};
-        stations["start"] = $("#start").val();
-        stations["end"] = $("#end").val();
+        stations["departStation"] = $("#start").val();
+        stations["arrivalStation"] = $("#end").val();
         stations["date"] = $("#date").val();
         $.ajax({
             url : 'railroad/find-trains-with-date',
@@ -95,8 +97,8 @@ $().ready(function () {
                     for(var i = 0; i < data.length; i++){
                         markup+='<tr>';
                         markup+= '<td>' + data[i].number + '</td>';
-                        markup+= '<td>' + stations.start + '</td>';
-                        markup+= '<td>' + stations.end + '</td>';
+                        markup+= '<td>' + stations.departStation + '</td>';
+                        markup+= '<td>' + stations.arrivalStation + '</td>';
                         markup+= '<td>' + data[i].departDate + '</td>';
                         markup+= '<td>' + data[i].arrivalDate + '</td>';
                         markup+= '<td>' + data[i].seats + '</td>';
@@ -110,10 +112,6 @@ $().ready(function () {
             }
         })
     });
-    /*+ '<a href="/railroad/user/add-passenger/' + data[i].number + '/' +
-                                data[i].departDate + '/' + data[i].arrivalDate + '/'+ stations.start + '/'
-                                + stations.end +'"> + findTableText[local].buyButton + '</a>*/
-
 
     // Set values in trainForm for buy ticket
     function buyTicketButton(){
@@ -121,8 +119,8 @@ $().ready(function () {
             event.preventDefault();
             var tr_event = event.target;
             if(tr_event.tagName === 'BUTTON'){
-                var curret_tr = tr_event.parentElement.parentElement;
-                var current_tds = curret_tr.querySelectorAll("td");
+                var current_tr = tr_event.parentElement.parentElement;
+                var current_tds = current_tr.querySelectorAll("td");
                 var stations =[current_tds[1].textContent, current_tds[2].textContent];
                 $('#ticket_buy_form_trainNumber').val(current_tds[0].textContent);
                 $('#ticket_buy_form_departDate').val(current_tds[3].textContent);
@@ -134,7 +132,25 @@ $().ready(function () {
     }
 
     function autoSubmitTrainFrom() {
-        var form =document.getElementById("train");
+        var form =document.getElementById("trainForm");
+        form.submit();
+    }
+
+    // Set values in wayForm
+    $('#add_way_form').on('submit', function (event) {
+            event.preventDefault();
+        var departStation=$('#start').val();
+        var arrivalStation=$('#end').val();
+        var distance=$('#distance').val();
+        $('#way_first_station').val(departStation);
+        $('#way_second_station').val(arrivalStation);
+        $('#way_distance').val(distance);
+        autoSubmitWayForm();
+
+    });
+
+    function autoSubmitWayForm() {
+        var form =document.getElementById("wayForm");
         form.submit();
     }
 

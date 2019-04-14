@@ -16,7 +16,7 @@
 
             </div>
             <div class="admin_panel">
-                <a href="<c:url value="/railroad/user/add-train"/>"><button>Add new train</button></a>
+                <a href="<c:url value="/railroad/train/add"/>"><button>Add new train</button></a>
             </div>
 
         </c:if>

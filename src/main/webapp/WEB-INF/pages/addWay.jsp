@@ -12,21 +12,28 @@
 <section class="main">
     <security:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')" var="isUser"/>
     <c:if test="${isUser}">
-        <form:form method="POST" modelAttribute="way">
-            <div id="start_station">
-                <form:select cssClass="select" id="start" type="text" path="firstStation">
-                    <form:option value="0"><spring:message code="departStation"/></form:option>
-                    <form:options items="${stations}"/>
-                </form:select>
-            </div>
-
-                <form:select cssClass="select" id="end" type="text" path="secondStation">
-                    <form:option value="0"><spring:message code="arrivalStation"/></form:option>
-                </form:select>
-
-        <form:label path="distance"> Distance </form:label>
-            <form:input path="distance"/><br/>
-        <button id="button" type="submit">Add</button>
+        <form id="start_station">
+            <form:select cssClass="select" id="start" type="text" path="departStation" >
+                <form:option value="0"><spring:message code="departStation"/></form:option>
+                <form:options items="${stations}"/>
+            </form:select>
+        </form>
+        <form id="end_station_login">
+            <form:select cssClass="select" id="end" type="text" path="arrivalStation">
+                <form:option value="0"><spring:message code="arrivalStation"/></form:option>
+            </form:select>
+        </form>
+        <form>
+            <form:label path="distanceForm">Distance</form:label>
+            <form:input id="distance" type="text" path="distanceForm"/>
+        </form>
+        <form id="add_way_form">
+            <button type="submit">Add</button>
+        </form>
+        <form:form  method="POST" modelAttribute="wayForm">
+            <form:hidden id="way_first_station" path="firstStation"/>
+            <form:hidden id="way_second_station" path="secondStation"/>
+            <form:hidden id="way_distance" path="distance"/>
         </form:form>
     </c:if>
 </section>

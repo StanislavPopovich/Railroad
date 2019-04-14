@@ -1,12 +1,15 @@
 package com.railroad.controller;
+import com.railroad.dto.TicketDto;
 import com.railroad.dto.TrainDto;
 import com.railroad.dto.UserDto;
+import com.railroad.model.TicketEntity;
 import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.RoleService;
 import com.railroad.service.api.TrainService;
 import com.railroad.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,12 +27,20 @@ public class UserController {
 
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private BusinessService businessService;
 
     @GetMapping(value = "/user")
-    public String getUserPage() {
+    public String getUserPage(Model model) {
+        model.addAttribute("ticket", new TicketDto());
         return "userPage";
     }
 
+    @GetMapping(value = "/user/user")
+    public @ResponseBody
+    List<TicketDto> getStartContentUserPage() {
+        return businessService.getActualTickets();
+    }
 
     @GetMapping(value = "/user/admin")
     public @ResponseBody

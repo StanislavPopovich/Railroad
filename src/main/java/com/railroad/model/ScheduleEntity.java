@@ -27,6 +27,10 @@ public class ScheduleEntity extends BaseEntity {
     @Column(name = "depart_date", nullable = false)
     private Date departDate;
 
+    @Temporal(TemporalType.DATE)
+    @Column(name = "depart_date_first_station", nullable = false)
+    private Date departDateFromFirstStation;
+
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "station_id", nullable = false)
     private StationEntity stationEntity;

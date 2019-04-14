@@ -31,7 +31,6 @@
             </tr>
         </c:forEach>
     </table>
-    <a href="<c:url value='/railroad/admin/'/>"><button>to admin page</button></a>
     <jsp:include page="footer.jsp"/>
 </div>
 </body>
