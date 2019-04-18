@@ -3,7 +3,6 @@ package com.railroad.dao.api;
 import com.railroad.model.ScheduleEntity;
 import com.railroad.model.StationEntity;
 import com.railroad.model.TrainEntity;
-
 import java.util.Date;
 import java.util.List;
 

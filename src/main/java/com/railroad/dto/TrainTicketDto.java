@@ -3,8 +3,7 @@ package com.railroad.dto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.LinkedList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,5 +12,5 @@ public class TrainTicketDto {
     private Integer number;
     private String departDate;
     private String arrivalDate;
-    private LinkedList<String> stations;
+    private List<String> stations;
 }

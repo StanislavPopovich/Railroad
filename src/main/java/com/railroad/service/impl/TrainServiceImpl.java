@@ -36,6 +36,7 @@ public class TrainServiceImpl implements TrainService {
     @Override
     @Transactional
     public void save(TrainDto trainDto) {
+        trainNumberIsExist(trainDto.getNumber());
         LinkedList<String> trainStations = new LinkedList<>();
         String[] stationsArr = trainDto.getStations().getFirst().split("=>");
         for (int i = 0; i < stationsArr.length; i++) {
@@ -49,6 +50,14 @@ public class TrainServiceImpl implements TrainService {
         }
         trainEntity.setStationEntities(stations);
         trainGenericDao.save(trainEntity);
+    }
+
+    private boolean trainNumberIsExist(Integer number){
+        List<Integer> numbers = getAllTrainsNumbers();
+        if(numbers.contains(number)){
+            //Exception
+        }
+        return false;
     }
 
     /**
@@ -67,6 +76,11 @@ public class TrainServiceImpl implements TrainService {
     //+
     public TrainEntity findTrainEntityByNumber(Integer trainNumber) {
         return trainGenericDao.findTrainByNumber(trainNumber);
+    }
+
+    @Override
+    public List<Integer> getAllTrainsNumbers() {
+        return trainGenericDao.getAllTrainsNumbers();
     }
 
 

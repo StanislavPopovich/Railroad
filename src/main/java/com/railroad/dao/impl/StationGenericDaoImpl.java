@@ -2,9 +2,7 @@ package com.railroad.dao.impl;
 
 import com.railroad.dao.api.StationGenericDao;
 import com.railroad.model.StationEntity;
-import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -24,12 +22,6 @@ public class StationGenericDaoImpl extends BaseGenericDao<StationEntity, Long> i
         super(StationEntity.class);
     }
 
-    /**
-     *Method for finding StationEntity in DB
-     *
-     * @param name
-     * @return StationEntity with selected name
-     */
     @Override
     public StationEntity findByStationName(String name) {
         StationEntity stationEntity = (StationEntity) entityManager.createQuery("select s from StationEntity s where s.name=:name").
@@ -43,6 +35,7 @@ public class StationGenericDaoImpl extends BaseGenericDao<StationEntity, Long> i
         return stationNames;
     }
 
+    //TODO
     @Override
     public int getIdOfLastStation() {
         StationEntity stationEntity = (StationEntity)entityManager.

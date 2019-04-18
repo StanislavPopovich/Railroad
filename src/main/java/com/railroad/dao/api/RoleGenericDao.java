@@ -10,7 +10,7 @@ import com.railroad.model.RoleEntity;
 public interface RoleGenericDao extends GenericDao<RoleEntity, Long> {
 
     /**
-     *Method for finding RoleEntity in DB
+     * Returns role entity from db by name
      *
      * @param name
      * @return RoleEntity with selected name

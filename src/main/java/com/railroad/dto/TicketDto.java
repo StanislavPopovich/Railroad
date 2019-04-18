@@ -10,6 +10,7 @@ import lombok.ToString;
 public class TicketDto {
     private TrainTicketDto trainTicketDto;
     private PassengerDto passengerDto;
+    private Long number;
 
     public TicketDto(){}
 

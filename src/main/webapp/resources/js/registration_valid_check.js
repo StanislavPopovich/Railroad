@@ -8,7 +8,7 @@ var regbutton = document.getElementById("button");
 
 function checkUsername() {
     if (username.value == "" || username.value.length < 3) {
-        getMessage("Имя должно состоять от 3 до 25 символов", "error_name");
+        getMessage("Username must be 3-20 characters in length", "error_name");
         if (username.classList.contains("correct")) {
             username.classList.remove("correct");
             turnOnButton();
@@ -24,7 +24,7 @@ function checkUsername() {
 }
 
 function checkPassword() {
-    getMessage("Пароль должен быть более 3 символов", "error_password");
+    getMessage("Password must be more 3 characters in length", "error_password");
     if (password.value == "" || password.value.length < 3) {
         if (password.classList.contains("correct")) {
             password.classList.remove("correct");
@@ -49,8 +49,8 @@ function checkPassword() {
 }
 
 function checkPasswordConfirm() {
-    getMessage("Повторите пароль", "error_password_confirm");
-    if (passwordConfirm.value == "" ||passwordConfirm.value.length < 3
+    getMessage("Repeat password", "error_password_confirm");
+    if (passwordConfirm.value == "" || passwordConfirm.value.length < 3
         || passwordConfirm.value != password.value) {
         if (passwordConfirm.classList.contains("correct")) {
             passwordConfirm.classList.remove("correct");

@@ -11,21 +11,21 @@ import java.util.List;
  */
 public interface GenericDao<T, ID extends Serializable> {
     /**
-     * Method for adding Entity in DB
+     * Saves entity to db
      *
-     * @param entity entity
+     * @param entity
      */
     void save(T entity);
 
     /**
-     * Method for removing Entity from DB
+     * Removes entity in db
      *
      * @param entity
      */
     void remove(T entity);
 
     /**
-     * Method for getting user by id
+     * Returns entity by id
      *
      * @param id id
      * @return Entity with selected id
@@ -33,14 +33,14 @@ public interface GenericDao<T, ID extends Serializable> {
     T getById(ID id);
 
     /**
-     * Method for getting all entities from DB
+     * Returns all entities from db
      *
      * @return full list of entities from DB
      */
     List<T> getAll();
 
     /**
-     * Method for updating Entity in DB
+     * Updates entity to db
      *
      * @param entity
      */

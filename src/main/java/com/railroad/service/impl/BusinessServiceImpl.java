@@ -1,4 +1,5 @@
 package com.railroad.service.impl;
+import com.railroad.dao.api.PassengerGenericDao;
 import com.railroad.dto.*;
 import com.railroad.mapper.PassengerEntityDtoMapper;
 import com.railroad.mapper.TrainEntityDtoMapper;
@@ -51,6 +52,8 @@ public class BusinessServiceImpl implements BusinessService {
     @Autowired
     private PassengerServiceImpl passengerService;
 
+
+
     @Transactional
     @Override
     public void saveTicket(TicketDto ticketDto) {
@@ -97,6 +100,7 @@ public class BusinessServiceImpl implements BusinessService {
 
         //saving ticket to db
         ticketService.saveTicket(ticketEntity);
+
     }
 
     /**
@@ -310,10 +314,12 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     @Transactional
-    public List<TicketDto> getAllTickets() {
+    public List<List<TicketDto>> getAllTickets() {
         //getting current User
         UserEntity currentUser = userService.getCurrentUser();
-        List<TicketDto> tickets = ticketService.getAllTickets(currentUser);
+        List<List<TicketDto>> tickets = new ArrayList<>();
+        tickets.add(ticketService.getActualTickets(currentUser));
+        tickets.add(ticketService.getAllTickets(currentUser));
         return tickets;
     }
 
@@ -322,6 +328,14 @@ public class BusinessServiceImpl implements BusinessService {
     public List<TicketDto> getActualTickets() {
         UserEntity currentUser = userService.getCurrentUser();
         return ticketService.getActualTickets(currentUser);
+    }
+
+    @Transactional
+    @Override
+    public List<PassengerDto> getPassengersOfCurrentUser() {
+        UserEntity currentUser = userService.getCurrentUser();
+        List<PassengerDto> passengers = passengerEntityDtoMapper.passengerEntitiesToPassengerDtos(currentUser.getPassengerEntities());
+        return passengers;
     }
 
 

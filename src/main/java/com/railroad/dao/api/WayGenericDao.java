@@ -1,7 +1,6 @@
 package com.railroad.dao.api;
 
 import com.railroad.model.WayEntity;
-
 import java.util.List;
 
 /**
@@ -11,10 +10,12 @@ import java.util.List;
  */
 public interface WayGenericDao extends GenericDao<WayEntity, Long> {
         /**
-         *Method for finding Ways in DB
+         * Returns entities that matches selected station
          *
          * @param id
-         * @return List of ways with selected station id
+         * @return List ways with selected station id
          */
+
+        //TODO
         List<WayEntity> findByStationId(Long id);
 }

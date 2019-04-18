@@ -29,9 +29,9 @@
             <c:if test="${pageContext.request.isUserInRole('ROLE_USER')}">
                 <div class="main_menu">
                     <ul class="menu">
-                        <li><a href="<c:url value='/railroad/user/all-tickets'/>" class="log_reg_page">
+                        <li><a href="<c:url value='/railroad/ticket/all'/>" class="log_reg_page">
                             <spring:message code="all_tickets"/></a></li>
-                        <li><a href="<c:url value='/railroad/user/all-passengers'/>" class="log_reg_page">
+                        <li><a href="<c:url value='/railroad/user/passenger/all'/>" class="log_reg_page">
                             <spring:message code="all_passengers"/></a></li>
                         <li><a href="<c:url value='/railroad'/>" class="log_reg_page">
                             <spring:message code="find_train"/></a></li>

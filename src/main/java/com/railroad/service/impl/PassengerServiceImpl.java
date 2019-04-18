@@ -30,7 +30,6 @@ public class PassengerServiceImpl {
 
     //+
     public PassengerEntity findPassengerByNameAndBirthDate(PassengerEntity passengerEntity){
-        return passengerGenericDao.findPassengerByLastNameAndBirthDate(passengerEntity.getLastName(),
-                passengerEntity.getName(), passengerEntity.getBirthDate());
+        return passengerGenericDao.findPassengerByAllFields(passengerEntity);
     }
 }

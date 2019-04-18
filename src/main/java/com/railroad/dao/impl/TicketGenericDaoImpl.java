@@ -27,7 +27,7 @@ public class TicketGenericDaoImpl extends BaseGenericDao<TicketEntity, Long> imp
     @Override
     public List<TicketEntity> getAllTickets(UserEntity userEntity) {
         List<TicketEntity> tickets = entityManager.createQuery("select t from TicketEntity t " +
-                "where t.userEntity= :userEntity").setParameter("userEntity" , userEntity).getResultList();
+                "where t.userEntity= :userEntity order by t.departDate desc").setParameter("userEntity" , userEntity).getResultList();
         return tickets;
     }
 
@@ -36,7 +36,18 @@ public class TicketGenericDaoImpl extends BaseGenericDao<TicketEntity, Long> imp
     public List<TicketEntity> getActualTickets(UserEntity userEntity) {
         Date currentDate = new Date();
         List<TicketEntity> tickets = entityManager.createQuery("select t from TicketEntity t " +
-                "where t.userEntity= :userEntity and t.departDate.departDate > :currentDate").
+                "where t.userEntity= :userEntity and t.departDate.departDate > :currentDate order by t.departDate").
+                setParameter("userEntity" , userEntity).
+                setParameter("currentDate", currentDate).getResultList();
+        return tickets;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<TicketEntity> getNotActualTickets(UserEntity userEntity) {
+        Date currentDate = new Date();
+        List<TicketEntity> tickets = entityManager.createQuery("select t from TicketEntity t " +
+                "where t.userEntity= :userEntity and t.departDate.departDate < :currentDate order by t.departDate").
                 setParameter("userEntity" , userEntity).
                 setParameter("currentDate", currentDate).getResultList();
         return tickets;
@@ -52,11 +63,11 @@ public class TicketGenericDaoImpl extends BaseGenericDao<TicketEntity, Long> imp
         return count;
     }
 
+
+
     @Override
-    public List<PassengerEntity> getAllUserPassengers(UserEntity userEntity) {
-        List<PassengerEntity> passengers = entityManager.createQuery("select " +
-                "t.passengerEntity from TicketEntity t where t.userEntity= :userEntity").
-                setParameter("userEntity" , userEntity).getResultList();
-        return passengers;
+    public void removeTicketByNumber(Long ticketNumber) {
+        entityManager.createQuery("delete from TicketEntity t where t.id= :ticketNumber").
+                setParameter("ticketNumber", ticketNumber).executeUpdate();
     }
 }

@@ -25,4 +25,6 @@ public interface TrainService {
     List<TrainDto> getAll();
 
     TrainEntity findTrainEntityByNumber(Integer trainNumber);
+
+    List<Integer> getAllTrainsNumbers();
 }

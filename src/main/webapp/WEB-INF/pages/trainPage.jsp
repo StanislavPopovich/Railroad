@@ -24,6 +24,6 @@
 </section>
 <jsp:include page="footer.jsp"/>
 <script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="/resources/js/ajaxUserHandler.js"></script>
+<script type="text/javascript" src="/resources/js/ajax_user_handler.js"></script>
 </body>
 </html>

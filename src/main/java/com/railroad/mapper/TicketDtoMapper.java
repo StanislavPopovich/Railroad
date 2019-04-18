@@ -9,6 +9,7 @@ import org.mapstruct.Mapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,21 +19,29 @@ public interface TicketDtoMapper {
 
     @Mapping(source = "passengerEntity", target = "passengerDto")
     @Mapping(source = "ticketEntity", target = "trainTicketDto")
+    @Mapping(source = "id", target = "number")
     TicketDto ticketEntityToTicketDto(TicketEntity ticketEntity);
 
     List<TicketDto> ticketEntitiesToTicketDtos(List<TicketEntity> ticketEntities);
 
+    @Mapping(source ="birthDate", dateFormat = "dd-MM-yyyy",target = "birthDate")
     PassengerDto passengerEntityToPassengerDto(PassengerEntity passengerEntity);
 
     default TrainTicketDto trainEntityToTrainTicketDto(TicketEntity ticketEntity){
         if (ticketEntity.getTrainEntity() == null) {
             return null;
         } else {
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+            String departStation = ticketEntity.getDepartDate().getStationEntity().getName();
+            String arrivalStation = ticketEntity.getArrivalDate().getStationEntity().getName();
             TrainTicketDto trainTicketDto = new TrainTicketDto();
-            trainTicketDto.setStations(this.stationEntitiesToStationsNames(ticketEntity.getTrainEntity().getStationEntities()));
+            List<String> stations = new ArrayList<>();
+            stations.add(departStation);
+            stations.add(arrivalStation);
+            trainTicketDto.setStations(stations);
             trainTicketDto.setNumber(ticketEntity.getTrainEntity().getNumber());
-            trainTicketDto.setDepartDate(dateToString(ticketEntity.getDepartDate().getDepartDate()));
-            trainTicketDto.setArrivalDate(dateToString(ticketEntity.getArrivalDate().getDepartDate()));
+            trainTicketDto.setDepartDate(format.format(ticketEntity.getDepartDate().getDepartDate()));
+            trainTicketDto.setArrivalDate(format.format(ticketEntity.getArrivalDate().getDepartDate()));
             return trainTicketDto;
         }
     }
@@ -46,9 +55,4 @@ public interface TicketDtoMapper {
         return stations;
     }
 
-    default String dateToString(Date date){
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-        String dateAndTime = format.format(date);
-        return dateAndTime;
-    }
 }

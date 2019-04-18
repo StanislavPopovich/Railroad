@@ -2,7 +2,6 @@ package com.railroad.dao.impl;
 
 import com.railroad.dao.api.WayGenericDao;
 import com.railroad.model.WayEntity;
-import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -24,12 +23,6 @@ public class WayGenericDaoImpl extends BaseGenericDao<WayEntity, Long> implement
         super(WayEntity.class);
     }
 
-    /**
-     *Method for finding Ways in DB
-     *
-     * @param stationId
-     * @return List of ways with selected station id
-     */
     @SuppressWarnings("unchecked")
     @Override
     public List<WayEntity> findByStationId(Long stationId) {

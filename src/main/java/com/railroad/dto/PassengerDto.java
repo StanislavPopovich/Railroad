@@ -8,5 +8,5 @@ import java.util.Date;
 public class PassengerDto {
     private String lastName;
     private String name;
-    private Date BirthDate;
+    private String birthDate;
 }

@@ -45,4 +45,10 @@ public class TicketServiceImpl implements TicketService {
     public List<TicketDto> getActualTickets(UserEntity currentUser) {
         return ticketDtoMapper.ticketEntitiesToTicketDtos(ticketDao.getActualTickets(currentUser));
     }
+
+    @Transactional
+    @Override
+    public void removeTicketByNumber(Long ticketNumber) {
+        ticketDao.removeTicketByNumber(ticketNumber);
+    }
 }

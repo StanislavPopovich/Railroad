@@ -16,7 +16,10 @@ public interface TicketGenericDao extends GenericDao<TicketEntity, Long> {
 
     List<TicketEntity> getActualTickets(UserEntity userEntity);
 
+    List<TicketEntity> getNotActualTickets(UserEntity userEntity);
+
     Long getCountTicketsByTrainAndSchedules(TrainEntity trainEntity, ScheduleEntity depart, ScheduleEntity arrival);
 
-    List<PassengerEntity> getAllUserPassengers(UserEntity userEntity);
+
+    void removeTicketByNumber(Long ticketNumber);
 }

@@ -1,12 +1,12 @@
 package com.railroad.dao.impl;
 
 import com.railroad.dao.api.UserGenericDao;
+import com.railroad.model.RoleEntity;
 import com.railroad.model.UserEntity;
-import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * DAO implementation for the {@link UserEntity} objects.
@@ -23,12 +23,6 @@ public class UserGenericDaoImpl extends BaseGenericDao<UserEntity, Long> impleme
         super(UserEntity.class);
     }
 
-    /**
-     *Method for finding UserEntity in DB
-     *
-     * @param userName
-     * @return UserEntity with selected name
-     */
     @Override
     public UserEntity findByUserName(String userName) {
         UserEntity userEntity = (UserEntity)entityManager.createQuery("select u from UserEntity u where u.userName=:userName").
@@ -41,6 +35,14 @@ public class UserGenericDaoImpl extends BaseGenericDao<UserEntity, Long> impleme
         Long count = (Long) entityManager.createQuery("select count(u) from " +
                 "UserEntity u where u.userName= :userName").setParameter("userName", userName).getSingleResult();
         return count;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<UserEntity> getUsersByRole(RoleEntity roleEntity) {
+        List<UserEntity> userEntities = entityManager.createQuery("select u from UserEntity u where " +
+                "u.roleEntities= :roleEntity").setParameter("roleEntity", roleEntity).getResultList();
+        return userEntities;
     }
 
 }

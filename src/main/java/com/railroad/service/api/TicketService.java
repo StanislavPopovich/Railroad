@@ -16,4 +16,5 @@ public interface TicketService {
                                            ScheduleEntity arrival);
     List<TicketDto> getAllTickets(UserEntity currentUser);
     List<TicketDto> getActualTickets(UserEntity currentUser);
+    void removeTicketByNumber(Long ticketNumber);
 }

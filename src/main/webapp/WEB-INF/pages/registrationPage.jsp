@@ -19,7 +19,7 @@
             </c:if>
             <form:form method="POST" modelAttribute="userForm" >
                 <div class="wrapper_input">
-                    <form:label path="userName"> <spring:message code="username"/> </form:label>
+                    <form:label path="userName"><spring:message code="username"/></form:label>
                     <form:input id="username" type="text" path="userName" autofocus="true"
                                 onkeyup="javascript: checkUsername(); return false;"/>
                     <div class="error" id="error_name"><form:errors path="userName"/></div>

@@ -1,14 +1,8 @@
 package com.railroad.dao.impl;
 
-import com.railroad.dao.api.StationGenericDao;
 import com.railroad.dao.api.TrainGenericDao;
-import com.railroad.model.StationEntity;
 import com.railroad.model.TrainEntity;
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -35,5 +29,12 @@ public class TrainGenericDaoImpl extends BaseGenericDao<TrainEntity, Long> imple
         TrainEntity trainEntity = (TrainEntity)entityManager.createQuery("select t from TrainEntity t where t.number=:trainNumber").
                 setParameter("trainNumber", trainNumber).getSingleResult();
         return trainEntity;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Integer> getAllTrainsNumbers() {
+        List<Integer> numbers = entityManager.createQuery("select t.number from TrainEntity t").getResultList();
+        return numbers;
     }
 }
