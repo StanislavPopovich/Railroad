@@ -74,6 +74,16 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleDao.findSchedulesForTrain(trainEntity,departDateFromFirstStation);
     }
 
+    @Override
+    public List<Date> getDepartDatesForTrain(TrainEntity trainEntity) {
+        return scheduleDao.getDepartDatesForTrain(trainEntity);
+    }
+
+    @Override
+    public void removeSchedulesByTrainAndDepartDate(TrainEntity trainEntity, Date departDate) {
+        scheduleDao.removeScheduleByTrainAndDepartDate(trainEntity, departDate);
+    }
+
     private Date getArrivalDate(Date trainTimeWay, Date departDate){
         DateTime dateTime = new DateTime(departDate);
         DateTime timeWay = new DateTime(trainTimeWay, DateTimeZone.UTC);

@@ -22,6 +22,8 @@ public interface TicketDtoMapper {
     @Mapping(source = "id", target = "number")
     TicketDto ticketEntityToTicketDto(TicketEntity ticketEntity);
 
+    TicketEntity ticketDtoToTicketEntity(TicketDto ticketDto);
+
     List<TicketDto> ticketEntitiesToTicketDtos(List<TicketEntity> ticketEntities);
 
     @Mapping(source ="birthDate", dateFormat = "dd-MM-yyyy",target = "birthDate")

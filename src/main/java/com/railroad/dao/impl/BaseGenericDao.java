@@ -4,6 +4,7 @@ import com.railroad.dao.api.GenericDao;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,6 +51,10 @@ public class BaseGenericDao<T, ID extends Serializable> implements GenericDao<T,
     @Override
     public void update(T entity) {
         entityManager.merge(entity);
+    }
+
+    public Date getCurrentDate(){
+        return new Date();
     }
 
 }

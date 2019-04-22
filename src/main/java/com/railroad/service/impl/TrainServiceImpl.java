@@ -36,26 +36,28 @@ public class TrainServiceImpl implements TrainService {
     @Override
     @Transactional
     public void save(TrainDto trainDto) {
-        trainNumberIsExist(trainDto.getNumber());
-        LinkedList<String> trainStations = new LinkedList<>();
-        String[] stationsArr = trainDto.getStations().getFirst().split("=>");
-        for (int i = 0; i < stationsArr.length; i++) {
-            trainStations.add(stationsArr[i]);
-        }
-        trainDto.setStations(trainStations);
         TrainEntity trainEntity = trainDtoMapper.trainDtoToTrainEntity(trainDto);
-        List<StationEntity> stations = new ArrayList<>();
-        for (StationEntity stationEntity : trainEntity.getStationEntities()) {
-            stations.add(stationDao.findByStationName(stationEntity.getName()));
+        if(!trainNumberIsExist(trainEntity)){
+            LinkedList<String> trainStations = new LinkedList<>();
+            String[] stationsArr = trainDto.getStations().getFirst().split("=>");
+            for (int i = 0; i < stationsArr.length; i++) {
+                trainStations.add(stationsArr[i]);
+            }
+            trainDto.setStations(trainStations);
+
+            List<StationEntity> stations = new ArrayList<>();
+            for (StationEntity stationEntity : trainEntity.getStationEntities()) {
+                stations.add(stationDao.findByStationName(stationEntity.getName()));
+            }
+            trainEntity.setStationEntities(stations);
+            trainGenericDao.save(trainEntity);
         }
-        trainEntity.setStationEntities(stations);
-        trainGenericDao.save(trainEntity);
+
     }
 
-    private boolean trainNumberIsExist(Integer number){
-        List<Integer> numbers = getAllTrainsNumbers();
-        if(numbers.contains(number)){
-            //Exception
+    private boolean trainNumberIsExist(TrainEntity trainEntity){
+        if(trainGenericDao.getCountTrains(trainEntity) > 0){
+           return true;
         }
         return false;
     }
@@ -76,6 +78,12 @@ public class TrainServiceImpl implements TrainService {
     //+
     public TrainEntity findTrainEntityByNumber(Integer trainNumber) {
         return trainGenericDao.findTrainByNumber(trainNumber);
+    }
+
+    @Transactional
+    @Override
+    public TrainDto getTrainDtoByNumber(Integer trainNumber) {
+        return trainDtoMapper.trainEntityToTrainDto(trainGenericDao.findTrainByNumber(trainNumber));
     }
 
     @Override

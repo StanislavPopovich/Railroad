@@ -4,10 +4,9 @@
 <%@ taglib  prefix = "spring"  uri = "http://www.springframework.org/tags" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Delete schedule</title>
 </head>
 <body>
-<%--<c:set var="now" value = "<%= new java.util.Date()%>" />--%>
 <jsp:include page="header.jsp"/>
 <section class="main">
     <div class="container">
@@ -16,11 +15,10 @@
                 <form:option value="0"><spring:message code="trainNumbers"/></form:option>
                 <form:options items="${trainsNumbers}"/>
             </form:select>
-            <div id="btn_train_number" class="btn btn_blue">add schedule for train</div>
-        </div>
-
-        <div id="schedules_list" class="wrapper_schedules_list">
-
+            <form:select cssClass="select" id="train_dates" type="text" path="departDate">
+                <form:option value="0"><spring:message code="departDateInfo"/></form:option>
+            </form:select>
+            <div id="btn_train_number" class="btn btn_blue">delete train from schedule</div>
         </div>
     </div>
 </section>

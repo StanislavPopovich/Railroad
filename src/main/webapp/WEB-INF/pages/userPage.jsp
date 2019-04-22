@@ -18,8 +18,52 @@
             </div>
         </c:if>
         <c:if test="${pageContext.request.isUserInRole('ROLE_MODERATOR')}">
-            <div id="find_trains">
+            <div class="functions_moderator">
+                <div class="function">
+                    <h2>Schedule</h2>
+                    <div>
+                        <ul>
+                            <li>
+                                <div>Add train to schedule</div>
+                                <a href="/railroad/schedule/add" class="btn btn_blue">Add</a>
+                            </li>
+                            <li>
+                                <div>Delete train from schedule</div>
+                                <a href="/railroad/schedule/delete" class="btn btn_red">Delete</a>
+                            </li>
+                            <li>
+                                <div>Change schedule of train</div>
+                                <a href="" class="btn btn_yellow">Change</a>
+                            </li>
+                            <li>
+                                <div>Look schedule for trains</div>
+                                <a href="" class="btn btn_green">Look</a>
+                            </li>
+                        </ul>
 
+
+
+
+                    </div>
+                </div>
+                <div class="function">
+                    <h2>Trains</h2>
+                    <div>
+
+                    </div>
+                </div>
+                <div class="function">
+                    <h2>Stations</h2>
+                    <div>
+
+                    </div>
+                </div>
+                <div class="function">
+                    <h2>Passengers</h2>
+                    <div>
+
+                    </div>
+                </div>
             </div>
         </c:if>
         <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
@@ -31,6 +75,6 @@
 </section>
 <jsp:include page="footer.jsp"/>
 <script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="/resources/js/ajax_user_handler.js"></script>
+<script type="text/javascript" src="/resources/js/ajaxStartPageHandler.js"></script>
 </body>
 </html>

@@ -7,8 +7,9 @@ import java.util.Date;
 
 @Data
 public class ScheduleDto {
-    private Date arrivalDate;
-    private Date departDate;
+    private String arrivalDate;
+    private String departDate;
+    private String departDateFromFirstStation;
     private Integer trainNumber;
     private String stationName;
 }

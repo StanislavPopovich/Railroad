@@ -1,7 +1,7 @@
 package com.railroad.service.impl;
-import com.railroad.dao.api.PassengerGenericDao;
 import com.railroad.dto.*;
 import com.railroad.mapper.PassengerEntityDtoMapper;
+import com.railroad.mapper.TicketDtoMapper;
 import com.railroad.mapper.TrainEntityDtoMapper;
 import com.railroad.model.*;
 import com.railroad.service.api.*;
@@ -52,6 +52,9 @@ public class BusinessServiceImpl implements BusinessService {
     @Autowired
     private PassengerServiceImpl passengerService;
 
+    @Autowired
+    private TicketDtoMapper ticketDtoMapper;
+
 
 
     @Transactional
@@ -83,16 +86,16 @@ public class BusinessServiceImpl implements BusinessService {
         TrainEntity trainEntity = trainService.findTrainEntityByNumber(ticketDto.getTrainTicketDto().getNumber());
 
         //creating new ticketEntity and setting fields
-        TicketEntity ticketEntity = new TicketEntity();
+        TicketEntity ticketEntity = ticketDtoMapper.ticketDtoToTicketEntity(ticketDto);
         ticketEntity.setPassengerEntity(currentPassenger);
         //getting schedule for departing station
 
         ScheduleEntity departStationSchedule = scheduleService.findScheduleByTrainAndDepartDate(trainEntity,
-                getDate(ticketDto.getTrainTicketDto().getDepartDate()));
+                getDate(ticketDto.getTrainTicketDto().getDepartDate(),"dd-MM-yyyy HH:mm"));
 
         //getting schedule for arrival station
         ScheduleEntity arrivalStationSchedule = scheduleService.findScheduleByTrainAndArrivalDate(trainEntity,
-                getDate(ticketDto.getTrainTicketDto().getArrivalDate()));
+                getDate(ticketDto.getTrainTicketDto().getArrivalDate(),"dd-MM-yyyy HH:mm"));
         ticketEntity.setTrainEntity(trainEntity);
         ticketEntity.setDepartDate(departStationSchedule);
         ticketEntity.setArrivalDate(arrivalStationSchedule);
@@ -103,13 +106,9 @@ public class BusinessServiceImpl implements BusinessService {
 
     }
 
-    /**
-     * The methods returns Date in format dd-MM-yyyy HH:mm:ss
-     * @param date
-     * @return date
-     */
-    private Date getDate(String date){
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+
+    private Date getDate(String date, String dateFormat){
+        SimpleDateFormat format = new SimpleDateFormat(dateFormat);
         Date result;
         try {
             result = format.parse(date);
@@ -126,7 +125,6 @@ public class BusinessServiceImpl implements BusinessService {
     @Transactional
     @Override
     public List<TrainSearchDto> getDirectTrains(String departStation, String arrivalStation, Date departDate) {
-
         //getting schedules for station on departing date
         List<ScheduleEntity> departStationSchedule = scheduleService.
                 getSchedulesByStationNameAndDepartDate(departStation, departDate);
@@ -314,13 +312,10 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     @Transactional
-    public List<List<TicketDto>> getAllTickets() {
+    public List<TicketDto> getNotActualTickets() {
         //getting current User
         UserEntity currentUser = userService.getCurrentUser();
-        List<List<TicketDto>> tickets = new ArrayList<>();
-        tickets.add(ticketService.getActualTickets(currentUser));
-        tickets.add(ticketService.getAllTickets(currentUser));
-        return tickets;
+        return ticketService.getNotActualTickets(currentUser);
     }
 
     @Override
@@ -336,6 +331,50 @@ public class BusinessServiceImpl implements BusinessService {
         UserEntity currentUser = userService.getCurrentUser();
         List<PassengerDto> passengers = passengerEntityDtoMapper.passengerEntitiesToPassengerDtos(currentUser.getPassengerEntities());
         return passengers;
+    }
+
+    @Transactional
+    @Override
+    public List<TicketDto> getPassengerNotActualTickets(PassengerDto passengerDto) {
+        UserEntity currentUser = userService.getCurrentUser();
+        PassengerEntity passengerEntity = passengerService.
+                findPassengerByNameAndBirthDate(passengerEntityDtoMapper.passengerDtoToEntity(passengerDto));
+        return ticketService.getPassengerNotActualTickets(currentUser, passengerEntity);
+    }
+
+    @Override
+    public List<String> getDepartDatesForTrain(Integer trainNumber) {
+        TrainEntity trainEntity = trainService.findTrainEntityByNumber(trainNumber);
+        List<Date> dates = scheduleService.getDepartDatesForTrain(trainEntity);
+        List<String> strDates = new ArrayList<>();
+        for(Date date: dates){
+            strDates.add(date.toString());
+        }
+        return strDates;
+    }
+
+    @Transactional
+    @Override
+    public void removeTrainFromSchedule(Integer trainNumber, String departingDate) {
+        Date departDate = getDate(departingDate, "yyyy-MM-dd");
+        TrainEntity train = trainService.findTrainEntityByNumber(trainNumber);
+        List<TicketEntity> tickets = ticketService.getTicketsByTrainAndDepartDate(train, departDate);
+        for(TicketEntity ticket: tickets){
+            // send emails
+            ticketService.removeTicketByNumber(ticket.getId());
+        }
+        scheduleService.removeSchedulesByTrainAndDepartDate(train, departDate);
+
+
+    }
+
+    @Transactional
+    @Override
+    public List<TicketDto> getPassengerActualTickets(PassengerDto passengerDto) {
+        UserEntity currentUser = userService.getCurrentUser();
+        PassengerEntity passengerEntity = passengerService.
+                findPassengerByNameAndBirthDate(passengerEntityDtoMapper.passengerDtoToEntity(passengerDto));
+        return ticketService.getPassengerActualTickets(currentUser, passengerEntity);
     }
 
 

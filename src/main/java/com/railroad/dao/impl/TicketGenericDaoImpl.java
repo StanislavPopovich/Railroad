@@ -25,31 +25,47 @@ public class TicketGenericDaoImpl extends BaseGenericDao<TicketEntity, Long> imp
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<TicketEntity> getAllTickets(UserEntity userEntity) {
+    public List<TicketEntity> getActualTicketsForPassenger(UserEntity userEntity, PassengerEntity passengerEntity) {
         List<TicketEntity> tickets = entityManager.createQuery("select t from TicketEntity t " +
-                "where t.userEntity= :userEntity order by t.departDate desc").setParameter("userEntity" , userEntity).getResultList();
+                "where t.userEntity= :userEntity and t.passengerEntity= :passengerEntity and " +
+                "t.departDate.departDate > :currentDate order by t.departDate").
+                setParameter("userEntity" , userEntity).
+                setParameter("currentDate", getCurrentDate()).
+                setParameter("passengerEntity", passengerEntity).
+                getResultList();
+        return tickets;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<TicketEntity> getNotActualTicketsForPassenger(UserEntity userEntity, PassengerEntity passengerEntity) {
+        List<TicketEntity> tickets = entityManager.createQuery("select t from TicketEntity t " +
+                "where t.userEntity= :userEntity and t.passengerEntity= :passengerEntity and " +
+                "t.departDate.departDate < :currentDate order by t.departDate").
+                setParameter("userEntity" , userEntity).
+                setParameter("currentDate", getCurrentDate()).
+                setParameter("passengerEntity", passengerEntity).
+                getResultList();
         return tickets;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public List<TicketEntity> getActualTickets(UserEntity userEntity) {
-        Date currentDate = new Date();
         List<TicketEntity> tickets = entityManager.createQuery("select t from TicketEntity t " +
                 "where t.userEntity= :userEntity and t.departDate.departDate > :currentDate order by t.departDate").
                 setParameter("userEntity" , userEntity).
-                setParameter("currentDate", currentDate).getResultList();
+                setParameter("currentDate", getCurrentDate()).getResultList();
         return tickets;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public List<TicketEntity> getNotActualTickets(UserEntity userEntity) {
-        Date currentDate = new Date();
         List<TicketEntity> tickets = entityManager.createQuery("select t from TicketEntity t " +
                 "where t.userEntity= :userEntity and t.departDate.departDate < :currentDate order by t.departDate").
                 setParameter("userEntity" , userEntity).
-                setParameter("currentDate", currentDate).getResultList();
+                setParameter("currentDate", getCurrentDate()).getResultList();
         return tickets;
     }
 
@@ -63,11 +79,20 @@ public class TicketGenericDaoImpl extends BaseGenericDao<TicketEntity, Long> imp
         return count;
     }
 
-
-
     @Override
     public void removeTicketByNumber(Long ticketNumber) {
         entityManager.createQuery("delete from TicketEntity t where t.id= :ticketNumber").
                 setParameter("ticketNumber", ticketNumber).executeUpdate();
     }
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<TicketEntity> getTicketsByTrainAndDepartDate(TrainEntity trainEntity, Date departDate) {
+        List<TicketEntity> tickets = entityManager.createQuery("select t from TicketEntity t " +
+                "where t.trainEntity= :trainEntity and t.departDate.departDateFromFirstStation= :departDate").
+                setParameter("trainEntity" , trainEntity).
+                setParameter("departDate", departDate).getResultList();
+        return tickets;
+    }
+
+
 }

@@ -48,7 +48,14 @@ public class PassengerController {
 
     @GetMapping(value = "user/passenger/all")
     public String getPassengersOfUser(Model model){
-        model.addAttribute("passengers", businessService.getPassengersOfCurrentUser());
+        model.addAttribute("passenger", new PassengerDto());
         return "userPassengersPage";
     }
+
+    @GetMapping(value = "passenger/all")
+    public @ResponseBody List<PassengerDto> getNotActualTickets(){
+        return businessService.getPassengersOfCurrentUser();
+    }
+
+
 }

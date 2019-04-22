@@ -41,4 +41,8 @@ public interface ScheduleService {
     //all schedules for train
     List<ScheduleEntity> findSchedulesForTrain(TrainEntity trainEntity, Date departDate);
 
+    List<Date> getDepartDatesForTrain(TrainEntity trainEntity);
+
+    void removeSchedulesByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
+
 }

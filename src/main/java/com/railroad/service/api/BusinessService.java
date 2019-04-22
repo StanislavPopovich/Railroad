@@ -37,11 +37,19 @@ public interface BusinessService {
 
     List<TrainScheduleDto> getTrainsFromSchedule(String station, Date date);
 
-    List<List<TicketDto>> getAllTickets();
+    List<TicketDto> getNotActualTickets();
 
     List<TicketDto> getActualTickets();
 
     List<PassengerDto> getPassengersOfCurrentUser();
+
+    List<TicketDto> getPassengerActualTickets(PassengerDto passengerDto);
+
+    List<TicketDto> getPassengerNotActualTickets(PassengerDto passengerDto);
+
+    List<String> getDepartDatesForTrain(Integer trainNumber);
+
+    void removeTrainFromSchedule(Integer trainNumber, String departingDate);
 
 
 

@@ -7,7 +7,7 @@ var passwordConfirm = document.getElementById("passwordConfirm");
 var regbutton = document.getElementById("button");
 
 function checkUsername() {
-    if (username.value == "" || username.value.length < 3) {
+    if (username.value === "" || username.value.length < 3) {
         getMessage("Username must be 3-20 characters in length", "error_name");
         if (username.classList.contains("correct")) {
             username.classList.remove("correct");
@@ -25,7 +25,7 @@ function checkUsername() {
 
 function checkPassword() {
     getMessage("Password must be more 3 characters in length", "error_password");
-    if (password.value == "" || password.value.length < 3) {
+    if (password.value === "" || password.value.length < 3) {
         if (password.classList.contains("correct")) {
             password.classList.remove("correct");
             turnOnButton();
@@ -50,8 +50,8 @@ function checkPassword() {
 
 function checkPasswordConfirm() {
     getMessage("Repeat password", "error_password_confirm");
-    if (passwordConfirm.value == "" || passwordConfirm.value.length < 3
-        || passwordConfirm.value != password.value) {
+    if (passwordConfirm.value === "" || passwordConfirm.value.length < 3
+        || passwordConfirm.value !== password.value) {
         if (passwordConfirm.classList.contains("correct")) {
             passwordConfirm.classList.remove("correct");
             turnOnButton();

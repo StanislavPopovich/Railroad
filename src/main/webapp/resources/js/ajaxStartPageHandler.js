@@ -33,7 +33,8 @@ $(document).ready(function () {
             departDateTrips: "DEPARTING DATE",
             details: "Details",
             return: "Return",
-            allOrders: "ALL ORDERS"
+            allOrders: "ALL ORDERS",
+            completedTrips: "COPLETED TRIPS"
         }
     };
 
@@ -74,7 +75,8 @@ $(document).ready(function () {
 
 
     //    Start user page for Moderator
-    function getStartModeratorPage(){
+
+    /*function getStartModeratorPage(){
         $.ajax({
             url : '/railroad/user/moderator',
             type : "GET",
@@ -108,7 +110,7 @@ $(document).ready(function () {
                 $('#find_trains').append().html(markup);
             }
         });
-    }
+    }*/
 
     function getStartUserPage(){
         $.ajax({
@@ -124,30 +126,7 @@ $(document).ready(function () {
                     markup += '<div class="caption"><div>' + findTableText[local].trainTrips +'</div><div>' +
                         findTableText[local].routeTrips + '</div><div>' + findTableText[local].departDateTrips +
                             '</div></div><div class="items">';
-                    for(var i = 0; i < data.length;i++){
-                        markup += '<div class="item">' +
-                            '<div class="train">' +
-                            '<div class="img"><img src="/resources/img/train.svg"></div>' +
-                            '<div class="trainNumber_more">' + '№ ' + data[i].trainTicketDto.number + '</div>' +
-                            '</div>' +
-                            '<div class="route">' +
-                            '<div class="departStation_more">' + data[i].trainTicketDto.stations[0] + '</div>' +
-                            '<div class="arrivalStation_more">' + data[i].trainTicketDto.stations[1] + '</div>' +
-                            '</div>' +
-                            '<div class="date_departure">' +
-                            data[i].trainTicketDto.departDate +
-                            '</div>' +
-                            '<div class="item_btn">' +
-                            '<div class="btn_more">' + findTableText[local].details + '</div>' +
-                            '<div class="btn_return_ticket">' + findTableText[local].return + '</div>' +
-                            '</div>' +
-                            '<input type="hidden" class="trainTicketDto_arrivalDate" value="' + data[i].trainTicketDto.arrivalDate + '">' +
-                            '<input type="hidden" class="passengerTicketDto_lastName" value="' + data[i].passengerDto.lastName + '">' +
-                            '<input type="hidden" class="passengerTicketDto_name" value="' + data[i].passengerDto.name + '">' +
-                            '<input type="hidden" class="passengerTicketDto_birthDate" value="' + data[i].passengerDto.birthDate + '">' +
-                            '<input type="hidden" class="ticketNumber" value="' + data[i].number + '">' +
-                            '</div>';
-                    }
+                    markup += getAllTickets(data, "upcoming");
                     markup += '</div></div>';
                     markup += '<form id="ticket" action="" method="post">' +
                         '<input id="trainTicketDto_more_number" name="trainTicketDto.number" type="hidden" value>' +
@@ -166,6 +145,39 @@ $(document).ready(function () {
         });
     }
 
+   /* function getCompletedTickets(){
+        $.ajax({
+            url : '/railroad/ticket/all-not-actual',
+            type : "GET",
+            dataType : "json",
+            success: function (data) {
+                var  markup;
+                markup = '<div class="content"><h2>' + findTableText[local].completedTrips + '</h2>';
+                if(data.length === 0){
+                    markup+= '<div class="not_found">' + findTableText[local].haveNotTrips + '</div>';
+                }else{
+                    markup += '<div class="caption"><div>' + findTableText[local].trainTrips +'</div><div>' +
+                        findTableText[local].routeTrips + '</div><div>' + findTableText[local].departDateTrips +
+                        '</div></div><div class="items">';
+                    markup += getAllTickets(data, "completed");
+                    markup += '</div></div>';
+                    markup += '<form id="ticket" action="" method="post">' +
+                        '<input id="trainTicketDto_more_number" name="trainTicketDto.number" type="hidden" value>' +
+                        '<input id="trainTicketDto_more_departDate" name="trainTicketDto.departDate" type="hidden" value>' +
+                        '<input id="trainTicketDto_more_arrivalDate" name="trainTicketDto.arrivalDate" type="hidden" value>' +
+                        '<input id="trainTicketDto_more_stations" name="trainTicketDto.stations" type="hidden" value>' +
+                        '<input id="passengerTicketDto_more_lastName" name="passengerDto.lastName" type="hidden" value>' +
+                        '<input id="passengerTicketDto_more_name" name="passengerDto.name" type="hidden" value>' +
+                        '<input id="passengerTicketDto_more_birthDate" name="passengerDto.birthDate" type="hidden" value>' +
+                        '<input id="ticket_number" name="number" type="hidden" value>';
+                }
+                $('#find_orders').append().html(markup);
+                moreAndReturnTicketButton()
+
+            }
+        });
+    }*/
+
         function getPageForRole(){
             var admin = document.getElementById("find_users");
             var moderator = document.getElementById("find_trains");
@@ -173,20 +185,19 @@ $(document).ready(function () {
             if(admin){
                 getStartAdminPage();
             }else if(moderator){
-                getStartModeratorPage();
             }else if(user){
                 getStartUserPage();
             }
         }
         getPageForRole();
 
-    // Set values in trainForm for buy ticket
-    function FindElem(self){
+
+    function FindElem(self, classElem){
         var item = self.parentElement;
-        if(item.classList.contains("item")){
+        if(item.classList.contains(classElem)){
             return item;
         } else {
-            return FindElem(item);
+            return FindElem(item, classElem);
         }
     }
 
@@ -200,7 +211,7 @@ $(document).ready(function () {
                 url = '/railroad/ticket/delete';
             }
             var self = event.target;
-            var item = FindElem(self);
+            var item = FindElem(self, "item");
             var number = item.getElementsByClassName("trainNumber_more")[0].textContent.split(" ");
             var onlyNumber = number[1];
             var departStationMore = item.getElementsByClassName("departStation_more")[0].textContent;
@@ -220,103 +231,71 @@ $(document).ready(function () {
             $('#passengerTicketDto_more_name').val(name);
             $('#ticket_number').val(ticketNumber);
             $('#passengerTicketDto_more_birthDate').val(birthDate);
-            autoSubmitMore(url);
+            autoSubmitMore(url , "ticket");
         })
     }
 
-    function autoSubmitMore(url) {
-        var form =document.getElementById("ticket");
+    function autoSubmitMore(url, entity) {
+        var form =document.getElementById(entity);
         form.action = url;
         form.submit();
     }
 
-    // return page with all tickets
-    function getAllTicketsPage(){
-        $.ajax({
-            url : '/railroad/tickets',
-            type : "GET",
-            dataType : "json",
-            success: function (data) {
-                var  markup;
-                markup = '<div class="content"><h2>' + findTableText[local].allOrders +'</h2>';
-                if(data.length === 0){
-                    markup+= '<div class="not_found">' + findTableText[local].haveNotTrips + '</div>';
-                } else {
-                    markup += '<div class="caption"><div>' + findTableText[local].trainTrips +'</div><div>' +
-                        findTableText[local].routeTrips + '</div><div>' + findTableText[local].departDateTrips +
-                        '</div></div><div class="items">';
-                    for(var i = 0; i < data.length; i++){
-                        for(var j = 0; j < data[i].length;j++) {
-                            if (i === 0) {
-                                for (var j = 0; j < data[i].length; j++) {
-                                    markup += '<div class="item">' +
-                                        '<div class="train">' +
-                                        '<div class="img"><img src="/resources/img/train.svg"></div>' +
-                                        '<div class="trainNumber_more">' + '№ ' + data[i][j].trainTicketDto.number + '</div>' +
-                                        '</div>' +
-                                        '<div class="route">' +
-                                        '<div class="departStation_more">' + data[i][j].trainTicketDto.stations[0] + '</div>' +
-                                        '<div class="arrivalStation_more">' + data[i][j].trainTicketDto.stations[1] + '</div>' +
-                                        '</div>' +
-                                        '<div class="date_departure">' +
-                                        data[i][j].trainTicketDto.departDate +
-                                        '</div>' +
-                                        '<div class="item_btn">' +
-                                        '<div class="btn_more">' + findTableText[local].details + '</div>' +
-                                        '<div class="btn_return_ticket">' + findTableText[local].return + '</div>' +
-                                        '</div>' +
-                                        '<input type="hidden" class="trainTicketDto_arrivalDate" value="' + data[i][j].trainTicketDto.arrivalDate + '">' +
-                                        '<input type="hidden" class="passengerTicketDto_lastName" value="' + data[i][j].passengerDto.lastName + '">' +
-                                        '<input type="hidden" class="passengerTicketDto_name" value="' + data[i][j].passengerDto.name + '">' +
-                                        '<input type="hidden" class="passengerTicketDto_birthDate" value="' + data[i][j].passengerDto.birthDate + '">' +
-                                        '<input type="hidden" class="ticketNumber" value="' + data[i][j].number + '">' +
-                                        '</div>';
-                                }
-                            } else {
 
-                                markup += '<div class="item">' +
-                                    '<div class="train">' +
-                                    '<div class="img"><img src="/resources/img/train.svg"></div>' +
-                                    '<div class="trainNumber_more">' + '№ ' + data[i][j].trainTicketDto.number + '</div>' +
-                                    '</div>' +
-                                    '<div class="route">' +
-                                    '<div class="departStation_more">' + data[i][j].trainTicketDto.stations[0] + '</div>' +
-                                    '<div class="arrivalStation_more">' + data[i][j].trainTicketDto.stations[1] + '</div>' +
-                                    '</div>' +
-                                    '<div class="date_departure">' +
-                                    data[i][j].trainTicketDto.departDate +
-                                    '</div>' +
-                                    '<div class="item_btn">' +
-                                    '<div class="btn_more">' + findTableText[local].details + '</div>' +
-                                    '</div>' +
-                                    '<input type="hidden" class="trainTicketDto_arrivalDate" value="' + data[i][j].trainTicketDto.arrivalDate + '">' +
-                                    '<input type="hidden" class="passengerTicketDto_lastName" value="' + data[i][j].passengerDto.lastName + '">' +
-                                    '<input type="hidden" class="passengerTicketDto_name" value="' + data[i][j].passengerDto.name + '">' +
-                                    '<input type="hidden" class="passengerTicketDto_birthDate" value="' + data[i][j].passengerDto.birthDate + '">' +
-                                    '<input type="hidden" class="ticketNumber" value="' + data[i][j].number + '">' +
-                                    '</div>';
+  /*  var ticketButtons = document.getElementById("ticket_buttons");
+    if(ticketButtons){
+        ticketButtons.addEventListener("click", checkActiveButton, false);
+    }*/
 
-                            }
-                        }
+    /*function checkActiveButton(e) {
+
+        var current = e.target;
+        var id = current.id;
+        var buttons = document.querySelectorAll(".ticket_buttons div");
+
+        for(var i = 0; i < buttons.length; i++){
+            buttons[i].classList.remove("active");
+        }
+
+        if(id === "upcoming_trips"){
+            current.classList.add("active");
+            getStartUserPage();
+        } else{
+            current.classList.add("active");
+            getCompletedTickets();
+        }
+    }*/
+
+    function getAllTickets(data, typeOfTicket) {
+        var markup = "";
+            for(var i = 0; i < data.length;i++){
+                markup += '<div class="item">' +
+                    '<div class="train">' +
+                    '<div class="img"><img src="/resources/img/train.svg"></div>' +
+                    '<div class="trainNumber_more">' + '№ ' + data[i].trainTicketDto.number + '</div>' +
+                    '</div>' +
+                    '<div class="route">' +
+                    '<div class="departStation_more">' + data[i].trainTicketDto.stations[0] + '</div>' +
+                    '<div class="arrivalStation_more">' + data[i].trainTicketDto.stations[1] + '</div>' +
+                    '</div>' +
+                    '<div class="date_departure">' +
+                    data[i].trainTicketDto.departDate +
+                    '</div>' +
+                    '<div class="item_btn">' +
+                    '<div class="btn_more">' + findTableText[local].details + '</div>';
+                    if(typeOfTicket === "upcoming"){
+                        markup +='<div class="btn_return_ticket">' + findTableText[local].return + '</div>';
                     }
-                    markup+='</div></div>';
-                    markup += '<form id="ticket" action="" method="post">' +
-                        '<input id="trainTicketDto_more_number" name="trainTicketDto.number" type="hidden" value>' +
-                        '<input id="trainTicketDto_more_departDate" name="trainTicketDto.departDate" type="hidden" value>' +
-                        '<input id="trainTicketDto_more_arrivalDate" name="trainTicketDto.arrivalDate" type="hidden" value>' +
-                        '<input id="trainTicketDto_more_stations" name="trainTicketDto.stations" type="hidden" value>' +
-                        '<input id="passengerTicketDto_more_lastName" name="passengerDto.lastName" type="hidden" value>' +
-                        '<input id="passengerTicketDto_more_name" name="passengerDto.name" type="hidden" value>' +
-                        '<input id="passengerTicketDto_more_birthDate" name="passengerDto.birthDate" type="hidden" value>' +
-                        '<input id="ticket_number" name="number" type="hidden" value>';
-                }
-                $('#find_all_orders').append().html(markup);
-                moreAndReturnTicketButton()
+                    markup += '</div>' +
+                    '<input type="hidden" class="trainTicketDto_arrivalDate" value="' + data[i].trainTicketDto.arrivalDate + '">' +
+                    '<input type="hidden" class="passengerTicketDto_lastName" value="' + data[i].passengerDto.lastName + '">' +
+                    '<input type="hidden" class="passengerTicketDto_name" value="' + data[i].passengerDto.name + '">' +
+                    '<input type="hidden" class="passengerTicketDto_birthDate" value="' + data[i].passengerDto.birthDate + '">' +
+                    '<input type="hidden" class="ticketNumber" value="' + data[i].number + '">' +
+                    '</div>';
             }
-        });
+        return markup;
     }
-    getAllTicketsPage();
-
 
 
 });

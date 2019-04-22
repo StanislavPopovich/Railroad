@@ -15,6 +15,9 @@ public class TicketEntity extends BaseEntity {
     @JoinColumn(name = "train_id", nullable = false)
     private TrainEntity trainEntity;
 
+    @Column(name = "email", nullable = false)
+    private String email;
+
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "passenger_id", nullable = false)
     private PassengerEntity passengerEntity;

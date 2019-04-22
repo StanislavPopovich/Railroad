@@ -19,6 +19,7 @@ public class PassengerEntity extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
+
     @Temporal(TemporalType.DATE)
     @Column(name = "birth_date", nullable = false)
     private Date birthDate;

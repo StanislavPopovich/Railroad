@@ -37,4 +37,13 @@ public class TrainGenericDaoImpl extends BaseGenericDao<TrainEntity, Long> imple
         List<Integer> numbers = entityManager.createQuery("select t.number from TrainEntity t").getResultList();
         return numbers;
     }
+
+
+    @Override
+    public Long getCountTrains(TrainEntity trainEntity) {
+        Long count = (Long) entityManager.createQuery("select count(t) from " +
+                "TrainEntity t where t.number= :number").setParameter("number", trainEntity.getNumber()).
+                getSingleResult();
+        return count;
+    }
 }

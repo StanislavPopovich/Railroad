@@ -19,7 +19,7 @@ $().ready(function () {
             arrivalStation: "Arrival station",
             departureDate: "Departing date",
             arrivalDate: "Arrival date",
-            tickets: "Count of tickets",
+            tickets: "Number of tickets",
             buyButton: "Buy",
             trainNotFound: "Trains not found",
             depart: "From",
@@ -28,7 +28,6 @@ $().ready(function () {
     };
     // Returns station without departing station
     $('#start_station').on('change',function () {
-        // var station = $("#start").val();
         var station = {};
         station["departStation"] = $("#start").val();
         $.ajax({

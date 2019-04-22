@@ -42,6 +42,6 @@
     </div>
 </section>
 <jsp:include page="footer.jsp"/>
-<script type="text/javascript" src="/resources/js/registration_valid_check.js"></script>
+<script type="text/javascript" src="/resources/js/registrationValidCheck.js"></script>
 </body>
 </html>

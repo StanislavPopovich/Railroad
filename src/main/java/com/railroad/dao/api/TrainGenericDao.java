@@ -24,4 +24,11 @@ public interface TrainGenericDao extends GenericDao<TrainEntity, Long> {
      * @return list of trains numbers
      */
     List<Integer> getAllTrainsNumbers();
+
+    /**
+     * Returns of entities that matches by number
+     * @param trainEntity
+     * @return 0 or 1
+     */
+    Long getCountTrains(TrainEntity trainEntity);
 }

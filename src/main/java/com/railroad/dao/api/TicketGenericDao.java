@@ -12,7 +12,9 @@ import java.util.List;
  */
 public interface TicketGenericDao extends GenericDao<TicketEntity, Long> {
 
-    List<TicketEntity> getAllTickets(UserEntity userEntity);
+    List<TicketEntity> getActualTicketsForPassenger(UserEntity userEntity, PassengerEntity passengerEntity);
+
+    List<TicketEntity> getNotActualTicketsForPassenger(UserEntity userEntity, PassengerEntity passengerEntity);
 
     List<TicketEntity> getActualTickets(UserEntity userEntity);
 
@@ -22,4 +24,6 @@ public interface TicketGenericDao extends GenericDao<TicketEntity, Long> {
 
 
     void removeTicketByNumber(Long ticketNumber);
+
+    List<TicketEntity> getTicketsByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
 }

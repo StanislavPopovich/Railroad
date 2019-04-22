@@ -3,15 +3,13 @@ package com.railroad.service.impl;
 import com.railroad.dao.api.TicketGenericDao;
 import com.railroad.dto.TicketDto;
 import com.railroad.mapper.TicketDtoMapper;
-import com.railroad.model.ScheduleEntity;
-import com.railroad.model.TicketEntity;
-import com.railroad.model.TrainEntity;
-import com.railroad.model.UserEntity;
+import com.railroad.model.*;
 import com.railroad.service.api.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,10 +34,11 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<TicketDto> getAllTickets(UserEntity currentUser) {
-        List<TicketDto> tickets = ticketDtoMapper.ticketEntitiesToTicketDtos(ticketDao.getAllTickets(currentUser));
+    public List<TicketDto> getNotActualTickets(UserEntity currentUser) {
+        List<TicketDto> tickets = ticketDtoMapper.ticketEntitiesToTicketDtos(ticketDao.getNotActualTickets(currentUser));
         return tickets;
     }
+
 
     @Override
     public List<TicketDto> getActualTickets(UserEntity currentUser) {
@@ -50,5 +49,22 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public void removeTicketByNumber(Long ticketNumber) {
         ticketDao.removeTicketByNumber(ticketNumber);
+    }
+
+    @Override
+    public List<TicketDto> getPassengerActualTickets(UserEntity userEntity, PassengerEntity passengerEntity) {
+        List<TicketEntity> tickets = ticketDao.getActualTicketsForPassenger(userEntity, passengerEntity);
+        return ticketDtoMapper.ticketEntitiesToTicketDtos(tickets);
+    }
+
+    @Override
+    public List<TicketDto> getPassengerNotActualTickets(UserEntity userEntity, PassengerEntity passengerEntity) {
+        List<TicketEntity> tickets = ticketDao.getNotActualTicketsForPassenger(userEntity, passengerEntity);
+        return ticketDtoMapper.ticketEntitiesToTicketDtos(tickets);
+    }
+
+    @Override
+    public List<TicketEntity> getTicketsByTrainAndDepartDate(TrainEntity trainEntity, Date departDate) {
+        return ticketDao.getTicketsByTrainAndDepartDate(trainEntity, departDate);
     }
 }

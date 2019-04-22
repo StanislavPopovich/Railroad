@@ -16,25 +16,54 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ScheduleEntityDtoMapper {
 
-    @Mapping(source = "arrivalDate", target = "arrivalDate")
-    @Mapping(source = "departDate", target = "departDate")
-    @Mapping(source = "stationName", target = "stationEntity")
-    @Mapping(source = "trainNumber", target = "trainEntity")
-    ScheduleEntity scheduleDtoToScheduleEntity(ScheduleDto scheduleDto);
+    default ScheduleEntity scheduleDtoToScheduleEntity(ScheduleDto scheduleDto){
+        if (scheduleDto == null) {
+            return null;
+        } else {
+            ScheduleEntity scheduleEntity = new ScheduleEntity();
+            scheduleEntity.setDepartDate(getDate(scheduleDto.getDepartDate(), "yyyy-MM-dd HH:mm"));
+            scheduleEntity.setArrivalDate(getDate(scheduleDto.getArrivalDate(), "yyyy-MM-dd HH:mm"));
+            scheduleEntity.setDepartDateFromFirstStation(getDate(scheduleDto.
+                    getDepartDateFromFirstStation(), "yyyy-MM-dd"));
+            return scheduleEntity;
+        }
+    }
 
-    @Mapping(source = "arrivalDate", target = "arrivalDate")
-    @Mapping(source = "departDate", target = "departDate")
-    @Mapping(source = "scheduleEntity.stationEntity.name", target = "stationName")
-    @Mapping(source = "scheduleEntity.trainEntity.number", target = "trainNumber")
-    ScheduleDto scheduleEntityToScheduleDto(ScheduleEntity scheduleEntity);
+    default ScheduleDto scheduleEntityToScheduleDto(ScheduleEntity scheduleEntity){
+        if (scheduleEntity == null) {
+            return null;
+        } else {
+            ScheduleDto scheduleDto = new ScheduleDto();
+            scheduleDto.setDepartDate(scheduleEntity.getDepartDate().toString());
+            scheduleDto.setArrivalDate(scheduleEntity.getArrivalDate().toString());
+            scheduleDto.setDepartDateFromFirstStation(scheduleEntity.getDepartDateFromFirstStation().toString());
+            scheduleDto.setStationName(scheduleEntity.getStationEntity().getName());
+            scheduleDto.setTrainNumber(scheduleEntity.getTrainEntity().getNumber());
+            return scheduleDto;
+        }
+    };
 
-    @Mapping(source = "stationName", target = "name")
-    StationEntity stationNameToStationEntity(String stationName);
-
-    @Mapping(source = "trainNumber", target = "number")
-    TrainEntity trainNumberToTrainEntity(Integer trainNumber);
 
     List<ScheduleDto> scheduleEntitiesToScheduleDtos(List<ScheduleEntity> scheduleEntities);
+    List<ScheduleEntity> scheduleDtosToScheduleEntities(List<ScheduleDto> scheduleDtos);
+
+    default Date getDate(String date, String dateFormat){
+        SimpleDateFormat format;
+        if(dateFormat.equals("yyyy-MM-dd HH:mm")){
+            format = new SimpleDateFormat(dateFormat);
+        }else{
+            format = new SimpleDateFormat(dateFormat);
+        }
+        Date resDate = null;
+        try {
+            resDate = format.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return resDate;
+    }
+
+
 
 
 }

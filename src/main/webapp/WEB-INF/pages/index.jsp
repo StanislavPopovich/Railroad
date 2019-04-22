@@ -26,10 +26,11 @@
             </form>
             <form id="date_depart">
                 <fmt:formatDate value="${date}" pattern="yyyy-MM-dd" var="trainDate"/>
-                <form:input cssClass="date" id="date" type="date" path="date" value="${trainDate}"/>
+                <form:input cssClass="date" id="date" type="date" path="date" value="${trainDate}"
+                />
             </form>
             <form id="findButton">
-                <button><spring:message code="findButton"/></button>
+                <button id="findBtn"><spring:message code="findButton"/></button>
             </form>
         </div>
         <div id="find">
@@ -39,6 +40,7 @@
 </section>
 <jsp:include page="footer.jsp"/>
 <script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="/resources/js/ajax_requests_handler.js"></script>
+<script type="text/javascript" src="/resources/js/ajaxRequestsHandler.js"></script>
+<script type="text/javascript" src="/resources/js/searchDateValidCheck.js"></script>
 </body>
 </html>

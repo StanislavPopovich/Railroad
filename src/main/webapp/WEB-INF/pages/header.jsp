@@ -30,7 +30,7 @@
                 <div class="main_menu">
                     <ul class="menu">
                         <li><a href="<c:url value='/railroad/ticket/all'/>" class="log_reg_page">
-                            <spring:message code="all_tickets"/></a></li>
+                            <spring:message code="all_orders"/></a></li>
                         <li><a href="<c:url value='/railroad/user/passenger/all'/>" class="log_reg_page">
                             <spring:message code="all_passengers"/></a></li>
                         <li><a href="<c:url value='/railroad'/>" class="log_reg_page">
@@ -44,12 +44,12 @@
                     <ul class="menu">
                         <li><a href="<c:url value='/railroad/train/all'/>" class="log_reg_page">
                             <spring:message code="all_trains"/></a></li>
-                        <li><a href="<c:url value='/railroad/user/schedule'/>" class="log_reg_page">
+                        <li><a href="<c:url value='/railroad/schedule'/>" class="log_reg_page">
                             <spring:message code="all_schedules"/></a></li>
-                        <li><a href="<c:url value='/railroad/user/all-tickets'/>" class="log_reg_page">
+                        <%--<li><a href="<c:url value='/railroad/'/>" class="log_reg_page">
                             <spring:message code="all_tickets"/></a></li>
                         <li><a href="<c:url value='/railroad/user/all-passengers'/>" class="log_reg_page">
-                            <spring:message code="all_passengers"/></a></li>
+                            <spring:message code="all_passengers"/></a></li>--%>
                     </ul>
                 </div>
 
@@ -58,15 +58,15 @@
                 <div class="main_menu">
                      <ul class="menu">
                          <li><a href="<c:url value='/railroad/train/all'/>" class="log_reg_page">
-                             <spring:message code="all_trains"/></a></li>
+                             <spring:message code="all_orders"/></a></li>
                         <li><a href="<c:url value='/railroad/user'/>" class="log_reg_page">
                             <spring:message code="all_users"/></a></li>
-                         <li><a href="<c:url value='/railroad/user/schedule'/>" class="log_reg_page">
+                         <%--<li><a href="<c:url value='/railroad/user/schedule'/>" class="log_reg_page">
                              <spring:message code="all_schedules"/></a></li>
                          <li><a href="<c:url value='/railroad/user/all-tickets'/>" class="log_reg_page">
                              <spring:message code="all_tickets"/></a></li>
                          <li><a href="<c:url value='/railroad/user/all-passengers'/>" class="log_reg_page">
-                             <spring:message code="all_passengers"/></a></li>
+                             <spring:message code="all_passengers"/></a></li>--%>
                      </ul>
                 </div>
             </c:if>

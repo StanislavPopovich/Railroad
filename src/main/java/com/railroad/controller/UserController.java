@@ -7,6 +7,7 @@ import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.RoleService;
 import com.railroad.service.api.TrainService;
 import com.railroad.service.api.UserService;
+import com.railroad.service.impl.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,11 +49,11 @@ public class UserController {
         return userService.getAll();
     }
 
-    @GetMapping(value = "/user/moderator")
+    /*@GetMapping(value = "/user/moderator")
     public @ResponseBody
     List<TrainDto> getStartContentModeratorPage() {
         return trainService.getAll();
-    }
+    }*/
 
     @GetMapping(value = "/user/edit-user/{userName}")
     public ModelAndView editUserPage(@PathVariable("userName") String userName){
