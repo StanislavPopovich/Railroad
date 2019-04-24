@@ -29,11 +29,11 @@ public class TicketController {
     private EmailServiceImpl emailService;
 
     @PostMapping(value = "ticket/buy")
-    public String buyTicket(@ModelAttribute("ticket")TicketDto ticketDto, Model model){
+    public String getSuccessBuyTicketPage(@ModelAttribute("ticket")TicketDto ticketDto, Model model){
         businessService.saveTicket(ticketDto);
         model.addAttribute("ticket", ticketDto);
         emailService.sendMail(ticketDto);
-        return "successBuyTicket";
+        return "successBuyTicketPage";
     }
 
     @GetMapping(value = "ticket/buy/success")
@@ -42,7 +42,9 @@ public class TicketController {
     }
 
     @PostMapping(value = "ticket/info")
-    public String ticketMoreInfoPage(@ModelAttribute("ticket") TicketDto ticketDto, Model model){
+    public String getTicketInfoPage(@ModelAttribute("ticket") TicketDto ticketDto, Model model){
+        System.out.println();
+        System.out.println(ticketDto);
         model.addAttribute("ticket", ticketDto);
         return "ticketInfo";
     }
@@ -50,6 +52,7 @@ public class TicketController {
     @PostMapping(value = "ticket/delete")
     public String deleteTicket(@ModelAttribute("ticket")TicketDto ticketDto){
         ticketService.removeTicketByNumber(ticketDto.getNumber());
+        //send email
         return "redirect:/railroad/user";
     }
 
@@ -59,8 +62,8 @@ public class TicketController {
     }
 
     @GetMapping(value = "ticket/all")
-    public String ticketsPage(){
-        return "allTickets";
+    public String getTicketsPage(){
+        return "ticketsPage";
     }
 
     @PostMapping(value = "passenger/tickets")
@@ -71,15 +74,13 @@ public class TicketController {
     }
 
     @PostMapping(value = "/passenger/tickets/actual")
-    public @ResponseBody List<TicketDto> getPassengerActualTickets(@RequestParam String lastName,
-                                                                   String name, String birthDate){
-       return businessService.getPassengerActualTickets(new PassengerDto(lastName, name, birthDate));
+    public @ResponseBody List<TicketDto> getPassengerActualTickets(@RequestBody PassengerDto passengerDto){
+       return businessService.getPassengerActualTickets(passengerDto);
     }
 
     @PostMapping(value = "passenger/tickets/not-actual")
-    public @ResponseBody List<TicketDto> getPassengerNotActualTickets(@RequestParam String lastName,
-                                                                      String name, String birthDate){
-        return businessService.getPassengerNotActualTickets(new PassengerDto(lastName, name, birthDate));
+    public @ResponseBody List<TicketDto> getPassengerNotActualTickets(@RequestBody PassengerDto passengerDto){
+        return businessService.getPassengerNotActualTickets(passengerDto);
     }
 
 

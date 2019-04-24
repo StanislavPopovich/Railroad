@@ -68,8 +68,8 @@ public class BusinessServiceImpl implements BusinessService {
         PassengerEntity passenger = passengerEntityDtoMapper.passengerDtoToEntity(ticketDto.getPassengerDto());
         if(!passengerService.isAlreadyExist(passenger)){
 
-            //this passenger not exist in db
-            passengerService.savePassenger(passenger);
+            //this passenger is not exist in db
+            passengerService.save(passenger);
         }
 
         //getting current passenger from db
@@ -102,10 +102,9 @@ public class BusinessServiceImpl implements BusinessService {
         ticketEntity.setUserEntity(currentUser);
 
         //saving ticket to db
-        ticketService.saveTicket(ticketEntity);
+        ticketService.save(ticketEntity);
 
     }
-
 
     private Date getDate(String date, String dateFormat){
         SimpleDateFormat format = new SimpleDateFormat(dateFormat);
@@ -124,13 +123,13 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Transactional
     @Override
-    public List<TrainSearchDto> getDirectTrains(String departStation, String arrivalStation, Date departDate) {
+    public List<TrainTargetDto> getDirectTrains(String departStation, String arrivalStation, Date departDate) {
         //getting schedules for station on departing date
         List<ScheduleEntity> departStationSchedule = scheduleService.
                 getSchedulesByStationNameAndDepartDate(departStation, departDate);
 
         //creating list for target trains
-        List<TrainSearchDto> trains = new ArrayList<>();
+        List<TrainTargetDto> trains = new ArrayList<>();
 
         //date format for client
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
@@ -143,7 +142,7 @@ public class BusinessServiceImpl implements BusinessService {
             int indexOfArrivalStation = geiIndexOfStation(trainStation, arrivalStation);
 
             if(checkRouteOfTrain(indexOfDepartStation, indexOfArrivalStation)){
-                TrainSearchDto trainSearchDto = trainEntityDtoMapper.
+                TrainTargetDto trainTargetDto = trainEntityDtoMapper.
                         trainEntityToTrainSearchDto(scheduleEntity.getTrainEntity());
 
                 List<ScheduleEntity> trainSchedules = scheduleService.
@@ -155,12 +154,12 @@ public class BusinessServiceImpl implements BusinessService {
                 //setting trainDto fields
                 for(ScheduleEntity schedule: trainSchedules){
                     if(schedule.getStationEntity().getName().equals(arrivalStation)){
-                        trainSearchDto.setDepartDate(format.format(scheduleEntity.getDepartDate()));
-                        trainSearchDto.setArrivalDate(format.format(schedule.getArrivalDate()));
-                        trainSearchDto.setSeats(trainSearchDto.getSeats() - tickets);
+                        trainTargetDto.setDepartDate(format.format(scheduleEntity.getDepartDate()));
+                        trainTargetDto.setArrivalDate(format.format(schedule.getArrivalDate()));
+                        trainTargetDto.setSeats(trainTargetDto.getSeats() - tickets);
                     }
                 }
-                trains.add(trainSearchDto);
+                trains.add(trainTargetDto);
             }
         }
         return trains;
@@ -365,6 +364,20 @@ public class BusinessServiceImpl implements BusinessService {
         }
         scheduleService.removeSchedulesByTrainAndDepartDate(train, departDate);
 
+
+    }
+
+    @Transactional
+    @Override
+    public void updateSchedule(ScheduleUpdateDto scheduleUpdateDto) {
+        TrainEntity train = trainService.findTrainEntityByNumber(scheduleUpdateDto.getTrainNumber());
+        StationEntity station = stationService.getStationEntityByStationName(scheduleUpdateDto.getStationName());
+        Date departDate = getDate(scheduleUpdateDto.getOldDepartDateFromFirstStation(), "yyyy-MM-dd");
+        ScheduleEntity scheduleEntity = scheduleService.getScheduleByTrainAndStationAndDate(train, station, departDate);
+        scheduleEntity.setDepartDate(getDate(scheduleUpdateDto.getDepartDate(), "yyyy-MM-dd HH:mm"));
+        scheduleEntity.setArrivalDate(getDate(scheduleUpdateDto.getArrivalDate(), "yyyy-MM-dd HH:mm"));
+        scheduleEntity.setDepartDateFromFirstStation(getDate(scheduleUpdateDto.getDepartDateFromFirstStation(), "yyyy-MM-dd"));
+        scheduleService.updateSchedule(scheduleEntity);
 
     }
 

@@ -16,7 +16,7 @@
                 <form:option value="0"><spring:message code="trainNumbers"/></form:option>
                 <form:options items="${trainsNumbers}"/>
             </form:select>
-            <div id="btn_train_number_add" class="btn btn_blue">add schedule for train</div>
+            <div id="btn_train_number" class="btn btn_blue">add schedule for train</div>
         </div>
 
         <div id="schedules_list" class="wrapper_schedules_list">

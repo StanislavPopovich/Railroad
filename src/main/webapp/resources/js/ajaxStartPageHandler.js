@@ -132,7 +132,8 @@ $(document).ready(function () {
                         '<input id="trainTicketDto_more_number" name="trainTicketDto.number" type="hidden" value>' +
                         '<input id="trainTicketDto_more_departDate" name="trainTicketDto.departDate" type="hidden" value>' +
                         '<input id="trainTicketDto_more_arrivalDate" name="trainTicketDto.arrivalDate" type="hidden" value>' +
-                        '<input id="trainTicketDto_more_stations" name="trainTicketDto.stations" type="hidden" value>' +
+                        '<input id="trainTicketDto_more_departStation" name="trainTicketDto.departStation" type="hidden" value>' +
+                        '<input id="trainTicketDto_more_arrivalStation" name="trainTicketDto.arrivalStation" type="hidden" value>' +
                         '<input id="passengerTicketDto_more_lastName" name="passengerDto.lastName" type="hidden" value>' +
                         '<input id="passengerTicketDto_more_name" name="passengerDto.name" type="hidden" value>' +
                         '<input id="passengerTicketDto_more_birthDate" name="passengerDto.birthDate" type="hidden" value>' +
@@ -216,7 +217,6 @@ $(document).ready(function () {
             var onlyNumber = number[1];
             var departStationMore = item.getElementsByClassName("departStation_more")[0].textContent;
             var arrivalStationMore = item.getElementsByClassName("arrivalStation_more")[0].textContent;
-            var stations = [departStationMore, arrivalStationMore];
             var dateDeparture = item.getElementsByClassName("date_departure")[0].textContent;
             var arrivalDate = item.getElementsByClassName("trainTicketDto_arrivalDate")[0].value;
             var lastName = item.getElementsByClassName("passengerTicketDto_lastName")[0].value;
@@ -226,7 +226,8 @@ $(document).ready(function () {
             $('#trainTicketDto_more_number').val(onlyNumber);
             $('#trainTicketDto_more_departDate').val(dateDeparture);
             $('#trainTicketDto_more_arrivalDate').val(arrivalDate);
-            $('#trainTicketDto_more_stations').val(stations);
+            $('#trainTicketDto_more_departStation').val(departStationMore);
+            $('#trainTicketDto_more_arrivalStation').val(arrivalStationMore);
             $('#passengerTicketDto_more_lastName').val(lastName);
             $('#passengerTicketDto_more_name').val(name);
             $('#ticket_number').val(ticketNumber);
@@ -275,8 +276,8 @@ $(document).ready(function () {
                     '<div class="trainNumber_more">' + '№ ' + data[i].trainTicketDto.number + '</div>' +
                     '</div>' +
                     '<div class="route">' +
-                    '<div class="departStation_more">' + data[i].trainTicketDto.stations[0] + '</div>' +
-                    '<div class="arrivalStation_more">' + data[i].trainTicketDto.stations[1] + '</div>' +
+                    '<div class="departStation_more">' + data[i].trainTicketDto.departStation+ '</div>' +
+                    '<div class="arrivalStation_more">' + data[i].trainTicketDto.arrivalStation + '</div>' +
                     '</div>' +
                     '<div class="date_departure">' +
                     data[i].trainTicketDto.departDate +

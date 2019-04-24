@@ -16,5 +16,7 @@ public interface ScheduleGenericDao extends GenericDao<ScheduleEntity, Long> {
     List<Date> getDepartDatesForTrain(TrainEntity trainEntity);
 
     void removeScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
+    ScheduleEntity getScheduleBuTrainAndStationAndDate(TrainEntity trainEntity, StationEntity stationEntity,
+                                                       Date departDate);
 
 }

@@ -1,7 +1,7 @@
 package com.railroad.controller;
 
 import com.railroad.dto.TrainDto;
-import com.railroad.dto.TrainSearchDto;
+import com.railroad.dto.TrainTargetDto;
 import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.StationService;
 import com.railroad.service.api.TrainService;
@@ -58,23 +58,22 @@ public class TrainController {
     }
 
     @PostMapping(value = "/train/all-routes")
-    public @ResponseBody List<String> getAllRoutesForStartAndEndStations(@RequestParam String departStation,
+    public @ResponseBody List<String> getAllRoutesForDepartAndArrivalStations(@RequestParam String departStation,
                                                                          @RequestParam String arrivalStation ) {
         List<String> routes = businessService.getAllRoutes(departStation, arrivalStation);
         return routes;
     }
 
     @PostMapping(value = "/find-trains-with-date")
-    public @ResponseBody List<TrainSearchDto> getTrains(@RequestParam String departStation,
-                                                        @RequestParam String arrivalStation,
-                                                        @RequestParam Date date){
-        List<TrainSearchDto> trainSearchDtos = businessService.getDirectTrains(departStation,arrivalStation,date);
-        return trainSearchDtos;
+    public @ResponseBody List<TrainTargetDto> getTargetTrains(@RequestParam String departStation,
+                                                              @RequestParam String arrivalStation,
+                                                              @RequestParam Date date){
+        return businessService.getDirectTrains(departStation,arrivalStation,date);
     }
 
 
     @PostMapping(value = "/train/add")
-    public String resultAddTrainPage(@ModelAttribute("trainForm") TrainDto trainDto) {
+    public String addTrainResult(@ModelAttribute("trainForm") TrainDto trainDto) {
         trainService.save(trainDto);
         return "redirect:/railroad/user";
     }

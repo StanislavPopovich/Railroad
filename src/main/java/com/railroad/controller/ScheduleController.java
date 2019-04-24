@@ -1,8 +1,8 @@
 package com.railroad.controller;
 
 import com.railroad.dto.ScheduleDto;
+import com.railroad.dto.ScheduleUpdateDto;
 import com.railroad.dto.TrainDto;
-import com.railroad.dto.TrainScheduleDto;
 import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.ScheduleService;
 import com.railroad.service.api.StationService;
@@ -15,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,39 +24,36 @@ public class ScheduleController {
     private static final Logger logger = Logger.getLogger(ScheduleController.class);
 
     @Autowired
-    private StationService stationService;
-    @Autowired
     private ScheduleService scheduleService;
     @Autowired
     private TrainService trainService;
     @Autowired
     private BusinessService businessService;
 
-    /*@GetMapping(value = "/schedule")
-    public String getSchedulePage(Model model){
-        model.addAttribute("stations", stationService.getAllStationsName());
-        return "schedulePage";
-    }
-
-    @PostMapping(value = "/schedule/trains-for-station")
-    public @ResponseBody
-    List<TrainScheduleDto> getTrains(@RequestParam String station, Date date) {
-        return businessService.getTrainsFromSchedule(station, date);
-    }*/
 
     @GetMapping(value = "/schedule/add")
-    public String addTrainToSchedule(Model model){
+    public String getAddSchedulePage(Model model){
         model.addAttribute("trainsNumbers",trainService.getAllTrainsNumbers());
         return "addSchedulePage";
     }
 
+    @GetMapping(value = "/schedule/edit")
+    public String getEditSchedulePage(Model model){
+        model.addAttribute("trainsNumbers",trainService.getAllTrainsNumbers());
+        return "editSchedulePage";
+    }
 
-    @PostMapping(value = "/schedule/add-success")
-    public @ResponseBody
-    String addTrainToScheduleResult(@RequestBody ScheduleDto scheduleDto) {
+
+    @PostMapping(value = "/schedule/add")
+    public void addTrainToSchedule(@RequestBody ScheduleDto scheduleDto) {
         logger.info(scheduleDto);
         scheduleService.save(scheduleDto);
-        return "success";
+    }
+
+    @PostMapping(value = "/schedule/update")
+    public void updateTrainToSchedule(@RequestBody ScheduleUpdateDto scheduleUpdateDto) {
+        logger.info(scheduleUpdateDto);
+        businessService.updateSchedule(scheduleUpdateDto);
     }
 
     @PostMapping(value = "/schedule/get-train")
@@ -70,8 +66,14 @@ public class ScheduleController {
     public String deleteTrainFromSchedule(Model model){
         model.addAttribute("trainsNumbers",trainService.getAllTrainsNumbers());
         model.addAttribute("departDate", "");
-        businessService.removeTrainFromSchedule(7, "2019-05-04");
         return "deleteSchedulePage";
+    }
+
+    @PostMapping(value = "schedule/delete-train-success")
+    public @ResponseBody
+    String deleteSchedule(@RequestParam String trainNumber, @RequestParam String date) {
+        businessService.removeTrainFromSchedule(new Integer(trainNumber), date);
+        return "userPage";
     }
 
     @PostMapping(value = "/schedule/get-depart-dates")
@@ -86,4 +88,12 @@ public class ScheduleController {
         sdf.setLenient(true);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
     }
+
+    @InitBinder
+    public void initFindDate(WebDataBinder binder) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(true);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
+    }
+
 }

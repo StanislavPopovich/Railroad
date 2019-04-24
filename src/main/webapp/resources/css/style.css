@@ -888,6 +888,13 @@ img {
     font-size: 14px;
 }
 
+.btn {
+    padding: 5px 15px;
+    border-radius: 3px;
+    color: white;
+    font-size: 14px;
+}
+
 .btn_blue {
     background-color: #008eff;
 }
@@ -944,6 +951,20 @@ img {
 .schedules_item h2 {
     margin: 0px;
     font-size: 16px;
+}
+
+
+.schedule_info {
+    display: flex;
+}
+.schedule_info > form {
+    margin-right: 20px;
+    margin-bottom: 0px;
+}
+
+.schedule_info .btn {
+    display: table;
+    align-self: center;
 }
 
 .footer {

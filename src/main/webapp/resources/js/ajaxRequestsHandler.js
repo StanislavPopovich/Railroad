@@ -109,7 +109,8 @@ $().ready(function () {
                         '<input id="ticket_buy_form_trainNumber" name="number" type="hidden" value>' +
                         '<input id="ticket_buy_form_departDate" name="departDate" type="hidden" value>' +
                         '<input id="ticket_buy_form_arrivalDate" name="arrivalDate" type="hidden" value>' +
-                        '<input id="ticket_buy_form_stations" name="stations" type="hidden" value>';
+                        '<input id="ticket_buy_form_departStation" name="departStation" type="hidden" value>'+
+                        '<input id="ticket_buy_form_arrivalStation" name="arrivalStation" type="hidden" value>';
                     $('#find').append().html(markup);
                     buyTicketButton();
                 }
@@ -129,7 +130,8 @@ $().ready(function () {
                 $('#ticket_buy_form_trainNumber').val(current_tds[0].textContent);
                 $('#ticket_buy_form_departDate').val(current_tds[3].textContent);
                 $('#ticket_buy_form_arrivalDate').val(current_tds[4].textContent);
-                $('#ticket_buy_form_stations').val(stations);
+                $('#ticket_buy_form_departStation').val(stations[0]);
+                $('#ticket_buy_form_arrivalStation').val(stations[1]);
                 autoSubmitTrainFrom();
             }
         })

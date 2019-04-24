@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class TrainSearchDto {
+public class TrainTargetDto {
     private Integer number;
     private Integer seats;
     private String departDate;

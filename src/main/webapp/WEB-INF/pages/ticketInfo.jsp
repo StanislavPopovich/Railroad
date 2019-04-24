@@ -27,7 +27,7 @@
                     </div>
                     <div class="depart_info">
                         <h3><spring:message code="departStationInfo"/></h3>
-                        <p>${ticket.trainTicketDto.stations.get(0)}</p>
+                        <p>${ticket.trainTicketDto.departStation}</p>
                         <div>
                             <p><spring:message code="departDateInfo"/>:</p>
                             <small>${ticket.trainTicketDto.departDate}</small>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="arrival_info">
                         <h3><spring:message code="arrivalStationInfo"/></h3>
-                        <p>${ticket.trainTicketDto.stations.get(1)}</p>
+                        <p>${ticket.trainTicketDto.arrivalStation}</p>
                         <div>
                             <p><spring:message code="arrivalDateInfo"/>:</p>
                             <small>${ticket.trainTicketDto.arrivalDate}</small>

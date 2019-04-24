@@ -31,7 +31,7 @@ public class LoginController {
      * The method returns the index page that allows you to search for trains from
      * the departing station to the arrival station on a specific date
      * @param modelMap
-     * @return
+     * @return index page
      */
     @GetMapping
     public String getIndexPage(ModelMap modelMap){
@@ -71,7 +71,6 @@ public class LoginController {
      */
     @GetMapping(value = "/registration")
     public String getRegistrationPage(Model model){
-        logger.info("Trying to registration");
         model.addAttribute("userForm", new UserDto());
         return "registrationPage";
     }

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,32 +28,13 @@ public interface TicketDtoMapper {
     @Mapping(source ="birthDate", dateFormat = "dd-MM-yyyy",target = "birthDate")
     PassengerDto passengerEntityToPassengerDto(PassengerEntity passengerEntity);
 
-    default TrainTicketDto trainEntityToTrainTicketDto(TicketEntity ticketEntity){
-        if (ticketEntity.getTrainEntity() == null) {
-            return null;
-        } else {
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-            String departStation = ticketEntity.getDepartDate().getStationEntity().getName();
-            String arrivalStation = ticketEntity.getArrivalDate().getStationEntity().getName();
-            TrainTicketDto trainTicketDto = new TrainTicketDto();
-            List<String> stations = new ArrayList<>();
-            stations.add(departStation);
-            stations.add(arrivalStation);
-            trainTicketDto.setStations(stations);
-            trainTicketDto.setNumber(ticketEntity.getTrainEntity().getNumber());
-            trainTicketDto.setDepartDate(format.format(ticketEntity.getDepartDate().getDepartDate()));
-            trainTicketDto.setArrivalDate(format.format(ticketEntity.getArrivalDate().getDepartDate()));
-            return trainTicketDto;
-        }
-    }
+    @Mapping(source ="ticketEntity.departDate.departDate", dateFormat = "dd-MM-yyyy HH:mm",target = "departDate")
+    @Mapping(source ="ticketEntity.arrivalDate.arrivalDate", dateFormat = "dd-MM-yyyy HH:mm",target = "arrivalDate")
+    @Mapping(source ="ticketEntity.departDate.stationEntity.name", target = "departStation")
+    @Mapping(source ="ticketEntity.arrivalDate.stationEntity.name", target = "arrivalStation")
+    @Mapping(source ="ticketEntity.trainEntity.number", target = "number")
+    TrainTicketDto trainEntityToTrainTicketDto(TicketEntity ticketEntity);
 
 
-    default LinkedList<String> stationEntitiesToStationsNames(List<StationEntity> stationEntities){
-        LinkedList<String> stations = new LinkedList<>();
-        for(StationEntity stationEntity: stationEntities){
-            stations.add(stationEntity.getName());
-        }
-        return stations;
-    }
 
 }

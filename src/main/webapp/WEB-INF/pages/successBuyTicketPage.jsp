@@ -25,8 +25,8 @@
                 <div class="route">
                     <h2><spring:message code="routeBuy"/></h2>
                     <div>
-                        <div class="departStation_more">${ticket.trainTicketDto.stations[0]}</div>
-                        <div class="arrivalStation_more">${ticket.trainTicketDto.stations[1]}</div>
+                        <div class="departStation_more">${ticket.trainTicketDto.departStation}</div>
+                        <div class="arrivalStation_more">${ticket.trainTicketDto.arrivalStation}</div>
                     </div>
                 </div>
                 <div class="depart_info">

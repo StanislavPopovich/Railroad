@@ -50,7 +50,7 @@ public class SecurityServiceImpl implements SecurityService {
 
     public void registration(UserDto userDto){
        userService.save(userDto);
-        autoLogin(userDto.getUserName(), userDto.getConfirmPassword());
+       autoLogin(userDto.getUserName(), userDto.getConfirmPassword());
     }
 
     @Override

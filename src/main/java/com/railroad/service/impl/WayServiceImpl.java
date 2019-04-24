@@ -10,8 +10,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,7 +30,6 @@ public class WayServiceImpl implements WayService {
 
     @Override
     @Transactional
-    //+
     public void save(WayDto wayDto) {
         WayEntity wayEntity = wayDtoMapper.wayDtoToWayEntity(wayDto);
         wayEntity.setFirstStationEntity(stationGenericDao.findByStationName(wayDto.getFirstStation()));
@@ -43,7 +40,6 @@ public class WayServiceImpl implements WayService {
 
     @Override
     @Transactional
-    //+
     public List<WayDto> getAllWayDtos() {
         return wayDtoMapper.wayEntitiesToWayDtos(wayGenericDao.getAll());
     }

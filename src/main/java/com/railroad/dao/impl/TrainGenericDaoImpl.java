@@ -25,7 +25,6 @@ public class TrainGenericDaoImpl extends BaseGenericDao<TrainEntity, Long> imple
 
     @Override
     public TrainEntity findTrainByNumber(Integer trainNumber) {
-
         TrainEntity trainEntity = (TrainEntity)entityManager.createQuery("select t from TrainEntity t where t.number=:trainNumber").
                 setParameter("trainNumber", trainNumber).getSingleResult();
         return trainEntity;

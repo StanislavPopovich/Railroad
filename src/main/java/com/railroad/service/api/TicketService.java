@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TicketService {
 
-    void saveTicket(TicketEntity ticketEntity);
+    void save(TicketEntity ticketEntity);
     Long getCountTicketByTrainAndSchedules(TrainEntity trainEntity, ScheduleEntity depart,
                                            ScheduleEntity arrival);
     List<TicketDto> getNotActualTickets(UserEntity currentUser);

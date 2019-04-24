@@ -12,5 +12,6 @@ public class TrainTicketDto {
     private Integer number;
     private String departDate;
     private String arrivalDate;
-    private List<String> stations;
+    private String departStation;
+    private String arrivalStation;
 }

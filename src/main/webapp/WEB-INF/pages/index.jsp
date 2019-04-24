@@ -26,8 +26,7 @@
             </form>
             <form id="date_depart">
                 <fmt:formatDate value="${date}" pattern="yyyy-MM-dd" var="trainDate"/>
-                <form:input cssClass="date" id="date" type="date" path="date" value="${trainDate}"
-                />
+                <form:input cssClass="date" id="date" type="date" path="date" value="${trainDate}"/>
             </form>
             <form id="findButton">
                 <button id="findBtn"><spring:message code="findButton"/></button>

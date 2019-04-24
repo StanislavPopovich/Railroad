@@ -8,8 +8,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface RoleEntityDtoMapper {
-
-    RoleEntity roleDtoToRoleEntity(RoleDto roleDto);
     RoleDto roleEntityToRoleDto(RoleEntity roleEntity);
     List<RoleDto> roleEntitiesToRoleDtos(List<RoleEntity> roleEntities);
 }

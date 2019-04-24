@@ -30,6 +30,8 @@ public interface StationService {
      */
     List<String> getAllStationsName();
 
+    List<String> getAllStationsNameWithoutDepartStation(String departStation);
+
     StationEntity getStationEntityByStationName(String name);
 
     /**

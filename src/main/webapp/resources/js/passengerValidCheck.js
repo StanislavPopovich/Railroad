@@ -2,6 +2,7 @@ var passengerName = document.getElementById("name");
 var lastName = document.getElementById("lastname");
 var birthDate = document.getElementById("birthDate");
 var button = document.getElementById("b_button");
+var email = document.getElementById("email");
 var alphaExp = /^[a-zA-Z]+$/;
 
 function checkLastName() {
@@ -23,6 +24,29 @@ function checkLastName() {
     }
 }
 
+function checkEmail() {
+    var value = email.value;
+
+    if (validateEmail(value)) {
+        deleteMessage("error_email");
+        if (!email.classList.contains("correct")) {
+            email.classList.add("correct");
+            turnOnButton();
+        }
+    } else {
+        getMessage("email is not correct", "error_email");
+        if (email.classList.contains("correct")) {
+            email.classList.remove("correct");
+            turnOnButton();
+        }
+    }
+}
+
+function validateEmail(email) {
+    var pattern  = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return pattern .test(email);
+}
+
 function checkName() {
     if (passengerName.value === "" || passengerName.value.length < 1 || !passengerName.value.match(alphaExp)) {
         getMessage("Name must consist of only letters", "error_name");
@@ -40,7 +64,7 @@ function checkName() {
     }
 }
 
-function checkBirthDate() {
+/*function checkBirthDate() {
     if (birthDate.value === "" || birthDate.value.length < 1) {
         getMessage("Required", "error_birthDate");
         if (birthDate.classList.contains("correct")) {
@@ -55,13 +79,16 @@ function checkBirthDate() {
             turnOnButton();
         }
     }
-}
+}*/
 
 function turnOnButton() {
-    var inputs = document.getElementsByTagName("input");
+    var wrapperInput = document.querySelectorAll(".wrapper_input");
 
-    for(var i = 0; i < inputs.length; i++) {
-        if (inputs[i].classList.contains("correct")) {
+
+    for(var i = 0; i < wrapperInput.length; i++) {
+        var input = wrapperInput[i].getElementsByTagName("input");
+        console.log(input);
+        if (input[0].classList.contains("correct")) {
             button.disabled = false;
             button.classList.add("active");
         }

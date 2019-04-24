@@ -1,17 +1,18 @@
 $(document).ready(function () {
 
-    var btnTrainNumber = document.getElementById("btn_train_number");
+    var btnTrainNumberAdd = document.getElementById("btn_train_number_add");
+    var btnTrainNumberDelete = document.getElementById("btn_train_number_delete");
 
-    if(btnTrainNumber) {
-       btnTrainNumber.addEventListener("click", getFieldsForAddSchedules, false);
+    if(btnTrainNumberAdd) {
+        btnTrainNumberAdd.addEventListener("click", getFieldsForAddSchedules, false);
+    }
+    if(btnTrainNumberDelete){
+        btnTrainNumberDelete.addEventListener("click", deleteSchedule,false);
     }
 
     function getFieldsForAddSchedules() {
         var trainNumber = document.getElementById("train_number");
         var value = trainNumber.options[trainNumber.selectedIndex].text;
-
-
-
         if(value !== "Train number"){
             var train = {};
             train["trainNumber"] = value;
@@ -55,24 +56,28 @@ $(document).ready(function () {
         var firstDate =item[0].querySelector("#departing_date").value.split(" ");
         var trainNumber = document.querySelector("#train_number").value;
         for(var i = 0; i < item.length; i++){
+            var t = (new Date()).getTime();
+            var k = 0;
+            while (((new Date()).getTime() - t) < 100) {
+                k++;
+            }
             var scheduleDto ={};
             scheduleDto["stationName"] = item[i].querySelector("#station").textContent;
             scheduleDto["arrivalDate"] = item[i].querySelector("#arrival_date").value;
             scheduleDto["departDate"] = item[i].querySelector("#departing_date").value;
             scheduleDto["departDateFromFirstStation"] = firstDate[0];
             scheduleDto["trainNumber"] = trainNumber;
-            setTimeout(function () {
-
-            }, 200);
             $.ajax({
-                url: "/railroad/schedule/add-success",
+                url: "/railroad/schedule/add",
                 type : "POST",
                 data : JSON.stringify(scheduleDto),
                 contentType: 'application/json'
-            })
+            });
+
         }
         window.location.href = "/railroad/user";
     }
+
 
     //getting departing dates for selected train
     $('#train_number').on('change',function () {
@@ -92,6 +97,24 @@ $(document).ready(function () {
             }
         })
     });
+
+    function deleteSchedule() {
+        var schedule = {};
+        schedule["trainNumber"] = $("#train_number").val();
+        schedule["date"] = $("#train_dates").val();
+        console.table(schedule);
+        $.ajax({
+            url : '/railroad/schedule/delete-train-success',
+            type : "POST",
+            data : schedule,
+            dataType : "json"
+        })
+        window.location.href = "/railroad/user";
+    }
+   /* $('#btn_train_number').on('click', function () {
+
+    });*/
+
 
 });
 

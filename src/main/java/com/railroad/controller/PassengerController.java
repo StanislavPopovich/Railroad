@@ -2,13 +2,13 @@ package com.railroad.controller;
 
 import com.railroad.dto.PassengerDto;
 import com.railroad.dto.TicketDto;
-import com.railroad.dto.TrainDto;
 import com.railroad.dto.TrainTicketDto;
 import com.railroad.service.api.BusinessService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.security.access.method.P;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -22,7 +22,6 @@ import java.util.*;
 @Controller
 @RequestMapping(value =  "/railroad")
 public class PassengerController {
-    private static final Logger logger = Logger.getLogger(PassengerController.class);
 
     @Autowired
     private BusinessService businessService;
@@ -37,23 +36,29 @@ public class PassengerController {
 
 
     @PostMapping(value = "passenger/add")
-    public ModelAndView addPassengerPage(@ModelAttribute("trainForm") TrainTicketDto trainTicketDto, ModelMap modelMap){
-        ModelAndView modelAndView = new ModelAndView();
+    public String getAddPassengerPage(@ModelAttribute("trainForm") TrainTicketDto trainTicketDto,
+                                            ModelMap modelMap, Model model){
+        Collection<GrantedAuthority> authorities = (Collection)SecurityContextHolder.getContext().
+                getAuthentication().getAuthorities();
+        for(GrantedAuthority authority: authorities){
+            if(authority.getAuthority().equals("ROLE_ADMIN") || authority.getAuthority().equals("ROLE_MODERATOR")){
+                return "redirect:/railroad/user";
+            }
+        }
         TicketDto ticketDto = new TicketDto(trainTicketDto, new PassengerDto());
         modelMap.addAttribute("ticket", ticketDto);
-        modelAndView.addAllObjects(modelMap);
-        modelAndView.setViewName("addPassengerPage");
-        return modelAndView;
+        model.addAttribute(modelMap);
+        return "addPassengerPage";
     }
 
     @GetMapping(value = "user/passenger/all")
-    public String getPassengersOfUser(Model model){
+    public String getUserPassengerPage(Model model){
         model.addAttribute("passenger", new PassengerDto());
         return "userPassengersPage";
     }
 
     @GetMapping(value = "passenger/all")
-    public @ResponseBody List<PassengerDto> getNotActualTickets(){
+    public @ResponseBody List<PassengerDto> getPassengersOfUser(){
         return businessService.getPassengersOfCurrentUser();
     }
 

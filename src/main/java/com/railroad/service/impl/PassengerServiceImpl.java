@@ -15,12 +15,10 @@ public class PassengerServiceImpl {
 
 
     @Transactional
-    //+
-    public void savePassenger(PassengerEntity passengerEntity){
+    public void save(PassengerEntity passengerEntity){
         passengerGenericDao.save(passengerEntity);
     }
 
-    //+
     public boolean isAlreadyExist(PassengerEntity passengerEntity){
         if(passengerGenericDao.getCountPassengerByNameAndBirthDate(passengerEntity) > 0){
             return true;
@@ -28,7 +26,6 @@ public class PassengerServiceImpl {
         return false;
     }
 
-    //+
     public PassengerEntity findPassengerByNameAndBirthDate(PassengerEntity passengerEntity){
         return passengerGenericDao.findPassengerByAllFields(passengerEntity);
     }

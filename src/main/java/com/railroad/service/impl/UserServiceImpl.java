@@ -6,7 +6,6 @@ import com.railroad.dto.UserDto;
 import com.railroad.mapper.UserEntityDtoMapper;
 import com.railroad.model.RoleEntity;
 import com.railroad.model.UserEntity;
-import com.railroad.service.api.RoleService;
 import com.railroad.service.api.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +45,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    //+
     public void save(UserDto userDto) {
         userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         if(userDto.getRoles() == null){
@@ -69,20 +67,17 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    //+
     public UserDto findByUsername(String userName) {
         return userDtoMapper.userEntityToUserDto(userDao.findByUserName(userName));
     }
 
     @Transactional
-    //+
     public List<UserDto> getAll() {
         List<UserDto> userDtos = userDtoMapper.userEntitiesToUserDtos(userDao.getAll());
         return userDtos;
     }
 
     @Override
-    //+
     public boolean isAlreadyExist(String userName) {
         if(userDao.getCountUserBuUserName(userName) > 0){
             return true;
@@ -92,7 +87,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    //+
     public void update(UserDto userDto) {
         UserEntity userEntity = userDtoMapper.userDtoToUserEntity(userDto);
         userEntity.setId(userDao.findByUserName(userEntity.getUserName()).getId());
@@ -103,18 +97,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    //+
     public void delete(String userName) {
         UserEntity userEntity = userDao.findByUserName(userName);
         userDao.remove(userEntity);
     }
 
     @Override
-    //+
     public UserEntity getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return userDao.findByUserName(authentication.getName());
     }
-
-
 }

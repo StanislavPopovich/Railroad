@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,7 +24,6 @@ public class StationServiceImpl implements StationService {
 
     @Override
     @Transactional
-    // +
     public void save(StationDto stationDto) {
         StationEntity stationEntity = stationDtoMapper.stationDtoToStationEntity(stationDto);
         stationGenericDao.save(stationEntity);
@@ -35,9 +35,19 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
-    //+
     public List<String> getAllStationsName() {
         return stationGenericDao.getAllStationNames();
+    }
+
+    @Override
+    public List<String> getAllStationsNameWithoutDepartStation(String departStation) {
+        List<String> list = new ArrayList<>();
+        for(String station: getAllStationsName()){
+            if(!station.equals(departStation)){
+                list.add(station);
+            }
+        }
+        return list;
     }
 
     @Override
@@ -47,7 +57,6 @@ public class StationServiceImpl implements StationService {
 
 
     @Override
-    //+
     public StationDto getStationById(Long id) {
         StationEntity stationEntity = stationGenericDao.getById(id);
         return stationDtoMapper.stationEntityToStationDto(stationEntity);

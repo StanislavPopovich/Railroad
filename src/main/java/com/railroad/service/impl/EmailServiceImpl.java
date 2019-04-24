@@ -27,13 +27,12 @@ public class EmailServiceImpl {
     @Autowired
     private JavaMailSender mailSender;
 
-
     public void sendMail(TicketDto ticketDto) {
         MimeMessage message = mailSender.createMimeMessage();
-        String departStation = ticketDto.getTrainTicketDto().getStations().get(0);
-        String arrivalStation = ticketDto.getTrainTicketDto().getStations().get(1);
-        String subject = "Your ticket from " + departStation.split("\\[")[1] + " to "
-                + arrivalStation.split("\\]")[0] ;
+        String departStation = ticketDto.getTrainTicketDto().getDepartStation();
+        String arrivalStation = ticketDto.getTrainTicketDto().getArrivalStation();
+        String subject = "Your ticket from " + departStation + " to "
+                + arrivalStation ;
         try( ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true);
             writePdf(outputStream, ticketDto);
@@ -95,9 +94,9 @@ public class EmailServiceImpl {
                     table.addCell(header);
                 });
 
-        table.addCell(ticketDto.getTrainTicketDto().getStations().get(0).split("\\[")[1]);
+        table.addCell(ticketDto.getTrainTicketDto().getDepartStation());
         table.addCell(ticketDto.getTrainTicketDto().getDepartDate());
-        table.addCell(ticketDto.getTrainTicketDto().getStations().get(1).split("\\]")[0]);
+        table.addCell(ticketDto.getTrainTicketDto().getArrivalStation());
         table.addCell(ticketDto.getTrainTicketDto().getArrivalDate());
     }
 

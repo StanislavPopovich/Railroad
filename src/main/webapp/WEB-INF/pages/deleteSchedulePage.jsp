@@ -18,7 +18,7 @@
             <form:select cssClass="select" id="train_dates" type="text" path="departDate">
                 <form:option value="0"><spring:message code="departDateInfo"/></form:option>
             </form:select>
-            <div id="btn_train_number" class="btn btn_blue">delete train from schedule</div>
+            <div id="btn_train_number_delete" class="btn btn_blue">delete train from schedule</div>
         </div>
     </div>
 </section>

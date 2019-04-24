@@ -1,7 +1,9 @@
 package com.railroad.service.api;
 
 import com.railroad.dto.ScheduleDto;
+import com.railroad.dto.ScheduleUpdateDto;
 import com.railroad.model.ScheduleEntity;
+import com.railroad.model.StationEntity;
 import com.railroad.model.TrainEntity;
 
 import javax.xml.crypto.Data;
@@ -28,6 +30,8 @@ public interface ScheduleService {
      */
     List<ScheduleEntity> getSchedulesByStationNameAndDepartDate(String stationName, Date departDate);
 
+    List<ScheduleDto> getScheduleDtosByStationNameAndDepartDate(String stationName, Date date);
+
 
     /**
      * The method returns all scheduleDto from dao layer
@@ -44,5 +48,10 @@ public interface ScheduleService {
     List<Date> getDepartDatesForTrain(TrainEntity trainEntity);
 
     void removeSchedulesByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
+
+    void updateSchedule(ScheduleEntity scheduleEntity);
+
+    ScheduleEntity getScheduleByTrainAndStationAndDate(TrainEntity trainEntity, StationEntity stationEntity,
+                                                       Date departDate);
 
 }

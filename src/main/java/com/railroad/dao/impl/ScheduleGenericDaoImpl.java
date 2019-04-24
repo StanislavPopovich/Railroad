@@ -1,19 +1,11 @@
 package com.railroad.dao.impl;
 
 import com.railroad.dao.api.ScheduleGenericDao;
-import com.railroad.dto.ScheduleDto;
 import com.railroad.model.ScheduleEntity;
 import com.railroad.model.StationEntity;
 import com.railroad.model.TrainEntity;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Date;
@@ -85,6 +77,16 @@ public class ScheduleGenericDaoImpl extends BaseGenericDao<ScheduleEntity, Long>
         entityManager.createQuery("delete  from ScheduleEntity s where s.trainEntity= :train and " +
                 "s.departDateFromFirstStation= :departDate").setParameter("train", trainEntity).
                 setParameter("departDate", departDate).executeUpdate();
+    }
+
+    @Override
+    public ScheduleEntity getScheduleBuTrainAndStationAndDate(TrainEntity trainEntity, StationEntity stationEntity, Date departDate) {
+        ScheduleEntity scheduleEntity = (ScheduleEntity) entityManager.createQuery("select s from ScheduleEntity s " +
+                "where s.trainEntity= :train and s.stationEntity= :station and s.departDateFromFirstStation= :departDate").
+                setParameter("train", trainEntity).
+                setParameter("station", stationEntity).
+                setParameter("departDate", departDate).getSingleResult();
+        return scheduleEntity;
     }
 
 

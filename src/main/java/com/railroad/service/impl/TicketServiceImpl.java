@@ -24,8 +24,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Transactional
     @Override
-    //+
-    public void saveTicket(TicketEntity ticketEntity) {
+    public void save(TicketEntity ticketEntity) {
         ticketDao.save(ticketEntity);
     }
 
