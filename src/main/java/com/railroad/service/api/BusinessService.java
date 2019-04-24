@@ -52,6 +52,8 @@ public interface BusinessService {
 
     void updateSchedule(ScheduleUpdateDto scheduleUpdateDto);
 
+    List<ScheduleUpdateDto> getScheduleUpdateDtosByTrainAdnDate(Integer trainNumber, Date departDate);
+
 
 
 

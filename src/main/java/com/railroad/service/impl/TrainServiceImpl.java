@@ -41,11 +41,9 @@ public class TrainServiceImpl implements TrainService {
             for (int i = 0; i < stationsArr.length; i++) {
                 trainStations.add(stationsArr[i]);
             }
-            trainDto.setStations(trainStations);
-
             List<StationEntity> stations = new ArrayList<>();
-            for (StationEntity stationEntity : trainEntity.getStationEntities()) {
-                stations.add(stationDao.findByStationName(stationEntity.getName()));
+            for (String station : trainStations) {
+                stations.add(stationDao.findByStationName(station));
             }
             trainEntity.setStationEntities(stations);
             trainGenericDao.save(trainEntity);

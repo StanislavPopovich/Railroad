@@ -11,6 +11,7 @@
 <jsp:include page="header.jsp"/>
 <section class="main">
     <div class="container">
+        <h2 class="h2">Select station and date</h2>
         <div class="schedule_info">
             <form id="start_station">
                 <form:select cssClass="select" id="start" type="text" path="station">
@@ -22,10 +23,14 @@
                 <fmt:formatDate value="${date}" pattern="yyyy-MM-dd" var="trainDate"/>
                 <form:input cssClass="date" id="date" type="date" path="date" value="${trainDate}"/>
             </form>
-            <div id="find_schedule" class="btn btn_blue">Find</div>
+            <div id="find_schedule" class="btn btn_blue">Select</div>
         </div>
 
-        <div class="schedule">
+        <div id="schedule" class="schedule">
+
+
+
+
 
         </div>
     </div>

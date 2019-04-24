@@ -441,6 +441,11 @@ img {
     margin: 0px auto;
 }
 
+.h2 {
+    text-align: center;
+    margin-top: 0px;
+}
+
 .content h2 {
     font-size: 22px;
     text-align: center;
@@ -463,6 +468,29 @@ img {
 }
 .caption > div:nth-child(2) {
     width: 300px;
+}
+
+.caption .train {
+    width: 50px !important;
+    padding: 10px 5px;
+}
+.caption .route {
+     width: 300px;
+ }
+.caption .arrival,
+.caption .departing {
+    width: 172px;
+}
+
+.schedule {
+    margin-top: 20px;
+}
+.schedule .caption {
+    padding: 0px 20px;
+}
+.schedule .caption,
+.schedule .item {
+    justify-content: space-between;
 }
 
 .items {
@@ -499,6 +527,10 @@ img {
     text-align: center;
 }
 
+.schedule .items .item .train {
+    margin-right: 0px;
+}
+
 .items .item .train img {
     width: 30px;
     margin: 0px auto 5px;
@@ -509,6 +541,11 @@ img {
     justify-content: center;
     width: 280px;
     margin-right: 20px;
+}
+
+.schedule .items .item .route {
+    margin-right: 0px;
+    width: 300px;
 }
 
 .items .item .route > div {
@@ -532,12 +569,18 @@ img {
     background-position: center;
     background-size: 16px auto;
 }
+.items .item .date_arrival,
 .items .item .date_departure {
     display: flex;
     justify-content: center;
     align-self: center;
     width: 172px;
     margin-right: 20px;
+}
+
+.schedule .items .item .date_arrival,
+.schedule .items .item .date_departure {
+    margin-right: 0px;
 }
 
 
@@ -858,8 +901,6 @@ img {
 }
 
 .functions_moderator .function > div {
-    padding: 20px;
-    background-color: white;
 
 }
 
@@ -872,20 +913,15 @@ img {
 .functions_moderator ul li {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    background-color: #ededed;
+    padding: 10px;
+    border-bottom: 1px solid black;
 }
 .functions_moderator ul li > div {
     align-self: center;
 }
 .functions_moderator ul li:last-child {
-    margin-bottom: 0px;
-}
-
-.functions_moderator .btn {
-    padding: 5px 15px;
-    border-radius: 3px;
-    color: white;
-    font-size: 14px;
+    border-bottom: none;
 }
 
 .btn {
@@ -896,7 +932,7 @@ img {
 }
 
 .btn_blue {
-    background-color: #008eff;
+    background-color: #00b8ff;
 }
 
 .btn_red {
@@ -916,14 +952,24 @@ img {
 
 .select_train {
     display: flex;
+    margin-bottom: 20px;
 }
+.select_train .select:nth-child(2) {
+    border-left: 1px solid black;
+}
+
 .select_train .btn {
-    padding: 5px 15px;
-    border-radius: 3px;
-    color: white;
-    font-size: 14px;
     align-self: center;
+    padding: 9px 20px;
+    height: 36px;
+    color: white;
+    background-color: #00b8ff;
+    border-left: 1px solid black;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    font-size: 15px;
     cursor: pointer;
+    transition: all 0.3s ease-in-out;
 }
 
 .schedules_list {
@@ -934,10 +980,16 @@ img {
     overflow-y: auto;
 }
 
+.wrapper_schedules_list .btn {
+    display: table;
+    margin: 20px auto 0px;
+    cursor: pointer;
+}
+
 .schedules_item {
     display: flex;
     justify-content: space-between;
-    width: 480px;
+    width: 560px;
     margin-bottom: 20px;
     padding: 20px;
     background-color: white;
@@ -951,6 +1003,11 @@ img {
 .schedules_item h2 {
     margin: 0px;
     font-size: 16px;
+    text-align: center;
+}
+
+.schedules_item input {
+    text-align: center;
 }
 
 
@@ -958,13 +1015,25 @@ img {
     display: flex;
 }
 .schedule_info > form {
-    margin-right: 20px;
     margin-bottom: 0px;
 }
 
+.schedule_info form:nth-child(2) {
+    border-left: 1px solid black;
+}
+
 .schedule_info .btn {
-    display: table;
     align-self: center;
+    padding: 9px 20px;
+    height: 36px;
+    color: white;
+    background-color: #00b8ff;
+    border-left: 1px solid black;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
 }
 
 .footer {

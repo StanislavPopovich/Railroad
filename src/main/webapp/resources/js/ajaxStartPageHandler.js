@@ -34,7 +34,7 @@ $(document).ready(function () {
             details: "Details",
             return: "Return",
             allOrders: "ALL ORDERS",
-            completedTrips: "COPLETED TRIPS"
+            completedTrips: "COMPLETED TRIPS"
         }
     };
 
@@ -76,41 +76,7 @@ $(document).ready(function () {
 
     //    Start user page for Moderator
 
-    /*function getStartModeratorPage(){
-        $.ajax({
-            url : '/railroad/user/moderator',
-            type : "GET",
-            dataType : "json",
-            success: function (data) {
-                var  markup = '<table class="header_table"><tr><th>' + findTableText[local].trainNumber +
-                    '</th><th>' + findTableText[local].seats + '</th><th class="th_route">' +
-                    findTableText[local].route + '</th><th class="th_hidden"></th>' +
-                    '<th class="th_hidden"></th></tr></table>';
-                markup+='<div class="find_content"><table>';
-                if(data.length === 0){
-                    markup+= '<tr><th>' + findTableText[local].trainsNotFound + '</th></tr>'
-                }
-                console.log(data);
-                for(var i = 0; i < data.length; i++){
-                    markup+='<tr>';
-                    markup+= '<td>' + data[i].number + '</td>';
-                    markup+= '<td>' + data[i].seats + '</td>';
-                    markup+= '<td class="td_route">';
-                    for(var j = 0; j < data[i].stations.length; j++){
-                        if(j != data[i].stations.length - 1){
-                            markup+= data[i].stations[j] + ' => ';
-                        }else{
-                            markup+= data[i].stations[j];
-                        }
-                    }
-                    markup+= '</td>';
-                    markup+='</tr>';
-                }
-                markup+='</table></div>';
-                $('#find_trains').append().html(markup);
-            }
-        });
-    }*/
+
 
     function getStartUserPage(){
         $.ajax({

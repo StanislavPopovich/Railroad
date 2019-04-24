@@ -24,7 +24,8 @@ public class StationGenericDaoImpl extends BaseGenericDao<StationEntity, Long> i
 
     @Override
     public StationEntity findByStationName(String name) {
-        StationEntity stationEntity = (StationEntity) entityManager.createQuery("select s from StationEntity s where s.name=:name").
+        StationEntity stationEntity = (StationEntity) entityManager.createQuery("select s from StationEntity s " +
+                "where s.name= :name").
                 setParameter("name", name).getSingleResult();
         return stationEntity;
     }

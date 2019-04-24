@@ -25,7 +25,8 @@ public class ScheduleGenericDaoImpl extends BaseGenericDao<ScheduleEntity, Long>
     @Override
     public List<ScheduleEntity> findScheduleByStationAndDepartDate(StationEntity stationEntity, Date date) {
         List<ScheduleEntity> scheduleEntities = entityManager.createQuery("select s from ScheduleEntity s " +
-                "where s.departDate > :dayBefore and s.departDate < :dayAfter and s.stationEntity= :station").
+                "where s.departDate > :dayBefore and s.departDate < :dayAfter and s.stationEntity= :station " +
+                "order by s.arrivalDate").
                 setParameter("dayBefore", date).
                 setParameter("dayAfter", new LocalDate(date).plusDays(1).toDate()).
                 setParameter("station", stationEntity).getResultList();

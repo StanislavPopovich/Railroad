@@ -100,7 +100,7 @@ INSERT INTO railroad.train_stations(id, train_id, station_id) VALUES (2,10,1);
 /*INSERT SCHEDULES*/
 
 /*INSERT SCHEDULE FOR TRAIN NUMBER 1 (MOSCOW - TVER)*/
-INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
+/*INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-01 05:00:00','2019-04-01 05:30:00', '2019-04-01',1,1);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-01 07:00:00','2019-04-01 07:30:00', '2019-04-01',1,5);
@@ -113,7 +113,7 @@ VALUES ('2019-04-02 07:00:00','2019-04-02 07:30:00','2019-04-02',1,5);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-03 05:00:00','2019-04-03 05:30:00','2019-04-03',1,1);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
-VALUES ('2019-04-03 07:00:00','2019-04-03 07:30:00','2019-04-03',1,5);
+VALUES ('2019-04-03 07:00:00','2019-04-03 07:30:00','2019-04-03',1,5);*/
 
 /*INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-04 05:00:00','2019-04-04 05:30:00',1,1);
 INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-04 07:00:00','2019-04-04 07:30:00',1,5);
@@ -138,7 +138,7 @@ INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) 
 */
 
 /*INSERT SCHEDULE FOR TRAIN NUMBER 2 (TVER - MOSCOW)*/
-INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
+/*INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-01 16:00:00','2019-04-01 16:30:00','2019-04-01',2,5);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-01 18:00:00','2019-04-01 18:30:00','2019-04-01',2,1);
@@ -151,7 +151,7 @@ VALUES ('2019-04-02 18:00:00','2019-04-02 18:30:00','2019-04-02',2,1);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-03 16:00:00','2019-04-03 16:30:00','2019-04-03',2,5);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
-VALUES ('2019-04-03 18:00:00','2019-04-03 18:30:00','2019-04-03',2,1);
+VALUES ('2019-04-03 18:00:00','2019-04-03 18:30:00','2019-04-03',2,1);*/
 
 /*INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-04 16:00:00','2019-04-04 16:30:00',2,5);
 INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-04 18:00:00','2019-04-04 18:30:00',2,1);
@@ -177,7 +177,7 @@ INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) 
 
 
 /*INSERT SCHEDULE FOR TRAIN NUMBER 3 (TVER - V.NOVGOROD)*/
-INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
+/*INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-01 12:00:00','2019-04-01 12:30:00','2019-04-01',3,5);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-01 15:00:00','2019-04-01 15:30:00','2019-04-01',3,3);
@@ -190,7 +190,7 @@ VALUES ('2019-04-02 15:00:00','2019-04-02 15:30:00','2019-04-02',3,3);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-03 12:00:00','2019-04-03 12:30:00','2019-04-03',3,5);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
-VALUES ('2019-04-03 15:00:00','2019-04-03 15:30:00','2019-04-03',3,3);
+VALUES ('2019-04-03 15:00:00','2019-04-03 15:30:00','2019-04-03',3,3);*/
 
 /*INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-04 12:00:00','2019-04-04 12:30:00',3,5);
 INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-04 15:00:00','2019-04-04 15:30:00',3,3);
@@ -215,7 +215,7 @@ INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) 
 
 
 /*INSERT SCHEDULE FOR TRAIN NUMBER 4 (V.NOVGOROD - TVER)*/
-INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
+/*INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-01 12:30:00','2019-04-01 13:00:00','2019-04-01',4,3);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-01 15:30:00','2019-04-01 15:45:00','2019-04-01',4,5);
@@ -228,7 +228,7 @@ VALUES ('2019-04-02 15:30:00','2019-04-02 15:45:00','2019-04-02',4,5);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-03 12:30:00','2019-04-03 13:00:00','2019-04-03',4,3);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
-VALUES ('2019-04-03 15:30:00','2019-04-03 15:45:00','2019-04-03',4,5);
+VALUES ('2019-04-03 15:30:00','2019-04-03 15:45:00','2019-04-03',4,5);*/
 
 /*INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-04 12:30:00','2019-04-04 13:00:00',4,3);
 INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-04 15:30:00','2019-04-04 15:45:00',4,5);
@@ -253,7 +253,7 @@ INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) 
 
 
 /*INSERT SCHEDULE FOR TRAIN NUMBER 5 (V.NOVGOROD - SPB)*/
-INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
+/*INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-01 15:15:00','2019-04-01 15:30:00','2019-04-01',5,3);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-01 21:00:00','2019-04-01 21:30:00','2019-04-01',5,2);
@@ -267,7 +267,7 @@ INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_stat
 VALUES ('2019-04-03 15:15:00','2019-04-03 15:30:00','2019-04-03',5,3);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-03 21:00:00','2019-04-03 21:30:00','2019-04-03',5,2);
-
+*/
 /*INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-04 15:15:00','2019-04-04 15:30:00',5,3);
 INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-04 21:00:00','2019-04-04 21:30:00',5,2);
 
@@ -291,7 +291,7 @@ INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) 
 
 
 /*INSERT SCHEDULE FOR TRAIN NUMBER 6 (SPB - V.NOVGOROD)*/
-INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
+/*INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-01 05:00:00','2019-04-01 05:30:00','2019-04-01',6,2);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-01 11:00:00','2019-04-01 11:30:00','2019-04-01',6,3);
@@ -304,7 +304,7 @@ VALUES ('2019-04-02 11:00:00','2019-04-02 11:30:00','2019-04-02',6,3);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-03 05:00:00','2019-04-03 05:30:00','2019-04-03',6,2);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
-VALUES ('2019-04-03 11:00:00','2019-04-03 11:30:00','2019-04-03',6,3);
+VALUES ('2019-04-03 11:00:00','2019-04-03 11:30:00','2019-04-03',6,3);*/
 
 /*INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-04 05:00:00','2019-04-04 05:30:00',6,2);
 INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-04 11:00:00','2019-04-04 11:30:00',6,3);
@@ -329,7 +329,7 @@ INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) 
 
 
 /*INSERT SCHEDULE FOR TRAIN NUMBER 7 (MSK - SPB)*/
-INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
+/*INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-01 05:00:00','2019-04-01 05:30:00','2019-04-01',7,1);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-01 07:00:00','2019-04-01 07:30:00','2019-04-01',7,5);
@@ -354,7 +354,7 @@ VALUES ('2019-04-03 07:00:00','2019-04-03 07:30:00','2019-04-03',7,5);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-03 12:30:00','2019-04-03 12:30:00','2019-04-03',7,3);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
-VALUES ('2019-04-03 15:30:00','2019-04-03 16:00:00','2019-04-03',7,2);
+VALUES ('2019-04-03 15:30:00','2019-04-03 16:00:00','2019-04-03',7,2);*/
 
 /*INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-04 05:00:00','2019-04-04 05:30:00',7,1);
 INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-04 07:00:00','2019-04-04 07:30:00',7,5);
@@ -393,7 +393,7 @@ INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) 
 
 
 /*INSERT SCHEDULE FOR TRAIN NUMBER 8 (SPB - MSK)*/
-INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
+/*INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-01 05:00:00','2019-04-01 05:30:00','2019-04-01',8,2);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-01 07:00:00','2019-04-01 07:30:00','2019-04-01',8,3);
@@ -418,7 +418,7 @@ VALUES ('2019-04-03 07:00:00','2019-04-03 07:30:00','2019-04-03',8,3);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
 VALUES ('2019-04-03 12:30:00','2019-04-03 12:30:00','2019-04-03',8,5);
 INSERT INTO railroad.schedules(arrival_date, depart_date, depart_date_first_station, train_id, station_id)
-VALUES ('2019-04-03 15:30:00','2019-04-03 16:00:00','2019-04-03',8,1);
+VALUES ('2019-04-03 15:30:00','2019-04-03 16:00:00','2019-04-03',8,1);*/
 
 /*INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-04 05:00:00','2019-04-04 05:30:00',8,2);
 INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-04 07:00:00','2019-04-04 07:30:00',8,3);
@@ -453,4 +453,4 @@ INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) 
 INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-10 05:00:00','2019-04-10 05:30:00',8,2);
 INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-10 07:00:00','2019-04-10 07:30:00',8,3);
 INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-10 12:30:00','2019-04-10 12:30:00',8,5);
-INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-10 15:30:00','2019-04-10 16:00:00',8,1);*/
+INSERT INTO railroad.schedules(arrival_date, depart_date, train_id, station_id) VALUES ('2019-04-10 15:30:00','2019-04-10 16:00:00',8,1);

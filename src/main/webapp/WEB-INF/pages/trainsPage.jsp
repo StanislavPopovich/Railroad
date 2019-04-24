@@ -15,15 +15,11 @@
             <div id="find_trains">
 
             </div>
-            <div class="admin_panel">
-                <a href="<c:url value="/railroad/train/add"/>"><button>Add new train</button></a>
-            </div>
-
         </c:if>
     </div>
 </section>
 <jsp:include page="footer.jsp"/>
 <script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="/resources/js/ajaxStartPageHandler.js"></script>
+<script type="text/javascript" src="/resources/js/trainHandler.js"></script>
 </body>
 </html>

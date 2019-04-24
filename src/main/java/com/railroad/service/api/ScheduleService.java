@@ -1,6 +1,7 @@
 package com.railroad.service.api;
 
 import com.railroad.dto.ScheduleDto;
+import com.railroad.dto.ScheduleInfoDto;
 import com.railroad.dto.ScheduleUpdateDto;
 import com.railroad.model.ScheduleEntity;
 import com.railroad.model.StationEntity;
@@ -30,7 +31,7 @@ public interface ScheduleService {
      */
     List<ScheduleEntity> getSchedulesByStationNameAndDepartDate(String stationName, Date departDate);
 
-    List<ScheduleDto> getScheduleDtosByStationNameAndDepartDate(String stationName, Date date);
+    List<ScheduleInfoDto> getScheduleDtosByStationNameAndDepartDate(String stationName, Date date);
 
 
     /**
@@ -53,5 +54,7 @@ public interface ScheduleService {
 
     ScheduleEntity getScheduleByTrainAndStationAndDate(TrainEntity trainEntity, StationEntity stationEntity,
                                                        Date departDate);
+
+    List<ScheduleUpdateDto> getScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
 
 }

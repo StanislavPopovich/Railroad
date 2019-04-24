@@ -1,6 +1,7 @@
 package com.railroad.mapper;
 
 import com.railroad.dto.ScheduleDto;
+import com.railroad.dto.ScheduleInfoDto;
 import com.railroad.dto.ScheduleUpdateDto;
 import com.railroad.model.ScheduleEntity;
 import com.railroad.model.StationEntity;
@@ -11,6 +12,7 @@ import org.mapstruct.Mapping;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,9 +36,22 @@ public interface ScheduleEntityDtoMapper {
     @Mapping(source = "departDate", dateFormat = "yyyy-MM-dd HH:mm", target = "departDate")
     @Mapping(source = "departDateFromFirstStation",
             dateFormat = "yyyy-MM-dd", target = "departDateFromFirstStation")
-    ScheduleEntity scheduleDtoToScheduleEntity(ScheduleUpdateDto scheduleUpdateDto);
+    ScheduleEntity scheduleUpdateDtoToScheduleEntity(ScheduleUpdateDto scheduleUpdateDto);
+
+    @Mapping(source = "arrivalDate", dateFormat = "yyyy-MM-dd HH:mm", target = "arrivalDate")
+    @Mapping(source = "departDate", dateFormat = "yyyy-MM-dd HH:mm", target = "departDate")
+    @Mapping(source = "departDateFromFirstStation",
+            dateFormat = "yyyy-MM-dd", target = "departDateFromFirstStation")
+    @Mapping(source = "departDateFromFirstStation",
+            dateFormat = "yyyy-MM-dd", target = "oldDepartDateFromFirstStation")
+    @Mapping(source = "scheduleEntity.trainEntity.number", target = "trainNumber")
+    @Mapping(source = "scheduleEntity.stationEntity.name", target = "stationName")
+    ScheduleUpdateDto scheduleEntityToScheduleUpdateDto(ScheduleEntity scheduleEntity);
 
     List<ScheduleDto> scheduleEntitiesToScheduleDtos(List<ScheduleEntity> scheduleEntities);
-    List<ScheduleEntity> scheduleDtosToScheduleEntities(List<ScheduleDto> scheduleDtos);
+
+    List<ScheduleUpdateDto> scheduleEntityToScheduleUpdateDto(List<ScheduleEntity> scheduleEntities);
+
+
 
 }

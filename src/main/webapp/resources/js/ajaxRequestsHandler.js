@@ -45,27 +45,7 @@ $().ready(function () {
         })
     });
 
-    //Returns all routes between departing and arrival stations
-    $('#end_station').on('change', function () {
-        var stations = {};
-        stations["departStation"] = $("#start").val();
-        stations["arrivalStation"] = $("#end").val();
-        $.ajax({
-            url : '/railroad/train/all-routes',
-            type : "POST",
-            data : stations,
-            dataType : "json",
-            success : function(data){
-                console.log(data);
-                var markup = '';
-                markup+= '<option value="0"></option>';
-                for(var i = 0; i < data.length; i++){
-                    markup+= '<option value="' + data[i] + '">' + data[i] + '</option>'
-                }
-                $('#routes').append().html(markup);
-            },
-        })
-    });
+
 
     /*Table of trains on index page*/
     $('#findButton').on('submit', function (event) {

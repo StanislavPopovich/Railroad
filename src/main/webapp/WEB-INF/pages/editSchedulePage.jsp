@@ -11,12 +11,16 @@
 <jsp:include page="header.jsp"/>
 <section class="main">
     <div class="container">
+        <h2 class="h2">change schedule for train</h2>
         <div class="select_train">
             <form:select cssClass="select" id="train_number" type="text" path="trainsNumbers">
                 <form:option value="0"><spring:message code="trainNumbers"/></form:option>
                 <form:options items="${trainsNumbers}"/>
             </form:select>
-            <div id="btn_train_number" class="btn btn_blue">add schedule for train</div>
+            <form:select cssClass="select" id="train_dates" type="text" path="departDate">
+                <form:option value="0"><spring:message code="departDateInfo"/></form:option>
+            </form:select>
+            <div id="btn_train_number_change" class="btn btn_blue">Select</div>
         </div>
 
         <div id="schedules_list" class="wrapper_schedules_list">

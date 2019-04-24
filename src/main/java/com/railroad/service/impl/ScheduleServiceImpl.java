@@ -1,9 +1,12 @@
 package com.railroad.service.impl;
 
 import com.railroad.dao.api.ScheduleGenericDao;
+import com.railroad.mapper.ScheduleInfoDtoMapper;
 import com.railroad.dao.api.StationGenericDao;
 import com.railroad.dao.api.TrainGenericDao;
 import com.railroad.dto.ScheduleDto;
+import com.railroad.dto.ScheduleInfoDto;
+import com.railroad.dto.ScheduleUpdateDto;
 import com.railroad.mapper.ScheduleEntityDtoMapper;
 import com.railroad.model.ScheduleEntity;
 import com.railroad.model.StationEntity;
@@ -30,6 +33,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     private TrainGenericDao trainDao;
 
+    @Autowired
+    private ScheduleInfoDtoMapper scheduleInfoDtoMapper;
+
     @Transactional
     @Override
     //schedule controller
@@ -49,8 +55,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public List<ScheduleDto> getScheduleDtosByStationNameAndDepartDate(String stationName, Date date) {
-        return scheduleMapper.scheduleEntitiesToScheduleDtos(getSchedulesByStationNameAndDepartDate(stationName, date));
+    public List<ScheduleInfoDto> getScheduleDtosByStationNameAndDepartDate(String stationName, Date date) {
+        return scheduleInfoDtoMapper.scheduleEntitieToScheduleInfoDtos(getSchedulesByStationNameAndDepartDate(stationName, date));
     }
 
 
@@ -92,5 +98,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleEntity getScheduleByTrainAndStationAndDate(TrainEntity trainEntity, StationEntity stationEntity, Date departDate) {
         return scheduleDao.getScheduleBuTrainAndStationAndDate(trainEntity, stationEntity, departDate);
+    }
+
+    @Override
+    public List<ScheduleUpdateDto> getScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date departDate) {
+        return scheduleMapper.scheduleEntityToScheduleUpdateDto(findSchedulesForTrain(trainEntity, departDate));
     }
 }

@@ -145,8 +145,8 @@ public class BusinessServiceImpl implements BusinessService {
                 TrainTargetDto trainTargetDto = trainEntityDtoMapper.
                         trainEntityToTrainSearchDto(scheduleEntity.getTrainEntity());
 
-                List<ScheduleEntity> trainSchedules = scheduleService.
-                        findSchedulesForTrain(trainEntity, scheduleEntity.getDepartDateFromFirstStation());
+                List<ScheduleEntity> trainSchedules = getScheduleForTrainInOrder(trainEntity,
+                        scheduleEntity.getDepartDateFromFirstStation());
 
                 //getting count tickets from first station of train until destination station
                 int tickets = getCountTickets(trainSchedules, trainEntity, indexOfDepartStation, indexOfArrivalStation);
@@ -163,6 +163,20 @@ public class BusinessServiceImpl implements BusinessService {
             }
         }
         return trains;
+    }
+
+    private List<ScheduleEntity> getScheduleForTrainInOrder(TrainEntity trainEntity, Date departDateFromFirstStation){
+        List<ScheduleEntity> result = new ArrayList<>();
+        List<ScheduleEntity> trainSchedules = scheduleService.
+                findSchedulesForTrain(trainEntity, departDateFromFirstStation);
+        for(StationEntity station: trainEntity.getStationEntities()){
+            for(ScheduleEntity schedule: trainSchedules){
+                if(station.getName().equals(schedule.getStationEntity().getName())){
+                    result.add(schedule);
+                }
+            }
+        }
+        return result;
     }
 
     private boolean checkRouteOfTrain(int indexOfDepartStation, int indexOfArrivalStation){
@@ -379,6 +393,12 @@ public class BusinessServiceImpl implements BusinessService {
         scheduleEntity.setDepartDateFromFirstStation(getDate(scheduleUpdateDto.getDepartDateFromFirstStation(), "yyyy-MM-dd"));
         scheduleService.updateSchedule(scheduleEntity);
 
+    }
+    @Transactional
+    @Override
+    public List<ScheduleUpdateDto> getScheduleUpdateDtosByTrainAdnDate(Integer trainNumber, Date departDate) {
+        TrainEntity train = trainService.findTrainEntityByNumber(trainNumber);
+        return scheduleService.getScheduleByTrainAndDepartDate(train, departDate);
     }
 
     @Transactional

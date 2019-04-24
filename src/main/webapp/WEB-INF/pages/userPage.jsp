@@ -25,43 +25,70 @@
                         <ul>
                             <li>
                                 <div>Add train to schedule</div>
-                                <a href="/railroad/schedule/add" class="btn btn_blue">Add</a>
+                                <a href="/railroad/schedule/add" class="btn btn_blue">Next</a>
                             </li>
                             <li>
                                 <div>Delete train from schedule</div>
-                                <a href="/railroad/schedule/delete" class="btn btn_red">Delete</a>
+                                <a href="/railroad/schedule/delete" class="btn btn_blue">Next</a>
                             </li>
                             <li>
                                 <div>Change schedule of train</div>
-                                <a href="" class="btn btn_yellow">Change</a>
+                                <a href="/railroad/schedule/edit" class="btn btn_blue">Next</a>
                             </li>
                             <li>
-                                <div>Look schedule for trains</div>
-                                <a href="" class="btn btn_green">Look</a>
+                                <div>View schedule</div>
+                                <a href="/railroad/user/schedule" class="btn btn_blue">Next</a>
                             </li>
                         </ul>
-
-
-
-
                     </div>
                 </div>
                 <div class="function">
                     <h2>Trains</h2>
                     <div>
-
+                        <ul>
+                            <li>
+                                <div>View all trains</div>
+                                <a href="/railroad/trains" class="btn btn_blue">Next</a>
+                            </li>
+                            <li>
+                                <div>Add train</div>
+                                <a href="/railroad/train/add" class="btn btn_blue">Next</a>
+                            </li>
+                            <li>
+                                <div>Delete train</div>
+                                <a href="/railroad/train/delete" class="btn btn_blue">Next</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div class="function">
                     <h2>Stations</h2>
                     <div>
-
+                        <ul>
+                            <li>
+                                <div>Add station</div>
+                                <a href="/railroad/station/add" class="btn btn_blue">Next</a>
+                            </li>
+                            <li>
+                                <div>Change station</div>
+                                <a href="/railroad/station/update" class="btn btn_blue">Next</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div class="function">
                     <h2>Passengers</h2>
                     <div>
-
+                        <ul>
+                            <li>
+                                <div>View all passengers of train</div>
+                                <a href="/railroad/passenger/" class="btn btn_blue">Next</a>
+                            </li>
+                            <li>
+                                <div>Change passenger</div>
+                                <a href="/railroad/station/update" class="btn btn_blue">Next</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

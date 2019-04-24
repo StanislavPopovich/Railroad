@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,10 +39,14 @@ public class TrainController {
     }
 
 
-    @GetMapping(value = "/train/all")
-    public String getAllTrains(Model model) {
-        model.addAttribute("trains", trainService.getAll());
-        return "trainPage";
+    @GetMapping(value = "/trains")
+    public String getTrainsPage() {
+        return "trainsPage";
+    }
+
+    @GetMapping(value = "/trains/all")
+    public @ResponseBody List<TrainDto> getAllTrains() {
+        return trainService.getAll();
     }
 
     @GetMapping(value = "/train/add")

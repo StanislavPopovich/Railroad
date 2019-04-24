@@ -1,5 +1,6 @@
 package com.railroad.controller;
 import com.railroad.dto.ScheduleDto;
+import com.railroad.dto.ScheduleInfoDto;
 import com.railroad.dto.TicketDto;
 import com.railroad.dto.UserDto;
 import com.railroad.service.api.*;
@@ -61,7 +62,7 @@ public class UserController {
 
     @PostMapping(value = "/user/schedule/get-schedule-by-station-date")
     public @ResponseBody
-    List<ScheduleDto> getSchedulesBuStationAndDate(@RequestParam String station, @RequestParam Date date) {
+    List<ScheduleInfoDto> getSchedulesBuStationAndDate(@RequestParam String station, @RequestParam Date date) {
         return scheduleService.getScheduleDtosByStationNameAndDepartDate(station, date);
     }
 

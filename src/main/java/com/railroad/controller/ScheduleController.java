@@ -40,26 +40,31 @@ public class ScheduleController {
     @GetMapping(value = "/schedule/edit")
     public String getEditSchedulePage(Model model){
         model.addAttribute("trainsNumbers",trainService.getAllTrainsNumbers());
+        model.addAttribute("departDate", "");
         return "editSchedulePage";
     }
 
 
     @PostMapping(value = "/schedule/add")
     public void addTrainToSchedule(@RequestBody ScheduleDto scheduleDto) {
-        logger.info(scheduleDto);
         scheduleService.save(scheduleDto);
-    }
-
-    @PostMapping(value = "/schedule/update")
-    public void updateTrainToSchedule(@RequestBody ScheduleUpdateDto scheduleUpdateDto) {
-        logger.info(scheduleUpdateDto);
-        businessService.updateSchedule(scheduleUpdateDto);
     }
 
     @PostMapping(value = "/schedule/get-train")
     public @ResponseBody
     TrainDto getTrains(@RequestParam String trainNumber) {
         return trainService.getTrainDtoByNumber(new Integer(trainNumber));
+    }
+
+    @PostMapping(value = "/schedule/get-schedule-for-train")
+    public @ResponseBody
+    List<ScheduleUpdateDto> getScheduleForTrain(@RequestParam String trainNumber, @RequestParam Date date) {
+        return businessService.getScheduleUpdateDtosByTrainAdnDate(new Integer(trainNumber), date);
+    }
+
+    @PostMapping(value = "/schedule/update")
+    public void updateSchedule(@RequestBody ScheduleUpdateDto scheduleUpdateDto) {
+        businessService.updateSchedule(scheduleUpdateDto);
     }
 
     @GetMapping(value = "/schedule/delete")
@@ -83,17 +88,19 @@ public class ScheduleController {
     }
 
     @InitBinder
+    public void initFindDate(WebDataBinder binder) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(true);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
+    }
+
+    @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         sdf.setLenient(true);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
     }
 
-    @InitBinder
-    public void initFindDate(WebDataBinder binder) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        sdf.setLenient(true);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
-    }
+
 
 }
