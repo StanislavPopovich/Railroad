@@ -70,6 +70,7 @@
         </div>
     </div>
 </section>
+<jsp:include page="footer.jsp"/>
 <script type="text/javascript" src="/resources/js/passengerValidCheck.js"></script>
 </body>
 </html>

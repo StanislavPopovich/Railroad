@@ -1,8 +1,5 @@
 package com.railroad.controller;
-import com.railroad.dto.ScheduleDto;
-import com.railroad.dto.ScheduleInfoDto;
-import com.railroad.dto.TicketDto;
-import com.railroad.dto.UserDto;
+import com.railroad.dto.*;
 import com.railroad.service.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -79,6 +76,17 @@ public class UserController {
     public String editUserResult(@ModelAttribute("userDto") UserDto userDto){
         userService.update(userDto);
         return "redirect:/railroad/user";
+    }
+
+    @GetMapping(value = "user/passenger/all")
+    public String getUserPassengerPage(Model model){
+        model.addAttribute("passenger", new PassengerDto());
+        return "userPassengersPage";
+    }
+
+    @GetMapping(value = "user/passenger/all-for-current-user")
+    public @ResponseBody List<PassengerDto> getPassengersOfUser(){
+        return businessService.getPassengersOfCurrentUser();
     }
 
     @GetMapping(value = "/user/delete-user/{userName}")

@@ -5,26 +5,38 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
-    <title>Add stationEntity</title>
+    <title>Add station</title>
 </head>
 <body>
 <jsp:include page="header.jsp"/>
 <section class="main">
-    <security:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')" var="isUser"/>
-    <c:if test="${isUser}">
-        <form:form method="POST" modelAttribute="way">
-            <form:label path="firstStation"> First Station </form:label>
-            <form:input id="name" type="text" path="firstStation" autofocus="true"/><br/>
-            <form:select cssClass="select" type="text" path="secondStation">
-                <form:option value="0">Second Station</form:option>
-                <form:options items="${stations}"/>
-            </form:select>
-            <form:label path="distance"> Distance </form:label>
-            <form:input type="text" path="distance"/><br/>
-            <button id="button" type="submit">Add</button>
-        </form:form>
+    <div class="container">
+        <security:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')" var="isUser"/>
+        <c:if test="${isUser}">
+            <div class="wrapper_form">
+                <form:form method="POST" modelAttribute="way">
+                    <div class="wrapper_input">
+                        <form:label path="firstStation">New station </form:label>
+                        <form:input id="name" type="text" path="firstStation" autofocus="true"/>
+                    </div>
+                    <div class="wrapper_select">
+                        <form:select cssClass="select" type="text" path="secondStation">
+                            <form:option value="0">Second station</form:option>
+                            <form:options items="${stations}"/>
+                        </form:select>
+                    </div>
+                    <div class="wrapper_input">
+                        <form:label path="distance"> Distance, km </form:label>
+                        <form:input type="text" path="distance"/>
+                    </div>
+                    <div class="wrapper_btn">
+                        <button id="button" class="btn btn_blue" type="submit">Add</button>
+                    </div>
+                </form:form>
+            </div>
         </c:if>
+    </div>
 </section>
-
+<jsp:include page="footer.jsp"/>
 </body>
 </html>

@@ -9,7 +9,6 @@
 
     <http auto-config="true">
         <access-denied-handler error-page="/railroad/accessDenied"/>
-        <!--<intercept-url pattern="/railroad/passenger/**" access="permitAll"/>-->
         <intercept-url pattern="/railroad/user/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_MODERATOR')"/>
         <intercept-url pattern="/railroad/ticket/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_MODERATOR')"/>
         <intercept-url pattern="/railroad/passenger/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_MODERATOR')"/>
@@ -17,8 +16,6 @@
         <intercept-url pattern="/railroad/train/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')"/>
         <intercept-url pattern="/railroad/schedule/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')"/>
         <intercept-url pattern="/railroad/way/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')"/>
-        <intercept-url pattern="/railroad/admin/**" access="hasRole('ROLE_ADMIN')"/>
-
         <form-login login-page="/railroad/login" default-target-url="/railroad/login/result"
                     login-processing-url="/railroad/login/process"
                     authentication-failure-url="/railroad/login?error"

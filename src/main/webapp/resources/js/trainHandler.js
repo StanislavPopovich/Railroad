@@ -25,8 +25,8 @@ $(document).ready(function () {
             seats: "Seats",
             timeWay: "Time",
             route: "Route",
-            trainsNotFound: "Trains not found",
-            upcomingTrips: "UPCOMING TRIPS",
+            trainsNotFound: "Trains is not found",
+            upcomingTrips: "FORTHCOMING TRIPS",
             haveNotTrips: "You haven't upcoming trips",
             trainTrips: "TRAIN",
             routeTrips: "ROUTE",
@@ -54,7 +54,6 @@ $(document).ready(function () {
                 if(data.length === 0){
                     markup+= '<tr><th>' + findTableText[local].trainsNotFound + '</th></tr>'
                 }
-                console.log(data);
                 for(var i = 0; i < data.length; i++){
                     markup+='<tr>';
                     markup+= '<td>' + data[i].number + '</td>';
@@ -88,16 +87,63 @@ $(document).ready(function () {
             data : stations,
             dataType : "json",
             success : function(data){
-                console.log(data);
                 var markup = '';
-                markup+= '<option value="0"></option>';
                 for(var i = 0; i < data.length; i++){
-                    markup+= '<option value="' + data[i] + '">' + data[i] + '</option>'
+                    markup+= '<div class="wrapper_radio item">' +
+                    '<input type="radio" id="route'+ i + '" name="route" value="' + data[i].stations + '">' +
+                    '<label for="route'+ i + '">';
+                    for(var j = 0; j < data[i].stations.length; j++){
+                        markup+= '<div>' + data[i].stations[j] + '</div>';
+                    }
+                    markup+= '</label>' +
+                    '</div>';
                 }
                 $('#routes').append().html(markup);
+                console.log(addInputsForNuberAndSeats());
+                $('#fields_button').append().html(addInputsForNuberAndSeats());
+
+                var markup2 = '<a href="/railroad/station/add"><button class="btn btn_blue">Add new station</button></a>' +
+                    '<a href="/railroad/way/add"><button class="btn btn_blue">Add way between stations</button></a>';
+                $('#buttons').append().html(markup2);
+                addTrainButton();
+
             },
         })
     });
+
+    function addTrainButton(){
+        $('#add_train_button').on('click', function (event) {
+            event.preventDefault();
+            var stations = $("input[name='route']:checked").val().split(",");
+            var number =  $("#number").val();
+            var seats =  $("#seats").val();
+            $('#train_add_number').val(number);
+            $('#train_add_seats').val(seats);
+            $('#train_add_stations').val(stations);
+            autoSubmitTrainFrom();
+        })
+    }
+    function autoSubmitTrainFrom() {
+        var form =document.getElementById("trainForm");
+        form.submit();
+    }
+
+    function addInputsForNuberAndSeats(){
+        var markup = '<div class="wrapper_input">\n' +
+            '<label for="number"> Number </label>\n' +
+            '<input id="number" name="number" type="text" value="">\n' +
+            '</div>'+
+            '<div class="wrapper_input">\n' +
+            '<label for="seats"> Seats </label>\n' +
+            '<input id="seats" name="seats" type="text" value="">\n' +
+            '</div>' +
+            '<button id="add_train_button" class="btn btn_blue" type="submit">Add train</button>';
+        markup += '<form id="trainForm" action="/railroad/train/add" method="post">' +
+            '<input id="train_add_number" name="number" type="hidden" value>' +
+            '<input id="train_add_seats" name="seats" type="hidden" value>' +
+            '<input id="train_add_stations" name="stations" type="hidden" value>';
+        return markup;
+    }
 
     // Returns station without departing station
     $('#start_station').on('change',function () {

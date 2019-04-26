@@ -94,5 +94,15 @@ public class TicketGenericDaoImpl extends BaseGenericDao<TicketEntity, Long> imp
         return tickets;
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<PassengerEntity> getTrainPassengers(TrainEntity trainEntity, Date departDate) {
+        List<PassengerEntity> passengers = entityManager.createQuery("select t.passengerEntity from " +
+                "TicketEntity t where t.trainEntity= :train and t.departDate.departDateFromFirstStation= :date").
+                setParameter("train", trainEntity).
+                setParameter("date", departDate).getResultList();
+        return passengers;
+    }
+
 
 }

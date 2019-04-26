@@ -364,30 +364,8 @@ img {
     background-color: #008eff;
 }
 
-.admin_panel {
-    display: flex;
-    margin-top: 40px;
-}
 
-.admin_panel button {
-    border: none;
-    margin-right: 20px;
-    padding: 10px 25px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-}
-.admin_panel a {
-    margin-right: 20px;
-}
-.admin_panel button:last-child,
-.admin_panel a:last-child {
-    margin-right: 0px;
-}
 
-.admin_panel button:hover {
-    background-color: white;
-}
 
 
 .form_add_train {
@@ -1036,11 +1014,176 @@ img {
     transition: all 0.3s ease-in-out;
 }
 
+
+
+.select_stations {
+    display: flex;
+}
+
+.select_stations form:nth-child(2) {
+    border-left: 1px solid black;
+}
+
+.routes {
+    width: 100%;
+    min-height: 40px;
+    margin-bottom: 20px;
+}
+
+.wrapper_radio {
+    display: flex;
+    cursor: pointer;
+
+}
+
+.wrapper_routes .items {
+    height: 200px;
+}
+
+.items .item.wrapper_radio {
+    padding: 10px;
+}
+.wrapper_radio:hover {
+    background-color: white;
+}
+.wrapper_radio label {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.wrapper_radio label > div {
+    position: relative;
+    padding-right: 20px;
+
+}
+
+.wrapper_radio label > div:after{
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    content: "";
+    display: block;
+    width: 11px;
+    height: 18px;
+    background-image: url(/resources/img/arrow-right.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 9px auto;
+}
+
+.wrapper_radio label > div:last-child:after {
+    content: none;
+}
+
+
+.fields_button {
+    display: flex;
+    width: 605px;
+    margin: 15px auto;
+}
+
+.fields_button label {
+    align-self: center;
+    background-color: #ededed;
+    padding: 5px 5px;
+}
+.fields_button input {
+    border: 1px solid white;
+    padding: 0px 10px;
+}
+
+.fields_button .wrapper_input {
+    display: flex;
+    margin-right: 20px;
+}
+.fields_button .btn {
+    border: none;
+    cursor: pointer;
+}
+
+.admin_panel {
+    display: flex;
+    justify-content: center;
+}
+
+.admin_panel > a {
+    margin-right: 20px;
+}
+.admin_panel > a:last-child {
+    margin-right: 0px;
+}
+.admin_panel .btn {
+    border: none;
+    cursor: pointer;
+}
+
+
+
+.wrapper_form,
+.wrapper_form > form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.wrapper_form > form {
+    width: 580px;
+}
+.wrapper_form .wrapper_input {
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper_select {
+    align-self: flex-end;
+    margin: 0px 20px;
+}
+
+.wrapper_form .way_form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 620px;
+}
+
+.way_form .wrapper_select {
+     margin: 0px 0px;
+ }
+
+.way_form .wrapper_select:nth-child(2) {
+    margin: 0px 20px;
+}
+
+.wrapper_btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+
+}
+.wrapper_btn .btn {
+    border: none;
+}
+
+
 .footer {
     position: fixed;
     bottom: 0px;
     width: 100%;
-    padding: 15px 0px;
+    padding: 5px 0px;
     text-align: center;
     color: red;
+    background-color: rgba(25, 24, 24, 0.3);
+}
+
+.footer a {
+    display: flex;
+    justify-content: center;
+}
+.footer img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+.footer p {
+    margin: 0px;
+    align-self: center;
 }

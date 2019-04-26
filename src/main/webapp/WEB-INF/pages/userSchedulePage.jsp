@@ -28,10 +28,6 @@
 
         <div id="schedule" class="schedule">
 
-
-
-
-
         </div>
     </div>
 </section>

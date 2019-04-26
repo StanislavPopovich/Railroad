@@ -66,4 +66,9 @@ public class TicketServiceImpl implements TicketService {
     public List<TicketEntity> getTicketsByTrainAndDepartDate(TrainEntity trainEntity, Date departDate) {
         return ticketDao.getTicketsByTrainAndDepartDate(trainEntity, departDate);
     }
+
+    @Override
+    public List<PassengerEntity> getTrainPassengers(TrainEntity trainEntity, Date departDate) {
+        return ticketDao.getTrainPassengers(trainEntity, departDate);
+    }
 }

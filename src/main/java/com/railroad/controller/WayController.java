@@ -38,11 +38,11 @@ public class WayController {
         model.addAttribute("distanceForm","");
         model.addAttribute("wayForm", new WayDto());
         model.addAttribute("stations", stationService.getAllStationsName());
-        return "addWay";
+        return "addWayPage";
     }
 
     @PostMapping(value = "/way/add")
-    public String addWayPage(@ModelAttribute("way") WayDto wayDto){
+    public String addWayPage(@ModelAttribute("wayForm") WayDto wayDto){
         wayService.save(wayDto);
         return "redirect:/railroad/train/add";
     }

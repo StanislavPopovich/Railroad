@@ -26,4 +26,6 @@ public interface TicketGenericDao extends GenericDao<TicketEntity, Long> {
     void removeTicketByNumber(Long ticketNumber);
 
     List<TicketEntity> getTicketsByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
+
+    List<PassengerEntity> getTrainPassengers(TrainEntity trainEntity, Date departDate);
 }

@@ -1,6 +1,7 @@
 package com.railroad.service.impl;
 import com.railroad.dto.*;
 import com.railroad.mapper.PassengerEntityDtoMapper;
+import com.railroad.mapper.RouteDtoMapper;
 import com.railroad.mapper.TicketDtoMapper;
 import com.railroad.mapper.TrainEntityDtoMapper;
 import com.railroad.model.*;
@@ -54,6 +55,9 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Autowired
     private TicketDtoMapper ticketDtoMapper;
+
+    @Autowired
+    private RouteDtoMapper routeDtoMapper;
 
 
 
@@ -284,20 +288,16 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Transactional
     @Override
-    public List<String> getAllRoutes(String departStation, String arrivalStation) {
-        List<String> targetRoutes = new ArrayList<>();
+    public List<RouteDto> getAllRoutes(String departStation, String arrivalStation) {
+        List<RouteDto> targetRoutes = new ArrayList<>();
         List<String> routes = getRoutes(departStation, arrivalStation);
-        for(String str: routes){
-            StringBuilder route = new StringBuilder();
-            String[] stationsId = str.split(",");
-            for(int i = 0; i < stationsId.length; i++){
-                if(i == stationsId.length - 1){
-                    route.append(stationService.getStationById(new Long(stationsId[i])).getName());
-                }else{
-                    route.append(stationService.getStationById(new Long(stationsId[i])).getName() + "=>");
-                }
+        for(String route: routes){
+            String[] stationsArr = route.split(",");
+            List<String> stations = new ArrayList<>();
+            for(int i = 0; i < stationsArr.length; i++){
+                stations.add(stationService.getStationById(new Long(stationsArr[i])).getName());
             }
-            targetRoutes.add(route.toString());
+            targetRoutes.add(routeDtoMapper.stringToRoute(stations));
         }
         return targetRoutes;
     }
@@ -399,6 +399,14 @@ public class BusinessServiceImpl implements BusinessService {
     public List<ScheduleUpdateDto> getScheduleUpdateDtosByTrainAdnDate(Integer trainNumber, Date departDate) {
         TrainEntity train = trainService.findTrainEntityByNumber(trainNumber);
         return scheduleService.getScheduleByTrainAndDepartDate(train, departDate);
+    }
+
+    @Transactional
+    @Override
+    public List<PassengerDto> getTrainPassengers(Integer trainNumber, Date departDate) {
+        TrainEntity trainEntity = trainService.findTrainEntityByNumber(trainNumber);
+        List<PassengerEntity> passengers = ticketService.getTrainPassengers(trainEntity, departDate);
+        return passengerEntityDtoMapper.passengerEntitiesToPassengerDtos(passengers);
     }
 
     @Transactional

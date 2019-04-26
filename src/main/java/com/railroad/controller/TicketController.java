@@ -46,7 +46,7 @@ public class TicketController {
         System.out.println();
         System.out.println(ticketDto);
         model.addAttribute("ticket", ticketDto);
-        return "ticketInfo";
+        return "ticketInfoPage";
     }
 
     @PostMapping(value = "ticket/delete")
@@ -70,7 +70,7 @@ public class TicketController {
     public String getPassengerTickets(@ModelAttribute("passenger") PassengerDto passengerDto, Model model){
         model.addAttribute("passengerForm", new PassengerDto());
         model.addAttribute("passenger", passengerDto);
-        return "passengerTickets";
+        return "passengerTicketsPage";
     }
 
     @PostMapping(value = "/passenger/tickets/actual")

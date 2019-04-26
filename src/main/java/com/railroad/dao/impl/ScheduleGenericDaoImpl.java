@@ -66,7 +66,7 @@ public class ScheduleGenericDaoImpl extends BaseGenericDao<ScheduleEntity, Long>
     @SuppressWarnings("unchecked")
     public List<Date> getDepartDatesForTrain(TrainEntity trainEntity) {
         List<Date> departDates = entityManager.createQuery("select s.departDateFromFirstStation from " +
-                "ScheduleEntity s where s.trainEntity= :train and s.departDateFromFirstStation > :currentDate " +
+                "ScheduleEntity s where s.trainEntity= :train and s.departDateFromFirstStation >= :currentDate " +
                 "group by s.departDateFromFirstStation").setParameter("currentDate", getCurrentDate()).
                 setParameter("train", trainEntity).getResultList();
         return departDates;

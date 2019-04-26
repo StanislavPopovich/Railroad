@@ -1,6 +1,7 @@
 package com.railroad.mapper;
 
 import com.railroad.dto.PassengerDto;
+import com.railroad.dto.PassengerUpdateDto;
 import com.railroad.model.PassengerEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,5 +18,13 @@ public interface PassengerEntityDtoMapper {
     PassengerDto passengerEntityToDto(PassengerEntity passengerEntity);
 
     List<PassengerDto> passengerEntitiesToPassengerDtos(Set<PassengerEntity> passengerEntities);
+    List<PassengerDto> passengerEntitiesToPassengerDtos(List<PassengerEntity> passengerEntities);
 
+    @Mapping(source ="oldBirthDate", dateFormat = "yyyy-MM-dd",target = "birthDate")
+    @Mapping(source ="oldLastName",target = "lastName")
+    @Mapping(source ="oldName", target = "name")
+    PassengerEntity passengerUpdateDtoToOldEntity(PassengerUpdateDto passengerUpdateDto);
+
+    @Mapping(source ="birthDate", dateFormat = "yyyy-MM-dd",target = "birthDate")
+    PassengerEntity passengerUpdateDtoToEntity(PassengerUpdateDto passengerUpdateDto);
 }

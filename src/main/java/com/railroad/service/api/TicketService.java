@@ -17,4 +17,5 @@ public interface TicketService {
     List<TicketDto> getPassengerActualTickets(UserEntity userEntity, PassengerEntity passengerEntity);
     List<TicketDto> getPassengerNotActualTickets(UserEntity userEntity, PassengerEntity passengerEntity);
     List<TicketEntity> getTicketsByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
+    List<PassengerEntity> getTrainPassengers(TrainEntity trainEntity, Date departDate);
 }

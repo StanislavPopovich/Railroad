@@ -36,13 +36,8 @@ public class TrainServiceImpl implements TrainService {
     public void save(TrainDto trainDto) {
         TrainEntity trainEntity = trainDtoMapper.trainDtoToTrainEntity(trainDto);
         if(!trainNumberIsExist(trainEntity)){
-            LinkedList<String> trainStations = new LinkedList<>();
-            String[] stationsArr = trainDto.getStations().getFirst().split("=>");
-            for (int i = 0; i < stationsArr.length; i++) {
-                trainStations.add(stationsArr[i]);
-            }
             List<StationEntity> stations = new ArrayList<>();
-            for (String station : trainStations) {
+            for (String station : trainDto.getStations()) {
                 stations.add(stationDao.findByStationName(station));
             }
             trainEntity.setStationEntities(stations);

@@ -54,10 +54,6 @@
                                 <div>Add train</div>
                                 <a href="/railroad/train/add" class="btn btn_blue">Next</a>
                             </li>
-                            <li>
-                                <div>Delete train</div>
-                                <a href="/railroad/train/delete" class="btn btn_blue">Next</a>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -69,10 +65,6 @@
                                 <div>Add station</div>
                                 <a href="/railroad/station/add" class="btn btn_blue">Next</a>
                             </li>
-                            <li>
-                                <div>Change station</div>
-                                <a href="/railroad/station/update" class="btn btn_blue">Next</a>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -82,11 +74,7 @@
                         <ul>
                             <li>
                                 <div>View all passengers of train</div>
-                                <a href="/railroad/passenger/" class="btn btn_blue">Next</a>
-                            </li>
-                            <li>
-                                <div>Change passenger</div>
-                                <a href="/railroad/station/update" class="btn btn_blue">Next</a>
+                                <a href="/railroad/passenger/train" class="btn btn_blue">Next</a>
                             </li>
                         </ul>
                     </div>

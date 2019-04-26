@@ -14,7 +14,6 @@
         <a class="logo" href="<c:url value='/railroad'/>">
             <img src="/resources/img/new_logo.svg"/>
         </a>
-
         <p class="header_words"><spring:message code="header_words"/></p>
         <security:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER')" var="isUser"/>
         <c:if test="${isUser}">
@@ -44,14 +43,7 @@
             <c:if test="${pageContext.request.isUserInRole('ROLE_MODERATOR')}">
                 <div class="main_menu">
                     <ul class="menu">
-                        <li><a href="<c:url value='/railroad/trains'/>" class="log_reg_page">
-                            <spring:message code="all_trains"/></a></li>
-                        <li><a href="<c:url value='/railroad/user/schedule'/>" class="log_reg_page">
-                            <spring:message code="all_schedules"/></a></li>
-                        <%--<li><a href="<c:url value='/railroad/'/>" class="log_reg_page">
-                            <spring:message code="all_tickets"/></a></li>
-                        <li><a href="<c:url value='/railroad/user/all-passengers'/>" class="log_reg_page">
-                            <spring:message code="all_passengers"/></a></li>--%>
+                        <li><a href="<c:url value='/railroad/user'/>" class="log_reg_page">Main page</a></li>
                     </ul>
                 </div>
 
@@ -59,16 +51,7 @@
             <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
                 <div class="main_menu">
                      <ul class="menu">
-                         <li><a href="<c:url value='/railroad/train/all'/>" class="log_reg_page">
-                             <spring:message code="all_orders"/></a></li>
-                        <li><a href="<c:url value='/railroad/user'/>" class="log_reg_page">
-                            <spring:message code="all_users"/></a></li>
-                         <%--<li><a href="<c:url value='/railroad/user/schedule'/>" class="log_reg_page">
-                             <spring:message code="all_schedules"/></a></li>
-                         <li><a href="<c:url value='/railroad/user/all-tickets'/>" class="log_reg_page">
-                             <spring:message code="all_tickets"/></a></li>
-                         <li><a href="<c:url value='/railroad/user/all-passengers'/>" class="log_reg_page">
-                             <spring:message code="all_passengers"/></a></li>--%>
+                         <li><a href="<c:url value='/railroad/user'/>" class="log_reg_page">Main page</a></li>
                      </ul>
                 </div>
             </c:if>

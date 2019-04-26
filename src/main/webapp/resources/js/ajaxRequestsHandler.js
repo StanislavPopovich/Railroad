@@ -21,7 +21,7 @@ $().ready(function () {
             arrivalDate: "Arrival date",
             tickets: "Number of tickets",
             buyButton: "Buy",
-            trainNotFound: "Trains not found",
+            trainNotFound: "Trains is not found",
             depart: "From",
             arrival: "To"
         }
@@ -44,8 +44,6 @@ $().ready(function () {
             }
         })
     });
-
-
 
     /*Table of trains on index page*/
     $('#findButton').on('submit', function (event) {
@@ -119,24 +117,6 @@ $().ready(function () {
 
     function autoSubmitTrainFrom() {
         var form =document.getElementById("trainForm");
-        form.submit();
-    }
-
-    // Set values in wayForm
-    $('#add_way_form').on('submit', function (event) {
-            event.preventDefault();
-        var departStation=$('#start').val();
-        var arrivalStation=$('#end').val();
-        var distance=$('#distance').val();
-        $('#way_first_station').val(departStation);
-        $('#way_second_station').val(arrivalStation);
-        $('#way_distance').val(distance);
-        autoSubmitWayForm();
-
-    });
-
-    function autoSubmitWayForm() {
-        var form =document.getElementById("wayForm");
         form.submit();
     }
 

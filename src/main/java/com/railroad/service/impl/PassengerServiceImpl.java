@@ -1,6 +1,8 @@
 package com.railroad.service.impl;
 
 import com.railroad.dao.api.PassengerGenericDao;
+import com.railroad.dto.PassengerUpdateDto;
+import com.railroad.mapper.PassengerEntityDtoMapper;
 import com.railroad.model.PassengerEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,9 @@ public class PassengerServiceImpl {
 
     @Autowired
     private PassengerGenericDao passengerGenericDao;
+
+    @Autowired
+    private PassengerEntityDtoMapper passengerEntityDtoMapper;
 
 
 
@@ -29,4 +34,14 @@ public class PassengerServiceImpl {
     public PassengerEntity findPassengerByNameAndBirthDate(PassengerEntity passengerEntity){
         return passengerGenericDao.findPassengerByAllFields(passengerEntity);
     }
+
+    public void update(PassengerUpdateDto passengerUpdateDto){
+        PassengerEntity newPassenger = passengerEntityDtoMapper.passengerUpdateDtoToEntity(passengerUpdateDto);
+        PassengerEntity oldPassenger = passengerEntityDtoMapper.passengerUpdateDtoToOldEntity(passengerUpdateDto);
+        PassengerEntity passengerEntity = passengerGenericDao.findPassengerByAllFields(oldPassenger);
+        newPassenger.setId(passengerEntity.getId());
+        passengerGenericDao.update(newPassenger);
+
+    }
+
 }

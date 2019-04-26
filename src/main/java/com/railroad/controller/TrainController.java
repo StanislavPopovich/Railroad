@@ -1,5 +1,6 @@
 package com.railroad.controller;
 
+import com.railroad.dto.RouteDto;
 import com.railroad.dto.TrainDto;
 import com.railroad.dto.TrainTargetDto;
 import com.railroad.service.api.BusinessService;
@@ -56,15 +57,14 @@ public class TrainController {
         modelAndView.addObject("departStation", "");
         modelAndView.addObject("arrivalStation", "");
         modelAndView.addObject("stations", stationService.getAllStationsName());
-        modelAndView.setViewName("addTrain");
+        modelAndView.setViewName("addTrainPage");
         return modelAndView;
     }
 
     @PostMapping(value = "/train/all-routes")
-    public @ResponseBody List<String> getAllRoutesForDepartAndArrivalStations(@RequestParam String departStation,
+    public @ResponseBody List<RouteDto> getAllRoutesForDepartAndArrivalStations(@RequestParam String departStation,
                                                                          @RequestParam String arrivalStation ) {
-        List<String> routes = businessService.getAllRoutes(departStation, arrivalStation);
-        return routes;
+        return businessService.getAllRoutes(departStation, arrivalStation);
     }
 
     @PostMapping(value = "/find-trains-with-date")

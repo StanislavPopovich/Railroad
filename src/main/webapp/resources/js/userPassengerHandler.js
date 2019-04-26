@@ -25,16 +25,16 @@ $(document).ready(function () {
             seats: "Seats",
             timeWay: "Time",
             route: "Route",
-            trainsNotFound: "Trains not found",
-            upcomingTrips: "UPCOMING TRIPS",
-            haveNotTrips: "You haven't upcoming trips",
+            trainsNotFound: "Trains is not found",
+            upcomingTrips: "FORTHCOMING TRIPS",
+            haveNotTrips: "You haven't forthcoming trips",
             trainTrips: "TRAIN",
             routeTrips: "ROUTE",
             departDateTrips: "DEPARTING DATE",
             details: "Details",
             return: "Return",
             allOrders: "ALL ORDERS",
-            completedTrips: "COPLETED TRIPS",
+            completedTrips: "COMPLETED TRIPS",
             haveNotPassengers: "You haven't any passengers",
             allPassenger: "ALL PASSENGERS"
         }
@@ -42,11 +42,10 @@ $(document).ready(function () {
 
     function getUserPassengers() {
         $.ajax({
-            url : '/railroad/passenger/all',
+            url : '/railroad/user/passenger/all-for-current-user',
             type : "GET",
             dataType : "json",
             success: function (data) {
-
                 var  markup;
                 markup = '<div class="content">';
                 markup += '<h2>' + findTableText[local].allPassenger + '</h2><div class="passengers">';

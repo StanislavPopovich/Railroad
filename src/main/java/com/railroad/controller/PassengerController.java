@@ -4,6 +4,7 @@ import com.railroad.dto.PassengerDto;
 import com.railroad.dto.TicketDto;
 import com.railroad.dto.TrainTicketDto;
 import com.railroad.service.api.BusinessService;
+import com.railroad.service.api.TrainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.core.Authentication;
@@ -24,8 +25,10 @@ import java.util.*;
 public class PassengerController {
 
     @Autowired
-    private BusinessService businessService;
+    private TrainService trainService;
 
+    @Autowired
+    private BusinessService businessService;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -51,16 +54,19 @@ public class PassengerController {
         return "addPassengerPage";
     }
 
-    @GetMapping(value = "user/passenger/all")
-    public String getUserPassengerPage(Model model){
-        model.addAttribute("passenger", new PassengerDto());
-        return "userPassengersPage";
+    @GetMapping(value = "passenger/train")
+    public String getTrainPassengersPage(Model model){
+        model.addAttribute("trainsNumbers",trainService.getAllTrainsNumbers());
+        model.addAttribute("departDate", "");
+        return "trainPassengersPage";
     }
 
-    @GetMapping(value = "passenger/all")
-    public @ResponseBody List<PassengerDto> getPassengersOfUser(){
-        return businessService.getPassengersOfCurrentUser();
+    @PostMapping(value = "passenger/train/all")
+    public @ResponseBody List<PassengerDto> getTrainPassengers(@RequestParam String trainNumber, @RequestParam Date date){
+        return businessService.getTrainPassengers(new Integer(trainNumber), date);
     }
+
+
 
 
 }

@@ -93,7 +93,6 @@ $(document).ready(function () {
                 data : train,
                 dataType : "json",
                 success: function (data) {
-                    console.table(data);
                     var markup;
                     markup = '<div class="schedules_list">';
                     for(var i = 0; i < data.length; i++){
@@ -173,19 +172,13 @@ $(document).ready(function () {
         var schedule = {};
         schedule["trainNumber"] = $("#train_number").val();
         schedule["date"] = $("#train_dates").val();
-        console.table(schedule);
         $.ajax({
             url : '/railroad/schedule/delete-train-success',
             type : "POST",
             data : schedule,
             dataType : "json"
-        })
+        });
         window.location.href = "/railroad/user";
     }
-   /* $('#btn_train_number').on('click', function () {
-
-    });*/
-
-
 });
 

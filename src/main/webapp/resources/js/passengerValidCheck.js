@@ -6,7 +6,6 @@ var email = document.getElementById("email");
 var alphaExp = /^[a-zA-Z]+$/;
 
 function checkLastName() {
-    console.log(lastName);
     if (lastName.value === "" || lastName.value.length < 1 || !lastName.value.match(alphaExp)) {
         getMessage("Last name must consist of only letters", "error_lastName");
         if (lastName.classList.contains("correct")) {
@@ -26,7 +25,6 @@ function checkLastName() {
 
 function checkEmail() {
     var value = email.value;
-
     if (validateEmail(value)) {
         deleteMessage("error_email");
         if (!email.classList.contains("correct")) {
@@ -83,11 +81,8 @@ function checkName() {
 
 function turnOnButton() {
     var wrapperInput = document.querySelectorAll(".wrapper_input");
-
-
     for(var i = 0; i < wrapperInput.length; i++) {
         var input = wrapperInput[i].getElementsByTagName("input");
-        console.log(input);
         if (input[0].classList.contains("correct")) {
             button.disabled = false;
             button.classList.add("active");

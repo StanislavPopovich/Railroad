@@ -18,16 +18,16 @@ $(document).ready(function () {
         en: {
             userName: "User name",
             userRole: "Role",
-            userNotFound: "Users not found",
+            userNotFound: "Users is not found",
             editButton: "Edit",
             deleteButton: "Delete",
             trainNumber: "Train number",
             seats: "Seats",
             timeWay: "Time",
             route: "Route",
-            trainsNotFound: "Trains not found",
+            trainsNotFound: "Trains is not found",
             upcomingTrips: "UPCOMING TRIPS",
-            haveNotTrips: "You haven't upcoming trips",
+            haveNotTrips: "You haven't forthcoming trips",
             trainTrips: "TRAIN",
             routeTrips: "ROUTE",
             departDateTrips: "DEPARTING DATE",
@@ -48,7 +48,6 @@ $(document).ready(function () {
             data : schedule,
             dataType : "json",
             success: function (data) {
-               console.log(data);
                 var markup;
                 if(data.length === 0){
                     markup = '<div class="not_found">' + "Not found"+ '</div>';

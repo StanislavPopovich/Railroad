@@ -12,7 +12,7 @@
         <div class="content">
             <div id="ticket_buttons" class="ticket_buttons">
                 <div id="upcoming_trips" class="active">
-                    Upcoming
+                    Forthcoming
                 </div>
                 <div id="completed_trips">
                     Completed
@@ -23,15 +23,13 @@
             </div>
         </div>
     </div>
-
     <form:form id="currentPassenger_form" modelAttribute="passengerForm" action="" method="post">
         <form:hidden id="currentPassenger_lastName" path="lastName" value="${passenger.lastName}"/>
         <form:hidden id="currentPassenger_name" path="name" value="${passenger.name}"/>
         <form:hidden id="currentPassenger_birthDate" path="birthDate" value="${passenger.birthDate}"/>
     </form:form>
-
 </section>
-
+<jsp:include page="footer.jsp"/>
 <script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="/resources/js/userPassengerHandler.js"></script>
 </body>

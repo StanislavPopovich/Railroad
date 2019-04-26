@@ -11,7 +11,7 @@
 <jsp:include page="header.jsp"/>
 <section class="main">
     <div class="container">
-        <h2 class="h2">add schedule for train</h2>
+        <h2 class="h2">Add train to schedule</h2>
         <div class="select_train">
             <form:select cssClass="select" id="train_number" type="text" path="trainsNumbers">
                 <form:option value="0"><spring:message code="trainNumbers"/></form:option>

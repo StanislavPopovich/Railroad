@@ -14,8 +14,9 @@
 <section class="main">
     <security:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')" var="isUser"/>
     <c:if test="${isUser}">
+        <h2 class="h2">Add train</h2>
     <div class="container">
-        <div class="form_add_train">
+        <div class="select_stations">
             <form id="start_station">
                 <form:select cssClass="select" id="start" type="text" path="departStation">
                     <form:option value="0"><spring:message code="departStation"/></form:option>
@@ -27,27 +28,25 @@
                     <form:option value="0"><spring:message code="arrivalStation"/></form:option>
                 </form:select>
             </form>
-            <form:form method="POST" cssClass="select_route" modelAttribute="trainForm">
-                <form:select cssClass="select" id="routes"  type="text" path="stations" >
-                    <form:option value="0"><spring:message code="selectRoute"/></form:option>
-                </form:select>
+        </div>
+        <div id="wrapper_routes" class="wrapper_routes">
+            <div class="items">
+                 <div id="routes" class="routes"></div>
+             </div>
+            <div id="fields_button" class="fields_button">
 
-                <div class="wrapper_input">
-                    <form:label path="number"> Number </form:label>
-                    <form:input type="text" path="number"/>
-                </div>
-                <div class="wrapper_input">
-                    <form:label path="seats"> Seats </form:label>
-                    <form:input path="seats"/>
-                </div>
-                <button id="button" type="submit">Add train</button>
-            </form:form>
+            </div>
+            <div id="buttons" class="admin_panel">
+
+            </div>
+        </div>
+
+
+
 
         </div>
         <div class="admin_panel">
-            <a href="<c:url value="/railroad/station/add"/>"><button>Add new station</button></a>
-            <a href="<c:url value="/railroad/way/add"/>"> <button>Add new way</button></a>
-        </div>
+            </div>
     </div>
     </c:if>
 </section>

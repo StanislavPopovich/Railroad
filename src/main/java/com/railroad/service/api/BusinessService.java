@@ -1,5 +1,6 @@
 package com.railroad.service.api;
 import com.railroad.dto.*;
+import com.railroad.model.TrainEntity;
 
 import java.util.Date;
 import java.util.List;
@@ -26,7 +27,7 @@ public interface BusinessService {
      * @param arrivalStation arrival station of route
      * @return list of strings which is routes from departing station to arrival station
      */
-    List<String> getAllRoutes(String departStation, String arrivalStation);
+    List<RouteDto> getAllRoutes(String departStation, String arrivalStation);
 
     /**
      *
@@ -53,6 +54,8 @@ public interface BusinessService {
     void updateSchedule(ScheduleUpdateDto scheduleUpdateDto);
 
     List<ScheduleUpdateDto> getScheduleUpdateDtosByTrainAdnDate(Integer trainNumber, Date departDate);
+
+    List<PassengerDto> getTrainPassengers(Integer trainNumber, Date departDate);
 
 
 

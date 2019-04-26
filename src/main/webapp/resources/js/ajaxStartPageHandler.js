@@ -25,9 +25,9 @@ $(document).ready(function () {
             seats: "Seats",
             timeWay: "Time",
             route: "Route",
-            trainsNotFound: "Trains not found",
-            upcomingTrips: "UPCOMING TRIPS",
-            haveNotTrips: "You haven't upcoming trips",
+            trainsNotFound: "Trains is not found",
+            upcomingTrips: "FORTHCOMING TRIPS",
+            haveNotTrips: "You haven't forthcoming trips",
             trainTrips: "TRAIN",
             routeTrips: "ROUTE",
             departDateTrips: "DEPARTING DATE",
@@ -73,11 +73,7 @@ $(document).ready(function () {
         });
     }
 
-
-    //    Start user page for Moderator
-
-
-
+    //    Start page for User
     function getStartUserPage(){
         $.ajax({
             url : '/railroad/user/user',
@@ -112,52 +108,18 @@ $(document).ready(function () {
         });
     }
 
-   /* function getCompletedTickets(){
-        $.ajax({
-            url : '/railroad/ticket/all-not-actual',
-            type : "GET",
-            dataType : "json",
-            success: function (data) {
-                var  markup;
-                markup = '<div class="content"><h2>' + findTableText[local].completedTrips + '</h2>';
-                if(data.length === 0){
-                    markup+= '<div class="not_found">' + findTableText[local].haveNotTrips + '</div>';
-                }else{
-                    markup += '<div class="caption"><div>' + findTableText[local].trainTrips +'</div><div>' +
-                        findTableText[local].routeTrips + '</div><div>' + findTableText[local].departDateTrips +
-                        '</div></div><div class="items">';
-                    markup += getAllTickets(data, "completed");
-                    markup += '</div></div>';
-                    markup += '<form id="ticket" action="" method="post">' +
-                        '<input id="trainTicketDto_more_number" name="trainTicketDto.number" type="hidden" value>' +
-                        '<input id="trainTicketDto_more_departDate" name="trainTicketDto.departDate" type="hidden" value>' +
-                        '<input id="trainTicketDto_more_arrivalDate" name="trainTicketDto.arrivalDate" type="hidden" value>' +
-                        '<input id="trainTicketDto_more_stations" name="trainTicketDto.stations" type="hidden" value>' +
-                        '<input id="passengerTicketDto_more_lastName" name="passengerDto.lastName" type="hidden" value>' +
-                        '<input id="passengerTicketDto_more_name" name="passengerDto.name" type="hidden" value>' +
-                        '<input id="passengerTicketDto_more_birthDate" name="passengerDto.birthDate" type="hidden" value>' +
-                        '<input id="ticket_number" name="number" type="hidden" value>';
-                }
-                $('#find_orders').append().html(markup);
-                moreAndReturnTicketButton()
-
-            }
-        });
-    }*/
-
-        function getPageForRole(){
-            var admin = document.getElementById("find_users");
-            var moderator = document.getElementById("find_trains");
-            var user = document.getElementById("find_orders");
-            if(admin){
-                getStartAdminPage();
-            }else if(moderator){
-            }else if(user){
-                getStartUserPage();
-            }
+    function getPageForRole(){
+        var admin = document.getElementById("find_users");
+        var moderator = document.getElementById("find_trains");
+        var user = document.getElementById("find_orders");
+        if(admin){
+            getStartAdminPage();
+        }else if(moderator){
+        }else if(user){
+            getStartUserPage();
         }
-        getPageForRole();
-
+    }
+    getPageForRole();
 
     function FindElem(self, classElem){
         var item = self.parentElement;
@@ -208,31 +170,6 @@ $(document).ready(function () {
         form.submit();
     }
 
-
-  /*  var ticketButtons = document.getElementById("ticket_buttons");
-    if(ticketButtons){
-        ticketButtons.addEventListener("click", checkActiveButton, false);
-    }*/
-
-    /*function checkActiveButton(e) {
-
-        var current = e.target;
-        var id = current.id;
-        var buttons = document.querySelectorAll(".ticket_buttons div");
-
-        for(var i = 0; i < buttons.length; i++){
-            buttons[i].classList.remove("active");
-        }
-
-        if(id === "upcoming_trips"){
-            current.classList.add("active");
-            getStartUserPage();
-        } else{
-            current.classList.add("active");
-            getCompletedTickets();
-        }
-    }*/
-
     function getAllTickets(data, typeOfTicket) {
         var markup = "";
             for(var i = 0; i < data.length;i++){
@@ -263,6 +200,4 @@ $(document).ready(function () {
             }
         return markup;
     }
-
-
 });
