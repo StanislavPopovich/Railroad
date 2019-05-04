@@ -2,7 +2,7 @@ package com.railroad.service.impl;
 
 import com.railroad.dao.api.RoleGenericDao;
 import com.railroad.dao.api.UserGenericDao;
-import com.railroad.dto.UserDto;
+import com.railroad.dto.user.UserDto;
 import com.railroad.mapper.UserEntityDtoMapper;
 import com.railroad.model.RoleEntity;
 import com.railroad.model.UserEntity;

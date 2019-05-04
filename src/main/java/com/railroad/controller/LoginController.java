@@ -1,6 +1,6 @@
 package com.railroad.controller;
-import com.railroad.dto.TrainTicketDto;
-import com.railroad.dto.UserDto;
+import com.railroad.dto.train.TrainTicketDto;
+import com.railroad.dto.user.UserDto;
 import com.railroad.service.api.SecurityService;
 import com.railroad.service.api.StationService;
 import org.apache.log4j.Logger;
@@ -16,6 +16,7 @@ import java.util.Date;
 
 @Controller
 @RequestMapping(value = {"/","/railroad"})
+@SessionAttributes("trainForm")
 public class LoginController {
 
     private static final Logger logger = Logger.getLogger(LoginController.class);
@@ -30,16 +31,16 @@ public class LoginController {
     /**
      * The method returns the index page that allows you to search for trains from
      * the departing station to the arrival station on a specific date
-     * @param modelMap
+     * @param model
      * @return index page
      */
     @GetMapping
-    public String getIndexPage(ModelMap modelMap){
-        modelMap.addAttribute("stations", stationService.getAllStationsName());
-        modelMap.addAttribute("departStation", "");
-        modelMap.addAttribute("arrivalStation", "");
-        modelMap.addAttribute("date", new Date());
-        modelMap.addAttribute("trainForm", new TrainTicketDto());
+    public String getIndexPage(Model model){
+        model.addAttribute("stations", stationService.getAllStationsName());
+        model.addAttribute("departStation", "");
+        model.addAttribute("arrivalStation", "");
+        model.addAttribute("date", new Date());
+        model.addAttribute("trainForm", new TrainTicketDto());
         return "index";
     }
 

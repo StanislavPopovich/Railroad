@@ -104,5 +104,28 @@ public class TicketGenericDaoImpl extends BaseGenericDao<TicketEntity, Long> imp
         return passengers;
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public Long isPassengerBoughtTicket(PassengerEntity passengerEntity, TrainEntity trainEntity, Date departDate) {
+        Long count = (Long) entityManager.createQuery("select count(t) from " +
+                "TicketEntity t where t.trainEntity= :train and t.passengerEntity= :passenger " +
+                "and t.departDate.departDateFromFirstStation= :departDate").setParameter("train", trainEntity).
+                setParameter("passenger", passengerEntity).
+                setParameter("departDate", departDate).getSingleResult();
+        return count;
+    }
+
+    @Override
+    public Long getIdByTicket(TicketEntity ticket) {
+        Long id = (Long) entityManager.createQuery("select t.id from TicketEntity t where t.trainEntity= :train and " +
+                "t.passengerEntity= :passenger and t.departDate= :departDate and t.arrivalDate= :arrivalDate and " +
+                "t.userEntity= :user").setParameter("train", ticket.getTrainEntity()).
+                setParameter("passenger", ticket.getPassengerEntity()).
+                setParameter("departDate", ticket.getDepartDate()).
+                setParameter("arrivalDate", ticket.getArrivalDate()).
+                setParameter("user", ticket.getUserEntity()).getSingleResult();
+        return id;
+    }
+
 
 }

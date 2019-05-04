@@ -1,7 +1,7 @@
 package com.railroad.mapper;
 
-import com.railroad.dto.PassengerDto;
-import com.railroad.dto.PassengerUpdateDto;
+import com.railroad.dto.passenger.PassengerDto;
+import com.railroad.dto.passenger.PassengerUpdateDto;
 import com.railroad.model.PassengerEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

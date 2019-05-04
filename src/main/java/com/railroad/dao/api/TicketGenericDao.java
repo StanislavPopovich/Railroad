@@ -28,4 +28,8 @@ public interface TicketGenericDao extends GenericDao<TicketEntity, Long> {
     List<TicketEntity> getTicketsByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
 
     List<PassengerEntity> getTrainPassengers(TrainEntity trainEntity, Date departDate);
+
+    Long isPassengerBoughtTicket(PassengerEntity passengerEntity, TrainEntity trainEntity, Date departDate);
+
+    Long getIdByTicket(TicketEntity ticket);
 }

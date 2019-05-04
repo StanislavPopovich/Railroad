@@ -1,6 +1,6 @@
 package com.railroad.service.api;
 
-import com.railroad.dto.UserDto;
+import com.railroad.dto.user.UserDto;
 import com.railroad.model.UserEntity;
 import java.util.List;
 

@@ -90,5 +90,16 @@ public class ScheduleGenericDaoImpl extends BaseGenericDao<ScheduleEntity, Long>
         return scheduleEntity;
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<ScheduleEntity> getActualSchedules(Date currentDate) {
+        List<ScheduleEntity> scheduleEntity =  entityManager.createQuery("select s from ScheduleEntity s " +
+                "where s.arrivalDate >= :currentDate and s.arrivalDate < :dayAfter " +
+                "order by s.arrivalDate").
+                setParameter("currentDate", currentDate).
+                setParameter("dayAfter", new LocalDate(currentDate).plusDays(1).toDate()).getResultList();
+        return scheduleEntity;
+    }
+
 
 }

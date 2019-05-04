@@ -1,7 +1,7 @@
 package com.railroad.service.impl;
 
 import com.railroad.dao.api.PassengerGenericDao;
-import com.railroad.dto.PassengerUpdateDto;
+import com.railroad.dto.passenger.PassengerUpdateDto;
 import com.railroad.mapper.PassengerEntityDtoMapper;
 import com.railroad.model.PassengerEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class PassengerServiceImpl {
+public class PassengerService {
 
     @Autowired
     private PassengerGenericDao passengerGenericDao;

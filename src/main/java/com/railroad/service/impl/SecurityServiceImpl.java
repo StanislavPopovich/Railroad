@@ -1,7 +1,6 @@
 package com.railroad.service.impl;
 
-import com.railroad.dto.UserDto;
-import com.railroad.service.api.BusinessService;
+import com.railroad.dto.user.UserDto;
 import com.railroad.service.api.SecurityService;
 import com.railroad.service.api.UserService;
 import org.apache.log4j.Logger;
@@ -12,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @Service

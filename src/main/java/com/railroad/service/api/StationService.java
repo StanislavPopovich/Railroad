@@ -1,6 +1,6 @@
 package com.railroad.service.api;
 
-import com.railroad.dto.StationDto;
+import com.railroad.dto.station.StationDto;
 import com.railroad.model.StationEntity;
 
 import java.util.List;

@@ -8,7 +8,7 @@ var regbutton = document.getElementById("button");
 
 function checkUsername() {
     if (username.value === "" || username.value.length < 3) {
-        getMessage("Username must be 3-20 characters in length", "error_name");
+        getMessage("User name must be contain 3-20 characters", "error_name");
         if (username.classList.contains("correct")) {
             username.classList.remove("correct");
             turnOnButton();
@@ -24,7 +24,7 @@ function checkUsername() {
 }
 
 function checkPassword() {
-    getMessage("Password must be more 3 characters in length", "error_password");
+    getMessage("Password must be contain more 4 characters", "error_password");
     if (password.value === "" || password.value.length < 3) {
         if (password.classList.contains("correct")) {
             password.classList.remove("correct");

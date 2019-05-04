@@ -37,7 +37,6 @@
                 <form:form  method="POST" modelAttribute="wayForm">
                     <form:hidden id="way_first_station" path="firstStation"/>
                     <form:hidden id="way_second_station" path="secondStation"/>
-                    <form:hidden id="way_distance" path="distance"/>
                 </form:form>
             </div>
         </c:if>

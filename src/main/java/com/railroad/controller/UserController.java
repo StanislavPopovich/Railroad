@@ -1,5 +1,8 @@
 package com.railroad.controller;
-import com.railroad.dto.*;
+import com.railroad.dto.passenger.PassengerDto;
+import com.railroad.dto.schedule.ScheduleInfoDto;
+import com.railroad.dto.ticket.TicketDto;
+import com.railroad.dto.user.UserDto;
 import com.railroad.service.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;

@@ -1,6 +1,6 @@
 package com.railroad.mapper;
 
-import com.railroad.dto.RouteDto;
+import com.railroad.dto.route.RouteDto;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;

@@ -30,37 +30,33 @@
                         <p>${trainForm.departDate}</p>
                     </div>
                 </div>
-
-                <form:form method="POST" modelAttribute="ticket" action="/railroad/ticket/buy">
+                <c:if test="${alreadyBought}">
+                    <p><spring:message code="alreadyBought"/></p>
+                </c:if>
+                <form:form method="POST" modelAttribute="passenger" action="/railroad/passenger/add">
                     <div class="wrapper_input">
-                        <form:label path="passengerDto.lastName"><spring:message code="lastName"/></form:label>
-                        <form:input id="lastname" type="text" path="passengerDto.lastName" autofocus="true"
-                                    onkeyup="javascript: checkLastName(); return false;"/>
-                        <div class="error" id="error_lastName"><form:errors path="passengerDto.lastName"/></div>
+                        <form:label path="lastName"><spring:message code="lastName"/></form:label>
+                        <form:input id="lastname" type="text" path="lastName" autofocus="true"
+                                    onkeyup="checkLastName(); return false;"/>
+                        <div class="error" id="error_lastName"><form:errors path="lastName"/></div>
                     </div>
                     <div class="wrapper_input">
-                        <form:label path="passengerDto.name"><spring:message code="name"/></form:label>
-                        <form:input id="name" type="text" path="passengerDto.name"
-                                    onkeyup="javascript: checkName(); return false;"/>
-                        <div class="error" id="error_name"><form:errors path="passengerDto.name"/></div>
+                        <form:label path="name"><spring:message code="name"/></form:label>
+                        <form:input id="name" type="text" path="name"
+                                    onkeyup="checkName(); return false;"/>
+                        <div class="error" id="error_name"><form:errors path="name"/></div>
                     </div>
                     <div class="wrapper_input">
-                        <form:label path="passengerDto.name"><spring:message code="birthDate"/></form:label>
-                        <form:input cssClass="correct" id="birthDate" type="date" path="passengerDto.birthDate" value="${Date}"/>
-                        <div class="error" id="error_birthDate"><form:errors path="passengerDto.birthDate"/></div>
+                        <form:label path="birthDate"><spring:message code="birthDate"/></form:label>
+                        <form:input  id="birthDate" type="text" path="birthDate" placeholder="yyyy-MM-dd"
+                        onkeyup="checkBirthDate(); return false"/>
+                        <div class="error" id="error_birthDate"><form:errors path="birthDate"/></div>
                     </div>
                     <div class="wrapper_input">
                         <form:label path="email"><spring:message code="email"/></form:label>
                         <form:input id="email" type="text" path="email"
-                        onkeyup="javascript: checkEmail(); return false;"/>
+                        onkeyup="checkEmail(); return false;"/>
                         <div class="error" id="error_email"><form:errors path="email"/></div>
-                    </div>
-                    <div class="input_hidden">
-                        <form:hidden id="number"  path="trainTicketDto.number" value="${trainForm.number}"/>
-                        <form:hidden id="number"  path="trainTicketDto.departDate" value="${trainForm.departDate}"/>
-                        <form:hidden id="number"  path="trainTicketDto.arrivalDate" value="${trainForm.arrivalDate}"/>
-                        <form:hidden id="number"  path="trainTicketDto.departStation" value="${trainForm.departStation}"/>
-                        <form:hidden id="number"  path="trainTicketDto.arrivalStation" value="${trainForm.arrivalStation}"/>
                     </div>
                     <div class="wpapper_btn">
                         <button id="b_button" type="submit" disabled="true"><spring:message code="buyTicket"/></button>

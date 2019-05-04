@@ -1,8 +1,9 @@
 package com.railroad.controller;
 
-import com.railroad.dto.WayDto;
+import com.railroad.dto.way.WayDto;
 import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.StationService;
+import com.railroad.service.impl.TableService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,8 @@ public class StationController {
 
     @Autowired
     private BusinessService businessService;
+    @Autowired
+    private TableService tableService;
 
     @GetMapping(value = "/station/add")
     public String getAddStationPage(Model model){
@@ -32,6 +35,7 @@ public class StationController {
     @PostMapping(value = "/station/add")
     public String resultAddStationAndWay(@ModelAttribute("way") WayDto way){
         businessService.saveStationAndWay(way);
+        tableService.updateStations();
         return "redirect:/railroad/train/add";
     }
 

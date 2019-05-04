@@ -1,14 +1,19 @@
 package com.railroad.service.api;
-import com.railroad.dto.*;
-import com.railroad.model.TrainEntity;
+import com.railroad.dto.passenger.PassengerDto;
+import com.railroad.dto.route.RouteDto;
+import com.railroad.dto.schedule.ScheduleMessageInfoDto;
+import com.railroad.dto.schedule.ScheduleUpdateDto;
+import com.railroad.dto.ticket.TicketDto;
+import com.railroad.dto.train.TrainScheduleDto;
+import com.railroad.dto.train.TrainTargetDto;
+import com.railroad.dto.train.TrainTicketDto;
+import com.railroad.dto.way.WayDto;
 
 import java.util.Date;
 import java.util.List;
 
 public interface BusinessService {
 
-
-    void saveTicket(TicketDto ticketDto);
 
 
     /**
@@ -56,6 +61,10 @@ public interface BusinessService {
     List<ScheduleUpdateDto> getScheduleUpdateDtosByTrainAdnDate(Integer trainNumber, Date departDate);
 
     List<PassengerDto> getTrainPassengers(Integer trainNumber, Date departDate);
+
+    List<ScheduleMessageInfoDto> getActualSchedule();
+
+    public boolean isPassengerAlreadyBoughtTicket(TrainTicketDto trainTicketDto, PassengerDto passengerDto);
 
 
 

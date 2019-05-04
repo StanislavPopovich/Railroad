@@ -83,7 +83,7 @@ $().ready(function () {
                         markup+='</tr>';
                     }
                     markup+='</table></div>';
-                    markup += '<form id="trainForm" action="/railroad/passenger/add" method="post">' +
+                    markup += '<form id="trainForm" action="/railroad/passenger/add" method="get">' +
                         '<input id="ticket_buy_form_trainNumber" name="number" type="hidden" value>' +
                         '<input id="ticket_buy_form_departDate" name="departDate" type="hidden" value>' +
                         '<input id="ticket_buy_form_arrivalDate" name="arrivalDate" type="hidden" value>' +

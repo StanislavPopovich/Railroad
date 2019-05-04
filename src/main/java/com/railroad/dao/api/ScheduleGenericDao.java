@@ -19,4 +19,6 @@ public interface ScheduleGenericDao extends GenericDao<ScheduleEntity, Long> {
     ScheduleEntity getScheduleBuTrainAndStationAndDate(TrainEntity trainEntity, StationEntity stationEntity,
                                                        Date departDate);
 
+    List<ScheduleEntity> getActualSchedules(Date currentDate);
+
 }

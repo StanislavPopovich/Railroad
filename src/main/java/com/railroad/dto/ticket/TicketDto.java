@@ -1,5 +1,7 @@
-package com.railroad.dto;
+package com.railroad.dto.ticket;
 
+import com.railroad.dto.train.TrainTicketDto;
+import com.railroad.dto.passenger.PassengerDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,7 +13,6 @@ public class TicketDto {
     private TrainTicketDto trainTicketDto;
     private PassengerDto passengerDto;
     private Long number;
-    private String email;
 
     public TicketDto(){}
 

@@ -1,19 +1,11 @@
 package com.railroad.mapper;
 
-import com.railroad.dto.ScheduleDto;
-import com.railroad.dto.ScheduleInfoDto;
-import com.railroad.dto.ScheduleUpdateDto;
+import com.railroad.dto.schedule.ScheduleDto;
+import com.railroad.dto.schedule.ScheduleUpdateDto;
 import com.railroad.model.ScheduleEntity;
-import com.railroad.model.StationEntity;
-import com.railroad.model.TrainEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Mapper(componentModel = "spring")

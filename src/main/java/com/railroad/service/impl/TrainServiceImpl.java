@@ -2,7 +2,7 @@ package com.railroad.service.impl;
 
 import com.railroad.dao.api.StationGenericDao;
 import com.railroad.dao.api.TrainGenericDao;
-import com.railroad.dto.TrainDto;
+import com.railroad.dto.train.TrainDto;
 import com.railroad.mapper.TrainEntityDtoMapper;
 import com.railroad.model.StationEntity;
 import com.railroad.model.TrainEntity;

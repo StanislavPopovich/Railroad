@@ -1,7 +1,7 @@
 package com.railroad.service.impl;
 
 import com.railroad.dao.api.TicketGenericDao;
-import com.railroad.dto.TicketDto;
+import com.railroad.dto.ticket.TicketDto;
 import com.railroad.mapper.TicketDtoMapper;
 import com.railroad.model.*;
 import com.railroad.service.api.TicketService;
@@ -22,10 +22,12 @@ public class TicketServiceImpl implements TicketService {
     private TicketDtoMapper ticketDtoMapper;
 
 
-    @Transactional
     @Override
-    public void save(TicketEntity ticketEntity) {
+    public TicketDto save(TicketEntity ticketEntity) {
         ticketDao.save(ticketEntity);
+        ticketEntity.setId(ticketDao.getIdByTicket(ticketEntity));
+        TicketDto ticketDto = ticketDtoMapper.ticketEntityToTicketDto(ticketEntity);
+        return ticketDto;
     }
 
     public Long getCountTicketByTrainAndSchedules(TrainEntity trainEntity, ScheduleEntity depart, ScheduleEntity arrival){
@@ -70,5 +72,14 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<PassengerEntity> getTrainPassengers(TrainEntity trainEntity, Date departDate) {
         return ticketDao.getTrainPassengers(trainEntity, departDate);
+    }
+
+    @Override
+    public boolean isPassengerAlreadyBoughtTicket(PassengerEntity passengerEntity, TrainEntity trainEntity, Date departDate) {
+        Long countTickets = ticketDao.isPassengerBoughtTicket(passengerEntity, trainEntity, departDate);
+        if(countTickets == 0){
+            return false;
+        }
+        return true;
     }
 }

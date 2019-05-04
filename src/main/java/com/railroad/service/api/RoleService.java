@@ -1,6 +1,6 @@
 package com.railroad.service.api;
 
-import com.railroad.dto.RoleDto;
+import com.railroad.dto.role.RoleDto;
 
 import java.util.List;
 

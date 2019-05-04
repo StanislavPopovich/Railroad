@@ -1,16 +1,12 @@
 package com.railroad.mapper;
 
-import com.railroad.dto.PassengerDto;
-import com.railroad.dto.TicketDto;
-import com.railroad.dto.TrainTicketDto;
+import com.railroad.dto.passenger.PassengerDto;
+import com.railroad.dto.ticket.TicketDto;
+import com.railroad.dto.train.TrainTicketDto;
 import com.railroad.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -20,8 +16,6 @@ public interface TicketDtoMapper {
     @Mapping(source = "ticketEntity", target = "trainTicketDto")
     @Mapping(source = "id", target = "number")
     TicketDto ticketEntityToTicketDto(TicketEntity ticketEntity);
-
-    TicketEntity ticketDtoToTicketEntity(TicketDto ticketDto);
 
     List<TicketDto> ticketEntitiesToTicketDtos(List<TicketEntity> ticketEntities);
 
@@ -34,6 +28,8 @@ public interface TicketDtoMapper {
     @Mapping(source ="ticketEntity.arrivalDate.stationEntity.name", target = "arrivalStation")
     @Mapping(source ="ticketEntity.trainEntity.number", target = "number")
     TrainTicketDto trainEntityToTrainTicketDto(TicketEntity ticketEntity);
+
+
 
 
 

@@ -1,9 +1,11 @@
 package com.railroad.controller;
-import com.railroad.dto.PassengerDto;
-import com.railroad.dto.TicketDto;
+import com.railroad.dto.passenger.PassengerDto;
+import com.railroad.dto.ticket.TicketDto;
+import com.railroad.dto.train.TrainTicketDto;
 import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.TicketService;
-import com.railroad.service.impl.EmailServiceImpl;
+import com.railroad.service.impl.BuyTicketService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -17,7 +19,10 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = "/railroad")
+@SessionAttributes({"trainForm","passenger"})
 public class TicketController {
+
+    private static final Logger logger = Logger.getLogger(TicketController.class);
 
     @Autowired
     private BusinessService businessService;
@@ -26,13 +31,13 @@ public class TicketController {
     private TicketService ticketService;
 
     @Autowired
-    private EmailServiceImpl emailService;
+    private BuyTicketService buyTicketService;
 
-    @PostMapping(value = "ticket/buy")
-    public String getSuccessBuyTicketPage(@ModelAttribute("ticket")TicketDto ticketDto, Model model){
-        businessService.saveTicket(ticketDto);
-        model.addAttribute("ticket", ticketDto);
-        emailService.sendMail(ticketDto);
+    @GetMapping(value = "ticket/buy")
+    public String getSuccessBuyTicketPage(@ModelAttribute("trainForm") TrainTicketDto trainTicketDto,
+                                          @ModelAttribute("passenger") PassengerDto passengerDto,
+                                          Model model){
+        model.addAttribute("ticket", buyTicketService.saveTicket(trainTicketDto, passengerDto));
         return "successBuyTicketPage";
     }
 
@@ -43,8 +48,6 @@ public class TicketController {
 
     @PostMapping(value = "ticket/info")
     public String getTicketInfoPage(@ModelAttribute("ticket") TicketDto ticketDto, Model model){
-        System.out.println();
-        System.out.println(ticketDto);
         model.addAttribute("ticket", ticketDto);
         return "ticketInfoPage";
     }
@@ -52,7 +55,6 @@ public class TicketController {
     @PostMapping(value = "ticket/delete")
     public String deleteTicket(@ModelAttribute("ticket")TicketDto ticketDto){
         ticketService.removeTicketByNumber(ticketDto.getNumber());
-        //send email
         return "redirect:/railroad/user";
     }
 

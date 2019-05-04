@@ -20,11 +20,9 @@ import java.util.Set;
 @Getter
 public class UserEntity extends BaseEntity {
 
-    @Size(min = 4, max = 25, message = "{name.size.error}")
     @Column(name = "username", nullable = false)
     private String userName;
 
-    @Size(min = 3, message = "{password.size.error}")
     @Column(name = "password", nullable = false)
     private String password;
 

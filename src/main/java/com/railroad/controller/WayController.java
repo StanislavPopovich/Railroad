@@ -1,6 +1,6 @@
 package com.railroad.controller;
 
-import com.railroad.dto.WayDto;
+import com.railroad.dto.way.WayDto;
 import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.StationService;
 import com.railroad.service.api.WayService;

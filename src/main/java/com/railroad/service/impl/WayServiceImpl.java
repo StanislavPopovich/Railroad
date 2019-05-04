@@ -2,7 +2,7 @@ package com.railroad.service.impl;
 
 import com.railroad.dao.api.StationGenericDao;
 import com.railroad.dao.api.WayGenericDao;
-import com.railroad.dto.WayDto;
+import com.railroad.dto.way.WayDto;
 import com.railroad.mapper.WayEntityDtoMapper;
 import com.railroad.model.WayEntity;
 import com.railroad.service.api.WayService;

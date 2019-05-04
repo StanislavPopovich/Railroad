@@ -17,7 +17,4 @@ public class WayEntity extends BaseEntity{
     @JoinColumn(name = "second_station_id")
     private StationEntity secondStationEntity;
 
-    @Column(name = "distance", nullable = false)
-    private Double distance;
-
 }

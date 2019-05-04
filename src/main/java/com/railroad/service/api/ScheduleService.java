@@ -1,13 +1,13 @@
 package com.railroad.service.api;
 
-import com.railroad.dto.ScheduleDto;
-import com.railroad.dto.ScheduleInfoDto;
-import com.railroad.dto.ScheduleUpdateDto;
+import com.railroad.dto.schedule.ScheduleDto;
+import com.railroad.dto.schedule.ScheduleInfoDto;
+import com.railroad.dto.schedule.ScheduleMessageInfoDto;
+import com.railroad.dto.schedule.ScheduleUpdateDto;
 import com.railroad.model.ScheduleEntity;
 import com.railroad.model.StationEntity;
 import com.railroad.model.TrainEntity;
 
-import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.List;
 
@@ -56,5 +56,7 @@ public interface ScheduleService {
                                                        Date departDate);
 
     List<ScheduleUpdateDto> getScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
+
+    List<ScheduleMessageInfoDto> getActualSchedule(Date currentDate);
 
 }

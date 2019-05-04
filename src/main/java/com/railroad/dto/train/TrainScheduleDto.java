@@ -1,13 +1,12 @@
-package com.railroad.dto;
+package com.railroad.dto.train;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
 @Getter
-public class TrainTargetDto {
+@Setter
+public class TrainScheduleDto {
     private Integer number;
-    private Integer seats;
     private String departDate;
     private String arrivalDate;
 }

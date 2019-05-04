@@ -1,6 +1,6 @@
 package com.railroad.service.api;
 
-import com.railroad.dto.UserDto;
+import com.railroad.dto.user.UserDto;
 
 public interface SecurityService {
 

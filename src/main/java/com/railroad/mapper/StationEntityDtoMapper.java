@@ -1,6 +1,6 @@
 package com.railroad.mapper;
 
-import com.railroad.dto.StationDto;
+import com.railroad.dto.station.StationDto;
 import com.railroad.model.StationEntity;
 import org.mapstruct.Mapper;
 

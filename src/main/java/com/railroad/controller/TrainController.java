@@ -1,11 +1,12 @@
 package com.railroad.controller;
 
-import com.railroad.dto.RouteDto;
-import com.railroad.dto.TrainDto;
-import com.railroad.dto.TrainTargetDto;
+import com.railroad.dto.route.RouteDto;
+import com.railroad.dto.train.TrainDto;
+import com.railroad.dto.train.TrainTargetDto;
 import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.StationService;
 import com.railroad.service.api.TrainService;
+import com.railroad.service.impl.SearchTrainService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -30,6 +31,8 @@ public class TrainController {
     private TrainService trainService;
     @Autowired
     private StationService stationService;
+    @Autowired
+    private SearchTrainService searchTrainService;
 
 
     @InitBinder
@@ -71,7 +74,8 @@ public class TrainController {
     public @ResponseBody List<TrainTargetDto> getTargetTrains(@RequestParam String departStation,
                                                               @RequestParam String arrivalStation,
                                                               @RequestParam Date date){
-        return businessService.getDirectTrains(departStation,arrivalStation,date);
+        searchTrainService.getTransferTrains(departStation, arrivalStation, date);
+        return searchTrainService.getDirectTrains(departStation,arrivalStation,date);
     }
 
 

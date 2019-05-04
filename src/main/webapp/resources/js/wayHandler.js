@@ -52,7 +52,6 @@ $().ready(function () {
         var distance=$('#distance').val();
         $('#way_first_station').val(departStation);
         $('#way_second_station').val(arrivalStation);
-        $('#way_distance').val(distance);
         autoSubmitWayForm();
 
     });

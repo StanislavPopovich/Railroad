@@ -1,4 +1,4 @@
-package com.railroad.dto;
+package com.railroad.dto.role;
 
 import lombok.Getter;
 import lombok.Setter;

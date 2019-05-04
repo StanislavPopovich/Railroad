@@ -1,6 +1,6 @@
 package com.railroad.service.api;
 
-import com.railroad.dto.TicketDto;
+import com.railroad.dto.ticket.TicketDto;
 import com.railroad.model.*;
 
 import java.util.Date;
@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TicketService {
 
-    void save(TicketEntity ticketEntity);
+    TicketDto save(TicketEntity ticketEntity);
     Long getCountTicketByTrainAndSchedules(TrainEntity trainEntity, ScheduleEntity depart,
                                            ScheduleEntity arrival);
     List<TicketDto> getNotActualTickets(UserEntity currentUser);
@@ -18,4 +18,5 @@ public interface TicketService {
     List<TicketDto> getPassengerNotActualTickets(UserEntity userEntity, PassengerEntity passengerEntity);
     List<TicketEntity> getTicketsByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
     List<PassengerEntity> getTrainPassengers(TrainEntity trainEntity, Date departDate);
+    boolean isPassengerAlreadyBoughtTicket(PassengerEntity passengerEntity, TrainEntity trainEntity, Date departDate);
 }

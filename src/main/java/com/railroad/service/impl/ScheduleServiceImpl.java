@@ -1,13 +1,15 @@
 package com.railroad.service.impl;
 
 import com.railroad.dao.api.ScheduleGenericDao;
+import com.railroad.dto.schedule.ScheduleMessageInfoDto;
 import com.railroad.mapper.ScheduleInfoDtoMapper;
 import com.railroad.dao.api.StationGenericDao;
 import com.railroad.dao.api.TrainGenericDao;
-import com.railroad.dto.ScheduleDto;
-import com.railroad.dto.ScheduleInfoDto;
-import com.railroad.dto.ScheduleUpdateDto;
+import com.railroad.dto.schedule.ScheduleDto;
+import com.railroad.dto.schedule.ScheduleInfoDto;
+import com.railroad.dto.schedule.ScheduleUpdateDto;
 import com.railroad.mapper.ScheduleEntityDtoMapper;
+import com.railroad.mapper.ScheduleMessageInfoDtoMapper;
 import com.railroad.model.ScheduleEntity;
 import com.railroad.model.StationEntity;
 import com.railroad.model.TrainEntity;
@@ -35,6 +37,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Autowired
     private ScheduleInfoDtoMapper scheduleInfoDtoMapper;
+    @Autowired
+    private ScheduleMessageInfoDtoMapper scheduleMessageInfoDtoMapper;
 
     @Transactional
     @Override
@@ -103,5 +107,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public List<ScheduleUpdateDto> getScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date departDate) {
         return scheduleMapper.scheduleEntityToScheduleUpdateDto(findSchedulesForTrain(trainEntity, departDate));
+    }
+
+    @Override
+    public List<ScheduleMessageInfoDto> getActualSchedule(Date currentDate) {
+        return scheduleMessageInfoDtoMapper.scheduleEntitieToScheduleMessageInfoDtos(scheduleDao.getActualSchedules(currentDate));
     }
 }

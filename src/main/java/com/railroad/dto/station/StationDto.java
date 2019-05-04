@@ -1,4 +1,4 @@
-package com.railroad.dto;
+package com.railroad.dto.station;
 
 import lombok.Data;
 

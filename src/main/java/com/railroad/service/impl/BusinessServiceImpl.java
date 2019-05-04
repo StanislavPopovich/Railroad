@@ -1,5 +1,15 @@
 package com.railroad.service.impl;
-import com.railroad.dto.*;
+import com.railroad.dto.passenger.PassengerDto;
+import com.railroad.dto.route.RouteDto;
+import com.railroad.dto.schedule.ScheduleMessageInfoDto;
+import com.railroad.dto.schedule.ScheduleUpdateDto;
+import com.railroad.dto.station.StationDto;
+import com.railroad.dto.ticket.TicketDto;
+import com.railroad.dto.train.TrainDto;
+import com.railroad.dto.train.TrainScheduleDto;
+import com.railroad.dto.train.TrainTargetDto;
+import com.railroad.dto.train.TrainTicketDto;
+import com.railroad.dto.way.WayDto;
 import com.railroad.mapper.PassengerEntityDtoMapper;
 import com.railroad.mapper.RouteDtoMapper;
 import com.railroad.mapper.TicketDtoMapper;
@@ -7,6 +17,7 @@ import com.railroad.mapper.TrainEntityDtoMapper;
 import com.railroad.model.*;
 import com.railroad.service.api.*;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-public class BusinessServiceImpl implements BusinessService {
+public class BusinessServiceImpl extends BaseService implements BusinessService {
 
     private static final Logger logger = Logger.getLogger(BusinessServiceImpl.class);
 
@@ -51,77 +62,12 @@ public class BusinessServiceImpl implements BusinessService {
     private PassengerEntityDtoMapper passengerEntityDtoMapper;
 
     @Autowired
-    private PassengerServiceImpl passengerService;
+    private PassengerService passengerService;
 
-    @Autowired
-    private TicketDtoMapper ticketDtoMapper;
+
 
     @Autowired
     private RouteDtoMapper routeDtoMapper;
-
-
-
-    @Transactional
-    @Override
-    public void saveTicket(TicketDto ticketDto) {
-
-        //getting current User
-        UserEntity currentUser = userService.getCurrentUser();
-
-        //getting passengerEntity
-        PassengerEntity passenger = passengerEntityDtoMapper.passengerDtoToEntity(ticketDto.getPassengerDto());
-        if(!passengerService.isAlreadyExist(passenger)){
-
-            //this passenger is not exist in db
-            passengerService.save(passenger);
-        }
-
-        //getting current passenger from db
-        PassengerEntity currentPassenger = passengerService.findPassengerByNameAndBirthDate(passenger);
-
-        //getting passenger of current user
-        Set<PassengerEntity> userPassengers = currentUser.getPassengerEntities();
-
-        //adding current passenger to current user
-        userPassengers.add(currentPassenger);
-        currentUser.setPassengerEntities(userPassengers);
-
-        //getting trainEntity by trainNumber
-        TrainEntity trainEntity = trainService.findTrainEntityByNumber(ticketDto.getTrainTicketDto().getNumber());
-
-        //creating new ticketEntity and setting fields
-        TicketEntity ticketEntity = ticketDtoMapper.ticketDtoToTicketEntity(ticketDto);
-        ticketEntity.setPassengerEntity(currentPassenger);
-        //getting schedule for departing station
-
-        ScheduleEntity departStationSchedule = scheduleService.findScheduleByTrainAndDepartDate(trainEntity,
-                getDate(ticketDto.getTrainTicketDto().getDepartDate(),"dd-MM-yyyy HH:mm"));
-
-        //getting schedule for arrival station
-        ScheduleEntity arrivalStationSchedule = scheduleService.findScheduleByTrainAndArrivalDate(trainEntity,
-                getDate(ticketDto.getTrainTicketDto().getArrivalDate(),"dd-MM-yyyy HH:mm"));
-        ticketEntity.setTrainEntity(trainEntity);
-        ticketEntity.setDepartDate(departStationSchedule);
-        ticketEntity.setArrivalDate(arrivalStationSchedule);
-        ticketEntity.setUserEntity(currentUser);
-
-        //saving ticket to db
-        ticketService.save(ticketEntity);
-
-    }
-
-    private Date getDate(String date, String dateFormat){
-        SimpleDateFormat format = new SimpleDateFormat(dateFormat);
-        Date result;
-        try {
-            result = format.parse(date);
-            return result;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
 
 
 
@@ -139,67 +85,47 @@ public class BusinessServiceImpl implements BusinessService {
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
         for(ScheduleEntity scheduleEntity: departStationSchedule){
-            TrainEntity trainEntity = scheduleEntity.getTrainEntity();
-            List<StationEntity> trainStation = trainEntity.getStationEntities();
+                TrainEntity trainEntity = scheduleEntity.getTrainEntity();
+                List<StationEntity> trainStation = trainEntity.getStationEntities();
 
-            int indexOfDepartStation = geiIndexOfStation(trainStation, departStation);
-            int indexOfArrivalStation = geiIndexOfStation(trainStation, arrivalStation);
+               /* int indexOfDepartStation = geiIndexOfStation(trainStation, departStation);
+                int indexOfArrivalStation = geiIndexOfStation(trainStation, arrivalStation);
 
-            if(checkRouteOfTrain(indexOfDepartStation, indexOfArrivalStation)){
-                TrainTargetDto trainTargetDto = trainEntityDtoMapper.
-                        trainEntityToTrainSearchDto(scheduleEntity.getTrainEntity());
+                if(checkRouteOfTrain(indexOfDepartStation, indexOfArrivalStation)){
+                    TrainTargetDto trainTargetDto = trainEntityDtoMapper.
+                            trainEntityToTrainSearchDto(scheduleEntity.getTrainEntity());
 
-                List<ScheduleEntity> trainSchedules = getScheduleForTrainInOrder(trainEntity,
-                        scheduleEntity.getDepartDateFromFirstStation());
+                    List<ScheduleEntity> trainSchedules = getScheduleForTrainInOrder(trainEntity,
+                            scheduleEntity.getDepartDateFromFirstStation());
 
-                //getting count tickets from first station of train until destination station
-                int tickets = getCountTickets(trainSchedules, trainEntity, indexOfDepartStation, indexOfArrivalStation);
+                        //getting count tickets from first station of train until destination station
+                        int tickets = getCountTickets(trainSchedules, trainEntity, indexOfDepartStation, indexOfArrivalStation);
 
-                //setting trainDto fields
-                for(ScheduleEntity schedule: trainSchedules){
-                    if(schedule.getStationEntity().getName().equals(arrivalStation)){
-                        trainTargetDto.setDepartDate(format.format(scheduleEntity.getDepartDate()));
-                        trainTargetDto.setArrivalDate(format.format(schedule.getArrivalDate()));
-                        trainTargetDto.setSeats(trainTargetDto.getSeats() - tickets);
-                    }
-                }
-                trains.add(trainTargetDto);
-            }
+                        //setting trainDto fields
+                        for(ScheduleEntity schedule: trainSchedules){
+                            if(checkDepartDate(schedule.getDepartDate())){
+                                if(schedule.getStationEntity().getName().equals(arrivalStation)){
+                                    trainTargetDto.setDepartDate(format.format(scheduleEntity.getDepartDate()));
+                                    trainTargetDto.setArrivalDate(format.format(schedule.getArrivalDate()));
+                                    trainTargetDto.setSeats(trainTargetDto.getSeats() - tickets);
+                                    trains.add(trainTargetDto);
+                                }
+                            }
+                        }
+
+                }*/
+
         }
         return trains;
     }
 
-    private List<ScheduleEntity> getScheduleForTrainInOrder(TrainEntity trainEntity, Date departDateFromFirstStation){
-        List<ScheduleEntity> result = new ArrayList<>();
-        List<ScheduleEntity> trainSchedules = scheduleService.
-                findSchedulesForTrain(trainEntity, departDateFromFirstStation);
-        for(StationEntity station: trainEntity.getStationEntities()){
-            for(ScheduleEntity schedule: trainSchedules){
-                if(station.getName().equals(schedule.getStationEntity().getName())){
-                    result.add(schedule);
-                }
-            }
-        }
-        return result;
-    }
 
-    private boolean checkRouteOfTrain(int indexOfDepartStation, int indexOfArrivalStation){
-        if((indexOfDepartStation != -1 && indexOfArrivalStation != -1) &&
-                (indexOfDepartStation < indexOfArrivalStation)){
-            return true;
-        }
-        return false;
-    }
 
-    private int geiIndexOfStation(List<StationEntity> trainStation, String station){
-        int index = -1;
-        for(int i = 0; i < trainStation.size(); i++){
-            if(trainStation.get(i).getName().equals(station)){
-                index = i;
-            }
-        }
-        return index;
-    }
+
+
+
+
+
 
     public List<TrainDto> getTrainsWithIneTransfer(String departStation, String arrivalStation, Date departDate){
         //getting schedules for station on departing date
@@ -248,42 +174,11 @@ public class BusinessServiceImpl implements BusinessService {
         return null;
     }
 
-    /**
-     * Returns count of tickets in the interesting part of route
-     * @param trainSchedules - schedule of current train
-     * @param trainEntity - current train
-     * @param departStationIndex - index of departing station
-     * @param arrivalStationIndex - index of arrival station
-     * @return count of tickets of current train
-     */
-    private int getCountTickets(List<ScheduleEntity> trainSchedules, TrainEntity trainEntity,
-                                int departStationIndex, int arrivalStationIndex){
-        int countTickets = 0;
-
-        //getting matrix of ticket for all train route
-        int[][] tickets = getTicketMatrix(trainSchedules,trainEntity);
-
-        //getting the number of tickets in the interesting part of route
-        for(int i = trainSchedules.size() - 1; i > departStationIndex; i--){
-            for(int j = 0; j < arrivalStationIndex; j++){
-                countTickets += tickets[i][j];
-            }
-        }
-        return countTickets;
-    }
 
 
 
-    private int[][] getTicketMatrix(List<ScheduleEntity> trainSchedule, TrainEntity trainEntity){
-        int[][] ticketMatrix = getEmptyMatrix(trainSchedule.size());
-        for(int i = 0; i < trainSchedule.size() - 1; i++){
-            for(int j = trainSchedule.size() - 1; j > i; j--){
-                ticketMatrix[j][i] = ticketService.getCountTicketByTrainAndSchedules(trainEntity,
-                        trainSchedule.get(i), trainSchedule.get(j)).intValue();
-            }
-        }
-        return ticketMatrix;
-    }
+
+
 
 
     @Transactional
@@ -409,6 +304,27 @@ public class BusinessServiceImpl implements BusinessService {
         return passengerEntityDtoMapper.passengerEntitiesToPassengerDtos(passengers);
     }
 
+    @Override
+    @Transactional
+    public List<ScheduleMessageInfoDto> getActualSchedule() {
+        return scheduleService.getActualSchedule(new Date());
+    }
+
+    @Transactional
+    @Override
+    public boolean isPassengerAlreadyBoughtTicket(TrainTicketDto trainTicketDto, PassengerDto passengerDto) {
+        PassengerEntity passengerEntity = passengerEntityDtoMapper.passengerDtoToEntity(passengerDto);
+        if(!passengerService.isAlreadyExist(passengerEntity)){
+            return false;
+        }
+        passengerEntity = passengerService.findPassengerByNameAndBirthDate(passengerEntity);
+        TrainEntity trainEntity = trainService.findTrainEntityByNumber(trainTicketDto.getNumber());
+        ScheduleEntity scheduleEntity = scheduleService.
+                findScheduleByTrainAndDepartDate(trainEntity, getDate(trainTicketDto.getDepartDate(), "dd-MM-yyyy HH:mm"));
+
+        return ticketService.isPassengerAlreadyBoughtTicket(passengerEntity, trainEntity, scheduleEntity.getDepartDateFromFirstStation());
+    }
+
     @Transactional
     @Override
     public List<TicketDto> getPassengerActualTickets(PassengerDto passengerDto) {
@@ -472,15 +388,7 @@ public class BusinessServiceImpl implements BusinessService {
         return matrix;
     }
 
-    private int[][] getEmptyMatrix(int size){
-        int[][] matrix = new int[size][size];
-        for(int row = 0; row< matrix.length; row++){
-            for(int column = 0; column < matrix[row].length; column++){
-                matrix[row][column] = 0;
-            }
-        }
-        return matrix;
-    }
+
 
 
 }

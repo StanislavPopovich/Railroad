@@ -1,12 +1,12 @@
 package com.railroad.controller;
 
-import com.railroad.dto.ScheduleDto;
-import com.railroad.dto.ScheduleUpdateDto;
-import com.railroad.dto.TrainDto;
+import com.railroad.dto.schedule.ScheduleDto;
+import com.railroad.dto.schedule.ScheduleUpdateDto;
+import com.railroad.dto.train.TrainDto;
 import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.ScheduleService;
-import com.railroad.service.api.StationService;
 import com.railroad.service.api.TrainService;
+import com.railroad.service.impl.TableService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -30,6 +30,9 @@ public class ScheduleController {
     @Autowired
     private BusinessService businessService;
 
+    @Autowired
+    private TableService tableService;
+
 
     @GetMapping(value = "/schedule/add")
     public String getAddSchedulePage(Model model){
@@ -48,6 +51,7 @@ public class ScheduleController {
     @PostMapping(value = "/schedule/add")
     public void addTrainToSchedule(@RequestBody ScheduleDto scheduleDto) {
         scheduleService.save(scheduleDto);
+        tableService.updateSchedule();
     }
 
     @PostMapping(value = "/schedule/get-train")
@@ -65,6 +69,7 @@ public class ScheduleController {
     @PostMapping(value = "/schedule/update")
     public void updateSchedule(@RequestBody ScheduleUpdateDto scheduleUpdateDto) {
         businessService.updateSchedule(scheduleUpdateDto);
+        tableService.updateSchedule();
     }
 
     @GetMapping(value = "/schedule/delete")
@@ -78,6 +83,7 @@ public class ScheduleController {
     public @ResponseBody
     String deleteSchedule(@RequestParam String trainNumber, @RequestParam String date) {
         businessService.removeTrainFromSchedule(new Integer(trainNumber), date);
+        tableService.updateSchedule();
         return "userPage";
     }
 

@@ -1,7 +1,7 @@
 package com.railroad.service.impl;
 
 import com.railroad.dao.api.RoleGenericDao;
-import com.railroad.dto.RoleDto;
+import com.railroad.dto.role.RoleDto;
 import com.railroad.mapper.RoleEntityDtoMapper;
 import com.railroad.service.api.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;

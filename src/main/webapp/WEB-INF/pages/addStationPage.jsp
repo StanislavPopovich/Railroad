@@ -25,10 +25,6 @@
                             <form:options items="${stations}"/>
                         </form:select>
                     </div>
-                    <div class="wrapper_input">
-                        <form:label path="distance"> Distance, km </form:label>
-                        <form:input type="text" path="distance"/>
-                    </div>
                     <div class="wrapper_btn">
                         <button id="button" class="btn btn_blue" type="submit">Add</button>
                     </div>
