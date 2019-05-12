@@ -1,7 +1,7 @@
 package com.railroad.dao.api;
 
-import com.railroad.model.RoleEntity;
-import com.railroad.model.UserEntity;
+import com.railroad.entity.RoleEntity;
+import com.railroad.entity.UserEntity;
 
 import java.util.List;
 

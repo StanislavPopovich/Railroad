@@ -7,38 +7,52 @@
 <body>
 <jsp:include page="header.jsp"/>
 <section class="main">
-    <div class="container">
-        <div class="content">
-            <h2><spring:message code="ticketInfo"/> № ${ticket.number}</h2>
-            <div class="item_ticket">
-                <div class="ticket_train">
-                    <img src="/resources/img/train.svg">
-                    <div><spring:message code="trainInfo"/></div>
-                    <div>№ ${ticket.trainTicketDto.number}</div>
+    <div class="wrapper_center">
+        <div class="wrap wrapper-flex">
+            <div class="content content_type-train">
+                <h1 class="h1"><spring:message code="ticketInfo"/> № ${ticket.number}</h1>
+                <div class="passenger_info">
+                    <div>
+                        <span><spring:message code="passengerInfo"/>: </span>
+                        <span>${ticket.passengerDto.lastName} ${ticket.passengerDto.name}</span>
+                    </div>
+                    <div>
+                        <span><spring:message code="birthDateInfo"/>: </span>
+                        <span>${ticket.passengerDto.birthDate}</span>
+                    </div>
                 </div>
-                <div class="ticket_info">
-                    <div class="passenger_info">
-                        <h3><spring:message code="passengerInfo"/></h3>
-                        <p>${ticket.passengerDto.lastName} ${ticket.passengerDto.name}</p>
-                        <div>
-                            <p><spring:message code="birthDateInfo"/>:</p>
-                            <small>${ticket.passengerDto.birthDate}</small>
+                <div id="items" class="items">
+                    <div class="item">
+                        <div class="wrapper_item">
+                            <div class="train">
+                                <div class="img"><img src="/resources/img/train.svg"></div>
+                                <div class="trainNumber_1">№ ${ticket.trainTicketDto.number}</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="depart_info">
-                        <h3><spring:message code="departStationInfo"/></h3>
-                        <p>${ticket.trainTicketDto.departStation}</p>
-                        <div>
-                            <p><spring:message code="departDateInfo"/>:</p>
-                            <small>${ticket.trainTicketDto.departDate}</small>
+                        <div class="wrapper_item">
+                            <div class="wrapper_rout">
+                                <div class="route">
+                                    <div class="label"><span><spring:message code="departStationInfo"/></span></div>
+                                    <div class="departStation_1">${ticket.trainTicketDto.departStation}</div>
+                                </div>
+                                <div class="arrow_right"></div>
+                                <div class="route">
+                                    <div class="label"><span><spring:message code="arrivalStationInfo"/></span></div>
+                                    <div class="arrivalStation_1">${ticket.trainTicketDto.arrivalStation}</div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="arrival_info">
-                        <h3><spring:message code="arrivalStationInfo"/></h3>
-                        <p>${ticket.trainTicketDto.arrivalStation}</p>
-                        <div>
-                            <p><spring:message code="arrivalDateInfo"/>:</p>
-                            <small>${ticket.trainTicketDto.arrivalDate}</small>
+                        <div class="wrapper_item">
+                            <div class="date">
+                                <div class="label"><span><spring:message code="departDateInfo"/>:</span></div>
+                                <div class="date_depart_1">${ticket.trainTicketDto.departDate}</div>
+                            </div>
+                        </div>
+                        <div class="wrapper_item">
+                            <div class="date">
+                                <div class="label"><span><spring:message code="arrivalDateInfo"/>:</span></div>
+                                <div class="date_arrival_1">${ticket.trainTicketDto.arrivalDate}</div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -8,29 +8,30 @@
 <body>
 <jsp:include page="header.jsp"/>
 <section class="main">
-    <div class="container">
-        <div class="content">
-            <div id="ticket_buttons" class="ticket_buttons">
-                <div id="upcoming_trips" class="active">
-                    Forthcoming
-                </div>
-                <div id="completed_trips">
-                    Completed
+    <div class="wrapper_center">
+        <div class="wrap wrapper-flex">
+            <div id="search_menu" class="left_menu type_black">
+                <div>
+                    <div class="title">All orders</div>
+                    <div id="upcoming" class="btn btn_blue active">Upcoming trips</div>
+                    <div id="completed" class="btn btn_blue">Completed trips</div>
                 </div>
             </div>
-            <div id="find_orders">
+            <div class="content content_type-train">
+                <div id="items" class="items">
 
+                </div>
             </div>
         </div>
     </div>
-    <form:form id="currentPassenger_form" modelAttribute="passengerForm" action="" method="post">
-        <form:hidden id="currentPassenger_lastName" path="lastName" value="${passenger.lastName}"/>
-        <form:hidden id="currentPassenger_name" path="name" value="${passenger.name}"/>
-        <form:hidden id="currentPassenger_birthDate" path="birthDate" value="${passenger.birthDate}"/>
+    <form:form modelAttribute="passengerForm" action="" method="post">
+        <form:hidden id="currentPassenger_lastName" path="lastName" value="${currentPassenger.lastName}"/>
+        <form:hidden id="currentPassenger_name" path="name" value="${currentPassenger.name}"/>
+        <form:hidden id="currentPassenger_birthDate" path="birthDate" value="${currentPassenger.birthDate}"/>
     </form:form>
 </section>
 <jsp:include page="footer.jsp"/>
 <script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="/resources/js/userPassengerHandler.js"></script>
+<script type="text/javascript" src="/resources/js/passengerTickets.js"></script>
 </body>
 </html>

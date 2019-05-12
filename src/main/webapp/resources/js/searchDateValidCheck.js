@@ -1,37 +1,47 @@
 
-var searchDate = document.getElementById("date");
-if(searchDate){
- searchDate.addEventListener("change", checkSearchDate, false);
+let searchDepartDate = document.getElementById("depart_date");
+let searchDepartReturnDate = document.getElementById("date_return_depart");
+if(searchDepartDate){
+ searchDepartDate.addEventListener("change", checkSearchDate, false);
+}
+if(searchDepartReturnDate){
+    searchDepartReturnDate.addEventListener("change", checkSearchDate, false);
 }
 function checkSearchDate(e) {
-    var current = e.target;
-    var currentDate = getCurrentDateInFormat();
-    var currentSeconds = new Date(currentDate).getTime();
-    var searchSeconds = new Date(current.value).getTime();
-    var form = FindElemId(current, "date_depart");
-    var message = form.querySelector(".message");
+    let current = e.target;
+    let currentDate = getCurrentDateInFormat();
+    let currentSeconds = new Date(currentDate).getTime();
+    let searchSeconds = new Date(current.value).getTime();
+    let form = FindElemId(current, "wrapper_input");
+
+    let message = form.querySelector(".message");
 
     if(currentSeconds > searchSeconds){
         if(!message) {
-            var message = document.createElement("div");
+            let message = document.createElement("div");
             message.textContent = "Not valid date";
             message.className= "message";
             form.classList.add("error");
             form.appendChild(message);
-            addError();
+            if(e.target.id === "depart_date"){
+                addError();
+            }
+
         }
 
     } else {
         if(message){
             form.removeChild(message);
-            removeError();
-        }
+            if(e.target.id === "depart_date"){
+                removeError();
+            }
 
+        }
     }
 }
 
 function FindElemId(self, classElem){
-    var item = self.parentElement;
+    let item = self.parentElement;
     if(item.id == classElem){
         return item;
     } else {
@@ -40,7 +50,7 @@ function FindElemId(self, classElem){
 }
 
 function FindElem(self, classElem){
-    var item = self.parentElement;
+    let item = self.parentElement;
     if(item.classList.contains(classElem)){
         return item;
     } else {
@@ -49,50 +59,52 @@ function FindElem(self, classElem){
 }
 
 function getCurrentDateInFormat(){
-    var currentDate = new Date();
-    var dd = currentDate.getDate();
-    var mm = currentDate.getMonth()+1;
+    let currentDate = new Date();
+    let dd = currentDate.getDate();
+    let mm = currentDate.getMonth()+1;
     if(("" + mm).length < 2){
         mm = "0" + mm;
     }
-    var yyyy = currentDate.getFullYear();
+    let yyyy = currentDate.getFullYear();
     return yyyy + "-" +  mm + "-" + dd;
 }
 
-var findContainer = document.querySelector(".find_container");
+let findingMenu = document.querySelector(".finding_menu");
 
-if(findContainer) {
-    findContainer.addEventListener("click", findContainerFunc, false);
+if(findingMenu) {
+    findingMenu.addEventListener("click", findContainerFunc, false);
 }
 
 function findContainerFunc(e) {
 
-    var select =  findContainer.querySelectorAll(".select");
+    let input =  findingMenu.querySelectorAll("input");
 
-    for(var i = 0; i < select.length; i++) {
-        var id = select[i].id;
+    for(let i = 0; i < input.length; i++) {
+        let id = input[i].id;
         switch (id) {
-            case  "start":
-                checkSelect(select[i]);
-                break
-            case "end":
-                checkSelect(select[i]);
-                break
+            case  "depart_station":
+                checkInput(input[i]);
+                break;
+            case "arrival_station":
+                checkInput(input[i]);
+                break;
+            case "depart_date":
+                checkInput(input[i]);
+                break;
         }
     }
 }
 
-function checkSelect(current) {
-    var indexSelected = current.selectedIndex;
-
-    if(indexSelected){
+function checkInput(current) {
+    let indexSelected = current.value;
+    if(indexSelected !== ''){
         removeError();
     } else {
         addError();
     }
 }
 
-var regbutton = document.getElementById("findBtn");
+let regbutton = document.getElementById("findBtn");
 
 function addError() {
     regbutton.classList.remove("active");

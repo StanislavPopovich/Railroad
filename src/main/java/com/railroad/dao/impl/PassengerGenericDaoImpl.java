@@ -1,7 +1,7 @@
 package com.railroad.dao.impl;
 
 import com.railroad.dao.api.PassengerGenericDao;
-import com.railroad.model.PassengerEntity;
+import com.railroad.entity.PassengerEntity;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

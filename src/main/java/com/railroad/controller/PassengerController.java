@@ -2,7 +2,9 @@ package com.railroad.controller;
 
 import com.railroad.dto.passenger.PassengerDto;
 import com.railroad.dto.ticket.TicketDto;
+import com.railroad.dto.train.GlobalTrainsTicketDto;
 import com.railroad.dto.train.TrainTicketDto;
+import com.railroad.dto.train.TrainTransferTicketDto;
 import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.TrainService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +24,9 @@ import java.util.*;
 
 @Controller
 @RequestMapping(value =  "/railroad")
-@SessionAttributes({"trainForm","passenger"})
+@SessionAttributes({"trainTicket","passenger" })
 public class PassengerController {
 
-    @Autowired
-    private TrainService trainService;
 
     @Autowired
     private BusinessService businessService;
@@ -39,40 +39,45 @@ public class PassengerController {
     }
 
 
-    @GetMapping(value = "passenger/add")
-    public String getAddPassengerPage(@ModelAttribute("trainForm") TrainTicketDto trainTicketDto, Model model){
+    @PostMapping(value = "passenger/add")
+    public String getAddPassengerPage(@ModelAttribute("trainTicket") GlobalTrainsTicketDto globalTrainsTicketDto,
+                                      Model model){
         Collection<GrantedAuthority> authorities = (Collection)SecurityContextHolder.getContext().
                 getAuthentication().getAuthorities();
+        System.out.println("\n");
+        System.out.println(globalTrainsTicketDto.toString());
+        System.out.println("\n");
         for(GrantedAuthority authority: authorities){
             if(authority.getAuthority().equals("ROLE_ADMIN") || authority.getAuthority().equals("ROLE_MODERATOR")){
                 return "redirect:/railroad/user";
             }
         }
         model.addAttribute("passenger", new PassengerDto());
+        model.addAttribute("trainTicket", globalTrainsTicketDto);
         return "addPassengerPage";
     }
 
-    @PostMapping(value = "passenger/add")
+    @PostMapping(value = "passenger/add/result")
     public String getAddPassengerPageResult(@Valid @ModelAttribute("passenger") PassengerDto passengerDto,
                                             BindingResult bindingResult,
-                                            @ModelAttribute("trainForm") TrainTicketDto trainTicketDto,
+                                            @ModelAttribute("trainTicket") GlobalTrainsTicketDto globalTrainsTicketDto,
                                             Model model){
         if(bindingResult.hasErrors()){
             return "addPassengerPage";
         }
-        if(businessService.isPassengerAlreadyBoughtTicket(trainTicketDto, passengerDto)){
-            model.addAttribute("alreadyBought", true);
+        System.out.println("\n");
+        System.out.println("\n");
+        System.out.println("\n");
+        System.out.println("\n");
+        System.out.println("\n");
+        /*if(businessService.isPassengerAlreadyBoughtTicket(trainTicketDto, passengerDto)){
+            entity.addAttribute("alreadyBought", true);
             return "addPassengerPage";
-        }
+        }*/
         return "redirect:/railroad/ticket/buy";
     }
 
-    @GetMapping(value = "passenger/train")
-    public String getTrainPassengersPage(Model model){
-        model.addAttribute("trainsNumbers",trainService.getAllTrainsNumbers());
-        model.addAttribute("departDate", "");
-        return "trainPassengersPage";
-    }
+
 
     @PostMapping(value = "passenger/train/all")
     public @ResponseBody List<PassengerDto> getTrainPassengers(@RequestParam String trainNumber, @RequestParam Date date){

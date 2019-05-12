@@ -1,5 +1,6 @@
 package com.railroad.controller;
 import com.railroad.dto.passenger.PassengerDto;
+import com.railroad.dto.role.RoleDto;
 import com.railroad.dto.schedule.ScheduleInfoDto;
 import com.railroad.dto.ticket.TicketDto;
 import com.railroad.dto.user.UserDto;
@@ -24,9 +25,6 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private StationService stationService;
-
-    @Autowired
     private RoleService roleService;
     @Autowired
     private BusinessService businessService;
@@ -40,24 +38,15 @@ public class UserController {
         return "userPage";
     }
 
-    @GetMapping(value = "/user/user")
-    public @ResponseBody
-    List<TicketDto> getStartContentUserPage() {
-        return businessService.getActualTickets();
+    @GetMapping(value = "/admin/users")
+    public String getAdminPage() {
+        return "usersPage";
     }
 
-    @GetMapping(value = "/user/admin")
+    @GetMapping(value = "/admin/get-users")
     public @ResponseBody
     List<UserDto> getStartContentAdminPage() {
         return userService.getAll();
-    }
-
-    @GetMapping(value = "user/schedule")
-    public String getSchedulePageForUser(Model model){
-        model.addAttribute("stations", stationService.getAllStationsName());
-        model.addAttribute("station", "");
-        model.addAttribute("date", new Date());
-        return "userSchedulePage";
     }
 
     @PostMapping(value = "/user/schedule/get-schedule-by-station-date")
@@ -66,36 +55,47 @@ public class UserController {
         return scheduleService.getScheduleDtosByStationNameAndDepartDate(station, date);
     }
 
-    @GetMapping(value = "/user/edit-user/{userName}")
-    public ModelAndView getEditUserPage(@PathVariable("userName") String userName){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("roles", roleService.getRolesNames());
-        modelAndView.addObject("userDto", userService.findByUsername(userName));
-        modelAndView.setViewName("userEditPage");
-        return modelAndView;
+    @GetMapping(value = "/admin/get-all-roles")
+    public @ResponseBody List<RoleDto> getAllRoles(){
+        return roleService.getRolesNames();
     }
 
-    @PostMapping(value = "/user/edit-user/result")
-    public String editUserResult(@ModelAttribute("userDto") UserDto userDto){
-        userService.update(userDto);
-        return "redirect:/railroad/user";
+    @PostMapping(value = "/admin/update")
+    public void editUserResult(@RequestParam String userName, String role){
+        userService.update(userName, role);
+    }
+
+    @PostMapping(value = "/admin/user-delete")
+    public void deleteUserResult(@RequestParam String userName){
+        userService.delete(userName);
+    }
+
+    @GetMapping(value = "/user/get-actual-tickets")
+    public @ResponseBody
+    List<TicketDto> getStartContentUserPage() {
+        return businessService.getActualTickets();
+    }
+
+    @GetMapping(value = "/user/get-not-actual-tickets")
+    public @ResponseBody List<TicketDto> getNotActualTickets(){
+        return businessService.getNotActualTickets();
+    }
+
+    @GetMapping(value = "user/schedule-view")
+    public String getSchedulePageForUser(Model model){
+        model.addAttribute("date", new Date());
+        return "viewSchedulePage";
     }
 
     @GetMapping(value = "user/passenger/all")
     public String getUserPassengerPage(Model model){
-        model.addAttribute("passenger", new PassengerDto());
+        model.addAttribute("currentPassenger", new PassengerDto());
         return "userPassengersPage";
     }
 
     @GetMapping(value = "user/passenger/all-for-current-user")
     public @ResponseBody List<PassengerDto> getPassengersOfUser(){
         return businessService.getPassengersOfCurrentUser();
-    }
-
-    @GetMapping(value = "/user/delete-user/{userName}")
-    public String deleteUserResult(@PathVariable("userName") String userName){
-       userService.delete(userName);
-        return "redirect:/railroad/user";
     }
 
     @InitBinder

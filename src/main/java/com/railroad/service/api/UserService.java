@@ -1,7 +1,7 @@
 package com.railroad.service.api;
 
 import com.railroad.dto.user.UserDto;
-import com.railroad.model.UserEntity;
+import com.railroad.entity.UserEntity;
 import java.util.List;
 
 /**
@@ -32,11 +32,7 @@ public interface UserService {
 
     boolean isAlreadyExist(String userName);
 
-    /**
-     * The method sends userDto to dao layer for update userEntity
-     * @param userDto
-     */
-    void update(UserDto userDto);
+    void update(String userName, String role);
 
     /**
      * The method sends UserEntity by userName to dao layer for remove

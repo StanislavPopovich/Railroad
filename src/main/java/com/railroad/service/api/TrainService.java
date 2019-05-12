@@ -1,12 +1,12 @@
 package com.railroad.service.api;
 
 import com.railroad.dto.train.TrainDto;
-import com.railroad.model.TrainEntity;
+import com.railroad.entity.TrainEntity;
 
 import java.util.List;
 
 /**
- * Service interface for {@link com.railroad.model.TrainEntity}
+ * Service interface for {@link com.railroad.entity.TrainEntity}
  * @author Stanislav Popovich
  * @version 1.0
  */
@@ -29,4 +29,6 @@ public interface TrainService {
     TrainDto getTrainDtoByNumber(Integer trainNumber);
 
     List<Integer> getAllTrainsNumbers();
+
+    boolean trainAlreadyExist(Integer trainNumber);
 }

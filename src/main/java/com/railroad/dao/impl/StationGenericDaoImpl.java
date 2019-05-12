@@ -1,7 +1,8 @@
 package com.railroad.dao.impl;
 
 import com.railroad.dao.api.StationGenericDao;
-import com.railroad.model.StationEntity;
+import com.railroad.entity.StationEntity;
+import com.railroad.entity.TrainEntity;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -32,7 +33,8 @@ public class StationGenericDaoImpl extends BaseGenericDao<StationEntity, Long> i
 
     @Override
     public List<String> getAllStationNames() {
-        List<String> stationNames = entityManager.createQuery("select s.name from StationEntity s").getResultList();
+        List<String> stationNames = entityManager.createQuery("select s.name from StationEntity s " +
+                "order by s.name").getResultList();
         return stationNames;
     }
 
@@ -41,5 +43,13 @@ public class StationGenericDaoImpl extends BaseGenericDao<StationEntity, Long> i
         StationEntity stationEntity = (StationEntity)entityManager.
                 createQuery("select s from StationEntity s order by s.id desc ").setMaxResults(1).getSingleResult();
         return stationEntity.getId().intValue();
+    }
+
+    @Override
+    public Long getCountStations(String stationName) {
+        Long count = (Long) entityManager.createQuery("select count(s) from " +
+                "StationEntity s where s.name= :name").setParameter("name", stationName).
+                getSingleResult();
+        return count;
     }
 }

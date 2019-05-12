@@ -16,7 +16,7 @@ function checkLastName() {
             turnOnButton();
         }
     }else if (!lastName.value.match(lastNameReg)) {
-        getMessage("Last name must be contain only letters and \"-\" character", "error_lastName");
+        getMessage("Insert only letters", "error_lastName");
         if (lastName.classList.contains("correct")) {
             lastName.classList.remove("correct");
 
@@ -45,7 +45,7 @@ function checkEmail() {
             turnOnButton();
         }
     } else {
-        getMessage("Email is not correct. Example: example@email.com", "error_email");
+        getMessage("Required format: example@email.com", "error_email");
         if (email.classList.contains("correct")) {
             email.classList.remove("correct");
             turnOnButton();
@@ -65,7 +65,7 @@ function checkName() {
             turnOnButton();
         }
     }else if (!passengerName.value.match(nameReg)) {
-        getMessage("Name must be contain only letters", "error_name");
+        getMessage("Insert only letters", "error_name");
         if (passengerName.classList.contains("correct")) {
             passengerName.classList.remove("correct");
             turnOnButton();
@@ -88,13 +88,13 @@ function checkBirthDate() {
             turnOnButton();
         }
     }else if (!birthDate.value.match(birthDateReg)) {
-        getMessage("Birth date must bne in yyyy-MM-dd format", "error_birthDate");
+        getMessage("Required format: yyyy-MM-dd", "error_birthDate");
         if (birthDate.classList.contains("correct")) {
             birthDate.classList.remove("correct");
             turnOnButton();
         }
     }else if(!validYear(date[0])){
-        getMessage("Birth date must be between 1900 and 2019 years", "error_birthDate");
+        getMessage("Insert date between 1900 and 2019", "error_birthDate");
         if (birthDate.classList.contains("correct")) {
             birthDate.classList.remove("correct");
             turnOnButton();

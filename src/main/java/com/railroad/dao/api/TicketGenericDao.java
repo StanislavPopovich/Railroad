@@ -1,6 +1,6 @@
 package com.railroad.dao.api;
 
-import com.railroad.model.*;
+import com.railroad.entity.*;
 
 import java.util.Date;
 import java.util.List;

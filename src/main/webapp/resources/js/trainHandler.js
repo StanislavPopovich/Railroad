@@ -40,128 +40,140 @@ $(document).ready(function () {
         }
     };
 
+    //getting all trains from db and render content
     function getAllTrains(){
         $.ajax({
-            url : '/railroad/trains/all',
+            url : '/railroad/trains/get-all',
             type : "GET",
             dataType : "json",
             success: function (data) {
-                var  markup = '<table class="header_table"><tr><th>' + findTableText[local].trainNumber +
-                    '</th><th>' + findTableText[local].seats + '</th><th class="th_route">' +
-                    findTableText[local].route + '</th><th class="th_hidden"></th>' +
-                    '<th class="th_hidden"></th></tr></table>';
-                markup+='<div class="find_content"><table>';
+                let  markup = '';
                 if(data.length === 0){
-                    markup+= '<tr><th>' + findTableText[local].trainsNotFound + '</th></tr>'
+                    markup+= '<h1>' + findTableText[local].trainsNotFound + '</h1>'
                 }
-                for(var i = 0; i < data.length; i++){
-                    markup+='<tr>';
-                    markup+= '<td>' + data[i].number + '</td>';
-                    markup+= '<td>' + data[i].seats + '</td>';
-                    markup+= '<td class="td_route">';
-                    for(var j = 0; j < data[i].stations.length; j++){
-                        if(j != data[i].stations.length - 1){
-                            markup+= data[i].stations[j] + ' => ';
-                        }else{
-                            markup+= data[i].stations[j];
-                        }
-                    }
-                    markup+= '</td>';
-                    markup+='</tr>';
+                for(let i = 0; i < data.length; i++){
+                    let item = '';
+                    item+='<div class="item">' +
+                        '    <div class="wrapper_item">' +
+                        '        <div class="train">' +
+                        '            <div class="img"><img src="/resources/img/train.svg"></div>' +
+                        '            <div class="trainNumber_1">№' + data[i].number + '</div>' +
+                        '        </div>' +
+                        '    </div>' +
+                        '    <div class="wrapper_item">' +
+                        '        <div class="wrapper_rout">';
+
+                                    item+='<div class="route">' +
+                                '                <div class="label"><span>From</span></div>' +
+                                '                <div class="departStation_1">' + data[i].stations[0] + '</div>' +
+                                '            </div>' +
+                                '            <div class="arrow_right"></div>';
+
+                                    item+='<div class="route">' +
+                                '                <div class="label"><span>To</span></div>' +
+                                '                <div class="arrivalStation_1">' + data[i].stations[data[i].stations.length - 1] + '</div>' +
+                                '            </div>';
+
+
+                        item+='</div></div>';
+
+                        item+=' <div class="number_tickets">' +
+                            '        <div class="label"><span>Number of tickets</span></div>' +
+                            '        <div>' + data[i].seats + '</div>' +
+                            '    </div>' +
+                                '<div class="btn_details">' +
+                                '   <div class="btn btn_blue">Details</div>' +
+                                '</div>' +
+                        '</div>';
+                    markup += item;
                 }
-                markup+='</table></div>';
-                $('#find_trains').append().html(markup);
+
+                $('#items').append().html(markup);
+                let itemsContent = document.getElementById("items");
+                if(itemsContent){
+                    itemsContent.addEventListener("click", getTrainDetail, false);
+                }
+                let addTrainListener = document.getElementById("btn_add");
+                if(addTrainListener){
+                    addTrainListener.addEventListener("click", redirectToAddTrainPage, false);
+                }
             }
         });
     }
+
     getAllTrains();
 
-    //Returns all routes between departing and arrival stations
-    $('#end_station').on('change', function () {
-        var stations = {};
-        stations["departStation"] = $("#start").val();
-        stations["arrivalStation"] = $("#end").val();
+    //getting train by number and create modal window
+    function getTrainDetail(event) {
+        let current = event.target;
+        if(current.classList.contains("btn")){
+            let item = FindElem(current, "item");
+            let trainNumber = item.querySelector(".trainNumber_1").textContent.split("№")[1];
+            if(trainNumber){
+                getSelectedTrain(trainNumber);
+            }
+        }
+    }
+
+    function getSelectedTrain(trainNumber) {
+        let train = {"trainNumber": trainNumber };
+
         $.ajax({
-            url : '/railroad/train/all-routes',
+            url : '/railroad/train/by-number',
             type : "POST",
-            data : stations,
-            dataType : "json",
+            data : train,
             success : function(data){
-                var markup = '';
-                for(var i = 0; i < data.length; i++){
-                    markup+= '<div class="wrapper_radio item">' +
-                    '<input type="radio" id="route'+ i + '" name="route" value="' + data[i].stations + '">' +
-                    '<label for="route'+ i + '">';
-                    for(var j = 0; j < data[i].stations.length; j++){
-                        markup+= '<div>' + data[i].stations[j] + '</div>';
-                    }
-                    markup+= '</label>' +
-                    '</div>';
-                }
-                $('#routes').append().html(markup);
-                console.log(addInputsForNuberAndSeats());
-                $('#fields_button').append().html(addInputsForNuberAndSeats());
-
-                var markup2 = '<a href="/railroad/station/add"><button class="btn btn_blue">Add new station</button></a>' +
-                    '<a href="/railroad/way/add"><button class="btn btn_blue">Add way between stations</button></a>';
-                $('#buttons').append().html(markup2);
-                addTrainButton();
-
+                createModalTrain(data);
             },
         })
-    });
-
-    function addTrainButton(){
-        $('#add_train_button').on('click', function (event) {
-            event.preventDefault();
-            var stations = $("input[name='route']:checked").val().split(",");
-            var number =  $("#number").val();
-            var seats =  $("#seats").val();
-            $('#train_add_number').val(number);
-            $('#train_add_seats').val(seats);
-            $('#train_add_stations').val(stations);
-            autoSubmitTrainFrom();
-        })
-    }
-    function autoSubmitTrainFrom() {
-        var form =document.getElementById("trainForm");
-        form.submit();
     }
 
-    function addInputsForNuberAndSeats(){
-        var markup = '<div class="wrapper_input">\n' +
-            '<label for="number"> Number </label>\n' +
-            '<input id="number" name="number" type="text" value="">\n' +
-            '</div>'+
-            '<div class="wrapper_input">\n' +
-            '<label for="seats"> Seats </label>\n' +
-            '<input id="seats" name="seats" type="text" value="">\n' +
-            '</div>' +
-            '<button id="add_train_button" class="btn btn_blue" type="submit">Add train</button>';
-        markup += '<form id="trainForm" action="/railroad/train/add" method="post">' +
-            '<input id="train_add_number" name="number" type="hidden" value>' +
-            '<input id="train_add_seats" name="seats" type="hidden" value>' +
-            '<input id="train_add_stations" name="stations" type="hidden" value>';
-        return markup;
-    }
-
-    // Returns station without departing station
-    $('#start_station').on('change',function () {
-        var station = {};
-        station["departStation"] = $("#start").val();
-        $.ajax({
-            url : '/railroad/dest-station',
-            type : "POST",
-            data : station,
-            success : function (data) {
-                var markup = '';
-                markup+= '<option value="0">' + findTableText[local].arrival + '</option>';
-                for(var i = 0; i < data.length; i++){
-                    markup+= '<option value="' + data[i] + '">' + data[i] + '</option>'
+    function createModalTrain(train) {
+        let markup = "<div class='wrapper_modal'>" +
+            "        <div class='close'></div>" +
+            "        <div class='modal_content'>" +
+            "            <div>" +
+            "                <div>Train number:</div>" +
+            "                <div>" + train.number + "</div>" +
+            "            </div>" +
+            "            <div>" +
+            "                <div>Number of seats:</div>" +
+            "                <div>" + train.seats + "</div>" +
+            "            </div>" +
+            "            <div>Stations:</div>" +
+            "            <div>";
+                for(let i =0; i < train.stations.length; i++){
+                    markup += "<div class='station'>"+ train.stations[i] + "</div>";
                 }
-                $('#end').html(markup);
-            }
-        })
-    });
+            markup +="         </div>" +
+            "        </div>";
+
+        $('body').append(markup);
+        let wrapperModal = document.querySelector(".wrapper_modal");
+        wrapperModal.addEventListener("click", removeModal, false);
+    }
+
+    function removeModal(event) {
+        let body = document.querySelector('body');
+        let wrapperModal = document.querySelector('.wrapper_modal');
+        let currentClass = event.target.className;
+        if(currentClass === "wrapper_modal" || currentClass === "close") {
+            body.removeChild(wrapperModal);
+        }
+
+    }
+
+    function FindElem(self, classElem){
+        let item = self.parentElement;
+        if(item.classList.contains(classElem)){
+            return item;
+        } else {
+            return FindElem(item, classElem);
+        }
+    }
+
+    function redirectToAddTrainPage() {
+        window.location.href = "/railroad/train/add";
+    }
 });
 

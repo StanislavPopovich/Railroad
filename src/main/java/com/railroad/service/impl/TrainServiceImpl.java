@@ -4,8 +4,8 @@ import com.railroad.dao.api.StationGenericDao;
 import com.railroad.dao.api.TrainGenericDao;
 import com.railroad.dto.train.TrainDto;
 import com.railroad.mapper.TrainEntityDtoMapper;
-import com.railroad.model.StationEntity;
-import com.railroad.model.TrainEntity;
+import com.railroad.entity.StationEntity;
+import com.railroad.entity.TrainEntity;
 import com.railroad.service.api.TrainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,22 +32,18 @@ public class TrainServiceImpl implements TrainService {
      * @param trainDto
      */
     @Override
-    @Transactional
     public void save(TrainDto trainDto) {
         TrainEntity trainEntity = trainDtoMapper.trainDtoToTrainEntity(trainDto);
-        if(!trainNumberIsExist(trainEntity)){
-            List<StationEntity> stations = new ArrayList<>();
-            for (String station : trainDto.getStations()) {
-                stations.add(stationDao.findByStationName(station));
-            }
-            trainEntity.setStationEntities(stations);
-            trainGenericDao.save(trainEntity);
+        List<StationEntity> stations = new ArrayList<>();
+        for (String station : trainDto.getStations()) {
+            stations.add(stationDao.findByStationName(station));
         }
-
+        trainEntity.setStationEntities(stations);
+        trainGenericDao.save(trainEntity);
     }
-
-    private boolean trainNumberIsExist(TrainEntity trainEntity){
-        if(trainGenericDao.getCountTrains(trainEntity) > 0){
+    @Override
+    public boolean trainAlreadyExist(Integer trainNumber){
+        if(trainGenericDao.getCountTrains(trainNumber) > 0){
            return true;
         }
         return false;

@@ -3,8 +3,8 @@ package com.railroad.mapper;
 import com.railroad.dto.train.TrainDto;
 import com.railroad.dto.train.TrainScheduleDto;
 import com.railroad.dto.train.TrainTargetDto;
-import com.railroad.model.StationEntity;
-import com.railroad.model.TrainEntity;
+import com.railroad.entity.StationEntity;
+import com.railroad.entity.TrainEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

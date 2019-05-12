@@ -10,36 +10,51 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-<section class="main">
-    <div class="container">
-        <div class="find_container">
-            <form id="start_station">
-                <form:select cssClass="select" id="start" type="text" path="departStation">
-                    <form:option value="0"><spring:message code="departStation"/></form:option>
-                    <form:options items="${stations}"/>
-                </form:select>
-            </form>
-            <form id="end_station_login">
-                <form:select cssClass="select" id="end" type="text" path="arrivalStation">
-                    <form:option value="0"><spring:message code="arrivalStation"/></form:option>
-                </form:select>
-            </form>
-            <form id="date_depart">
-                <fmt:formatDate value="${date}" pattern="yyyy-MM-dd" var="trainDate"/>
-                <form:input cssClass="date" id="date" type="date" path="date" value="${trainDate}"/>
-            </form>
-            <form id="findButton">
-                <button id="findBtn"><spring:message code="findButton"/></button>
-            </form>
-        </div>
-        <div id="find">
-
+<section class="section main">
+    <div class="wrap">
+        <div class="finding_menu">
+            <h1>Tickets search</h1>
+            <form:form method="POST" cssClass="form" modelAttribute="searchData" action="/railroad/trains">
+                <div class="wrapper_dropdown">
+                    <small>From</small>
+                    <div class="wrapper_dropdown_in js-dropdown">
+                        <span class="dropdown_value dropdown">Select station</span>
+                        <input id="depart_station" class="js-dropdown_value dropdownCheck" type="text" name="departStation">
+                        <ul id="from_stations">
+                        </ul>
+                    </div>
+                </div>
+                <div class="wrapper_dropdown">
+                    <small>To</small>
+                    <div class="wrapper_dropdown_in js-dropdown">
+                        <span class="dropdown_value dropdown">Select station</span>
+                        <input id="arrival_station" class="js-dropdown_value dropdownCheck" type="text" name="arrivalStation">
+                        <ul id="to_stations">
+                        </ul>
+                    </div>
+                </div>
+                <div id="date_depart" class="wrapper_input">
+                    <small>Departure</small>
+                    <div class="wrapper_input_in">
+                        <fmt:formatDate value="${currentDate}" pattern="yyyy-MM-dd" var="date"/>
+                        <form:input cssClass="date" id="depart_date" type="date" path="departDate" value="${date}"/>
+                    </div>
+                </div>
+                <div id="date_return_depart" class="wrapper_input">
+                    <small>Return</small>
+                    <div class="wrapper_input_in">
+                        <form:input cssClass="date" id="depart_return_date" type="date" path="departReturnDate"/>
+                    </div>
+                </div>
+            </form:form>
+            <div class="btn btn_blue" id="findBtn"><spring:message code="findButton"/></div>
         </div>
     </div>
 </section>
 <jsp:include page="footer.jsp"/>
 <script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="/resources/js/ajaxRequestsHandler.js"></script>
+<script type="text/javascript" src="/resources/js/findingMenuHandler.js"></script>
 <script type="text/javascript" src="/resources/js/searchDateValidCheck.js"></script>
+<script type="text/javascript" src="/resources/js/generalFunctions.js"></script>
 </body>
 </html>

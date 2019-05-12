@@ -1,8 +1,8 @@
 package com.railroad.mapper;
 
 import com.railroad.dto.user.UserDto;
-import com.railroad.model.RoleEntity;
-import com.railroad.model.UserEntity;
+import com.railroad.entity.RoleEntity;
+import com.railroad.entity.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

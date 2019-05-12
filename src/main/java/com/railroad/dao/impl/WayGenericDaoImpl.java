@@ -1,7 +1,7 @@
 package com.railroad.dao.impl;
 
 import com.railroad.dao.api.WayGenericDao;
-import com.railroad.model.WayEntity;
+import com.railroad.entity.WayEntity;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -23,11 +23,14 @@ public class WayGenericDaoImpl extends BaseGenericDao<WayEntity, Long> implement
         super(WayEntity.class);
     }
 
-    @SuppressWarnings("unchecked")
+
     @Override
-    public List<WayEntity> findByStationId(Long stationId) {
-        List<WayEntity> ways = entityManager.createQuery("select w from WayEntity w where w.firstStation=:firstStation").
-                setParameter("firstStation", stationId).getResultList();
-        return ways;
+    public Long getCountWay(WayEntity wayEntity) {
+        Long count = (Long) entityManager.createQuery("select count(w) from " +
+                "WayEntity w where w.firstStationEntity= :firstStation and w.secondStationEntity= :secondStation")
+                .setParameter("firstStation", wayEntity.getFirstStationEntity()).
+                        setParameter("secondStation", wayEntity.getSecondStationEntity()).
+                getSingleResult();
+        return count;
     }
 }

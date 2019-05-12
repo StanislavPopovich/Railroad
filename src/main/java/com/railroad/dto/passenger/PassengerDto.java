@@ -1,8 +1,8 @@
 package com.railroad.dto.passenger;
 
-import com.railroad.validator.ValidDay;
-import com.railroad.validator.ValidMonth;
-import com.railroad.validator.ValidYear;
+import com.railroad.validator.ValidBirthDay;
+import com.railroad.validator.ValidBirthMonth;
+import com.railroad.validator.ValidBirthYear;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -27,9 +27,9 @@ public class PassengerDto {
     @NotNull(message = "{myBirthDate.notNull.error}")
     @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$",
             message = "{myBirthDate.pattern.error}")
-    @ValidYear(message = "{myBirthDate.year.error}")
-    @ValidMonth(message = "{myBirthDate.month.error}")
-    @ValidDay(message = "{myBirthDate.day.error}")
+    @ValidBirthYear(message = "{myBirthDate.year.error}")
+    @ValidBirthMonth(message = "{myBirthDate.month.error}")
+    @ValidBirthDay(message = "{myBirthDate.day.error}")
     private String birthDate;
 
     public PassengerDto(){}

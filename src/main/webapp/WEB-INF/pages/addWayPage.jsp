@@ -5,45 +5,59 @@
 <%@ taglib  prefix = "spring"  uri = "http://www.springframework.org/tags" %>
 <html>
 <head>
-    <title>Add wayEntity</title>
+    <title>Add way</title>
 </head>
 <body>
 <jsp:include page="header.jsp"/>
 <section class="main">
-    <div class="container">
-        <security:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')" var="isUser"/>
-        <c:if test="${isUser}">
-            <div class="wrapper_form">
-                <div class="way_form">
-                    <div class="wrapper_select">
-                        <form:select cssClass="select" id="start" type="text" path="departStation" >
-                            <form:option value="0"><spring:message code="departStation"/></form:option>
-                            <form:options items="${stations}"/>
-                        </form:select>
+    <div class="wrap">
+        <div class="wrap_modal_form">
+            <div class="modal_form modal_type_two">
+                <h1><spring:message code="addNewWay"/></h1>
+                <c:if test="${exist}">
+                    <div class="back_error">
+                        <spring:message code="existWay"/>
                     </div>
-                    <div class="wrapper_select">
-                        <form:select cssClass="select" id="end" type="text" path="arrivalStation">
-                            <form:option value="0"><spring:message code="arrivalStation"/></form:option>
-                        </form:select>
+                </c:if>
+                <c:if test="${incorrectSelect}">
+                    <div class="back_error">
+                        <spring:message code="selectStationError"/>
                     </div>
-                    <div class="wrapper_input">
-                        <form:label path="distanceForm">Distance, km</form:label>
-                        <form:input id="distance" type="text" path="distanceForm"/>
+                </c:if>
+                <form:form method="POST" modelAttribute="wayForm">
+                    <div class="wrapper_dropdown">
+                        <small><spring:message code="from"/></small>
+                        <div class="wrapper_dropdown_in js-dropdown">
+                            <span class="dropdown_value dropdown"><spring:message code="selectStation"/></span>
+                            <input id="firstStation" class="js-dropdown_value dropdownCheck" type="text"
+                                   name="firstStation">
+                            <div class="error"><form:errors path="firstStation"/></div>
+                            <ul id="from_stations"></ul>
+                        </div>
                     </div>
-                    <div class="wrapper_btn">
-                        <button id="add_way_form" class="btn btn_blue" type="submit">Add</button>
+                    <div class="wrapper_dropdown">
+                        <small><spring:message code="to"/></small>
+                        <div class="wrapper_dropdown_in js-dropdown">
+                            <span class="dropdown_value dropdown"><spring:message code="selectStation"/></span>
+                            <input id="secondStation" class="js-dropdown_value dropdownCheck" type="text"
+                                   name="secondStation">
+                            <div class="error"><form:errors path="secondStation"/></div>
+                            <ul id="to_stations">
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <form:form  method="POST" modelAttribute="wayForm">
-                    <form:hidden id="way_first_station" path="firstStation"/>
-                    <form:hidden id="way_second_station" path="secondStation"/>
+                    <button class="btn btn_blue" id="button" type="submit" disabled="true">
+                        <spring:message code="addWayButton"/></button>
                 </form:form>
             </div>
-        </c:if>
+        </div>
     </div>
 </section>
 <jsp:include page="footer.jsp"/>
 <script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="/resources/js/wayHandler.js"></script>
+<script type="text/javascript" src="/resources/js/message.js"></script>
+<script type="text/javascript" src="/resources/js/generalFunctions.js"></script>
+<script type="text/javascript" src="/resources/js/addWayHandler.js"></script>
+<script type="text/javascript" src="/resources/js/validator.js"></script>
 </body>
 </html>

@@ -6,32 +6,38 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-<h1>Users</h1>
-<div>
-    <table>
-        <tr>
-            <th width="100">User Name</th>
-            <th width="100">Roles</th>
-            <th width="60">Edit</th>
-            <th width="60">Delete</th>
-        </tr>
-        <c:forEach items="${users}" var="user">
-            <tr>
-                <td>${user.userName}</td>
-                <td>
-                    <c:forEach items="${user.roles}" var="role" varStatus="status">
-                        ${role}
-                        <c:if test="${!status.last}">
-                            /
-                        </c:if>
-                    </c:forEach>
-                </td>
-                <td><a href="<c:url value='/railroad/admin/all-users/edit/${user.userName}'/>">Edit Role</a></td>
-                <td><a href="<c:url value='/railroad/admin/all-users/delete/${user.userName}'/>">Delete</a></td>
-            </tr>
-        </c:forEach>
-    </table>
-    <jsp:include page="footer.jsp"/>
-</div>
+<section class="main">
+    <div class="wrapper_center">
+        <div id="" class="wrap wrapper-flex">
+            <div id="search_menu" class="left_menu type_black">
+                <div>
+                    <div class="title">Admin menu</div>
+                    <button class="btn btn_blue" id="btn_edit_role" type="submit" disabled="true">Edit role</button>
+                    <button class="btn btn_blue" id="btn_remove" type="submit" disabled="true">Remove</button>
+                </div>
+            </div>
+            <div class="content content_type-users">
+                <div class="users_caption">
+                    <div>Login</div>
+                    <div>Role</div>
+                </div>
+                <div id="items" class="items">
+                    <div class="item">
+                        <div class="item_select"><input type="radio" name="user" id="select_0"></div>
+                        <div class="wrapper_user">
+                            <div class="login">Admin</div>
+                            <div class="role">ADMIN</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<jsp:include page="footer.jsp"/>
+<script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/resources/js/validator.js"></script>
+<script type="text/javascript" src="/resources/js/adminHandler.js"></script>
+<script type="text/javascript" src="/resources/js/generalFunctions.js"></script>
 </body>
 </html>

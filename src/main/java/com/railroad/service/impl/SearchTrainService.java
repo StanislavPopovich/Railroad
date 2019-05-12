@@ -1,13 +1,17 @@
 package com.railroad.service.impl;
 
+import com.railroad.dao.api.StationGenericDao;
+import com.railroad.dao.api.TrainGenericDao;
 import com.railroad.dto.train.TrainTargetDto;
-import com.railroad.dto.train.TrainTrasferTargetDto;
+import com.railroad.dto.train.TrainTransferTargetDto;
 import com.railroad.mapper.TrainEntityDtoMapper;
-import com.railroad.model.ScheduleEntity;
-import com.railroad.model.StationEntity;
-import com.railroad.model.TrainEntity;
+import com.railroad.entity.ScheduleEntity;
+import com.railroad.entity.StationEntity;
+import com.railroad.entity.TrainEntity;
 import com.railroad.service.api.ScheduleService;
 import com.railroad.service.api.TicketService;
+import com.railroad.service.api.TrainService;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +25,8 @@ import java.util.List;
 @Service
 public class SearchTrainService extends BaseService{
 
+    private static final Logger logger = Logger.getLogger(SearchTrainService.class);
+
     @Autowired
     private ScheduleService scheduleService;
 
@@ -29,6 +35,27 @@ public class SearchTrainService extends BaseService{
 
     @Autowired
     private TicketService ticketService;
+    @Autowired
+    private TrainService trainService;
+    @Autowired
+    private TrainGenericDao trainGenericDao;
+    @Autowired
+    private StationGenericDao stationGenericDao;
+
+    @Transactional
+    public List<TrainTransferTargetDto> getAlternativeTrasfer(String departStation, String arrivalStation, Date departDate){
+        StationEntity stationEntity = stationGenericDao.findByStationName(departStation);
+        StationEntity station = stationGenericDao.findByStationName(arrivalStation);
+        List<TrainEntity> trains = trainGenericDao.getAllByDepartStation(stationEntity);
+        List<TrainEntity> trains1 = trainGenericDao.getAllByDepartAndArrivalStation(stationEntity, station);
+        System.out.println("\n");
+        System.out.println("\n");
+        System.out.println("\n");
+        for(TrainEntity trainEntity:trains1){
+            System.out.println(trainEntity.getNumber());
+        }
+        return null;
+    }
 
     @Transactional
     public List<TrainTargetDto> getDirectTrains(String departStation, String arrivalStation, Date departDate) {
@@ -79,36 +106,58 @@ public class SearchTrainService extends BaseService{
         return trains;
     }
 
+    /*private List<ScheduleEntity> getScheduleForTrainInOrder(TrainEntity trainEntity){
+
+    }*/
+
     @Transactional
-    public List<TrainTrasferTargetDto> getTransferTrains(String departStation, String arrivalStation, Date departDate){
+    public List<TrainTransferTargetDto> getTransferTrains(String departStation, String arrivalStation, Date departDate){
         //getting schedules for station on departing date
         List<ScheduleEntity> departStationSchedule = scheduleService.
                 getSchedulesByStationNameAndDepartDate(departStation, departDate);
 
         //creating list for target trains
-        List<TrainTrasferTargetDto> trains = new ArrayList<>();
+        List<TrainTransferTargetDto> trains = new ArrayList<>();
 
         //date format for client
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-
+      /*  logger.info("depart Station " + departStation);*/
         for(ScheduleEntity scheduleEntity: departStationSchedule){
             TrainEntity firstTrain = scheduleEntity.getTrainEntity();
+
+           /* logger.info("train number: " + firstTrain.getNumber() + " route: " + firstTrain.getStationEntities().get(0) +
+                    "-" + firstTrain.getStationEntities().get(firstTrain.getStationEntities().size() - 1));*/
+
             List<StationEntity> firstTrainStations = firstTrain.getStationEntities();
+
+           /* logger.info("stations:");
+            for(StationEntity st: firstTrainStations){
+                logger.info(st.getName());
+            }*/
+
             int indexOfDepartStation = geiIndexOfStation(firstTrainStations, departStation);
+
+           /* logger.info("index station: " + indexOfDepartStation);*/
+
             List<ScheduleEntity> trainSchedules = scheduleService.
                     findSchedulesForTrain(firstTrain, scheduleEntity.getDepartDate());
+           /* logger.info("train schedule: ");*/
+
             for(int i = indexOfDepartStation + 1; i < trainSchedules.size(); i++){
+
                 ScheduleEntity arrivalSchedule = trainSchedules.get(i);
+
                 List<ScheduleEntity> scheduleForTransferStation = scheduleService.
                         getSchedulesByStationNameAndDepartDate(arrivalSchedule.getStationEntity().getName(),
                                 arrivalSchedule.getArrivalDate());
-                for(ScheduleEntity trasferStationSchedule: scheduleForTransferStation){
-                    TrainEntity secondTrain = trasferStationSchedule.getTrainEntity();
+
+                for(ScheduleEntity transferStationSchedule: scheduleForTransferStation){
+                    TrainEntity secondTrain = transferStationSchedule.getTrainEntity();
                     if(secondTrain.getNumber() != firstTrain.getNumber()){
                         List<StationEntity> secondTrainStations = secondTrain.getStationEntities();
-                        int indexOfTrasferStation = geiIndexOfStation(secondTrainStations, arrivalSchedule.getStationEntity().getName());
+                        int indexOfTransferStation = geiIndexOfStation(secondTrainStations, arrivalSchedule.getStationEntity().getName());
                         int indexOfArrivalStation = geiIndexOfStation(secondTrainStations, arrivalStation);
-                        if(checkRouteOfTrain(indexOfTrasferStation, indexOfArrivalStation)){
+                        if(checkRouteOfTrain(indexOfTransferStation, indexOfArrivalStation)){
                             TrainTargetDto firstTrainDto = trainEntityDtoMapper.
                                     trainEntityToTrainSearchDto(firstTrain);
 
@@ -119,9 +168,9 @@ public class SearchTrainService extends BaseService{
                                 TrainTargetDto secondTrainDto = trainEntityDtoMapper.
                                         trainEntityToTrainSearchDto(secondTrain);
                                 List<ScheduleEntity> secondTrainSchedules = getScheduleForTrainInOrder(secondTrain,
-                                        trasferStationSchedule.getDepartDateFromFirstStation());
+                                        transferStationSchedule.getDepartDateFromFirstStation());
                                 int secondTrainTickets = getCountTickets(secondTrainSchedules, secondTrain,
-                                        indexOfTrasferStation, indexOfArrivalStation);
+                                        indexOfTransferStation, indexOfArrivalStation);
                                 if(secondTrainDto.getSeats() - secondTrainTickets > 0){
                                     for(ScheduleEntity firstTrainSchedule: firstTrainSchedules){
                                         if(checkDepartDate(firstTrainSchedule.getDepartDate())){
@@ -145,7 +194,7 @@ public class SearchTrainService extends BaseService{
                                             secondTrainDto.setSeats(secondTrainDto.getSeats() - secondTrainTickets);
                                         }
                                     }
-                                    TrainTrasferTargetDto train = new TrainTrasferTargetDto();
+                                    TrainTransferTargetDto train = new TrainTransferTargetDto();
                                     List<TrainTargetDto> twoTrains = new ArrayList<>();
                                     twoTrains.add(firstTrainDto);
                                     twoTrains.add(secondTrainDto);
@@ -164,16 +213,6 @@ public class SearchTrainService extends BaseService{
 
                 }
             }
-        }
-        System.out.println("\n");
-        System.out.println("size " + trains.size());
-        System.out.println("\n");
-        for(TrainTrasferTargetDto train: trains){
-            System.out.println(train.getTransferStation());
-            System.out.println(train.getSeats());
-            System.out.println(train.getTrains().get(0).toString());
-            System.out.println(train.getTrains().get(1).toString());
-            System.out.println("-------------------------");
         }
         return trains;
     }

@@ -10,25 +10,43 @@
 <body>
 <jsp:include page="header.jsp"/>
 <section class="main">
-    <div class="container">
-        <h2 class="h2">Train passengers</h2>
-        <div class="select_train">
-            <form:select cssClass="select" id="train_number" type="text" path="trainsNumbers">
-                <form:option value="0"><spring:message code="trainNumbers"/></form:option>
-                <form:options items="${trainsNumbers}"/>
-            </form:select>
-            <form:select cssClass="select" id="train_dates" type="text" path="departDate">
-                <form:option value="0"><spring:message code="departDateInfo"/></form:option>
-            </form:select>
-            <div id="btn_train_date_select" class="btn btn_blue">Select</div>
-        </div>
-        <div id="find_passengers">
+    <div class="wrapper_center">
+        <div id="" class="wrap wrapper-flex">
+            <div id="search_menu" class="left_menu type_black">
+                <div>
+                    <div class="title"><spring:message code="trainPassengers"/></div>
+                    <div class="wrapper_dropdown">
+                        <div class="wrapper_dropdown_in js-dropdown">
+                            <span class="dropdown_value dropdown"><spring:message code="trainNumber"/></span>
+                            <input id="train_number" class="js-dropdown_value dropdownCheck" type="text"
+                                   name="departStation">
+                            <ul id="train_numbers"></ul>
+                        </div>
+                    </div>
+                    <div class="wrapper_dropdown">
+                        <div class="wrapper_dropdown_in js-dropdown">
+                            <span class="dropdown_value dropdown"><spring:message code="trainDates"/></span>
+                            <input id="train_date" class="js-dropdown_value dropdownCheck" type="text"
+                                   name="arrivalStation">
+                            <ul id="train_dates"></ul>
+                        </div>
+                    </div>
+                    <button class="btn btn_blue" id="btn_train_date_select" type="submit" disabled=""><spring:message code="selectTrainAndDateButton"/></button>
+                </div>
+            </div>
+            <div class="content content_type-passenger-m">
+                <div id="items" class="items">
 
+                </div>
+            </div>
         </div>
     </div>
 </section>
 <jsp:include page="footer.jsp"/>
 <script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="/resources/js/trainPassengersHandler.js"></script>
+<script type="text/javascript" src="/resources/js/generalFunctions.js"></script>
+<script type="text/javascript" src="/resources/js/validator.js"></script>
+<script type="text/javascript" src="/resources/js/findingMenuHandler.js"></script>
 </body>
 </html>

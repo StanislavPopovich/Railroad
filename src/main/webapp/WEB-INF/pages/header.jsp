@@ -10,54 +10,52 @@
 </head>
 <body>
 <header class="header">
-    <div class="container">
+    <div class="wrap wrapper-flex">
         <a class="logo" href="<c:url value='/railroad'/>">
             <img src="/resources/img/new_logo.svg"/>
+            <p><spring:message code="headerWords"/></p>
         </a>
-        <p class="header_words"><spring:message code="header_words"/></p>
         <security:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER')" var="isUser"/>
         <c:if test="${isUser}">
-            <div class="log_reg_menu">
-                <a href="<c:url value='/railroad/user'/>" class="log_reg_page">${pageContext.request.remoteUser}</a>
-                <form:form cssClass="logout" method="post" action="${contextPath}/logout"
-                           onclick="document.forms['logoutForm'].submit()">
-                    <button><spring:message code="logoutButton"/></button>
-                </form:form>
-            </div>
-
             <c:if test="${pageContext.request.isUserInRole('ROLE_USER')}">
-                <div class="main_menu">
-                    <ul class="menu">
-                        <li><a href="<c:url value='/railroad/user/schedule'/>" class="log_reg_page">
-                            <spring:message code="scheduler"/></a></li>
-                        <li><a href="<c:url value='/railroad/ticket/all'/>" class="log_reg_page">
-                            <spring:message code="all_orders"/></a></li>
-                        <li><a href="<c:url value='/railroad/user/passenger/all'/>" class="log_reg_page">
-                            <spring:message code="all_passengers"/></a></li>
-                        <li><a href="<c:url value='/railroad'/>" class="log_reg_page">
-                            <spring:message code="find_train"/></a></li>
-                    </ul>
-                    </ul>
-                </div>
-            </c:if>
-            <c:if test="${pageContext.request.isUserInRole('ROLE_MODERATOR')}">
-                <div class="main_menu">
-                    <ul class="menu">
-                        <li><a href="<c:url value='/railroad/user'/>" class="log_reg_page">Main page</a></li>
-                    </ul>
-                </div>
+                <ul class="header_menu">
 
+                    <li><a href="<c:url value='/railroad/user/schedule-view'/>" class="log_reg_page">
+                        <spring:message code="schedule"/></a></li>
+                    <li><a href="<c:url value='/railroad/user'/>" class="log_reg_page">
+                        <spring:message code="allOrders"/></a></li>
+                    <li><a href="<c:url value='/railroad/user/passenger/all'/>" class="log_reg_page">
+                        <spring:message code="allPassengers"/></a></li>
+                    <li><a href="<c:url value='/railroad'/>" class="log_reg_page">
+                        <spring:message code="findTrain"/></a></li>
+
+                </ul>
             </c:if>
-            <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
-                <div class="main_menu">
-                     <ul class="menu">
-                         <li><a href="<c:url value='/railroad/user'/>" class="log_reg_page">Main page</a></li>
-                     </ul>
-                </div>
-            </c:if>
+        <c:if test="${pageContext.request.isUserInRole('ROLE_MODERATOR')}">
+            <ul class="header_menu">
+                <li><a href="<c:url value='/railroad/schedule'/>" class="log_reg_page">
+                    <spring:message code="schedule"/></a></li>
+                <li><a href="<c:url value='/railroad/train/all'/>" class="log_reg_page">
+                <spring:message code="trains"/></a></li>
+                <li><a href="<c:url value='/railroad/train/passengers'/>" class="log_reg_page">
+                    <spring:message code="passengers"/></a></li>
+
+            </ul>
+
+        </c:if>
+        <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
+
+        </c:if>
+        <div class="reg_menu">
+            <a href="<c:url value='/railroad/user'/>" class="log_reg_page">${pageContext.request.remoteUser}</a>
+            <form:form cssClass="logout" method="post" action="${contextPath}/logout"
+                       onclick="document.forms['logoutForm'].submit()">
+                <button><spring:message code="logoutButton"/></button>
+            </form:form>
+        </div>
         </c:if>
         <c:if test="${not isUser}">
-            <div class="log_reg_menu">
+            <div class="reg_menu">
                 <a href="<c:url value='/railroad/login'/>">
                     <spring:message code="login"/>
                 </a>

@@ -1,6 +1,6 @@
 package com.railroad.dao.api;
 
-import com.railroad.model.PassengerEntity;
+import com.railroad.entity.PassengerEntity;
 import java.util.Date;
 import java.util.List;
 

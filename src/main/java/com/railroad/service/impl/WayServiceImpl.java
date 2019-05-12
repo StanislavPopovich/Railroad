@@ -3,8 +3,9 @@ package com.railroad.service.impl;
 import com.railroad.dao.api.StationGenericDao;
 import com.railroad.dao.api.WayGenericDao;
 import com.railroad.dto.way.WayDto;
+import com.railroad.entity.StationEntity;
 import com.railroad.mapper.WayEntityDtoMapper;
-import com.railroad.model.WayEntity;
+import com.railroad.entity.WayEntity;
 import com.railroad.service.api.WayService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,20 @@ public class WayServiceImpl implements WayService {
     @Transactional
     public List<WayEntity> getAll() {
         return wayGenericDao.getAll();
+    }
+
+    @Transactional
+    @Override
+    public boolean isAlreadyExist(WayDto wayDto) {
+        StationEntity firstStation = stationGenericDao.findByStationName(wayDto.getFirstStation());
+        StationEntity secondStation = stationGenericDao.findByStationName(wayDto.getSecondStation());
+        WayEntity way = wayDtoMapper.wayDtoToWayEntity(wayDto);
+        way.setFirstStationEntity(firstStation);
+        way.setSecondStationEntity(secondStation);
+        if(wayGenericDao.getCountWay(way) > 0){
+            return true;
+        }
+        return false;
     }
 
 }

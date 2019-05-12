@@ -21,18 +21,18 @@ public class RoleServiceImpl implements RoleService {
     private RoleEntityDtoMapper roleDtoMapper;
 
     @Override
-    //+
     public List<RoleDto> getAll() {
         return roleDtoMapper.roleEntitiesToRoleDtos(roleGenericDao.getAll());
     }
 
     @Override
     @Transactional
-    public List<String> getRolesNames() {
-        List<String> roles = new ArrayList<>();
+    public List<RoleDto> getRolesNames() {
+        List<RoleDto> roles = new ArrayList<>();
         for(RoleDto roleDto: getAll()){
             String[] roleArr = roleDto.getName().split("_");
-            roles.add(roleArr[1]);
+            roleDto.setName(roleArr[1]);
+            roles.add(roleDto);
         }
         return roles;
     }

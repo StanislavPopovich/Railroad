@@ -1,14 +1,14 @@
 // Checking registration input
 // registration_page
 
-var username = document.getElementById("username");
-var password = document.getElementById("password");
-var passwordConfirm = document.getElementById("passwordConfirm");
-var regbutton = document.getElementById("button");
+let username = document.getElementById("username");
+let password = document.getElementById("password");
+let passwordConfirm = document.getElementById("passwordConfirm");
+let regbutton = document.getElementById("button");
 
 function checkUsername() {
     if (username.value === "" || username.value.length < 3) {
-        getMessage("User name must be contain 3-20 characters", "error_name");
+        getMessage("Must be contain 3-20 characters", "error_name");
         if (username.classList.contains("correct")) {
             username.classList.remove("correct");
             turnOnButton();
@@ -24,7 +24,7 @@ function checkUsername() {
 }
 
 function checkPassword() {
-    getMessage("Password must be contain more 4 characters", "error_password");
+    getMessage("Must be contain more 4 characters", "error_password");
     if (password.value === "" || password.value.length < 3) {
         if (password.classList.contains("correct")) {
             password.classList.remove("correct");

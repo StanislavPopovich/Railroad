@@ -1,7 +1,7 @@
 package com.railroad.mapper;
 
 import com.railroad.dto.station.StationDto;
-import com.railroad.model.StationEntity;
+import com.railroad.entity.StationEntity;
 import org.mapstruct.Mapper;
 
 import java.util.List;

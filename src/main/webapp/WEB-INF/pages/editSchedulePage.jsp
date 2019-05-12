@@ -7,28 +7,49 @@
     <title>Title</title>
 </head>
 <body>
-<%--<c:set var="now" value = "<%= new java.util.Date()%>" />--%>
 <jsp:include page="header.jsp"/>
 <section class="main">
-    <div class="container">
-        <h2 class="h2">Change  schedule of train</h2>
-        <div class="select_train">
-            <form:select cssClass="select" id="train_number" type="text" path="trainsNumbers">
-                <form:option value="0"><spring:message code="trainNumbers"/></form:option>
-                <form:options items="${trainsNumbers}"/>
-            </form:select>
-            <form:select cssClass="select" id="train_dates" type="text" path="departDate">
-                <form:option value="0"><spring:message code="departDateInfo"/></form:option>
-            </form:select>
-            <div id="btn_train_number_change" class="btn btn_blue">Select</div>
-        </div>
-        <div id="schedules_list" class="wrapper_schedules_list">
+    <div class="wrapper_center">
+        <div id="" class="wrap wrapper-flex">
+            <div id="search_menu" class="left_menu type_black">
+                <div>
+                    <div class="title"><spring:message code="editTrainSchedule"/></div>
+                    <div class="wrapper_dropdown">
+                        <div class="wrapper_dropdown_in js-dropdown">
+                            <span class="dropdown_value dropdown"><spring:message code="trainNumber"/></span>
+                            <input id="train_number" class="js-dropdown_value dropdownCheck" type="text"
+                                   name="departStation">
+                            <ul id="train_numbers">
 
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="wrapper_dropdown">
+                        <div class="wrapper_dropdown_in js-dropdown">
+                            <span class="dropdown_value dropdown"><spring:message code="trainDates"/></span>
+                            <input id="train_date" class="js-dropdown_value dropdownCheck" type="text"
+                                   name="arrivalStation">
+                            <ul id="train_dates">
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="btn btn_blue" id="change_train_schedule" type="submit" disabled="true">
+                        <spring:message code="changeSchedule"/></button>
+                </div>
+            </div>
+            <div class="content content_type-schedule">
+                <div id="updateSchedule" class="items">
+
+                </div>
+            </div>
         </div>
     </div>
 </section>
 <jsp:include page="footer.jsp"/>
 <script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/resources/js/generalFunctions.js"></script>
 <script type="text/javascript" src="/resources/js/scheduleHandler.js"></script>
+<script type="text/javascript" src="/resources/js/message.js"></script>
+<script type="text/javascript" src="/resources/js/validator.js"></script>
 </body>
 </html>

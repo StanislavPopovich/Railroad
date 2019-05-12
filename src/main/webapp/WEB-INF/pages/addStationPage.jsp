@@ -10,29 +10,49 @@
 <body>
 <jsp:include page="header.jsp"/>
 <section class="main">
-    <div class="container">
-        <security:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')" var="isUser"/>
-        <c:if test="${isUser}">
-            <div class="wrapper_form">
+    <div class="wrap">
+        <div class="wrap_modal_form">
+            <div class="modal_form modal_type_two">
+                <h1><spring:message code="addNewStation"/></h1>
+                <c:if test="${exist}">
+                    <div class="back_error">
+                        <spring:message code="existStation"/>
+                    </div>
+                </c:if>
+                <c:if test="${incorrectSelect}">
+                    <div class="back_error">
+                       <spring:message code="selectStationError"/>
+                    </div>
+                </c:if>
                 <form:form method="POST" modelAttribute="way">
                     <div class="wrapper_input">
-                        <form:label path="firstStation">New station </form:label>
-                        <form:input id="name" type="text" path="firstStation" autofocus="true"/>
+                        <small><spring:message code="insertNewStation"/></small>
+                        <div class="wrapper_input_in">
+                            <input id="firstStation" name="firstStation" type="text" autofocus="true" value="">
+                            <div class="error"><form:errors path="firstStation"/></div>
+                        </div>
                     </div>
-                    <div class="wrapper_select">
-                        <form:select cssClass="select" type="text" path="secondStation">
-                            <form:option value="0">Second station</form:option>
-                            <form:options items="${stations}"/>
-                        </form:select>
+                    <div class="wrapper_dropdown">
+                        <small><spring:message code="selectNextStation"/></small>
+                        <div class="wrapper_dropdown_in js-dropdown">
+                            <span class="dropdown_value dropdown"><spring:message code="selectStation"/></span>
+                            <input id="secondStation" class="js-dropdown_value dropdownCheck" type="text" name="secondStation">
+                            <div class="error"><form:errors path="secondStation"/></div>
+                            <ul id="from_stations"></ul>
+                        </div>
                     </div>
-                    <div class="wrapper_btn">
-                        <button id="button" class="btn btn_blue" type="submit">Add</button>
-                    </div>
+                    <button class="btn btn_blue" id="button" type="submit" disabled="true">
+                        <spring:message code="addStationButton"/></button>
                 </form:form>
             </div>
-        </c:if>
+        </div>
     </div>
 </section>
 <jsp:include page="footer.jsp"/>
+<script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/resources/js/message.js"></script>
+<script type="text/javascript" src="/resources/js/generalFunctions.js"></script>
+<script type="text/javascript" src="/resources/js/addStationHandler.js"></script>
+<script type="text/javascript" src="/resources/js/validator.js"></script>
 </body>
 </html>

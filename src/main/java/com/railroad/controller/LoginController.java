@@ -1,22 +1,28 @@
 package com.railroad.controller;
+import com.railroad.dto.service.SearchServiceDto;
+import com.railroad.dto.train.GlobalTrainsTicketDto;
 import com.railroad.dto.train.TrainTicketDto;
+import com.railroad.dto.train.TrainTransferTicketDto;
 import com.railroad.dto.user.UserDto;
 import com.railroad.service.api.SecurityService;
 import com.railroad.service.api.StationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
 @Controller
 @RequestMapping(value = {"/","/railroad"})
-@SessionAttributes("trainForm")
+@SessionAttributes({"trainTicket", "searchData"})
 public class LoginController {
 
     private static final Logger logger = Logger.getLogger(LoginController.class);
@@ -24,9 +30,6 @@ public class LoginController {
     @Autowired
     private SecurityService securityService;
 
-
-    @Autowired
-    private StationService stationService;
 
     /**
      * The method returns the index page that allows you to search for trains from
@@ -36,13 +39,29 @@ public class LoginController {
      */
     @GetMapping
     public String getIndexPage(Model model){
-        model.addAttribute("stations", stationService.getAllStationsName());
-        model.addAttribute("departStation", "");
-        model.addAttribute("arrivalStation", "");
-        model.addAttribute("date", new Date());
-        model.addAttribute("trainForm", new TrainTicketDto());
+        model.addAttribute("searchData", new SearchServiceDto());
+        model.addAttribute("currentDate", new Date());
         return "index";
     }
+
+    @PostMapping(value = "/trains")
+    public String getTargetTrainsPage(@ModelAttribute("searchData") SearchServiceDto searchServiceDto, Model model){
+        model.addAttribute("searchData", searchServiceDto);
+        model.addAttribute("trainTicket", new GlobalTrainsTicketDto());
+        model.addAttribute("page", "start");
+        return "targetTrainsPage";
+    }
+
+    @PostMapping(value = "trains/return")
+    public String getTargetReturnTrainsPage(@ModelAttribute("searchData") SearchServiceDto searchServiceDto,
+                                            @ModelAttribute("trainTicket") GlobalTrainsTicketDto train,
+                                            Model model){
+        model.addAttribute("searchData", searchServiceDto);
+        model.addAttribute("trainTicket", train);
+        model.addAttribute("page", "return");
+        return "targetTrainsPage";
+    }
+
 
     /**
      * The method returns the page with login form
@@ -64,6 +83,12 @@ public class LoginController {
     public String loginResult() {
         return "redirect:/railroad/user";
     }
+    @GetMapping(value = "/login/error")
+    public String loginError(@ModelAttribute("user") UserDto userDto, Model model) {
+        model.addAttribute("notExist", true);
+        return "loginPage";
+    }
+
 
     /**
      * The method returns the page with registration form
@@ -95,5 +120,13 @@ public class LoginController {
         }
         securityService.registration(userDto);
         return "userPage";
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(true);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
     }
 }

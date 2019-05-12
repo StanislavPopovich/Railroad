@@ -4,8 +4,8 @@ import com.railroad.dao.api.RoleGenericDao;
 import com.railroad.dao.api.UserGenericDao;
 import com.railroad.dto.user.UserDto;
 import com.railroad.mapper.UserEntityDtoMapper;
-import com.railroad.model.RoleEntity;
-import com.railroad.model.UserEntity;
+import com.railroad.entity.RoleEntity;
+import com.railroad.entity.UserEntity;
 import com.railroad.service.api.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,12 +87,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void update(UserDto userDto) {
-        UserEntity userEntity = userDtoMapper.userDtoToUserEntity(userDto);
-        userEntity.setId(userDao.findByUserName(userEntity.getUserName()).getId());
-        Set<RoleEntity> roles = setIdToRoles(userEntity.getRoleEntities());
-        userEntity.setRoleEntities(roles);
-        userDao.update(userEntity);
+    public void update(String userName, String newRole) {
+        UserEntity user = userDao.findByUserName(userName);
+        RoleEntity role = roleDao.findByName("ROLE_" + newRole);
+        Set<RoleEntity> roles = new HashSet<>();
+        roles.add(role);
+        user.setRoleEntities(roles);
+        userDao.update(user);
     }
 
     @Override

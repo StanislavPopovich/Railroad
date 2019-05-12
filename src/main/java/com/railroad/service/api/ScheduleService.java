@@ -1,12 +1,9 @@
 package com.railroad.service.api;
 
-import com.railroad.dto.schedule.ScheduleDto;
-import com.railroad.dto.schedule.ScheduleInfoDto;
-import com.railroad.dto.schedule.ScheduleMessageInfoDto;
-import com.railroad.dto.schedule.ScheduleUpdateDto;
-import com.railroad.model.ScheduleEntity;
-import com.railroad.model.StationEntity;
-import com.railroad.model.TrainEntity;
+import com.railroad.dto.schedule.*;
+import com.railroad.entity.ScheduleEntity;
+import com.railroad.entity.StationEntity;
+import com.railroad.entity.TrainEntity;
 
 import java.util.Date;
 import java.util.List;
@@ -17,11 +14,8 @@ import java.util.List;
  * @version 1.0
  */
 public interface ScheduleService {
-    /**
-     * The method sends ScheduleEntity to dao layer
-     * @param scheduleDto
-     */
-    void save(ScheduleDto scheduleDto);
+
+    void save(ScheduleTrainDto scheduleTrainDto);
 
     /**
      * The method returns scheduleEntity for station on a specific date from dao layer
@@ -50,13 +44,15 @@ public interface ScheduleService {
 
     void removeSchedulesByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
 
-    void updateSchedule(ScheduleEntity scheduleEntity);
+    void updateSchedule(ScheduleUpdateDto scheduleUpdateDto);
 
     ScheduleEntity getScheduleByTrainAndStationAndDate(TrainEntity trainEntity, StationEntity stationEntity,
                                                        Date departDate);
 
-    List<ScheduleUpdateDto> getScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
+    ScheduleUpdateDto getScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
 
     List<ScheduleMessageInfoDto> getActualSchedule(Date currentDate);
+    List<Integer> getTrainsNumberFromSchedule();
+
 
 }

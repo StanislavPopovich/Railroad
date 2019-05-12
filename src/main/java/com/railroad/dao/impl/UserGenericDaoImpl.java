@@ -1,8 +1,8 @@
 package com.railroad.dao.impl;
 
 import com.railroad.dao.api.UserGenericDao;
-import com.railroad.model.RoleEntity;
-import com.railroad.model.UserEntity;
+import com.railroad.entity.RoleEntity;
+import com.railroad.entity.UserEntity;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

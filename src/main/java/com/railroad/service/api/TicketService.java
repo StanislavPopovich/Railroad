@@ -1,7 +1,7 @@
 package com.railroad.service.api;
 
 import com.railroad.dto.ticket.TicketDto;
-import com.railroad.model.*;
+import com.railroad.entity.*;
 
 import java.util.Date;
 import java.util.List;

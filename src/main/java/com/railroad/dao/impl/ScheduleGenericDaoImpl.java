@@ -1,9 +1,9 @@
 package com.railroad.dao.impl;
 
 import com.railroad.dao.api.ScheduleGenericDao;
-import com.railroad.model.ScheduleEntity;
-import com.railroad.model.StationEntity;
-import com.railroad.model.TrainEntity;
+import com.railroad.entity.ScheduleEntity;
+import com.railroad.entity.StationEntity;
+import com.railroad.entity.TrainEntity;
 import org.joda.time.LocalDate;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
@@ -99,6 +99,16 @@ public class ScheduleGenericDaoImpl extends BaseGenericDao<ScheduleEntity, Long>
                 setParameter("currentDate", currentDate).
                 setParameter("dayAfter", new LocalDate(currentDate).plusDays(1).toDate()).getResultList();
         return scheduleEntity;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Integer> getTrainsNumberFromSchedule() {
+        List<Integer> numbers = entityManager.createQuery("select s.trainEntity.number from ScheduleEntity s " +
+                " where s.departDateFromFirstStation >= :currentDate group by s.trainEntity.number order by " +
+                "s.trainEntity.number").
+                setParameter("currentDate", getCurrentDate()).getResultList();
+        return numbers;
     }
 
 

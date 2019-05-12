@@ -11,85 +11,33 @@
 <body>
 <jsp:include page="header.jsp"/>
 <section class="main">
-    <div class="container">
-        <c:if test="${pageContext.request.isUserInRole('ROLE_USER')}">
-            <div id="find_orders">
+    <div class="wrapper_center">
+        <div class="wrap wrapper-flex">
+            <c:if test="${pageContext.request.isUserInRole('ROLE_USER')}">
+                <div id="search_menu" class="left_menu type_black">
+                    <div>
+                        <div class="title">All orders</div>
+                        <div id="upcoming" class="btn btn_blue">Upcoming trips</div>
+                        <div id="completed" class="btn btn_blue">Completed trips</div>
+                    </div>
+                </div>
+                <div class="content content_type-train">
+                    <div id="items" class="items">
 
-            </div>
-        </c:if>
-        <c:if test="${pageContext.request.isUserInRole('ROLE_MODERATOR')}">
-            <div class="functions_moderator">
-                <div class="function">
-                    <h2>Schedule</h2>
-                    <div>
-                        <ul>
-                            <li>
-                                <div>Add train to schedule</div>
-                                <a href="/railroad/schedule/add" class="btn btn_blue">Next</a>
-                            </li>
-                            <li>
-                                <div>Delete train from schedule</div>
-                                <a href="/railroad/schedule/delete" class="btn btn_blue">Next</a>
-                            </li>
-                            <li>
-                                <div>Change schedule of train</div>
-                                <a href="/railroad/schedule/edit" class="btn btn_blue">Next</a>
-                            </li>
-                            <li>
-                                <div>View schedule</div>
-                                <a href="/railroad/user/schedule" class="btn btn_blue">Next</a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
-                <div class="function">
-                    <h2>Trains</h2>
-                    <div>
-                        <ul>
-                            <li>
-                                <div>View all trains</div>
-                                <a href="/railroad/trains" class="btn btn_blue">Next</a>
-                            </li>
-                            <li>
-                                <div>Add train</div>
-                                <a href="/railroad/train/add" class="btn btn_blue">Next</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="function">
-                    <h2>Stations</h2>
-                    <div>
-                        <ul>
-                            <li>
-                                <div>Add station</div>
-                                <a href="/railroad/station/add" class="btn btn_blue">Next</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="function">
-                    <h2>Passengers</h2>
-                    <div>
-                        <ul>
-                            <li>
-                                <div>View all passengers of train</div>
-                                <a href="/railroad/passenger/train" class="btn btn_blue">Next</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </c:if>
-        <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
-            <div id="find_users">
-
-            </div>
-        </c:if>
+            </c:if>
+            <c:if test="${pageContext.request.isUserInRole('ROLE_MODERATOR')}">
+                <meta http-equiv="refresh" content="0.0000001;http://localhost:8081/railroad/user/schedule-view" />
+            </c:if>
+            <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
+                <meta http-equiv="refresh" content="0.0000001;http://localhost:8081/railroad/admin/users" />
+            </c:if>
+        </div>
     </div>
 </section>
 <jsp:include page="footer.jsp"/>
 <script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="/resources/js/ajaxStartPageHandler.js"></script>
+<script type="text/javascript" src="/resources/js/allOrdersHandler.js"></script>
 </body>
 </html>

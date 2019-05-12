@@ -1,6 +1,7 @@
 package com.railroad.controller;
 
 import com.railroad.dto.schedule.ScheduleDto;
+import com.railroad.dto.schedule.ScheduleTrainDto;
 import com.railroad.dto.schedule.ScheduleUpdateDto;
 import com.railroad.dto.train.TrainDto;
 import com.railroad.service.api.BusinessService;
@@ -33,6 +34,11 @@ public class ScheduleController {
     @Autowired
     private TableService tableService;
 
+    @GetMapping(value = "/schedule")
+    public String getSchedulePage(){
+        return "schedulePage";
+    }
+
 
     @GetMapping(value = "/schedule/add")
     public String getAddSchedulePage(Model model){
@@ -49,8 +55,9 @@ public class ScheduleController {
 
 
     @PostMapping(value = "/schedule/add")
-    public void addTrainToSchedule(@RequestBody ScheduleDto scheduleDto) {
-        scheduleService.save(scheduleDto);
+    public void addTrainToSchedule(@RequestBody ScheduleTrainDto scheduleTrainDto) {
+        logger.info(scheduleTrainDto.toString());
+        scheduleService.save(scheduleTrainDto);
         tableService.updateSchedule();
     }
 
@@ -62,13 +69,14 @@ public class ScheduleController {
 
     @PostMapping(value = "/schedule/get-schedule-for-train")
     public @ResponseBody
-    List<ScheduleUpdateDto> getScheduleForTrain(@RequestParam String trainNumber, @RequestParam Date date) {
+    ScheduleUpdateDto getScheduleForTrain(@RequestParam String trainNumber, @RequestParam Date date) {
         return businessService.getScheduleUpdateDtosByTrainAdnDate(new Integer(trainNumber), date);
     }
 
     @PostMapping(value = "/schedule/update")
     public void updateSchedule(@RequestBody ScheduleUpdateDto scheduleUpdateDto) {
-        businessService.updateSchedule(scheduleUpdateDto);
+        logger.info("update");
+        scheduleService.updateSchedule(scheduleUpdateDto);
         tableService.updateSchedule();
     }
 
@@ -80,11 +88,10 @@ public class ScheduleController {
     }
 
     @PostMapping(value = "schedule/delete-train-success")
-    public @ResponseBody
-    String deleteSchedule(@RequestParam String trainNumber, @RequestParam String date) {
+    public void deleteSchedule(@RequestParam String trainNumber, @RequestParam String date) {
+        logger.info(trainNumber + " ------- " + date);
         businessService.removeTrainFromSchedule(new Integer(trainNumber), date);
         tableService.updateSchedule();
-        return "userPage";
     }
 
     @PostMapping(value = "/schedule/get-depart-dates")

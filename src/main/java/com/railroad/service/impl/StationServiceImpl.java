@@ -3,7 +3,7 @@ package com.railroad.service.impl;
 import com.railroad.dao.api.StationGenericDao;
 import com.railroad.dto.station.StationDto;
 import com.railroad.mapper.StationEntityDtoMapper;
-import com.railroad.model.StationEntity;
+import com.railroad.entity.StationEntity;
 import com.railroad.service.api.StationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,6 +65,14 @@ public class StationServiceImpl implements StationService {
     @Override
     public int getIdOfLastStation() {
         return stationGenericDao.getIdOfLastStation();
+    }
+
+    @Override
+    public boolean isAlreadyExist(String name) {
+        if(stationGenericDao.getCountStations(name) > 0){
+            return true;
+        }
+        return false;
     }
 
 }

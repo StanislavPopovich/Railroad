@@ -1,7 +1,8 @@
 package com.railroad.dao.impl;
 
 import com.railroad.dao.api.TrainGenericDao;
-import com.railroad.model.TrainEntity;
+import com.railroad.entity.StationEntity;
+import com.railroad.entity.TrainEntity;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -39,10 +40,28 @@ public class TrainGenericDaoImpl extends BaseGenericDao<TrainEntity, Long> imple
 
 
     @Override
-    public Long getCountTrains(TrainEntity trainEntity) {
+    public Long getCountTrains(Integer trainNumber) {
         Long count = (Long) entityManager.createQuery("select count(t) from " +
-                "TrainEntity t where t.number= :number").setParameter("number", trainEntity.getNumber()).
+                "TrainEntity t where t.number= :number").setParameter("number", trainNumber).
                 getSingleResult();
         return count;
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<TrainEntity> getAllByDepartStation(StationEntity departStation) {
+        List<TrainEntity> trains = entityManager.createQuery("select t from TrainEntity t join fetch " +
+                "t.stationEntities s where s= :departStation").
+                setParameter("departStation", departStation).getResultList();
+        return trains;
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<TrainEntity> getAllByDepartAndArrivalStation(StationEntity departStation,
+                                                             StationEntity arrivalStation) {
+        /*List<TrainEntity> trains = entityManager.createQuery("select t from TrainEntity t join " +
+                "t.stationEntities arrivalStation where arrivalStation= :arrivalStation").
+                setParameter("departStation", departStation).
+                setParameter("arrivalStation", arrivalStation).getResultList();*/
+        return null;
     }
 }

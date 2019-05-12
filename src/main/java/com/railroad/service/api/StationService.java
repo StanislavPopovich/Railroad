@@ -1,12 +1,12 @@
 package com.railroad.service.api;
 
 import com.railroad.dto.station.StationDto;
-import com.railroad.model.StationEntity;
+import com.railroad.entity.StationEntity;
 
 import java.util.List;
 
 /**
- * Service interface for {@link com.railroad.model.StationEntity}
+ * Service interface for {@link com.railroad.entity.StationEntity}
  * @author Stanislav Popovich
  * @version 1.0
  */
@@ -42,5 +42,7 @@ public interface StationService {
     StationDto getStationById(Long id);
 
     int getIdOfLastStation();
+
+    boolean isAlreadyExist(String name);
 
 }

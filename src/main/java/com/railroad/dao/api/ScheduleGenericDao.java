@@ -1,8 +1,8 @@
 package com.railroad.dao.api;
 
-import com.railroad.model.ScheduleEntity;
-import com.railroad.model.StationEntity;
-import com.railroad.model.TrainEntity;
+import com.railroad.entity.ScheduleEntity;
+import com.railroad.entity.StationEntity;
+import com.railroad.entity.TrainEntity;
 import java.util.Date;
 import java.util.List;
 
@@ -20,5 +20,7 @@ public interface ScheduleGenericDao extends GenericDao<ScheduleEntity, Long> {
                                                        Date departDate);
 
     List<ScheduleEntity> getActualSchedules(Date currentDate);
+
+    List<Integer> getTrainsNumberFromSchedule();
 
 }

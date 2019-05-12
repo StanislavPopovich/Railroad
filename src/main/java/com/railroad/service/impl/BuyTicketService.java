@@ -2,10 +2,11 @@ package com.railroad.service.impl;
 
 import com.railroad.dto.passenger.PassengerDto;
 import com.railroad.dto.ticket.TicketDto;
+import com.railroad.dto.train.GlobalTrainsTicketDto;
 import com.railroad.dto.train.TrainTicketDto;
 import com.railroad.mapper.PassengerEntityDtoMapper;
 import com.railroad.mapper.TicketDtoMapper;
-import com.railroad.model.*;
+import com.railroad.entity.*;
 import com.railroad.service.api.ScheduleService;
 import com.railroad.service.api.TicketService;
 import com.railroad.service.api.TrainService;
@@ -15,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -47,7 +50,22 @@ public class BuyTicketService extends BaseService {
     private EmailService emailService;
 
     @Transactional
-    public TicketDto saveTicket(TrainTicketDto trainTicketDto, PassengerDto passengerDto) {
+    public void saveTicket(GlobalTrainsTicketDto globalTrainsTicketDto, PassengerDto passengerDto) {
+        List<TrainTicketDto> trains = new ArrayList<>();
+        trains.add(globalTrainsTicketDto.getToTrain().getFirstTrain());
+        if(globalTrainsTicketDto.getToTrain().getSecondTrain() != null){
+            trains.add(globalTrainsTicketDto.getToTrain().getSecondTrain());
+        }
+        if(globalTrainsTicketDto.getReturnTrain() != null){
+            if(globalTrainsTicketDto.getReturnTrain().getFirstTrain() != null){
+                trains.add(globalTrainsTicketDto.getReturnTrain().getFirstTrain());
+            }
+            if(globalTrainsTicketDto.getReturnTrain().getSecondTrain() != null){
+                trains.add(globalTrainsTicketDto.getReturnTrain().getSecondTrain());
+            }
+        }
+
+        List<TicketDto> tickets = new ArrayList<>();
 
         //getting current passenger from db
         PassengerEntity currentPassenger = getCurrentPassengerFromDB(passengerEntityDtoMapper.
@@ -56,25 +74,27 @@ public class BuyTicketService extends BaseService {
         //getting current User
         UserEntity currentUser = getCurrentUser(currentPassenger);
 
-        TrainEntity currentTrain = getCurrentTrain(trainTicketDto);
+        for(TrainTicketDto train: trains){
+            TrainEntity currentTrain = getCurrentTrain(train);
+            TicketEntity ticket = getTicketByTicketDto(train, currentUser, currentPassenger, currentTrain);
+            ticket.setEmail(passengerDto.getEmail());
 
-        TicketEntity ticket = getTicketByTicketDto(trainTicketDto, currentUser, currentPassenger, currentTrain);
-        ticket.setEmail(passengerDto.getEmail());
+            //saving ticket to db
+            TicketDto ticketDto = ticketService.save(ticket);
 
-        //saving ticket to db
-        TicketDto ticketDto = ticketService.save(ticket);
+            ticketDto.getPassengerDto().setEmail(passengerDto.getEmail());
 
-        ticketDto.getPassengerDto().setEmail(passengerDto.getEmail());
+            logger.info("User " + currentUser.getUserName() + " bought ticket for " +
+                    currentPassenger.getLastName() + " " + currentPassenger.getName() + "\n" + "Train number: "
+                    + currentTrain.getNumber() + "\n" + "From " + ticket.getDepartDate().getStationEntity().getName() +
+                    " to " + ticket.getArrivalDate().getStationEntity().getName() + "\n" +
+                    "DepartDate: " + ticket.getDepartDate().getDepartDate() +  "\n" +
+                    "ArrivalDate: " + ticket.getArrivalDate().getArrivalDate());
 
-        logger.info("User " + currentUser.getUserName() + " bought ticket for " +
-                currentPassenger.getLastName() + " " + currentPassenger.getName() + "\n" + "Train number: "
-                + currentTrain.getNumber() + "\n" + "From " + ticket.getDepartDate().getStationEntity().getName() +
-                " to " + ticket.getArrivalDate().getStationEntity().getName() + "\n" +
-                "DepartDate: " + ticket.getDepartDate().getDepartDate() +  "\n" +
-                "ArrivalDate: " + ticket.getArrivalDate().getArrivalDate());
+            tickets.add(ticketDto);
+        }
 
-        emailService.sendMail(ticketDto, "new");
-        return ticketDto;
+        /*emailService.sendMail(ticketDto, "new");*/
     }
 
     private void savePassengerIfNotExistInDB(PassengerEntity passenger){

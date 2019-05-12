@@ -8,12 +8,22 @@
 <body>
 <jsp:include page="header.jsp"/>
 <section class="main">
-    <div class="container">
-        <div id="find_passengers">
+    <div class="wrapper_center">
+        <div class="wrap wrapper-flex">
+            <div class="content content_type-passenger">
+                <h1 class="h1">ALL PASSENGERS</h1>
+                <div id="items" class="items">
 
+                </div>
+            </div>
         </div>
     </div>
 </section>
+
+
+
+
+
 <jsp:include page="footer.jsp"/>
 <script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="/resources/js/userPassengerHandler.js"></script>

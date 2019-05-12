@@ -1,6 +1,7 @@
 package com.railroad.controller;
 import com.railroad.dto.passenger.PassengerDto;
 import com.railroad.dto.ticket.TicketDto;
+import com.railroad.dto.train.GlobalTrainsTicketDto;
 import com.railroad.dto.train.TrainTicketDto;
 import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.TicketService;
@@ -19,7 +20,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = "/railroad")
-@SessionAttributes({"trainForm","passenger"})
+@SessionAttributes({"trainTicket","passenger"})
 public class TicketController {
 
     private static final Logger logger = Logger.getLogger(TicketController.class);
@@ -34,16 +35,13 @@ public class TicketController {
     private BuyTicketService buyTicketService;
 
     @GetMapping(value = "ticket/buy")
-    public String getSuccessBuyTicketPage(@ModelAttribute("trainForm") TrainTicketDto trainTicketDto,
+    public String getSuccessBuyTicketPage(@ModelAttribute("trainTicket") GlobalTrainsTicketDto globalTrainsTicketDto,
                                           @ModelAttribute("passenger") PassengerDto passengerDto,
                                           Model model){
-        model.addAttribute("ticket", buyTicketService.saveTicket(trainTicketDto, passengerDto));
+        model.addAttribute("trainTicket", globalTrainsTicketDto);
+        model.addAttribute("passenger", passengerDto);
+        buyTicketService.saveTicket(globalTrainsTicketDto, passengerDto);
         return "successBuyTicketPage";
-    }
-
-    @GetMapping(value = "ticket/buy/success")
-    public String getUserPage(){
-        return "redirect:/railroad/user";
     }
 
     @PostMapping(value = "ticket/info")
@@ -58,20 +56,16 @@ public class TicketController {
         return "redirect:/railroad/user";
     }
 
-    @GetMapping(value = "ticket/all-not-actual")
-    public @ResponseBody List<TicketDto> getNotActualTickets(){
-        return businessService.getNotActualTickets();
-    }
 
-    @GetMapping(value = "ticket/all")
+   /* @GetMapping(value = "ticket/all")
     public String getTicketsPage(){
         return "ticketsPage";
-    }
+    }*/
 
     @PostMapping(value = "passenger/tickets")
-    public String getPassengerTickets(@ModelAttribute("passenger") PassengerDto passengerDto, Model model){
+    public String getPassengerTickets(@ModelAttribute("currentPassenger") PassengerDto passengerDto, Model model){
         model.addAttribute("passengerForm", new PassengerDto());
-        model.addAttribute("passenger", passengerDto);
+        model.addAttribute("currentPassenger", passengerDto);
         return "passengerTicketsPage";
     }
 

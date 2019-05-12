@@ -7,51 +7,56 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
-    <title>Add trainEntity</title>
+    <title>Add train</title>
 </head>
 <body>
 <jsp:include page="header.jsp"/>
 <section class="main">
-    <security:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')" var="isUser"/>
-    <c:if test="${isUser}">
-        <h2 class="h2">Add train</h2>
-    <div class="container">
-        <div class="select_stations">
-            <form id="start_station">
-                <form:select cssClass="select" id="start" type="text" path="departStation">
-                    <form:option value="0"><spring:message code="departStation"/></form:option>
-                    <form:options items="${stations}"/>
-                </form:select>
-            </form>
-            <form id="end_station">
-                <form:select cssClass="select" id="end" type="text" path="arrivalStation">
-                    <form:option value="0"><spring:message code="arrivalStation"/></form:option>
-                </form:select>
-            </form>
-        </div>
-        <div id="wrapper_routes" class="wrapper_routes">
-            <div class="items">
-                 <div id="routes" class="routes"></div>
-             </div>
-            <div id="fields_button" class="fields_button">
+    <div class="wrapper_center">
+        <div id="" class="wrap wrapper-flex">
+            <div id="search_menu" class="left_menu type_black">
+                <div>
+                    <div class="title"><spring:message code="trainsMenu"/></div>
+                    <div class="wrapper_dropdown">
+                        <small><spring:message code="from"/></small>
+                        <div class="wrapper_dropdown_in js-dropdown">
+                            <span class="dropdown_value dropdown"><spring:message code="selectStation"/></span>
+                            <input id="depart_station" class="js-dropdown_value dropdownCheck" type="text"
+                                   name="departStation">
+                            <ul id="from_stations"></ul>
+                        </div>
+                    </div>
+                    <div class="wrapper_dropdown">
+                        <small><spring:message code="to"/></small>
+                        <div class="wrapper_dropdown_in js-dropdown">
+                            <span class="dropdown_value dropdown"><spring:message code="selectStation"/></span>
+                            <input id="arrival_station" class="js-dropdown_value dropdownCheck" type="text"
+                                   name="arrivalStation">
+                            <ul id="to_stations">
+                            </ul>
+                        </div>
+                    </div>
 
+                    <div id="add_train" class="btn btn_blue not_active"><spring:message code="addButton"/></div>
+
+                    <div class="line"></div>
+                    <div id="add_new_station" class="btn btn_blue "><spring:message code="addStationButton"/></div>
+                </div>
             </div>
-            <div id="buttons" class="admin_panel">
+            <div class="content content_type-one">
+                <div id="routes" class="items">
 
+                </div>
             </div>
         </div>
-
-
-
-
-        </div>
-        <div class="admin_panel">
-            </div>
     </div>
-    </c:if>
 </section>
 <jsp:include page="footer.jsp"/>
 <script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="/resources/js/trainHandler.js"></script>
+<script type="text/javascript" src="/resources/js/message.js"></script>
+<script type="text/javascript" src="/resources/js/addTrainHandler.js"></script>
+<script type="text/javascript" src="/resources/js/validator.js"></script>
+<script type="text/javascript" src="/resources/js/generalFunctions.js"></script>
+
 </body>
 </html>

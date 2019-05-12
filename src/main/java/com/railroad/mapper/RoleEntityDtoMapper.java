@@ -1,7 +1,7 @@
 package com.railroad.mapper;
 
 import com.railroad.dto.role.RoleDto;
-import com.railroad.model.RoleEntity;
+import com.railroad.entity.RoleEntity;
 import org.mapstruct.Mapper;
 
 import java.util.List;

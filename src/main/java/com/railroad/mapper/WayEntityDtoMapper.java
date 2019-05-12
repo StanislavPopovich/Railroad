@@ -1,8 +1,8 @@
 package com.railroad.mapper;
 
 import com.railroad.dto.way.WayDto;
-import com.railroad.model.StationEntity;
-import com.railroad.model.WayEntity;
+import com.railroad.entity.StationEntity;
+import com.railroad.entity.WayEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

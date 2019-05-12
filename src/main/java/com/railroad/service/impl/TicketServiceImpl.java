@@ -3,7 +3,7 @@ package com.railroad.service.impl;
 import com.railroad.dao.api.TicketGenericDao;
 import com.railroad.dto.ticket.TicketDto;
 import com.railroad.mapper.TicketDtoMapper;
-import com.railroad.model.*;
+import com.railroad.entity.*;
 import com.railroad.service.api.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

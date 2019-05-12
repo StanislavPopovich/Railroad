@@ -1,6 +1,6 @@
 package com.railroad.dao.api;
 
-import com.railroad.model.RoleEntity;
+import com.railroad.entity.RoleEntity;
 
 /**
  * DAO for the {@link RoleEntity} objects.

@@ -1,7 +1,7 @@
 package com.railroad.dao.impl;
 
 import com.railroad.dao.api.TicketGenericDao;
-import com.railroad.model.*;
+import com.railroad.entity.*;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -53,8 +53,8 @@ public class TicketGenericDaoImpl extends BaseGenericDao<TicketEntity, Long> imp
     @Override
     public List<TicketEntity> getActualTickets(UserEntity userEntity) {
         List<TicketEntity> tickets = entityManager.createQuery("select t from TicketEntity t " +
-                "where t.userEntity= :userEntity and t.departDate.departDate > :currentDate order by t.departDate").
-                setParameter("userEntity" , userEntity).
+                "where t.userEntity= :userEntity and t.departDate.departDate > :currentDate " +
+                "order by t.departDate.departDate").setParameter("userEntity" , userEntity).
                 setParameter("currentDate", getCurrentDate()).getResultList();
         return tickets;
     }

@@ -1,8 +1,8 @@
 package com.railroad.mapper;
 
 import com.railroad.dto.schedule.ScheduleInfoDto;
-import com.railroad.model.ScheduleEntity;
-import com.railroad.model.StationEntity;
+import com.railroad.entity.ScheduleEntity;
+import com.railroad.entity.StationEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

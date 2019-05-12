@@ -3,14 +3,18 @@ package com.railroad.controller;
 import com.railroad.dto.route.RouteDto;
 import com.railroad.dto.train.TrainDto;
 import com.railroad.dto.train.TrainTargetDto;
+import com.railroad.dto.train.TrainTransferTargetDto;
 import com.railroad.service.api.BusinessService;
+import com.railroad.service.api.ScheduleService;
 import com.railroad.service.api.StationService;
 import com.railroad.service.api.TrainService;
+import com.railroad.service.impl.RouteService;
 import com.railroad.service.impl.SearchTrainService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -34,6 +38,12 @@ public class TrainController {
     @Autowired
     private SearchTrainService searchTrainService;
 
+    @Autowired
+    private ScheduleService scheduleService;
+
+    @Autowired
+    private RouteService routeService;
+
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -43,12 +53,12 @@ public class TrainController {
     }
 
 
-    @GetMapping(value = "/trains")
+    @GetMapping(value = "/train/all")
     public String getTrainsPage() {
         return "trainsPage";
     }
 
-    @GetMapping(value = "/trains/all")
+    @GetMapping(value = "/trains/get-all")
     public @ResponseBody List<TrainDto> getAllTrains() {
         return trainService.getAll();
     }
@@ -57,9 +67,6 @@ public class TrainController {
     public ModelAndView addTrainPage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("trainForm", new TrainDto());
-        modelAndView.addObject("departStation", "");
-        modelAndView.addObject("arrivalStation", "");
-        modelAndView.addObject("stations", stationService.getAllStationsName());
         modelAndView.setViewName("addTrainPage");
         return modelAndView;
     }
@@ -67,15 +74,21 @@ public class TrainController {
     @PostMapping(value = "/train/all-routes")
     public @ResponseBody List<RouteDto> getAllRoutesForDepartAndArrivalStations(@RequestParam String departStation,
                                                                          @RequestParam String arrivalStation ) {
-        return businessService.getAllRoutes(departStation, arrivalStation);
+        return routeService.getAllRoutes(departStation, arrivalStation);
     }
 
-    @PostMapping(value = "/find-trains-with-date")
+    @PostMapping(value = "/find-direct-trains")
     public @ResponseBody List<TrainTargetDto> getTargetTrains(@RequestParam String departStation,
                                                               @RequestParam String arrivalStation,
                                                               @RequestParam Date date){
-        searchTrainService.getTransferTrains(departStation, arrivalStation, date);
         return searchTrainService.getDirectTrains(departStation,arrivalStation,date);
+    }
+    @PostMapping(value = "/find-transfer-trains")
+    public @ResponseBody List<TrainTransferTargetDto> getTargetTransferTrains(@RequestParam String departStation,
+                                                                              @RequestParam String arrivalStation,
+                                                                              @RequestParam Date date){
+        /*searchTrainService.getAlternativeTrasfer(departStation, arrivalStation, date);*/
+        return searchTrainService.getTransferTrains(departStation, arrivalStation, date);
     }
 
 
@@ -83,5 +96,30 @@ public class TrainController {
     public String addTrainResult(@ModelAttribute("trainForm") TrainDto trainDto) {
         trainService.save(trainDto);
         return "redirect:/railroad/user";
+    }
+
+    @GetMapping(value = "/train/all-from-schedule")
+    public @ResponseBody List<Integer> getTrainsNumbersFromSchedule(){
+        return scheduleService.getTrainsNumberFromSchedule();
+    }
+
+    @GetMapping(value = "/train/all-numbers")
+    public @ResponseBody List<Integer> getTrainsNumbers(){
+        return trainService.getAllTrainsNumbers();
+    }
+
+    @PostMapping(value = "/train/by-number")
+    public @ResponseBody TrainDto getTrainByNumber(@RequestParam String trainNumber){
+        return trainService.getTrainDtoByNumber(new Integer(trainNumber));
+    }
+
+    @PostMapping(value = "/train/add-new-train")
+    public @ResponseBody boolean[][] addNewTrain(@RequestBody  TrainDto trainDto){
+        return businessService.saveTrain(trainDto);
+    }
+
+    @GetMapping(value = "train/passengers")
+    public String getTrainPassengersPage(){
+        return "trainPassengersPage";
     }
 }

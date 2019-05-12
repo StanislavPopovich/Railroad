@@ -1,6 +1,6 @@
 package com.railroad.dao.api;
 
-import com.railroad.model.StationEntity;
+import com.railroad.entity.StationEntity;
 import java.util.List;
 
 /**
@@ -29,4 +29,6 @@ public interface StationGenericDao extends GenericDao<StationEntity, Long> {
      * @return id
      */
     int getIdOfLastStation();
+
+    public Long getCountStations(String stationName);
 }
