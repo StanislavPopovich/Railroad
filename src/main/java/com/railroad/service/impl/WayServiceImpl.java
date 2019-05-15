@@ -4,19 +4,21 @@ import com.railroad.dao.api.StationGenericDao;
 import com.railroad.dao.api.WayGenericDao;
 import com.railroad.dto.way.WayDto;
 import com.railroad.entity.StationEntity;
+import com.railroad.exceptions.RailroadDaoException;
 import com.railroad.mapper.WayEntityDtoMapper;
 import com.railroad.entity.WayEntity;
 import com.railroad.service.api.WayService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
+/**
+ * @author Stanislav Popovich
+ */
+
 @Service
 public class WayServiceImpl implements WayService {
-
-    private static final Logger logger = Logger.getLogger(WayServiceImpl.class);
 
     @Autowired
     private WayGenericDao wayGenericDao;
@@ -28,10 +30,13 @@ public class WayServiceImpl implements WayService {
     private WayEntityDtoMapper wayDtoMapper;
 
 
-
+    /**
+     * Saving way to db
+     * @param wayDto way
+     */
     @Override
     @Transactional
-    public void save(WayDto wayDto) {
+    public void save(WayDto wayDto) throws RailroadDaoException {
         WayEntity wayEntity = wayDtoMapper.wayDtoToWayEntity(wayDto);
         wayEntity.setFirstStationEntity(stationGenericDao.findByStationName(wayDto.getFirstStation()));
         wayEntity.setSecondStationEntity(stationGenericDao.findByStationName(wayDto.getSecondStation()));
@@ -39,21 +44,24 @@ public class WayServiceImpl implements WayService {
 
     }
 
+    /**
+     * Getting All ways from db
+     * @return List of WayEntity
+     */
     @Override
     @Transactional
-    public List<WayDto> getAllWayDtos() {
-        return wayDtoMapper.wayEntitiesToWayDtos(wayGenericDao.getAll());
-    }
-
-    @Override
-    @Transactional
-    public List<WayEntity> getAll() {
+    public List<WayEntity> getAll() throws RailroadDaoException {
         return wayGenericDao.getAll();
     }
 
+    /**
+     * Checking that way already exist in db
+     * @param wayDto way
+     * @return boolean
+     */
     @Transactional
     @Override
-    public boolean isAlreadyExist(WayDto wayDto) {
+    public boolean isAlreadyExist(WayDto wayDto) throws RailroadDaoException {
         StationEntity firstStation = stationGenericDao.findByStationName(wayDto.getFirstStation());
         StationEntity secondStation = stationGenericDao.findByStationName(wayDto.getSecondStation());
         WayEntity way = wayDtoMapper.wayDtoToWayEntity(wayDto);

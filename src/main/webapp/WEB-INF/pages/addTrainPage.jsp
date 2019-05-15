@@ -57,6 +57,5 @@
 <script type="text/javascript" src="/resources/js/addTrainHandler.js"></script>
 <script type="text/javascript" src="/resources/js/validator.js"></script>
 <script type="text/javascript" src="/resources/js/generalFunctions.js"></script>
-
 </body>
 </html>

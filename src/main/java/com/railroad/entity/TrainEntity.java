@@ -6,6 +6,13 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Simple JavaBean domain object that represents Train
+ *
+ * @author Stanislav Popovich
+ *
+ */
+
 @Entity
 @Table(name = "trains")
 @Getter

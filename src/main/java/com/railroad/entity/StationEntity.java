@@ -5,11 +5,17 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * Simple JavaBean domain object that represents Station
+ *
+ * @author Stanislav Popovich
+ *
+ */
+
 @Entity
 @Table(name = "stations")
 @Getter
 @Setter
-@ToString
 public class StationEntity extends BaseEntity{
 
     @Column(name = "station_name", nullable = false)

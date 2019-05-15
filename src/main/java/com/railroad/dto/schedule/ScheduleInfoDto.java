@@ -4,6 +4,12 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * Data transfer object that represent schedule
+ *
+ * @author Stanislav Popovich
+ */
+
 @Data
 public class ScheduleInfoDto {
     private String arrivalDate;

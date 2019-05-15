@@ -68,9 +68,9 @@ function checkPasswordConfirm() {
 
 
 function turnOnButton() {
-    var inputs = document.getElementsByTagName("input");
+    let inputs = document.getElementsByTagName("input");
 
-    for(var i = 0; i < inputs.length; i++) {
+    for(let i = 0; i < inputs.length; i++) {
         if (inputs[i].classList.contains("correct")) {
             regbutton.disabled = false;
             regbutton.classList.add("active");

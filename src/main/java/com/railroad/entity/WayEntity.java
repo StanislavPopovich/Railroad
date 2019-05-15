@@ -4,6 +4,13 @@ import lombok.*;
 
 import javax.persistence.*;
 
+/**
+ * Simple JavaBean domain object that represents Way
+ *
+ * @author Stanislav Popovich
+ *
+ */
+
 @Entity
 @Table(name = "ways")
 @Getter

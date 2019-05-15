@@ -5,5 +5,6 @@
         <p>source code</p>
     </a>
 </footer>
+<script src="/resources/js/headerHandler.js"></script>
 </body>
 </html>

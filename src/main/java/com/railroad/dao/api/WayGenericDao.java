@@ -1,6 +1,8 @@
 package com.railroad.dao.api;
 
 import com.railroad.entity.WayEntity;
+import com.railroad.exceptions.RailroadDaoException;
+
 import java.util.List;
 
 /**
@@ -10,5 +12,5 @@ import java.util.List;
  */
 public interface WayGenericDao extends GenericDao<WayEntity, Long> {
 
-        Long getCountWay(WayEntity wayEntity);
+        Long getCountWay(WayEntity wayEntity) throws RailroadDaoException;
 }

@@ -1,17 +1,14 @@
 package com.railroad.controller;
 import com.railroad.dto.service.SearchServiceDto;
-import com.railroad.dto.train.GlobalTrainsTicketDto;
-import com.railroad.dto.train.TrainTicketDto;
-import com.railroad.dto.train.TrainTransferTicketDto;
+import com.railroad.dto.ticket.GlobalTrainsTicketDto;
 import com.railroad.dto.user.UserDto;
+import com.railroad.exceptions.RailroadDaoException;
 import com.railroad.service.api.SecurityService;
-import com.railroad.service.api.StationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -30,15 +27,8 @@ public class LoginController {
     @Autowired
     private SecurityService securityService;
 
-
-    /**
-     * The method returns the index page that allows you to search for trains from
-     * the departing station to the arrival station on a specific date
-     * @param model
-     * @return index page
-     */
     @GetMapping
-    public String getIndexPage(Model model){
+    public String getIndexPage(Model model) {
         model.addAttribute("searchData", new SearchServiceDto());
         model.addAttribute("currentDate", new Date());
         return "index";
@@ -52,6 +42,11 @@ public class LoginController {
         return "targetTrainsPage";
     }
 
+    @ModelAttribute
+    public GlobalTrainsTicketDto createTrainTicketsDto(){
+        return new GlobalTrainsTicketDto();
+    }
+
     @PostMapping(value = "trains/return")
     public String getTargetReturnTrainsPage(@ModelAttribute("searchData") SearchServiceDto searchServiceDto,
                                             @ModelAttribute("trainTicket") GlobalTrainsTicketDto train,
@@ -62,12 +57,6 @@ public class LoginController {
         return "targetTrainsPage";
     }
 
-
-    /**
-     * The method returns the page with login form
-     * @param model
-     * @return login page
-     */
     @GetMapping(value = "/login")
     public String getLoginPage(Model model){
         logger.info("Trying to log in.");
@@ -75,42 +64,27 @@ public class LoginController {
         return "loginPage";
     }
 
-    /**
-     * Method redirects to user page
-     * @return url to user page
-     */
     @GetMapping(value = "/login/result")
     public String loginResult() {
         return "redirect:/railroad/user";
     }
+
+
     @GetMapping(value = "/login/error")
     public String loginError(@ModelAttribute("user") UserDto userDto, Model model) {
         model.addAttribute("notExist", true);
         return "loginPage";
     }
 
-
-    /**
-     * The method returns the page with registration form
-     * @param model
-     * @return registration page
-     */
     @GetMapping(value = "/registration")
     public String getRegistrationPage(Model model){
         model.addAttribute("userForm", new UserDto());
         return "registrationPage";
     }
 
-    /**
-     * The method returns a page for an authorized user
-     * @param userDto
-     * @param bindingResult
-     * @param model
-     * @return userPage.jsp
-     */
     @PostMapping(value = "/registration")
     public String resultRegistration(@Valid @ModelAttribute("userForm") UserDto userDto, BindingResult bindingResult,
-                               Model model) {
+                               Model model) throws RailroadDaoException {
         if(bindingResult.hasErrors()){
             return "registrationPage";
         }
@@ -124,7 +98,6 @@ public class LoginController {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         sdf.setLenient(true);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));

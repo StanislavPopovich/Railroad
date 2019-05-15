@@ -8,7 +8,6 @@ import javax.persistence.*;
  * Base class with property ID
  *
  * @author Stanislav Popovich
- * @version 1.0
  */
 
 @MappedSuperclass

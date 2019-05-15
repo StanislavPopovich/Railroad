@@ -2,6 +2,12 @@ package com.railroad.dto.schedule;
 
 import lombok.Data;
 
+/**
+ * Data transfer object that represent ScheduleEntity
+ *
+ * @author Stanislav Popovich
+ */
+
 @Data
 public class ScheduleDto {
 

@@ -1,31 +1,33 @@
 $(document).ready(function () {
-    let local = "en";
-    let findTableText = {
-        ru: {
-            trainNumber: "Номер поезда",
-            departureStation: "Станция отправления",
-            arrivalStation: "Станция прибытия",
-            departureDate: "Дата отправления",
-            arrivalDate: "Дата прибытия",
-            tickets: "Количество билетов",
-            buyButton: "Купить",
-            trainNotFound: "Поезда не найдены",
-            depart: "Откуда",
-            arrival: "Куда"
-        },
-        en: {
-            trainNumber: "Train number",
-            departureStation: "Departing station",
-            arrivalStation: "Arrival station",
-            departureDate: "Departing date",
-            arrivalDate: "Arrival date",
-            tickets: "Number of tickets",
-            buyButton: "Buy",
-            trainNotFound: "Trains not found",
-            depart: "From",
-            arrival: "To"
+    window.locale = "en";
+
+    let items = document.getElementById("items");
+
+    if(items){
+        items.addEventListener("click", activeBtns, false);
+    }
+
+    function activeBtns(event) {
+        let current = event.target;
+
+        if(current.tagName === "INPUT") {
+            let returnTicket = document.getElementById("return_ticket");
+            if(returnTicket){
+                turnButtonOn(returnTicket);
+            }
+            let buyTicket = document.getElementById("buy_ticket");
+            if(buyTicket){
+                turnButtonOn(buyTicket);
+            }
         }
-    };
+
+    }
+
+    function turnButtonOn(button) {
+        button.classList.add("active");
+        button.disabled = false;
+    }
+
 
     function createMenuAndStartContent() {
         let returnDate = $("#departReturnDate").val();
@@ -123,6 +125,7 @@ $(document).ready(function () {
         $('#to_first_arrivalStation').val(item.querySelector(".arrivalStation_1").textContent);
         autoSubmitTrainFrom("trainTicket");
     }
+
     function setReturnDirectForm(item){
         $('#return_first_number').val(item.querySelector(".trainNumber_1").textContent.split("№")[1]);
         $('#return_first_departDate').val(item.querySelector(".date_depart_1").textContent);
@@ -184,7 +187,7 @@ $(document).ready(function () {
             object["arrivalStation"] = $("#fromStation").val();
             object["date"] = $("#departReturnDate").val();
         }else{
-             object["departStation"] = $("#fromStation").val();
+            object["departStation"] = $("#fromStation").val();
             object["arrivalStation"] = $("#toStation").val();
             object["date"] = $("#departDate").val();
         }
@@ -193,6 +196,7 @@ $(document).ready(function () {
     }
 
     function getDirectTrains(page, returnDate) {
+        let currentLocale = window.locale;
         $('#search_menu').append().html("");
         $('#items').append().html("");
         let object;
@@ -205,25 +209,27 @@ $(document).ready(function () {
             '<div class="wrapper_radio">' +
             '<div class="item_radio">' +
             '<input type="radio" name="radio" value="direct" id="radio-1" checked/>' +
-            '<label id="label_direct" class="checked" for="radio-1">' + "Direct" + '</label>' +
+            '<label id="label_direct" class="checked" for="radio-1">' + message[currentLocale].direct + '</label>' +
             '</div>' +
             '</div>' +
             '<div class="wrapper_radio">' +
             '<div class="item_radio">' +
             '<input type="radio" name="radio" value="transfer" id="radio-2" />' +
-            '<label id="label_transfer" for="radio-2">' + "With transfer" + '</label>' +
+            '<label id="label_transfer" for="radio-2">' + message[currentLocale].withTransfer + '</label>' +
             '</div>' +
             '</div>';
         if(page === "start"){
             if(returnDate){
-                menu_markup += '<div id="return_ticket" class="btn btn_blue">' + 'Select return ticket' + '</div></div>';
+                menu_markup += '<button id="return_ticket" class="btn btn_blue" type="submit" disabled="true">' +
+                    message[currentLocale].selectReturnTicket + '</button>';
             }else{
-                menu_markup += '<div id="buy_ticket" class="btn btn_blue">' + 'Buy ticket' + '</div></div>';
+                menu_markup += '<button id="buy_ticket" class="btn btn_blue" type="submit" disabled="true">' +
+                    message[currentLocale].buyTicket + '</button>';
             }
         }else{
-            menu_markup += '<div id="buy_ticket" class="btn btn_blue">' + 'Buy ticket' + '</div></div>';
+            menu_markup += '<button id="buy_ticket" class="btn btn_blue" type="submit" disabled="true">' +
+                message[currentLocale].buyTicket + '</button>';
         }
-
         $.ajax({
             url : '/railroad/find-direct-trains',
             type : "POST",
@@ -232,7 +238,7 @@ $(document).ready(function () {
             success: function (data) {
                 let markup = '';
                 if(data.length === 0){
-                    markup += '<div class="not_found">' + findTableText[local].trainNotFound + '</div>';
+                    markup += '<div class="not_found">' + message[currentLocale].trainNotFound + '</div>';
                     $('#search_menu').append(menu_markup);
                     $('#items').append().html(markup);
                     eventListener(page, returnDate);
@@ -242,18 +248,24 @@ $(document).ready(function () {
                         markup += '<div class="item">';
                         markup += '<div class="item_select"><input type="radio" name="ticket" id="select_' + (i+1) + '"></div>';
                         markup += '<div class="wrapper_item"><div class="train"><div class="img">' +
-                            '<img src="/resources/img/train.svg"></div><div class="trainNumber_1">№' +
+                            '<img src="/resources/img/train.svg"></div><div class="trainNumber_1">' +
+                            message[currentLocale].trainNumberSymbol +
                             data[i].number+ '</div></div></div>';
                         markup += '<div class="wrapper_item"><div class="wrapper_rout"><div class="route">' +
-                            '<div class="label"><span>From</span></div><div class="departStation_1">' +
+                            '<div class="label"><span>' + message[currentLocale].from +
+                            '</span></div><div class="departStation_1">' +
                             object.departStation + '</div></div><div class="arrow_right"></div><div class="route">' +
-                            '<div class="label"><span>To</span></div><div class="arrivalStation_1">' +
+                            '<div class="label"><span>' +  message[currentLocale].to +
+                            '</span></div><div class="arrivalStation_1">' +
                             object.arrivalStation + '</div></div></div></div>';
                         markup += '<div class="wrapper_item"><div class="date"><div class="label"><span>' +
-                            'Departure date</span></div><div class="date_depart_1">' + data[i].departDate + '</div></div></div>';
+                            message[currentLocale].departureDate + '</span></div><div class="date_depart_1">'
+                            + data[i].departDate + '</div></div></div>';
                         markup += '<div class="wrapper_item"><div class="date"><div class="label"><span>' +
-                            'Arrival date</span></div><div class="date_arrival_1">' + data[i].arrivalDate + '</div></div></div>';
-                        markup += '<div class="number_tickets"><div class="label"><span>Number of tickets</span>' +
+                            message[currentLocale].arrivalDate + '</span></div><div class="date_arrival_1">' + data[i].arrivalDate
+                            + '</div></div></div>';
+                            markup += '<div class="number_tickets"><div class="label"><span>' +
+                                message[currentLocale].numberOfTickets + '</span>' +
                             '</div><div>' + data[i].seats + '</div></div>';
                         $('#items').append(markup);
                     }
@@ -293,6 +305,7 @@ $(document).ready(function () {
     }
 
     function getTransferTrains(page, returnDate) {
+        let currentLocale = window.locale;
         $('#search_menu').append().html("");
         $('#items').append().html("");
         let object;
@@ -305,23 +318,26 @@ $(document).ready(function () {
             '<div class="wrapper_radio">' +
             '<div class="item_radio">' +
             '<input type="radio" name="radio" value="direct" id="radio-1"/>' +
-            '<label id="label_direct"  for="radio-1">' + "Direct" + '</label>' +
+            '<label id="label_direct"  for="radio-1">' + message[currentLocale].direct + '</label>' +
             '</div>' +
             '</div>' +
             '<div class="wrapper_radio">' +
             '<div class="item_radio">' +
             '<input type="radio" name="radio" value="transfer" id="radio-2" checked/>' +
-            '<label id="label_transfer" class="checked" for="radio-2">' + "With transfer" + '</label>' +
+            '<label id="label_transfer" class="checked" for="radio-2">' + message[currentLocale].withTransfer + '</label>' +
             '</div>' +
             '</div>';
         if (page === "start") {
             if (returnDate) {
-                menu_markup += '<div id="return_ticket"><div class="btn btn_blue">' + 'Select return ticket' + '</div></div></div>';
+                menu_markup += '<button id="return_ticket" class="btn btn_blue" type="submit" disabled="true">' +
+                    message[currentLocale].selectReturnTicket + '</button>';
             } else {
-                menu_markup += '<div id="buy_ticket"><div class="btn btn_blue">' + 'Buy ticket' + '</div></div></div>';
+                menu_markup += '<button id="buy_ticket" class="btn btn_blue" type="submit" disabled="true">' +
+                    message[currentLocale].buyTicket + '</button>';
             }
         } else {
-            menu_markup += '<div id="buy_ticket"><div class="btn btn_blue">' + 'Buy ticket' + '</div></div>';
+            menu_markup += '<button id="buy_ticket" class="btn btn_blue" type="submit" disabled="true">' +
+                message[currentLocale].buyTicket + '</button>';
         }
             $.ajax({
                 url : '/railroad/find-transfer-trains',
@@ -331,7 +347,7 @@ $(document).ready(function () {
                 success: function (data) {
                     let markup = '';
                     if(data.length === 0){
-                        markup += '<div class="not_found">' + findTableText[local].trainNotFound + '</div>';
+                        markup += '<div class="not_found">' +  message[currentLocale].trainNotFound + '</div>';
                         $('#search_menu').append(menu_markup);
                         $('#items').append().html(markup);
                         eventListener(page, returnDate);
@@ -341,28 +357,35 @@ $(document).ready(function () {
                             markup += '<div class="item">';
                             markup += '<div class="item_select"><input type="radio" name="ticket" id="select_' + (i+1) + '"></div>';
                             markup += '<div class="wrapper_item"><div class="train"><div class="img">' +
-                                '<img src="/resources/img/train.svg"></div><div class="trainNumber_1">№' +
+                                '<img src="/resources/img/train.svg"></div><div class="trainNumber_1">' +
+                                message[currentLocale].trainNumberSymbol +
                                 data[i].trains[0].number + '</div></div><div class="train">' +
                                 '<div class="img"><img src="/resources/img/train.svg"></div>' +
                                 '<div class="trainNumber_2">№' + data[i].trains[1].number  + '</div></div> </div>';
                             markup += '<div class="wrapper_item"><div class="wrapper_rout"><div class="route">' +
-                                '<div class="label"><span>From</span></div><div class="departStation_1">' +
+                                '<div class="label"><span>' + message[currentLocale].from + '</span></div><div class="departStation_1">' +
                                 object.departStation + '</div></div><div class="arrow_right"></div><div class="route">' +
-                                '<div class="label"><span>To</span></div><div class="arrivalStation_1">' +
+                                '<div class="label"><span>' + message[currentLocale].to + '</span></div><div class="arrivalStation_1">' +
                                 data[i].transferStation + '</div></div></div><div class="wrapper_rout">' +
-                                '<div class="route"><div class="label"><span>From</span></div>' +
+                                '<div class="route"><div class="label"><span>' + message[currentLocale].from + '</span></div>' +
                                 '<div class="departStation_2">' + data[i].transferStation + '</div></div>' +
-                                '<div class="arrow_right"></div><div class="route"><div class="label"><span>To</span>' +
+                                '<div class="arrow_right"></div><div class="route"><div class="label"><span>' +
+                                message[currentLocale].to + '</span>' +
                                 '</div><div class="arrivalStation_2">' +  object.arrivalStation + '</div></div></div></div>';
                             markup += '<div class="wrapper_item"><div class="date"><div class="label">' +
-                                '<span>Departure date</span></div><div class="date_depart_1">' + data[i].trains[0].departDate + '</div> </div>' +
-                                '<div class="date"><div class="label"><span>Departure date</span></div><div class="date_depart_2">' +
+                                '<span>' + message[currentLocale].departureDate + '</span></div><div class="date_depart_1">'
+                                + data[i].trains[0].departDate + '</div> </div>' +
+                                '<div class="date"><div class="label"><span>' +  message[currentLocale].departureDate +
+                                '</span></div><div class="date_depart_2">' +
                                 data[i].trains[1].departDate + '</div></div></div>';
                             markup += '<div class="wrapper_item"><div class="date"><div class="label">' +
-                                '<span>Arrival date</span></div><div class="date_arrival_1">' + data[i].trains[0].arrivalDate + '</div>' +
-                                '</div><div class="date"><div class="label"><span>Arrival date</span>' +
+                                '<span>' +  message[currentLocale].arrivalDate + '</span></div><div class="date_arrival_1">' +
+                                data[i].trains[0].arrivalDate + '</div>' +
+                                '</div><div class="date"><div class="label"><span>' +  message[currentLocale].arrivalDate
+                                + '</span>' +
                                 '</div><div class="date_arrival_2">' + data[i].trains[1].arrivalDate + '</div></div></div>';
-                            markup += '<div class="number_tickets"><div class="label"><span>Number of tickets</span>' +
+                            markup += '<div class="number_tickets"><div class="label"><span>' +  message[currentLocale].numberOfTickets +
+                                '</span>' +
                                 '</div><div>' + data[i].seats + '</div></div></div>';
                             $('#items').append(markup);
                         }
@@ -413,8 +436,5 @@ $(document).ready(function () {
                 }
             })
         }
-        
-        function f() {
-            
-        }
+
 });

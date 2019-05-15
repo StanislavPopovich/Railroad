@@ -1,8 +1,10 @@
 package com.railroad.service.impl;
 
 import com.railroad.dto.schedule.ScheduleMessageInfoDto;
+import com.railroad.exceptions.RailroadDaoException;
 import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.StationService;
+import com.railroad.service.api.TableService;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,8 +12,13 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+/**
+ * @author Stanislav Popovich
+ */
+
 @Service
-public class TableService {
+public class TableServiceImpl implements TableService {
+
     @Autowired
     private StationService stationService;
 
@@ -21,21 +28,37 @@ public class TableService {
     @Autowired
     private AmqpTemplate amqpTemplate;
 
+    /**
+     * Sending init data to scoreboard
+     */
     @PostConstruct
-    private void initStations(){
+    private void initStations() throws RailroadDaoException {
         amqpTemplate.convertAndSend("railroad.stations",getMessageStationBody("init"));
         amqpTemplate.convertAndSend("railroad.schedule",getScheduleMessageBody("init"));
     }
 
-    public void updateStations(){
+    /**
+     * Sending updated data of stations
+     */
+    @Override
+    public void updateStations() throws RailroadDaoException {
         amqpTemplate.convertAndSend("railroad.stations",getMessageStationBody("updateStation"));
     }
 
-    public void updateSchedule(){
+    /**
+     * Sending updated data of schedule
+     */
+    @Override
+    public void updateSchedule() throws RailroadDaoException {
         amqpTemplate.convertAndSend("railroad.schedule",getScheduleMessageBody("updateSchedule"));
     }
 
-    private String getMessageStationBody(String method){
+    /**
+     * Creating body of message for stations
+     * @param method name of method
+     * @return String
+     */
+    private String getMessageStationBody(String method) throws RailroadDaoException {
         List<String> stations = stationService.getAllStationsName();
         StringBuilder result = new StringBuilder();
         result.append(method + "/");
@@ -49,7 +72,12 @@ public class TableService {
         return result.toString();
     }
 
-    private String getScheduleMessageBody(String method){
+    /**
+     * Creating body of message for schedule
+     * @param method name of method
+     * @return String
+     */
+    private String getScheduleMessageBody(String method) throws RailroadDaoException {
         List<ScheduleMessageInfoDto> schedule = businessService.getActualSchedule();
         StringBuilder result = new StringBuilder();
         result.append(method + "/");

@@ -1,8 +1,12 @@
 package com.railroad.dto.train;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+
+/**
+ * Data transfer object that represent train with arrival date and departure date
+ *
+ * @author Stanislav Popovich
+ */
 
 @Data
 public class TrainScheduleDto {

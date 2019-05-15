@@ -7,6 +7,13 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
+/**
+ * Simple JavaBean domain object that represents Passenger
+ *
+ * @author Stanislav Popovich
+ *
+ */
+
 @Entity
 @Table(name = "passengers")
 @Getter

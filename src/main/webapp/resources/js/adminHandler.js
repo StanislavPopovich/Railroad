@@ -1,10 +1,11 @@
 $().ready(function () {
+    window.locale = "en";
     $.ajax({
         url : '/railroad/admin/get-users',
         type : "GET",
         success: function (data) {
             let markup = '';
-            for(let i = 0; i < data.length; i++){
+            for(let i = 1; i < data.length; i++){
                 markup += '<div class="item"><div class="item_select">' +
                     '<input type="radio" name="user" id="select_' + i + '"></div>';
                 markup += '<div class="wrapper_user"><div class="login">' + data[i].userName +'</div>';
@@ -70,14 +71,14 @@ function removeEditMenu(){
 }
 
 function editRoleAdminPanel(item) {
-
+    let currentLocale = window.locale;
     $.ajax({
         url : '/railroad/admin/get-all-roles',
         type : "GET",
         success: function (data) {
             let markup = '<div class="wrapper_dropdown">' +
                 '       <div class="wrapper_dropdown_in js-dropdown">' +
-                '            <span class="dropdown_value dropdown">Roles</span>' +
+                '            <span class="dropdown_value dropdown">' + message[currentLocale].adminRoles + '</span>' +
                 '            <input id="role" class="js-dropdown_value dropdownCheck" type="text" name="departStation">' +
                 '             <ul id="roles">';
             for(let i = 0; i < data.length; i++){
@@ -87,7 +88,7 @@ function editRoleAdminPanel(item) {
                 '       </div>' +
                 '    </div>' +
                 '    <div class="wrap_btn">' +
-                '       <div id="btn_edit" class="btn btn_blue">edit</div>' +
+                '       <div id="btn_edit" class="btn btn_blue">' +  message[currentLocale].adminEditButton + '</div>' +
                 '    </div>';
 
 

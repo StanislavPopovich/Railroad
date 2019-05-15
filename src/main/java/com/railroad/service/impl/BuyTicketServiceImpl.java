@@ -2,15 +2,12 @@ package com.railroad.service.impl;
 
 import com.railroad.dto.passenger.PassengerDto;
 import com.railroad.dto.ticket.TicketDto;
-import com.railroad.dto.train.GlobalTrainsTicketDto;
-import com.railroad.dto.train.TrainTicketDto;
+import com.railroad.dto.ticket.GlobalTrainsTicketDto;
+import com.railroad.dto.ticket.TrainTicketDto;
+import com.railroad.exceptions.RailroadDaoException;
 import com.railroad.mapper.PassengerEntityDtoMapper;
-import com.railroad.mapper.TicketDtoMapper;
 import com.railroad.entity.*;
-import com.railroad.service.api.ScheduleService;
-import com.railroad.service.api.TicketService;
-import com.railroad.service.api.TrainService;
-import com.railroad.service.api.UserService;
+import com.railroad.service.api.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,10 +17,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-@Service
-public class BuyTicketService extends BaseService {
 
-    private static final Logger logger = Logger.getLogger(BuyTicketService.class);
+/**
+ * @author Stanislav Popovich
+ */
+
+@Service
+public class BuyTicketServiceImpl extends BaseService implements BuyTicketService {
+
+    private static final Logger logger = Logger.getLogger(BuyTicketServiceImpl.class);
 
     @Autowired
     private UserService userService;
@@ -41,16 +43,19 @@ public class BuyTicketService extends BaseService {
     private TicketService ticketService;
 
     @Autowired
-    private TicketDtoMapper ticketDtoMapper;
-
-    @Autowired
     private ScheduleService scheduleService;
 
     @Autowired
     private EmailService emailService;
 
+    /**
+     * Saving ticket in db
+     * @param globalTrainsTicketDto tickets
+     * @param passengerDto passenger
+     */
     @Transactional
-    public void saveTicket(GlobalTrainsTicketDto globalTrainsTicketDto, PassengerDto passengerDto) {
+    @Override
+    public void saveTicket(GlobalTrainsTicketDto globalTrainsTicketDto, PassengerDto passengerDto) throws RailroadDaoException {
         List<TrainTicketDto> trains = new ArrayList<>();
         trains.add(globalTrainsTicketDto.getToTrain().getFirstTrain());
         if(globalTrainsTicketDto.getToTrain().getSecondTrain() != null){
@@ -94,22 +99,36 @@ public class BuyTicketService extends BaseService {
             tickets.add(ticketDto);
         }
 
-        /*emailService.sendMail(ticketDto, "new");*/
+        emailService.sendMail(tickets, "new");
     }
 
-    private void savePassengerIfNotExistInDB(PassengerEntity passenger){
+    /**
+     * Saving passenger in db
+     * @param passenger passenger
+     */
+    private void savePassengerIfNotExistInDB(PassengerEntity passenger) throws RailroadDaoException {
         if(!passengerService.isAlreadyExist(passenger)){
             //this passenger is not exist in db
             passengerService.save(passenger);
         }
     }
 
-    private PassengerEntity getCurrentPassengerFromDB(PassengerEntity passenger){
+    /**
+     * Getting Passenger from db
+     * @param passenger passenger
+     * @return PassengerEntity
+     */
+    private PassengerEntity getCurrentPassengerFromDB(PassengerEntity passenger) throws RailroadDaoException {
         savePassengerIfNotExistInDB(passenger);
         return passengerService.findPassengerByNameAndBirthDate(passenger);
     }
 
-    private UserEntity getCurrentUser(PassengerEntity passenger){
+    /**
+     * Getting current user with all passengers
+     * @param passenger passenger
+     * @return UserEntity
+     */
+    private UserEntity getCurrentUser(PassengerEntity passenger) throws RailroadDaoException {
         //getting current User
         UserEntity currentUser = userService.getCurrentUser();
 
@@ -122,14 +141,27 @@ public class BuyTicketService extends BaseService {
         return currentUser;
     }
 
-    private TrainEntity getCurrentTrain(TrainTicketDto trainTicketDto){
+    /**
+     * Getting current TrainEntity
+     * @param trainTicketDto train
+     * @return TrainEntity
+     */
+    private TrainEntity getCurrentTrain(TrainTicketDto trainTicketDto) throws RailroadDaoException {
         //getting trainEntity by trainNumber
-        TrainEntity trainEntity = trainService.findTrainEntityByNumber(trainTicketDto.getNumber());
+        TrainEntity trainEntity = trainService.findTrainByNumber(trainTicketDto.getNumber());
         return trainEntity;
     }
 
+    /**
+     * Mapping ticketDto ti TicketEntity
+     * @param trainTicketDto ticketDto
+     * @param currentUser current user
+     * @param currentPassenger current passenger
+     * @param currentTrain current train
+     * @return TicketEntity
+     */
     private TicketEntity getTicketByTicketDto(TrainTicketDto trainTicketDto, UserEntity currentUser,
-                                              PassengerEntity currentPassenger, TrainEntity currentTrain){
+                                              PassengerEntity currentPassenger, TrainEntity currentTrain) throws RailroadDaoException {
 
         //creating new ticketEntity and setting fields
         TicketEntity ticketEntity = new TicketEntity();
@@ -141,13 +173,25 @@ public class BuyTicketService extends BaseService {
         return ticketEntity;
     }
 
-    private ScheduleEntity getDepartStationSchedule(TrainEntity trainEntity, TrainTicketDto trainTicketDto){
+    /**
+     * Getting schedule for departure station
+     * @param trainEntity train
+     * @param trainTicketDto ticketDto
+     * @return ScheduleEntity
+     */
+    private ScheduleEntity getDepartStationSchedule(TrainEntity trainEntity, TrainTicketDto trainTicketDto) throws RailroadDaoException {
         ScheduleEntity departStationSchedule = scheduleService.findScheduleByTrainAndDepartDate(trainEntity,
                 getDate(trainTicketDto.getDepartDate(),"dd-MM-yyyy HH:mm"));
         return departStationSchedule;
     }
 
-    private ScheduleEntity getArrivalStationSchedule(TrainEntity trainEntity, TrainTicketDto trainTicketDto){
+    /**
+     * Getting schedule for arrival station
+     * @param trainEntity train
+     * @param trainTicketDto ticketDto
+     * @return ScheduleEntity
+     */
+    private ScheduleEntity getArrivalStationSchedule(TrainEntity trainEntity, TrainTicketDto trainTicketDto) throws RailroadDaoException {
         ScheduleEntity arrivalStationSchedule = scheduleService.findScheduleByTrainAndArrivalDate(trainEntity,
                 getDate(trainTicketDto.getArrivalDate(),"dd-MM-yyyy HH:mm"));
         return arrivalStationSchedule;

@@ -6,6 +6,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+
+/**
+ * Data transfer object that represents WayEntity
+ *
+ * @author Stanislav Popovich
+ */
+
 @Data
 public class WayDto {
     @NotNull(message = "{station.notNull.error}")

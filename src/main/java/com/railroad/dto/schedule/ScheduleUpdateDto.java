@@ -4,6 +4,12 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * Data transfer object that represent schedule for train which will be updating
+ *
+ * @author Stanislav Popovich
+ */
+
 @Data
 public class ScheduleUpdateDto {
     private String oldDepartDateFromFirstStation;

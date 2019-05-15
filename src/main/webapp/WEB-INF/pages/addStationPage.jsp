@@ -16,7 +16,7 @@
                 <h1><spring:message code="addNewStation"/></h1>
                 <c:if test="${exist}">
                     <div class="back_error">
-                        <spring:message code="existStation"/>
+                        <span><spring:message code="existStation"/></span>
                     </div>
                 </c:if>
                 <c:if test="${incorrectSelect}">

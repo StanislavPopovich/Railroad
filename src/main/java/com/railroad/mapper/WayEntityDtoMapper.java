@@ -19,7 +19,6 @@ public interface WayEntityDtoMapper {
     @Mapping(source = "wayEntity.secondStationEntity.name", target = "secondStation")
     WayDto wayEntityToWayDto(WayEntity wayEntity);
 
-    List<WayEntity> wayDtosToWayEntities(List<WayDto> wayDtos);
     List<WayDto> wayEntitiesToWayDtos(List<WayEntity> wayEntities);
 
     @Mapping(source = "stationName", target = "name")

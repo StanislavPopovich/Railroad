@@ -4,17 +4,11 @@ import com.railroad.dto.route.RouteDto;
 import com.railroad.dto.train.TrainDto;
 import com.railroad.dto.train.TrainTargetDto;
 import com.railroad.dto.train.TrainTransferTargetDto;
-import com.railroad.service.api.BusinessService;
-import com.railroad.service.api.ScheduleService;
-import com.railroad.service.api.StationService;
-import com.railroad.service.api.TrainService;
-import com.railroad.service.impl.RouteService;
-import com.railroad.service.impl.SearchTrainService;
-import org.apache.log4j.Logger;
+import com.railroad.exceptions.RailroadDaoException;
+import com.railroad.service.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,15 +20,12 @@ import java.util.List;
 @RequestMapping(value =  "/railroad")
 public class TrainController {
 
-    private static final Logger logger = Logger.getLogger(TrainController.class);
-
     @Autowired
     private BusinessService businessService;
 
     @Autowired
     private TrainService trainService;
-    @Autowired
-    private StationService stationService;
+
     @Autowired
     private SearchTrainService searchTrainService;
 
@@ -43,7 +34,6 @@ public class TrainController {
 
     @Autowired
     private RouteService routeService;
-
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -59,7 +49,7 @@ public class TrainController {
     }
 
     @GetMapping(value = "/trains/get-all")
-    public @ResponseBody List<TrainDto> getAllTrains() {
+    public @ResponseBody List<TrainDto> getAllTrains() throws RailroadDaoException {
         return trainService.getAll();
     }
 
@@ -73,48 +63,47 @@ public class TrainController {
 
     @PostMapping(value = "/train/all-routes")
     public @ResponseBody List<RouteDto> getAllRoutesForDepartAndArrivalStations(@RequestParam String departStation,
-                                                                         @RequestParam String arrivalStation ) {
+                                                                         @RequestParam String arrivalStation ) throws RailroadDaoException {
         return routeService.getAllRoutes(departStation, arrivalStation);
     }
 
     @PostMapping(value = "/find-direct-trains")
     public @ResponseBody List<TrainTargetDto> getTargetTrains(@RequestParam String departStation,
                                                               @RequestParam String arrivalStation,
-                                                              @RequestParam Date date){
+                                                              @RequestParam Date date) throws RailroadDaoException {
         return searchTrainService.getDirectTrains(departStation,arrivalStation,date);
     }
     @PostMapping(value = "/find-transfer-trains")
     public @ResponseBody List<TrainTransferTargetDto> getTargetTransferTrains(@RequestParam String departStation,
                                                                               @RequestParam String arrivalStation,
-                                                                              @RequestParam Date date){
+                                                                              @RequestParam Date date) throws RailroadDaoException {
         /*searchTrainService.getAlternativeTrasfer(departStation, arrivalStation, date);*/
         return searchTrainService.getTransferTrains(departStation, arrivalStation, date);
     }
 
-
     @PostMapping(value = "/train/add")
-    public String addTrainResult(@ModelAttribute("trainForm") TrainDto trainDto) {
+    public String addTrainResult(@ModelAttribute("trainForm") TrainDto trainDto) throws RailroadDaoException {
         trainService.save(trainDto);
         return "redirect:/railroad/user";
     }
 
     @GetMapping(value = "/train/all-from-schedule")
-    public @ResponseBody List<Integer> getTrainsNumbersFromSchedule(){
+    public @ResponseBody List<Integer> getTrainsNumbersFromSchedule() throws RailroadDaoException {
         return scheduleService.getTrainsNumberFromSchedule();
     }
 
     @GetMapping(value = "/train/all-numbers")
-    public @ResponseBody List<Integer> getTrainsNumbers(){
+    public @ResponseBody List<Integer> getTrainsNumbers() throws RailroadDaoException {
         return trainService.getAllTrainsNumbers();
     }
 
     @PostMapping(value = "/train/by-number")
-    public @ResponseBody TrainDto getTrainByNumber(@RequestParam String trainNumber){
+    public @ResponseBody TrainDto getTrainByNumber(@RequestParam String trainNumber) throws RailroadDaoException {
         return trainService.getTrainDtoByNumber(new Integer(trainNumber));
     }
 
     @PostMapping(value = "/train/add-new-train")
-    public @ResponseBody boolean[][] addNewTrain(@RequestBody  TrainDto trainDto){
+    public @ResponseBody boolean[][] addNewTrain(@RequestBody  TrainDto trainDto) throws RailroadDaoException {
         return businessService.saveTrain(trainDto);
     }
 

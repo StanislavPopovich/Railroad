@@ -30,6 +30,7 @@
 </section>
 <jsp:include page="footer.jsp"/>
 <script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/resources/js/message.js"></script>
 <script type="text/javascript" src="/resources/js/trainHandler.js"></script>
 </body>
 </html>

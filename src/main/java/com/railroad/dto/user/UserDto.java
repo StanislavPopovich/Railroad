@@ -4,6 +4,12 @@ import lombok.Data;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
+/**
+ * Data transfer object that represents UserEntity
+ *
+ * @author Stanislav Popovich
+ */
+
 @Data
 public class UserDto {
 

@@ -4,55 +4,44 @@ import com.railroad.dto.schedule.*;
 import com.railroad.entity.ScheduleEntity;
 import com.railroad.entity.StationEntity;
 import com.railroad.entity.TrainEntity;
+import com.railroad.exceptions.RailroadDaoException;
 
 import java.util.Date;
 import java.util.List;
 
 /**
- * Service interface for {@link ScheduleEntity}
  * @author Stanislav Popovich
- * @version 1.0
  */
 public interface ScheduleService {
 
-    void save(ScheduleTrainDto scheduleTrainDto);
+    void save(ScheduleTrainDto scheduleTrainDto) throws RailroadDaoException;
 
-    /**
-     * The method returns scheduleEntity for station on a specific date from dao layer
-     * @param stationName
-     * @param departDate
-     * @return list of ScheduleEntities
-     */
-    List<ScheduleEntity> getSchedulesByStationNameAndDepartDate(String stationName, Date departDate);
+    List<ScheduleEntity> getScheduleByStationAndDepartDate(String stationName, Date departDate) throws RailroadDaoException;
 
-    List<ScheduleInfoDto> getScheduleDtosByStationNameAndDepartDate(String stationName, Date date);
+    List<ScheduleInfoDto> getScheduleDtosByStationAndDepartDate(String stationName, Date date) throws RailroadDaoException;
 
+    List<ScheduleDto> getAll() throws RailroadDaoException;
 
-    /**
-     * The method returns all scheduleDto from dao layer
-     * @return list of ScheduleDto
-     */
-    List<ScheduleDto> getAll();
+    ScheduleEntity findScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date departDate) throws RailroadDaoException;
 
-    ScheduleEntity findScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
-    ScheduleEntity findScheduleByTrainAndArrivalDate(TrainEntity trainEntity, Date arrivalDate);
+    ScheduleEntity findScheduleByTrainAndArrivalDate(TrainEntity trainEntity, Date arrivalDate) throws RailroadDaoException;
 
-    //all schedules for train
-    List<ScheduleEntity> findSchedulesForTrain(TrainEntity trainEntity, Date departDate);
+    List<ScheduleEntity> findSchedulesForTrain(TrainEntity trainEntity, Date departDate) throws RailroadDaoException;
 
-    List<Date> getDepartDatesForTrain(TrainEntity trainEntity);
+    List<Date> getDepartDatesForTrain(TrainEntity trainEntity) throws RailroadDaoException;
 
-    void removeSchedulesByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
+    void removeSchedulesByTrainAndDepartDate(TrainEntity trainEntity, Date departDate) throws RailroadDaoException;
 
-    void updateSchedule(ScheduleUpdateDto scheduleUpdateDto);
+    void updateSchedule(ScheduleUpdateDto scheduleUpdateDto) throws RailroadDaoException;
 
     ScheduleEntity getScheduleByTrainAndStationAndDate(TrainEntity trainEntity, StationEntity stationEntity,
-                                                       Date departDate);
+                                                       Date departDate) throws RailroadDaoException;
 
-    ScheduleUpdateDto getScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
+    ScheduleUpdateDto getScheduleByTrainAndDepartDate(TrainEntity trainEntity, Date departDate) throws RailroadDaoException;
 
-    List<ScheduleMessageInfoDto> getActualSchedule(Date currentDate);
-    List<Integer> getTrainsNumberFromSchedule();
+    List<ScheduleMessageInfoDto> getActualSchedule(Date currentDate) throws RailroadDaoException;
+
+    List<Integer> getTrainsNumberFromSchedule() throws RailroadDaoException;
 
 
 }

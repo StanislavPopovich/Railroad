@@ -4,6 +4,7 @@ import com.railroad.dto.role.RoleDto;
 import com.railroad.dto.schedule.ScheduleInfoDto;
 import com.railroad.dto.ticket.TicketDto;
 import com.railroad.dto.user.UserDto;
+import com.railroad.exceptions.RailroadDaoException;
 import com.railroad.service.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,6 +26,7 @@ public class UserController {
 
     @Autowired
     private RoleService roleService;
+
     @Autowired
     private BusinessService businessService;
 
@@ -45,39 +46,39 @@ public class UserController {
 
     @GetMapping(value = "/admin/get-users")
     public @ResponseBody
-    List<UserDto> getStartContentAdminPage() {
+    List<UserDto> getStartContentAdminPage() throws RailroadDaoException {
         return userService.getAll();
     }
 
     @PostMapping(value = "/user/schedule/get-schedule-by-station-date")
     public @ResponseBody
-    List<ScheduleInfoDto> getSchedulesBuStationAndDate(@RequestParam String station, @RequestParam Date date) {
-        return scheduleService.getScheduleDtosByStationNameAndDepartDate(station, date);
+    List<ScheduleInfoDto> getSchedulesBuStationAndDate(@RequestParam String station, @RequestParam Date date) throws RailroadDaoException {
+        return scheduleService.getScheduleDtosByStationAndDepartDate(station, date);
     }
 
     @GetMapping(value = "/admin/get-all-roles")
-    public @ResponseBody List<RoleDto> getAllRoles(){
-        return roleService.getRolesNames();
+    public @ResponseBody List<RoleDto> getAllRoles() throws RailroadDaoException {
+        return roleService.getAllRolesDto();
     }
 
     @PostMapping(value = "/admin/update")
-    public void editUserResult(@RequestParam String userName, String role){
+    public void editUserResult(@RequestParam String userName, String role) throws RailroadDaoException {
         userService.update(userName, role);
     }
 
     @PostMapping(value = "/admin/user-delete")
-    public void deleteUserResult(@RequestParam String userName){
+    public void deleteUserResult(@RequestParam String userName) throws RailroadDaoException {
         userService.delete(userName);
     }
 
     @GetMapping(value = "/user/get-actual-tickets")
     public @ResponseBody
-    List<TicketDto> getStartContentUserPage() {
+    List<TicketDto> getStartContentUserPage() throws RailroadDaoException {
         return businessService.getActualTickets();
     }
 
     @GetMapping(value = "/user/get-not-actual-tickets")
-    public @ResponseBody List<TicketDto> getNotActualTickets(){
+    public @ResponseBody List<TicketDto> getNotActualTickets() throws RailroadDaoException {
         return businessService.getNotActualTickets();
     }
 
@@ -94,7 +95,7 @@ public class UserController {
     }
 
     @GetMapping(value = "user/passenger/all-for-current-user")
-    public @ResponseBody List<PassengerDto> getPassengersOfUser(){
+    public @ResponseBody List<PassengerDto> getPassengersOfUser() throws RailroadDaoException {
         return businessService.getPassengersOfCurrentUser();
     }
 

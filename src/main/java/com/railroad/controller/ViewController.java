@@ -1,6 +1,5 @@
 package com.railroad.controller;
 
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,5 +11,10 @@ public class ViewController {
     @GetMapping(value = "accessDenied")
     public String getAccessDeniedPage(){
         return "accessDeniedPage";
+    }
+
+    @GetMapping(value = "/trains")
+    public String getIndexPage(){
+        return "redirect:/railroad";
     }
 }

@@ -1,14 +1,15 @@
 package com.railroad.dto.ticket;
 
-import com.railroad.dto.train.TrainTicketDto;
 import com.railroad.dto.passenger.PassengerDto;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Setter
-@Getter
-@ToString
+/**
+ * Data transfer object that represent TicketEntity
+ *
+ * @author Stanislav Popovich
+ */
+
+@Data
 public class TicketDto {
     private TrainTicketDto trainTicketDto;
     private PassengerDto passengerDto;

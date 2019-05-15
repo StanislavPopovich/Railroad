@@ -2,33 +2,24 @@ package com.railroad.service.api;
 
 import com.railroad.dto.train.TrainDto;
 import com.railroad.entity.TrainEntity;
+import com.railroad.exceptions.RailroadDaoException;
 
 import java.util.List;
 
 /**
- * Service interface for {@link com.railroad.entity.TrainEntity}
  * @author Stanislav Popovich
- * @version 1.0
  */
 public interface TrainService {
 
-    /**
-     * The method sends trainDto to dao layer
-     * @param trainDto
-     */
-    void save(TrainDto trainDto);
+    void save(TrainDto trainDto) throws RailroadDaoException;
 
-    /**
-     * The method returns all trainDtos from dao layer
-     * @return list of TrainDto
-     */
-    List<TrainDto> getAll();
+    List<TrainDto> getAll() throws RailroadDaoException;
 
-    TrainEntity findTrainEntityByNumber(Integer trainNumber);
+    TrainEntity findTrainByNumber(Integer trainNumber) throws RailroadDaoException;
 
-    TrainDto getTrainDtoByNumber(Integer trainNumber);
+    TrainDto getTrainDtoByNumber(Integer trainNumber) throws RailroadDaoException;
 
-    List<Integer> getAllTrainsNumbers();
+    List<Integer> getAllTrainsNumbers() throws RailroadDaoException;
 
-    boolean trainAlreadyExist(Integer trainNumber);
+    boolean isAlreadyExist(Integer trainNumber) throws RailroadDaoException;
 }

@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    window.locale = "en";
     function getAllStations() {
         $.ajax({
             url: '/railroad/stations',
@@ -12,12 +13,8 @@ $(document).ready(function () {
             }
         });
         let addNewStation = document.getElementById("add_new_station");
-        let addNewWay = document.getElementById("add_new_way");
         if(addNewStation){
             addNewStation.addEventListener("click", redirectToAddStationPage, false);
-        }
-        if(addNewWay){
-            addNewWay.addEventListener("click", redirectToAddWayPage, false);
         }
     }
 
@@ -110,12 +107,16 @@ $('#to_stations').on('click', function () {
 
             let searchMenuDiv = document.querySelector("#search_menu > div");
             let btnAddNewWay = document.getElementById("add_new_way");
+
             if(!btnAddNewWay){
                 btnAddNewWay = document.createElement("div");
                 btnAddNewWay.className = "btn btn_blue";
                 btnAddNewWay.id = "add_new_way";
                 btnAddNewWay.textContent = "Add new way";
                 searchMenuDiv.appendChild(btnAddNewWay);
+            }
+            if(btnAddNewWay){
+                btnAddNewWay.addEventListener("click", redirectToAddWayPage, false);
             }
 
          },
@@ -149,11 +150,12 @@ function addTrain() {
 }
 
 function createModalTrain(route) {
+    let currentLocale = window.locale;
     let markup = "<div class='wrapper_modal'>" +
 "        <div class='close'></div>" +
 "        <div class='modal_content'>" +
 "             <div class='wrapper_add_train'>" +
-                  "<div><div class='caption'>Route:</div><div class='wrapper_route'>";
+                  "<div><div class='caption'>" + message[currentLocale].routeAddTrainModal + "</div><div class='wrapper_route'>";
                 for(let i =0; i < route.length; i++){
                     markup += "<div class='route'>"+ route[i] + "</div>";
                 }
@@ -161,21 +163,21 @@ function createModalTrain(route) {
           markup +="<div>" +
                       '<div class="back_error"></div>' +
                       '<div class="wrapper_input">' +
-                      '     <small>Train number</small>' +
+                      '     <small>' + message[currentLocale].trainNumberAddTrainModal + '</small>' +
                       '     <div class="wrapper_input_in">' +
                       '         <input id="train_number" class="input" type="text" value="">' +
                                 '<div class="error"></div>' +
                       '     </div>' +
                       '</div>' +
                       '<div class="wrapper_input">' +
-                            '<small>Number of seats</small>' +
+                            '<small>' + message[currentLocale].ticketsAddTrainModal + '</small>' +
                       '     <div class="wrapper_input_in">' +
                       '         <input id="number_seats" class="input" type="text" value="">' +
                                 '<div class="error"></div>' +
                       '     </div>' +
                       '</div>' +
-              '<button class="btn btn_blue" id="button" type="submit" disabled="true">' +
-              '                        Add</button>'+
+              '<button class="btn btn_blue" id="button" type="submit" disabled="true">'
+              + message[currentLocale].addButtonAddTrainModal + '</button>'+
                    "</div>" +
         "</div></div></div>";
 
@@ -269,4 +271,4 @@ function removeModal(event) {
         body.removeChild(wrapperModal);
     }
 
-};
+}

@@ -5,6 +5,13 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * Simple JavaBean domain object that represents Ticket
+ *
+ * @author Stanislav Popovich
+ *
+ */
+
 @Entity
 @Table(name = "tickets")
 @Getter

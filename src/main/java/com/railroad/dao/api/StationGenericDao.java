@@ -1,6 +1,8 @@
 package com.railroad.dao.api;
 
 import com.railroad.entity.StationEntity;
+import com.railroad.exceptions.RailroadDaoException;
+
 import java.util.List;
 
 /**
@@ -10,25 +12,11 @@ import java.util.List;
  */
 public interface StationGenericDao extends GenericDao<StationEntity, Long> {
 
-    /**
-     * Returns an entity from db by name
-     *
-     * @param name
-     * @return StationEntity with selected name
-     */
-    StationEntity findByStationName(String name);
+    StationEntity findByStationName(String name) throws RailroadDaoException;
 
-    /**
-     * Returns all names of entities from db
-     * @return list names of entities
-     */
-    List<String> getAllStationNames();
+    List<String> getAllStationNames() throws RailroadDaoException;
 
-    /**
-     * Returns last id of entity from db
-     * @return id
-     */
-    int getIdOfLastStation();
+    int getIdOfLastStation() throws RailroadDaoException;
 
-    public Long getCountStations(String stationName);
+    Long getCountStations(String stationName) throws RailroadDaoException;
 }

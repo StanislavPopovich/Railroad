@@ -44,11 +44,17 @@
                             </div>
                         </div>
                         <button id="b_button" class="btn btn_blue" type="submit" disabled="true"><spring:message code="buyTicket"/></button>
-
                     </form:form>
                 </div>
             </div>
             <div class="content content_type-train">
+                <div>
+                    <c:if test="${alreadyBought}">
+                        <div class="back_error">
+                            <span><spring:message code="alreadyBought"/>  ${trainError}</span>
+                        </div>
+                    </c:if>
+                </div>
                 <div id="items" class="items">
                     <c:choose>
                         <c:when test="${not empty trainTicket.returnTrain}">

@@ -1,6 +1,7 @@
 package com.railroad.dao.api;
 
 import com.railroad.entity.*;
+import com.railroad.exceptions.RailroadDaoException;
 
 import java.util.Date;
 import java.util.List;
@@ -12,24 +13,24 @@ import java.util.List;
  */
 public interface TicketGenericDao extends GenericDao<TicketEntity, Long> {
 
-    List<TicketEntity> getActualTicketsForPassenger(UserEntity userEntity, PassengerEntity passengerEntity);
+    List<TicketEntity> getActualTicketsForPassenger(UserEntity userEntity, PassengerEntity passengerEntity) throws RailroadDaoException;
 
-    List<TicketEntity> getNotActualTicketsForPassenger(UserEntity userEntity, PassengerEntity passengerEntity);
+    List<TicketEntity> getNotActualTicketsForPassenger(UserEntity userEntity, PassengerEntity passengerEntity) throws RailroadDaoException;
 
-    List<TicketEntity> getActualTickets(UserEntity userEntity);
+    List<TicketEntity> getActualTickets(UserEntity userEntity) throws RailroadDaoException;
 
-    List<TicketEntity> getNotActualTickets(UserEntity userEntity);
+    List<TicketEntity> getNotActualTickets(UserEntity userEntity) throws RailroadDaoException;
 
-    Long getCountTicketsByTrainAndSchedules(TrainEntity trainEntity, ScheduleEntity depart, ScheduleEntity arrival);
+    Long getCountTicketsByTrainAndSchedules(TrainEntity trainEntity, ScheduleEntity depart, ScheduleEntity arrival) throws RailroadDaoException;
 
 
-    void removeTicketByNumber(Long ticketNumber);
+    void removeTicketByNumber(Long ticketNumber) throws RailroadDaoException;
 
-    List<TicketEntity> getTicketsByTrainAndDepartDate(TrainEntity trainEntity, Date departDate);
+    List<TicketEntity> getTicketsByTrainAndDepartDate(TrainEntity trainEntity, Date departDate) throws RailroadDaoException;
 
-    List<PassengerEntity> getTrainPassengers(TrainEntity trainEntity, Date departDate);
+    List<PassengerEntity> getTrainPassengers(TrainEntity trainEntity, Date departDate) throws RailroadDaoException;
 
-    Long isPassengerBoughtTicket(PassengerEntity passengerEntity, TrainEntity trainEntity, Date departDate);
+    Long isPassengerBoughtTicket(PassengerEntity passengerEntity, TrainEntity trainEntity, Date departDate) throws RailroadDaoException;
 
-    Long getIdByTicket(TicketEntity ticket);
+    Long getIdByTicket(TicketEntity ticket) throws RailroadDaoException;
 }

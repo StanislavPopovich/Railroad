@@ -95,6 +95,7 @@ $(document).ready(function () {
     getContentForAddPage();
 
     function getFieldsForAddSchedules() {
+        let currentLocale = window.locale;
         let trainNumber = document.getElementById("train_number");
         let value = "";
         if(trainNumber){
@@ -118,7 +119,7 @@ $(document).ready(function () {
                             ' </div>' +
                             '<div class="wrapper_date">' +
                             '   <div class="label">' +
-                            '<span>Arrival date</span>' +
+                            '<span>' + message[currentLocale].arrivalDate + '</span>' +
                             '</div>' +
                             '    <input data-id="' + count + '" class="arrival_date" type="text" placeholder="yyyy-MM-dd HH:mm">' +
                             '   <div class="error"></div>' +
@@ -126,7 +127,7 @@ $(document).ready(function () {
                         count++;
                         markup +=       '<div class="wrapper_date">' +
                             '    <div class="label">' +
-                            '<span>Departing date</span>' +
+                            '<span>' + message[currentLocale].departureDate + '</span>' +
                             '</div>' +
                             '     <input data-id="' + count + '" class="departing_date" type="text" placeholder="yyyy-MM-dd HH:mm">' +
                             '     <div class="error"></div>' +
@@ -134,8 +135,6 @@ $(document).ready(function () {
                             '</div>';
                         count++;
                     }
-
-                    /* markup += '<input hidden id="train_number" value="' + data.number + '">';*/
                     $('#schedule').append().html(markup);
                     let schedule = document.getElementById("schedule");
                     if(schedule) {
@@ -161,7 +160,7 @@ $(document).ready(function () {
                     let currentValue = inputs[i].value;
                     let firstValid = checkDateFormatForSchedule(currentValue);
                     if(i === 0 && inputs[i].value !== ""){
-                        let currentDate = new Date(new Date().getTime() + 43200000);
+                        let currentDate = new Date(new Date().getTime() + 3600000);
                         if(firstValid === 0){
                             let inputDate = new Date(currentValue);
                             let secondValid = checkDates(currentDate, inputDate);

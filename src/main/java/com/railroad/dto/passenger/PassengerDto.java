@@ -8,6 +8,12 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+/**
+ * Data transfer object that represent PassengerEntity
+ *
+ * @author Stanislav Popovich
+ */
+
 @Data
 public class PassengerDto {
 

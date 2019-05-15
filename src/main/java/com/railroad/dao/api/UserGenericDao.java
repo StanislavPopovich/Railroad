@@ -1,9 +1,8 @@
 package com.railroad.dao.api;
 
-import com.railroad.entity.RoleEntity;
 import com.railroad.entity.UserEntity;
+import com.railroad.exceptions.RailroadDaoException;
 
-import java.util.List;
 
 /**
  * DAO for the {@link UserEntity} objects.
@@ -12,27 +11,10 @@ import java.util.List;
  */
 public interface UserGenericDao extends GenericDao<UserEntity, Long> {
 
-    /**
-     *Returns entity from db by user name
-     *
-     * @param userName
-     * @return UserEntity with selected name
-     */
-    UserEntity findByUserName(String userName);
+    UserEntity findByUserName(String userName) throws RailroadDaoException;
 
-    /**
-     * Returns count of users that matches of user name
-     * @param userName
-     * @return 0 or 1
-     */
-    Long getCountUserBuUserName(String userName);
+    Long getCountUserBuUserName(String userName) throws RailroadDaoException;
 
-    /**
-     * Returns entities from db by role
-     * @param roleEntity
-     * @return list of entities
-     */
-    List<UserEntity> getUsersByRole(RoleEntity roleEntity);
 
 }
 

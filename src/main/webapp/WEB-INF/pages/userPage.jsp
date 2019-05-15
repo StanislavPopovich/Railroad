@@ -16,9 +16,9 @@
             <c:if test="${pageContext.request.isUserInRole('ROLE_USER')}">
                 <div id="search_menu" class="left_menu type_black">
                     <div>
-                        <div class="title">All orders</div>
-                        <div id="upcoming" class="btn btn_blue">Upcoming trips</div>
-                        <div id="completed" class="btn btn_blue">Completed trips</div>
+                        <div class="title"><spring:message code="allOrdersUserPage"/></div>
+                        <div id="upcoming" class="btn btn_blue"><spring:message code="upcomingTripsUserPage"/></div>
+                        <div id="completed" class="btn btn_blue"><spring:message code="completedTripsUserPage"/></div>
                     </div>
                 </div>
                 <div class="content content_type-train">
@@ -38,6 +38,7 @@
 </section>
 <jsp:include page="footer.jsp"/>
 <script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/resources/js/message.js"></script>
 <script type="text/javascript" src="/resources/js/allOrdersHandler.js"></script>
 </body>
 </html>

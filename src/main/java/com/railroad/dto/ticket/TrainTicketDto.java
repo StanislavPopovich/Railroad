@@ -1,10 +1,12 @@
-package com.railroad.dto.train;
+package com.railroad.dto.ticket;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import java.util.List;
+
+/**
+ * Data transfer object that represent ticket for one train
+ *
+ * @author Stanislav Popovich
+ */
 
 @Data
 public class TrainTicketDto {

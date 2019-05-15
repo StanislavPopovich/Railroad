@@ -1,12 +1,12 @@
-var passengerName = document.getElementById("name");
-var lastName = document.getElementById("lastname");
-var birthDate = document.getElementById("birthDate");
-var button = document.getElementById("b_button");
-var email = document.getElementById("email");
-var lastNameReg = /^[a-zA-Z]+((['-][a-zA-Z ])?[a-zA-Z]*)*$/;
-var nameReg = /^[a-zA-Z]*$/;
-var emailReg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-var birthDateReg = /^([0-9]{4})-([0-9]{2})-([0-9]{2})$/;
+let passengerName = document.getElementById("name");
+let lastName = document.getElementById("lastname");
+let birthDate = document.getElementById("birthDate");
+let button = document.getElementById("b_button");
+let email = document.getElementById("email");
+let lastNameReg = /^[a-zA-Z]+((['-][a-zA-Z ])?[a-zA-Z]*)*$/;
+let nameReg = /^[a-zA-Z]*$/;
+let emailReg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+let birthDateReg = /^([0-9]{4})-([0-9]{2})-([0-9]{2})$/;
 function checkLastName() {
     if(lastName.value === "" || lastName.value.length < 1){
         getMessage("It is required field", "error_lastName");
@@ -174,9 +174,9 @@ function validYear(year) {
 }
 
 function turnOnButton() {
-    var wrapperInput = document.querySelectorAll(".wrapper_input");
-    for(var i = 0; i < wrapperInput.length; i++) {
-        var input = wrapperInput[i].getElementsByTagName("input");
+    let wrapperInput = document.querySelectorAll(".wrapper_input");
+    for(let i = 0; i < wrapperInput.length; i++) {
+        let input = wrapperInput[i].getElementsByTagName("input");
         if (input[0].classList.contains("correct")) {
             button.disabled = false;
             button.classList.add("active");

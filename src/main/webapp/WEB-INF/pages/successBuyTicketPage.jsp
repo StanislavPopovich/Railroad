@@ -13,9 +13,9 @@
         <div class="wrap wrapper-flex">
             <div class="content content_type-train">
                 <div class="success">
-                    <h1>Success</h1>
+                    <h1><spring:message code="success"/></h1>
                     <div>
-                        <span>Passenger: </span>
+                        <span><spring:message code="passengerSuccess"/></span>
                         <span>${passenger.lastName} ${passenger.name}</span>
                     </div>
                 </div>
@@ -40,44 +40,44 @@
                                         <div class="wrapper_item">
                                             <div class="wrapper_rout">
                                                 <div class="route">
-                                                    <div class="label"><span>From</span></div>
+                                                    <div class="label"><span><spring:message code="successFrom"/></span></div>
                                                     <div class="departStation_1">${trainTicket.toTrain.firstTrain.departStation}</div>
                                                 </div>
                                                 <div class="arrow_right"></div>
                                                 <div class="route">
-                                                    <div class="label"><span>To</span></div>
+                                                    <div class="label"><span><spring:message code="successTo"/></span></div>
                                                     <div class="arrivalStation_1">${trainTicket.toTrain.firstTrain.arrivalStation}</div>
                                                 </div>
                                             </div>
                                             <div class="wrapper_rout">
                                                 <div class="route">
-                                                    <div class="label"><span>From</span></div>
+                                                    <div class="label"><span><spring:message code="successFrom"/></span></div>
                                                     <div class="departStation_1">${trainTicket.toTrain.secondTrain.departStation}</div>
                                                 </div>
                                                 <div class="arrow_right"></div>
                                                 <div class="route">
-                                                    <div class="label"><span>To</span></div>
+                                                    <div class="label"><span><spring:message code="successTo"/></span></div>
                                                     <div class="arrivalStation_1">${trainTicket.toTrain.secondTrain.arrivalStation}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Departure date</span></div>
+                                                <div class="label"><span><spring:message code="successDepartureDate"/></span></div>
                                                 <div class="date_depart_1">${trainTicket.toTrain.firstTrain.departDate}</div>
                                             </div>
                                             <div class="date">
-                                                <div class="label"><span>Departure date</span></div>
+                                                <div class="label"><span><spring:message code="successDepartureDate"/></span></div>
                                                 <div class="date_depart_1">${trainTicket.toTrain.secondTrain.departDate}</div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Arrival date</span></div>
+                                                <div class="label"><span><spring:message code="successArrivalDate"/></span></div>
                                                 <div class="date_arrival_1">${trainTicket.toTrain.firstTrain.arrivalDate}</div>
                                             </div>
                                             <div class="date">
-                                                <div class="label"><span>Arrival date</span></div>
+                                                <div class="label"><span><spring:message code="successArrivalDate"/></span></div>
                                                 <div class="date_arrival_1">${trainTicket.toTrain.secondTrain.arrivalDate}</div>
                                             </div>
                                         </div>
@@ -98,44 +98,44 @@
                                         <div class="wrapper_item">
                                             <div class="wrapper_rout">
                                                 <div class="route">
-                                                    <div class="label"><span>From</span></div>
+                                                    <div class="label"><span><spring:message code="successFrom"/></span></div>
                                                     <div class="departStation_1">${trainTicket.returnTrain.firstTrain.departStation}</div>
                                                 </div>
                                                 <div class="arrow_right"></div>
                                                 <div class="route">
-                                                    <div class="label"><span>To</span></div>
+                                                    <div class="label"><span><spring:message code="successTo"/></span></div>
                                                     <div class="arrivalStation_1">${trainTicket.returnTrain.firstTrain.arrivalStation}</div>
                                                 </div>
                                             </div>
                                             <div class="wrapper_rout">
                                                 <div class="route">
-                                                    <div class="label"><span>From</span></div>
+                                                    <div class="label"><span><spring:message code="successFrom"/></span></div>
                                                     <div class="departStation_1">${trainTicket.returnTrain.secondTrain.departStation}</div>
                                                 </div>
                                                 <div class="arrow_right"></div>
                                                 <div class="route">
-                                                    <div class="label"><span>To</span></div>
+                                                    <div class="label"><span><spring:message code="successTo"/></span></div>
                                                     <div class="arrivalStation_1">${trainTicket.returnTrain.secondTrain.arrivalStation}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Departure date</span></div>
+                                                <div class="label"><span><spring:message code="successDepartureDate"/></span></div>
                                                 <div class="date_depart_1">${trainTicket.returnTrain.firstTrain.departDate}</div>
                                             </div>
                                             <div class="date">
-                                                <div class="label"><span>Departure date</span></div>
+                                                <div class="label"><span><spring:message code="successDepartureDate"/></span></div>
                                                 <div class="date_depart_1">${trainTicket.returnTrain.secondTrain.departDate}</div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Arrival date</span></div>
+                                                <div class="label"><span><spring:message code="successArrivalDate"/></span></div>
                                                 <div class="date_arrival_1">${trainTicket.returnTrain.firstTrain.arrivalDate}</div>
                                             </div>
                                             <div class="date">
-                                                <div class="label"><span>Arrival date</span></div>
+                                                <div class="label"><span><spring:message code="successArrivalDate"/></span></div>
                                                 <div class="date_arrival_1">${trainTicket.returnTrain.secondTrain.arrivalDate}</div>
                                             </div>
                                         </div>
@@ -158,44 +158,44 @@
                                         <div class="wrapper_item">
                                             <div class="wrapper_rout">
                                                 <div class="route">
-                                                    <div class="label"><span>From</span></div>
+                                                    <div class="label"><span><spring:message code="successFrom"/></span></div>
                                                     <div class="departStation_1">${trainTicket.toTrain.firstTrain.departStation}</div>
                                                 </div>
                                                 <div class="arrow_right"></div>
                                                 <div class="route">
-                                                    <div class="label"><span>To</span></div>
+                                                    <div class="label"><span><spring:message code="successTo"/></span></div>
                                                     <div class="arrivalStation_1">${trainTicket.toTrain.firstTrain.arrivalStation}</div>
                                                 </div>
                                             </div>
                                             <div class="wrapper_rout">
                                                 <div class="route">
-                                                    <div class="label"><span>From</span></div>
+                                                    <div class="label"><span><spring:message code="successFrom"/></span></div>
                                                     <div class="departStation_1">${trainTicket.toTrain.secondTrain.departStation}</div>
                                                 </div>
                                                 <div class="arrow_right"></div>
                                                 <div class="route">
-                                                    <div class="label"><span>To</span></div>
+                                                    <div class="label"><span><spring:message code="successTo"/></span></div>
                                                     <div class="arrivalStation_1">${trainTicket.toTrain.secondTrain.arrivalStation}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Departure date</span></div>
+                                                <div class="label"><span><spring:message code="successDepartureDate"/></span></div>
                                                 <div class="date_depart_1">${trainTicket.toTrain.firstTrain.departDate}</div>
                                             </div>
                                             <div class="date">
-                                                <div class="label"><span>Departure date</span></div>
+                                                <div class="label"><span><spring:message code="successDepartureDate"/></span></div>
                                                 <div class="date_depart_1">${trainTicket.toTrain.secondTrain.departDate}</div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Arrival date</span></div>
+                                                <div class="label"><span><spring:message code="successArrivalDate"/></span></div>
                                                 <div class="date_arrival_1">${trainTicket.toTrain.firstTrain.arrivalDate}</div>
                                             </div>
                                             <div class="date">
-                                                <div class="label"><span>Arrival date</span></div>
+                                                <div class="label"><span><spring:message code="successArrivalDate"/></span></div>
                                                 <div class="date_arrival_1">${trainTicket.toTrain.secondTrain.arrivalDate}</div>
                                             </div>
                                         </div>
@@ -212,25 +212,25 @@
                                         <div class="wrapper_item">
                                             <div class="wrapper_rout">
                                                 <div class="route">
-                                                    <div class="label"><span>From</span></div>
+                                                    <div class="label"><span><spring:message code="successFrom"/></span></div>
                                                     <div class="departStation_1">${trainTicket.returnTrain.firstTrain.departStation}</div>
                                                 </div>
                                                 <div class="arrow_right"></div>
                                                 <div class="route">
-                                                    <div class="label"><span>To</span></div>
+                                                    <div class="label"><span><spring:message code="successTo"/></span></div>
                                                     <div class="arrivalStation_1">${trainTicket.returnTrain.firstTrain.arrivalStation}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Departure date</span></div>
+                                                <div class="label"><span><spring:message code="successDepartureDate"/></span></div>
                                                 <div class="date_depart_1">${trainTicket.returnTrain.firstTrain.departDate}</div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Arrival date</span></div>
+                                                <div class="label"><span><spring:message code="successArrivalDate"/></span></div>
                                                 <div class="date_arrival_1">${trainTicket.returnTrain.firstTrain.arrivalDate}</div>
                                             </div>
                                         </div>
@@ -249,25 +249,25 @@
                                         <div class="wrapper_item">
                                             <div class="wrapper_rout">
                                                 <div class="route">
-                                                    <div class="label"><span>From</span></div>
+                                                    <div class="label"><span><spring:message code="successFrom"/></span></div>
                                                     <div class="departStation_1">${trainTicket.toTrain.firstTrain.departStation}</div>
                                                 </div>
                                                 <div class="arrow_right"></div>
                                                 <div class="route">
-                                                    <div class="label"><span>To</span></div>
+                                                    <div class="label"><span><spring:message code="successTo"/></span></div>
                                                     <div class="arrivalStation_1">${trainTicket.toTrain.firstTrain.arrivalStation}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Departure date</span></div>
+                                                <div class="label"><span><spring:message code="successDepartureDate"/></span></div>
                                                 <div class="date_depart_1">${trainTicket.toTrain.firstTrain.departDate}</div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Arrival date</span></div>
+                                                <div class="label"><span><spring:message code="successArrivalDate"/></span></div>
                                                 <div class="date_arrival_1">${trainTicket.toTrain.firstTrain.arrivalDate}</div>
                                             </div>
                                         </div>
@@ -288,44 +288,44 @@
                                         <div class="wrapper_item">
                                             <div class="wrapper_rout">
                                                 <div class="route">
-                                                    <div class="label"><span>From</span></div>
+                                                    <div class="label"><span><spring:message code="successFrom"/></span></div>
                                                     <div class="departStation_1">${trainTicket.returnTrain.firstTrain.departStation}</div>
                                                 </div>
                                                 <div class="arrow_right"></div>
                                                 <div class="route">
-                                                    <div class="label"><span>To</span></div>
+                                                    <div class="label"><span><spring:message code="successTo"/></span></div>
                                                     <div class="arrivalStation_1">${trainTicket.returnTrain.firstTrain.arrivalStation}</div>
                                                 </div>
                                             </div>
                                             <div class="wrapper_rout">
                                                 <div class="route">
-                                                    <div class="label"><span>From</span></div>
+                                                    <div class="label"><span><spring:message code="successFrom"/></span></div>
                                                     <div class="departStation_1">${trainTicket.returnTrain.secondTrain.departStation}</div>
                                                 </div>
                                                 <div class="arrow_right"></div>
                                                 <div class="route">
-                                                    <div class="label"><span>To</span></div>
+                                                    <div class="label"><span><spring:message code="successTo"/></span></div>
                                                     <div class="arrivalStation_1">${trainTicket.returnTrain.secondTrain.arrivalStation}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Departure date</span></div>
+                                                <div class="label"><span><spring:message code="successDepartureDate"/></span></div>
                                                 <div class="date_depart_1">${trainTicket.returnTrain.firstTrain.departDate}</div>
                                             </div>
                                             <div class="date">
-                                                <div class="label"><span>Departure date</span></div>
+                                                <div class="label"><span><spring:message code="successDepartureDate"/></span></div>
                                                 <div class="date_depart_1">${trainTicket.returnTrain.secondTrain.departDate}</div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Arrival date</span></div>
+                                                <div class="label"><span><spring:message code="successArrivalDate"/></span></div>
                                                 <div class="date_arrival_1">${trainTicket.returnTrain.firstTrain.arrivalDate}</div>
                                             </div>
                                             <div class="date">
-                                                <div class="label"><span>Arrival date</span></div>
+                                                <div class="label"><span><spring:message code="successArrivalDate"/></span></div>
                                                 <div class="date_arrival_1">${trainTicket.returnTrain.secondTrain.arrivalDate}</div>
                                             </div>
                                         </div>
@@ -343,25 +343,25 @@
                                         <div class="wrapper_item">
                                             <div class="wrapper_rout">
                                                 <div class="route">
-                                                    <div class="label"><span>From</span></div>
+                                                    <div class="label"><span><spring:message code="successFrom"/></span></div>
                                                     <div class="departStation_1">${trainTicket.toTrain.firstTrain.departStation}</div>
                                                 </div>
                                                 <div class="arrow_right"></div>
                                                 <div class="route">
-                                                    <div class="label"><span>To</span></div>
+                                                    <div class="label"><span><spring:message code="successTo"/></span></div>
                                                     <div class="arrivalStation_1">${trainTicket.toTrain.firstTrain.arrivalStation}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Departure date</span></div>
+                                                <div class="label"><span><spring:message code="successDepartureDate"/></span></div>
                                                 <div class="date_depart_1">${trainTicket.toTrain.firstTrain.departDate}</div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Arrival date</span></div>
+                                                <div class="label"><span><spring:message code="successArrivalDate"/></span></div>
                                                 <div class="date_arrival_1">${trainTicket.toTrain.firstTrain.arrivalDate}</div>
                                             </div>
                                         </div>
@@ -378,25 +378,25 @@
                                         <div class="wrapper_item">
                                             <div class="wrapper_rout">
                                                 <div class="route">
-                                                    <div class="label"><span>From</span></div>
+                                                    <div class="label"><span><spring:message code="successFrom"/></span></div>
                                                     <div class="departStation_1">${trainTicket.returnTrain.firstTrain.departStation}</div>
                                                 </div>
                                                 <div class="arrow_right"></div>
                                                 <div class="route">
-                                                    <div class="label"><span>To</span></div>
+                                                    <div class="label"><span><spring:message code="successTo"/></span></div>
                                                     <div class="arrivalStation_1">${trainTicket.returnTrain.firstTrain.arrivalStation}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Departure date</span></div>
+                                                <div class="label"><span><spring:message code="successDepartureDate"/></span></div>
                                                 <div class="date_depart_1">${trainTicket.returnTrain.firstTrain.departDate}</div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Arrival date</span></div>
+                                                <div class="label"><span><spring:message code="successArrivalDate"/></span></div>
                                                 <div class="date_arrival_1">${trainTicket.returnTrain.firstTrain.arrivalDate}</div>
                                             </div>
                                         </div>
@@ -421,44 +421,44 @@
                                         <div class="wrapper_item">
                                             <div class="wrapper_rout">
                                                 <div class="route">
-                                                    <div class="label"><span>From</span></div>
+                                                    <div class="label"><span><spring:message code="successFrom"/></span></div>
                                                     <div class="departStation_1">${trainTicket.toTrain.firstTrain.departStation}</div>
                                                 </div>
                                                 <div class="arrow_right"></div>
                                                 <div class="route">
-                                                    <div class="label"><span>To</span></div>
+                                                    <div class="label"><span><spring:message code="successTo"/></span></div>
                                                     <div class="arrivalStation_1">${trainTicket.toTrain.firstTrain.arrivalStation}</div>
                                                 </div>
                                             </div>
                                             <div class="wrapper_rout">
                                                 <div class="route">
-                                                    <div class="label"><span>From</span></div>
+                                                    <div class="label"><span><spring:message code="successFrom"/></span></div>
                                                     <div class="departStation_1">${trainTicket.toTrain.secondTrain.departStation}</div>
                                                 </div>
                                                 <div class="arrow_right"></div>
                                                 <div class="route">
-                                                    <div class="label"><span>To</span></div>
+                                                    <div class="label"><span><spring:message code="successTo"/></span></div>
                                                     <div class="arrivalStation_1">${trainTicket.toTrain.secondTrain.arrivalStation}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Departure date</span></div>
+                                                <div class="label"><span><spring:message code="successDepartureDate"/></span></div>
                                                 <div class="date_depart_1">${trainTicket.toTrain.firstTrain.departDate}</div>
                                             </div>
                                             <div class="date">
-                                                <div class="label"><span>Departure date</span></div>
+                                                <div class="label"><span><spring:message code="successDepartureDate"/></span></div>
                                                 <div class="date_depart_1">${trainTicket.toTrain.secondTrain.departDate}</div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Arrival date</span></div>
+                                                <div class="label"><span><spring:message code="successArrivalDate"/></span></div>
                                                 <div class="date_arrival_1">${trainTicket.toTrain.firstTrain.arrivalDate}</div>
                                             </div>
                                             <div class="date">
-                                                <div class="label"><span>Arrival date</span></div>
+                                                <div class="label"><span><spring:message code="successArrivalDate"/></span></div>
                                                 <div class="date_arrival_1">${trainTicket.toTrain.secondTrain.arrivalDate}</div>
                                             </div>
                                         </div>
@@ -475,25 +475,25 @@
                                         <div class="wrapper_item">
                                             <div class="wrapper_rout">
                                                 <div class="route">
-                                                    <div class="label"><span>From</span></div>
+                                                    <div class="label"><span><spring:message code="successFrom"/></span></div>
                                                     <div class="departStation_1">${trainTicket.toTrain.firstTrain.departStation}</div>
                                                 </div>
                                                 <div class="arrow_right"></div>
                                                 <div class="route">
-                                                    <div class="label"><span>To</span></div>
+                                                    <div class="label"><span><spring:message code="successTo"/></span></div>
                                                     <div class="arrivalStation_1">${trainTicket.toTrain.firstTrain.arrivalStation}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Departure date</span></div>
+                                                <div class="label"><span><spring:message code="successDepartureDate"/></span></div>
                                                 <div class="date_depart_1">${trainTicket.toTrain.firstTrain.departDate}</div>
                                             </div>
                                         </div>
                                         <div class="wrapper_item">
                                             <div class="date">
-                                                <div class="label"><span>Arrival date</span></div>
+                                                <div class="label"><span><spring:message code="successArrivalDate"/></span></div>
                                                 <div class="date_arrival_1">${trainTicket.toTrain.firstTrain.arrivalDate}</div>
                                             </div>
                                         </div>
@@ -502,7 +502,6 @@
                             </c:choose>
                         </c:otherwise>
                     </c:choose>
-
                 </div>
             </div>
         </div>

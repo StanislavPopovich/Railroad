@@ -1,14 +1,17 @@
 package com.railroad.service.impl;
 
+import com.railroad.dao.api.ScheduleGenericDao;
 import com.railroad.dao.api.StationGenericDao;
 import com.railroad.dao.api.TrainGenericDao;
 import com.railroad.dto.train.TrainTargetDto;
 import com.railroad.dto.train.TrainTransferTargetDto;
+import com.railroad.exceptions.RailroadDaoException;
 import com.railroad.mapper.TrainEntityDtoMapper;
 import com.railroad.entity.ScheduleEntity;
 import com.railroad.entity.StationEntity;
 import com.railroad.entity.TrainEntity;
 import com.railroad.service.api.ScheduleService;
+import com.railroad.service.api.SearchTrainService;
 import com.railroad.service.api.TicketService;
 import com.railroad.service.api.TrainService;
 import org.apache.log4j.Logger;
@@ -22,10 +25,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Service
-public class SearchTrainService extends BaseService{
+/**
+ * @author Stanislav Popovich
+ */
 
-    private static final Logger logger = Logger.getLogger(SearchTrainService.class);
+@Service
+public class SearchTrainServiceImpl extends BaseService implements SearchTrainService {
 
     @Autowired
     private ScheduleService scheduleService;
@@ -35,33 +40,88 @@ public class SearchTrainService extends BaseService{
 
     @Autowired
     private TicketService ticketService;
+
     @Autowired
     private TrainService trainService;
+
     @Autowired
     private TrainGenericDao trainGenericDao;
+
     @Autowired
     private StationGenericDao stationGenericDao;
 
+    @Autowired
+    private ScheduleGenericDao scheduleGenericDao;
+
     @Transactional
     public List<TrainTransferTargetDto> getAlternativeTrasfer(String departStation, String arrivalStation, Date departDate){
-        StationEntity stationEntity = stationGenericDao.findByStationName(departStation);
-        StationEntity station = stationGenericDao.findByStationName(arrivalStation);
-        List<TrainEntity> trains = trainGenericDao.getAllByDepartStation(stationEntity);
-        List<TrainEntity> trains1 = trainGenericDao.getAllByDepartAndArrivalStation(stationEntity, station);
-        System.out.println("\n");
-        System.out.println("\n");
-        System.out.println("\n");
-        for(TrainEntity trainEntity:trains1){
-            System.out.println(trainEntity.getNumber());
+        /*StationEntity depart = stationGenericDao.findByStationName(departStation);
+        StationEntity arrival = stationGenericDao.findByStationName(arrivalStation);
+        List<TrainEntity> firstTrains = trainGenericDao.getAllByDepartStation(depart);
+        List<TrainTransferTargetDto> targetTrains = new ArrayList<>();
+        for(TrainEntity firstTrain: firstTrains){
+            ScheduleEntity firstTrainStationSchedule = scheduleService.findScheduleByTrainAndDepartDate(firstTrain, departDate);
+            if(firstTrainStationSchedule != null){
+                List<StationEntity> stations = firstTrain.getStationEntities();
+
+                int indexOfDepartStation = geiIndexOfStation(stations, departStation);
+
+                List<ScheduleEntity> firstTrainSchedule = scheduleService.
+                        findSchedulesForTrain(firstTrain, firstTrainStationSchedule.getDepartDateFromFirstStation());
+
+                for(int i = indexOfDepartStation + 1; i < stations.size(); i++){
+
+                    int firstTrainTickets = getCountTickets(firstTrainSchedule, firstTrain, indexOfDepartStation, i);
+
+                    if(firstTrainTickets > 0){
+
+                        StationEntity transferStation = stationGenericDao.findByStationName(stations.get(i).getName());
+
+                        List<Long> directTrainsId = trainGenericDao.getTrainsIdByDepartAndArrivalStations(transferStation, arrival);
+                        for(Long id: directTrainsId){
+                            TrainEntity transferTrain = trainGenericDao.getById(id);
+                            ScheduleEntity transferTrainStationSchedule = scheduleService.
+                                    findScheduleByTrainAndDepartDate(transferTrain, departDate);
+
+
+                            *//*if(scheduleGenericDao.isExistTrainInScheduleByDate(transferTrain, scheduleEntity.getArrivalDate()) > 0){
+
+
+                                TrainTargetDto firstTrainDto = new TrainTargetDto();
+
+                            }*//*
+
+                        }
+                    }
+
+
+                }
+            }
+
         }
+
+        System.out.println("\n");
+        System.out.println("\n");
+        System.out.println("\n");*/
+        /*for(TrainEntity trainEntity:trains1){
+            System.out.println(trainEntity.getNumber());
+        }*/
         return null;
     }
 
+    /**
+     * Getting direct trains from departure station to arrival station
+     * @param departStation departure station
+     * @param arrivalStation arrival station
+     * @param departDate departure date
+     * @return List of TrainTargetDto
+     */
+    @Override
     @Transactional
-    public List<TrainTargetDto> getDirectTrains(String departStation, String arrivalStation, Date departDate) {
+    public List<TrainTargetDto> getDirectTrains(String departStation, String arrivalStation, Date departDate) throws RailroadDaoException {
         //getting schedules for station on departing date
         List<ScheduleEntity> departStationSchedule = scheduleService.
-                getSchedulesByStationNameAndDepartDate(departStation, departDate);
+                getScheduleByStationAndDepartDate(departStation, departDate);
 
         //creating list for target trains
         List<TrainTargetDto> trains = new ArrayList<>();
@@ -106,15 +166,20 @@ public class SearchTrainService extends BaseService{
         return trains;
     }
 
-    /*private List<ScheduleEntity> getScheduleForTrainInOrder(TrainEntity trainEntity){
 
-    }*/
-
+    /**
+     * Getting trains with one transfer rom departure station to arrival station
+     * @param departStation departure station
+     * @param arrivalStation arrival station
+     * @param departDate departure date
+     * @return List of TrainTransferTargetDto
+     */
+    @Override
     @Transactional
-    public List<TrainTransferTargetDto> getTransferTrains(String departStation, String arrivalStation, Date departDate){
+    public List<TrainTransferTargetDto> getTransferTrains(String departStation, String arrivalStation, Date departDate) throws RailroadDaoException {
         //getting schedules for station on departing date
         List<ScheduleEntity> departStationSchedule = scheduleService.
-                getSchedulesByStationNameAndDepartDate(departStation, departDate);
+                getScheduleByStationAndDepartDate(departStation, departDate);
 
         //creating list for target trains
         List<TrainTransferTargetDto> trains = new ArrayList<>();
@@ -148,7 +213,7 @@ public class SearchTrainService extends BaseService{
                 ScheduleEntity arrivalSchedule = trainSchedules.get(i);
 
                 List<ScheduleEntity> scheduleForTransferStation = scheduleService.
-                        getSchedulesByStationNameAndDepartDate(arrivalSchedule.getStationEntity().getName(),
+                        getScheduleByStationAndDepartDate(arrivalSchedule.getStationEntity().getName(),
                                 arrivalSchedule.getArrivalDate());
 
                 for(ScheduleEntity transferStationSchedule: scheduleForTransferStation){
@@ -217,16 +282,28 @@ public class SearchTrainService extends BaseService{
         return trains;
     }
 
-    private int geiIndexOfStation(List<StationEntity> trainStation, String station){
+    /**
+     * Getting index of station in route
+     * @param trainStations route of train
+     * @param station station
+     * @return index
+     */
+    private int geiIndexOfStation(List<StationEntity> trainStations, String station){
         int index = -1;
-        for(int i = 0; i < trainStation.size(); i++){
-            if(trainStation.get(i).getName().equals(station)){
+        for(int i = 0; i < trainStations.size(); i++){
+            if(trainStations.get(i).getName().equals(station)){
                 index = i;
             }
         }
         return index;
     }
 
+    /**
+     * Checking that departure station is before arrival station
+     * @param indexOfDepartStation index of departure station
+     * @param indexOfArrivalStation index of arrival station
+     * @return boolean
+     */
     private boolean checkRouteOfTrain(int indexOfDepartStation, int indexOfArrivalStation){
         if((indexOfDepartStation != -1 && indexOfArrivalStation != -1) &&
                 (indexOfDepartStation < indexOfArrivalStation)){
@@ -235,7 +312,13 @@ public class SearchTrainService extends BaseService{
         return false;
     }
 
-    private List<ScheduleEntity> getScheduleForTrainInOrder(TrainEntity trainEntity, Date departDateFromFirstStation){
+    /**
+     * Sorting schedules
+     * @param trainEntity train
+     * @param departDateFromFirstStation departure date from first staion of route
+     * @return List of ScheduleEntity
+     */
+    private List<ScheduleEntity> getScheduleForTrainInOrder(TrainEntity trainEntity, Date departDateFromFirstStation) throws RailroadDaoException {
         List<ScheduleEntity> result = new ArrayList<>();
         List<ScheduleEntity> trainSchedules = scheduleService.
                 findSchedulesForTrain(trainEntity, departDateFromFirstStation);
@@ -249,13 +332,26 @@ public class SearchTrainService extends BaseService{
         return result;
     }
 
+    /**
+     * Checking that current date more thatndeparture date
+     * @param departDate departure date
+     * @return boolean
+     */
     private boolean checkDepartDate(Date departDate){
         DateTime dateTime = new DateTime(new Date());
         return departDate.getTime() > (dateTime.plusMinutes(10)).toDate().getTime();
     }
 
+    /**
+     * Getting count of vacant tickets on train from departure station to arrival station
+     * @param trainSchedules schedule of train
+     * @param trainEntity train
+     * @param departStationIndex index of departure station
+     * @param arrivalStationIndex index of arrival station
+     * @return  int
+     */
     private int getCountTickets(List<ScheduleEntity> trainSchedules, TrainEntity trainEntity,
-                                int departStationIndex, int arrivalStationIndex){
+                                int departStationIndex, int arrivalStationIndex) throws RailroadDaoException {
         int countTickets = 0;
 
         //getting matrix of ticket for all train route
@@ -270,7 +366,13 @@ public class SearchTrainService extends BaseService{
         return countTickets;
     }
 
-    private int[][] getTicketMatrix(List<ScheduleEntity> trainSchedule, TrainEntity trainEntity){
+    /**
+     * Getting ticket matrix
+     * @param trainSchedule train schedule
+     * @param trainEntity train
+     * @return array
+     */
+    private int[][] getTicketMatrix(List<ScheduleEntity> trainSchedule, TrainEntity trainEntity) throws RailroadDaoException {
         int[][] ticketMatrix = getEmptyMatrix(trainSchedule.size());
         for(int i = 0; i < trainSchedule.size() - 1; i++){
             for(int j = trainSchedule.size() - 1; j > i; j--){

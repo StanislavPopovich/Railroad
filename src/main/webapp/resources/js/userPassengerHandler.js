@@ -1,54 +1,16 @@
 $(document).ready(function () {
-    var local = "en";
-    var findTableText = {
-        ru: {
-            userName: "Пользователь",
-            userRole: "Роль",
-            userNotFound: "Пользователи не найдены",
-            editButton: "Изменить",
-            deleteButton: "Удалить",
-            trainNumber: "Номер поезда",
-            seats: "Количество мест",
-            timeWay: "Время в пути",
-            route: "Маршрут",
-            trainsNotFound: "Поезда не найдены",
-            upcomingTrips: "ПРЕДСТОЯЩИЕ ПОЕЗДКИ",
-            haveNotTrips: "У вас нет предстоящих поезок"
-        },
-        en: {
-            userName: "User name",
-            userRole: "Role",
-            userNotFound: "Users not found",
-            editButton: "Edit",
-            deleteButton: "Delete",
-            trainNumber: "Train number",
-            seats: "Seats",
-            timeWay: "Time",
-            route: "Route",
-            trainsNotFound: "Trains is not found",
-            upcomingTrips: "FORTHCOMING TRIPS",
-            haveNotTrips: "You haven't forthcoming trips",
-            trainTrips: "TRAIN",
-            routeTrips: "ROUTE",
-            departDateTrips: "DEPARTING DATE",
-            details: "Details",
-            return: "Return",
-            allOrders: "ALL ORDERS",
-            completedTrips: "COMPLETED TRIPS",
-            haveNotPassengers: "You haven't any passengers",
-            allPassenger: "ALL PASSENGERS"
-        }
-    };
+    window.locale = "en";
 
     function getUserPassengers() {
+        let currentLocale = window.locale;
         $.ajax({
             url : '/railroad/user/passenger/all-for-current-user',
             type : "GET",
             dataType : "json",
             success: function (data) {
-                var  markup = "";
+                let  markup = "";
                 if(data.length === 0){
-                    markup+= '<div class="not_found">' + findTableText[local].haveNotPassengers + '</div>';
+                    markup+= '<div class="not_found">' + message[currentLocale].userHaveNotPassengers + '</div>';
                 }else{
                     for(var i = 0; i< data.length;i++ ){
                         markup += ''+
@@ -56,19 +18,19 @@ $(document).ready(function () {
                         '    <div class="wrap_passenger">' +
                         '       <div class="info">' +
                         '          <div class="label">' +
-                        '               <span>Passenger</span>' +
+                        '               <span>' +  message[currentLocale].passenger + '</span>' +
                         '           </div>' +
                         '           <div>' + data[i].lastName + ' ' + data[i].name + '</div>' +
                         '       </div>' +
                         '       <div class="info">' +
                         '           <div class="label">' +
-                        '               <span>Birth date</span>' +
+                        '               <span>' + message[currentLocale].birthDate + '</span>' +
                         '           </div>' +
                         '           <div>' + data[i].birthDate + '</div>' +
                         '       </div>' +
                         '    </div>' +
                         '    <div class="wrapper_btn">' +
-                        '        <div class="btn btn_blue btn_all_orders">all orders</div>' +
+                        '        <div class="btn btn_blue btn_all_orders">' + message[currentLocale].allOrdersButton + '</div>' +
                         '    </div>' +
                             '<input type="hidden" class="passengerDto_lastName" value="' + data[i].lastName + '">' +
                             '<input type="hidden" class="passengerDto_name" value="' + data[i].name + '">' +

@@ -1,8 +1,12 @@
 package com.railroad.dto.train;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+
+/**
+ * Data transfer object that represent train which user is searching in system
+ *
+ * @author Stanislav Popovich
+ */
 
 @Data
 public class TrainTargetDto {

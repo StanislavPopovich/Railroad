@@ -2,47 +2,29 @@ package com.railroad.service.api;
 
 import com.railroad.dto.station.StationDto;
 import com.railroad.entity.StationEntity;
+import com.railroad.exceptions.RailroadDaoException;
 
 import java.util.List;
 
 /**
- * Service interface for {@link com.railroad.entity.StationEntity}
  * @author Stanislav Popovich
- * @version 1.0
  */
 public interface StationService {
 
-    /**
-     * The method sends stationDto to dao layer
-     * @param stationDto
-     */
-    void save(StationDto stationDto);
+    void save(StationDto stationDto) throws RailroadDaoException;
 
-    /**
-     * The method returns stationDtos from dao layer
-     * @return list StationDto
-     */
-    List<StationDto> getAll();
+    List<StationDto> getAll() throws RailroadDaoException;
 
-    /**
-     * The method returns stations names from dao layer
-     * @return list of Strings
-     */
-    List<String> getAllStationsName();
+    List<String> getAllStationsName() throws RailroadDaoException;
 
-    List<String> getAllStationsNameWithoutDepartStation(String departStation);
+    List<String> getAllStationsNameWithoutDepartStation(String departStation) throws RailroadDaoException;
 
-    StationEntity getStationEntityByStationName(String name);
+    StationEntity getStationByName(String name) throws RailroadDaoException;
 
-    /**
-     * The method returns stationDto by id from dao layer
-     * @param id
-     * @return StationDto
-     */
-    StationDto getStationById(Long id);
+    StationDto getStationById(Long id) throws RailroadDaoException;
 
-    int getIdOfLastStation();
+    int getIdOfLastStation() throws RailroadDaoException;
 
-    boolean isAlreadyExist(String name);
+    boolean isAlreadyExist(String name) throws RailroadDaoException;
 
 }

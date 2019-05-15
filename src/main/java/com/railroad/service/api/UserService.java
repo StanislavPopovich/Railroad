@@ -2,43 +2,24 @@ package com.railroad.service.api;
 
 import com.railroad.dto.user.UserDto;
 import com.railroad.entity.UserEntity;
+import com.railroad.exceptions.RailroadDaoException;
+
 import java.util.List;
 
 /**
- * Service interface for {@link UserEntity}
  * @author Stanislav Popovich
- * @version 1.0
  */
 public interface UserService {
 
-    /**
-     * The method sends userDto to dao layer
-     * @param userDto
-     */
-    void save(UserDto userDto);
+    void save(UserDto userDto) throws RailroadDaoException;
 
-    /**
-     * The method returns userDto by user name from dao layer
-     * @param userName
-     * @return UserDto
-     */
-    UserDto findByUsername(String userName);
+    List<UserDto> getAll() throws RailroadDaoException;
 
-    /**
-     * The method returns all userDtos from dao layer
-     * @return list of UserDto
-     */
-    List<UserDto> getAll();
+    boolean isAlreadyExist(String userName) throws RailroadDaoException;
 
-    boolean isAlreadyExist(String userName);
+    void update(String userName, String role) throws RailroadDaoException;
 
-    void update(String userName, String role);
+    void delete(String userName) throws RailroadDaoException;
 
-    /**
-     * The method sends UserEntity by userName to dao layer for remove
-     * @param userName
-     */
-    void delete(String userName);
-
-    UserEntity getCurrentUser();
+    UserEntity getCurrentUser() throws RailroadDaoException;
 }

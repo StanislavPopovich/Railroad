@@ -1,6 +1,7 @@
 package com.railroad.dao.api;
 
 import com.railroad.entity.RoleEntity;
+import com.railroad.exceptions.RailroadDaoException;
 
 /**
  * DAO for the {@link RoleEntity} objects.
@@ -9,11 +10,5 @@ import com.railroad.entity.RoleEntity;
  */
 public interface RoleGenericDao extends GenericDao<RoleEntity, Long> {
 
-    /**
-     * Returns role entity from db by name
-     *
-     * @param name
-     * @return RoleEntity with selected name
-     */
-    RoleEntity findByName(String name);
+    RoleEntity findByName(String name) throws RailroadDaoException;
 }

@@ -1,11 +1,10 @@
 package com.railroad.controller;
 
-import com.railroad.dto.station.StationDto;
 import com.railroad.dto.way.WayDto;
+import com.railroad.exceptions.RailroadDaoException;
 import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.StationService;
-import com.railroad.service.impl.TableService;
-import org.apache.log4j.Logger;
+import com.railroad.service.api.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,13 +17,13 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/railroad")
 public class StationController {
-    private static final Logger logger = Logger.getLogger(StationController.class);
 
     @Autowired
     private StationService stationService;
 
     @Autowired
     private BusinessService businessService;
+
     @Autowired
     private TableService tableService;
 
@@ -36,7 +35,7 @@ public class StationController {
 
     @PostMapping(value = "/station/add")
     public String resultAddStationAndWay(@Valid @ModelAttribute("way") WayDto way, BindingResult bindingResult,
-                                         Model model){
+                                         Model model) throws RailroadDaoException {
         if(bindingResult.hasErrors()){
             return "addStationPage";
         }
@@ -55,13 +54,13 @@ public class StationController {
 
     @PostMapping(value = "/dest-station")
     public @ResponseBody
-    List<String> getStationsWithoutStartStation(@RequestParam String departStation) {
+    List<String> getStationsWithoutStartStation(@RequestParam String departStation) throws RailroadDaoException {
         return stationService.getAllStationsNameWithoutDepartStation(departStation);
     }
 
     @GetMapping(value = "/stations")
     public @ResponseBody
-    List<String> getStations() {
+    List<String> getStations() throws RailroadDaoException {
         return stationService.getAllStationsName();
     }
 }

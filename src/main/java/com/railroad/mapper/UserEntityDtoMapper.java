@@ -38,5 +38,4 @@ public interface UserEntityDtoMapper {
     }
 
     List<UserDto> userEntitiesToUserDtos(List<UserEntity> userEntities);
-    List<UserEntity> userDtosToUserEntities(List<UserDto> userDtos);
 }

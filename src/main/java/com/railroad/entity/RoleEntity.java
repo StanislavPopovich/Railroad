@@ -10,10 +10,10 @@ import javax.persistence.Table;
 import java.util.Set;
 
 /**
- * Simple JavaBean domain object that represents RoleEntity
+ * Simple JavaBean domain object that represents Role
  *
  * @author Stanislav Popovich
- * @version 1.0
+ *
  */
 
 @Entity

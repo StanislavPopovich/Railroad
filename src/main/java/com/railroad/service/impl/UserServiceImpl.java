@@ -3,6 +3,7 @@ package com.railroad.service.impl;
 import com.railroad.dao.api.RoleGenericDao;
 import com.railroad.dao.api.UserGenericDao;
 import com.railroad.dto.user.UserDto;
+import com.railroad.exceptions.RailroadDaoException;
 import com.railroad.mapper.UserEntityDtoMapper;
 import com.railroad.entity.RoleEntity;
 import com.railroad.entity.UserEntity;
@@ -20,15 +21,11 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Service class for {@link UserEntity}
  * @author Stanislav Popovich
- * @version 1.0
  */
 
 @Service
 public class UserServiceImpl implements UserService {
-    private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
-
 
     @Autowired
     private UserEntityDtoMapper userDtoMapper;
@@ -43,9 +40,13 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
+    /**
+     * Saving a new entity to database
+     * @param userDto user data transfer object
+     */
     @Override
     @Transactional
-    public void save(UserDto userDto) {
+    public void save(UserDto userDto) throws RailroadDaoException {
         userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         if(userDto.getRoles() == null){
             Set<String> roles = new HashSet<>();
@@ -57,7 +58,12 @@ public class UserServiceImpl implements UserService {
         userDao.save(userEntity);
     }
 
-    private Set<RoleEntity> setIdToRoles(Set<RoleEntity> roleEntities){
+    /**
+     * Getting set of roles with Id for saving user
+     * @param roleEntities set of roles with only names
+     * @return set of roles with set ids
+     */
+    private Set<RoleEntity> setIdToRoles(Set<RoleEntity> roleEntities) throws RailroadDaoException {
         Set<RoleEntity> roles = roleEntities;
         for(RoleEntity roleEntity: roles){
             roleEntity.setId(roleDao.findByName(roleEntity.getName()).getId());
@@ -65,29 +71,36 @@ public class UserServiceImpl implements UserService {
         return roles;
     }
 
+    /**
+     * Getting list data transfer objects of all users
+     * @return List of UserDto
+     */
     @Transactional
-    @Override
-    public UserDto findByUsername(String userName) {
-        return userDtoMapper.userEntityToUserDto(userDao.findByUserName(userName));
+    public List<UserDto> getAll() throws RailroadDaoException {
+        return userDtoMapper.userEntitiesToUserDtos(userDao.getAll());
     }
 
-    @Transactional
-    public List<UserDto> getAll() {
-        List<UserDto> userDtos = userDtoMapper.userEntitiesToUserDtos(userDao.getAll());
-        return userDtos;
-    }
-
+    /**
+     * Checking exist user in database by name
+     * @param userName user's name
+     * @return true or false
+     */
     @Override
-    public boolean isAlreadyExist(String userName) {
+    public boolean isAlreadyExist(String userName) throws RailroadDaoException {
         if(userDao.getCountUserBuUserName(userName) > 0){
             return true;
         }
         return false;
     }
 
+    /**
+     * Changing user's role
+     * @param userName user's name
+     * @param newRole role's name
+     */
     @Override
     @Transactional
-    public void update(String userName, String newRole) {
+    public void update(String userName, String newRole) throws RailroadDaoException {
         UserEntity user = userDao.findByUserName(userName);
         RoleEntity role = roleDao.findByName("ROLE_" + newRole);
         Set<RoleEntity> roles = new HashSet<>();
@@ -96,15 +109,23 @@ public class UserServiceImpl implements UserService {
         userDao.update(user);
     }
 
+    /**
+     * Delete user from database by name
+     * @param userName user's name
+     */
     @Override
     @Transactional
-    public void delete(String userName) {
+    public void delete(String userName) throws RailroadDaoException {
         UserEntity userEntity = userDao.findByUserName(userName);
         userDao.remove(userEntity);
     }
 
+    /**
+     * Getting current user from session
+     * @return user entity
+     */
     @Override
-    public UserEntity getCurrentUser() {
+    public UserEntity getCurrentUser() throws RailroadDaoException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return userDao.findByUserName(authentication.getName());
     }

@@ -1,50 +1,11 @@
 $(document).ready(function () {
-    var btnTrainNumberCnahge= document.getElementById("btn_train_date_select");
+    window.locale = "en";
+    let btnTrainNumberCnahge= document.getElementById("btn_train_date_select");
 
     if(btnTrainNumberCnahge) {
         btnTrainNumberCnahge.addEventListener("click", getTrainPassengers, false);
     }
 
-    var local = "en";
-    var findTableText = {
-        ru: {
-            userName: "Пользователь",
-            userRole: "Роль",
-            userNotFound: "Пользователи не найдены",
-            editButton: "Изменить",
-            deleteButton: "Удалить",
-            trainNumber: "Номер поезда",
-            seats: "Количество мест",
-            timeWay: "Время в пути",
-            route: "Маршрут",
-            trainsNotFound: "Поезда не найдены",
-            upcomingTrips: "ПРЕДСТОЯЩИЕ ПОЕЗДКИ",
-            haveNotTrips: "У вас нет предстоящих поезок"
-        },
-        en: {
-            userName: "User name",
-            userRole: "Role",
-            userNotFound: "Users not found",
-            editButton: "Edit",
-            deleteButton: "Delete",
-            trainNumber: "Train number",
-            seats: "Seats",
-            timeWay: "Time",
-            route: "Route",
-            trainsNotFound: "Trains is not found",
-            upcomingTrips: "FORTHCOMING TRIPS",
-            haveNotTrips: "You haven't forthcoming trips",
-            trainTrips: "TRAIN",
-            routeTrips: "ROUTE",
-            departDateTrips: "DEPARTING DATE",
-            details: "Details",
-            return: "Return",
-            allOrders: "ALL ORDERS",
-            completedTrips: "COMPLETED TRIPS",
-            haveNotPassengers: "You haven't any passengers",
-            allPassenger: "ALL PASSENGERS"
-        }
-    };
 
     function updateContent(){
 
@@ -104,6 +65,7 @@ $(document).ready(function () {
 
 
     function getTrainPassengers() {
+        let currentLocale = window.locale;
         let data= {};
         data["trainNumber"] = $("#train_number").val();
         data["date"] = $("#train_date").val();
@@ -116,7 +78,7 @@ $(document).ready(function () {
                 console.log(data);
                 let  markup = '';
                 if(data.length === 0){
-                    markup+= '<div class="not_found"> Haven\'t any passengers </div>';
+                    markup+= '<div class="not_found">' +  message[currentLocale].haveNotPassengers + '</div>';
                 }else{
                     markup = '';
                     for(let i = 0; i < data.length;i++ ){
@@ -125,13 +87,13 @@ $(document).ready(function () {
                             '<div class="wrap_passenger">' +
                                 '<div class="info">' +
                                     '<div class="label">' +
-                                    '   <span>Passenger</span>' +
+                                    '   <span>' +  message[currentLocale].passenger + '</span>' +
                                     '</div>' +
                                     '<div>' + data[i].lastName + ' ' + data[i].name + '</div>' +
                                 '</div>       ' +
                                 '<div class="info">' +
                                 '   <div class="label">' +
-                                '       <span>Birth date</span>' +
+                                '       <span>' +  message[currentLocale].birthDate + '</span>' +
                                 '   </div>' +
                                 '   <div>'+ data[i].birthDate + '</div>' +
                                 '</div>' +

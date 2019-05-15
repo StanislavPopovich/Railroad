@@ -4,31 +4,30 @@ import com.railroad.dto.route.RouteDto;
 import com.railroad.dto.schedule.ScheduleMessageInfoDto;
 import com.railroad.dto.schedule.ScheduleUpdateDto;
 import com.railroad.dto.station.StationDto;
+import com.railroad.dto.ticket.GlobalTrainsTicketDto;
 import com.railroad.dto.ticket.TicketDto;
-import com.railroad.dto.train.TrainDto;
-import com.railroad.dto.train.TrainScheduleDto;
-import com.railroad.dto.train.TrainTargetDto;
-import com.railroad.dto.train.TrainTicketDto;
+import com.railroad.dto.ticket.TrainTicketDto;
+import com.railroad.dto.ticket.TrainTransferTicketDto;
+import com.railroad.dto.train.*;
 import com.railroad.dto.way.WayDto;
+import com.railroad.exceptions.RailroadDaoException;
 import com.railroad.mapper.PassengerEntityDtoMapper;
-import com.railroad.mapper.RouteDtoMapper;
 import com.railroad.mapper.TrainEntityDtoMapper;
 import com.railroad.entity.*;
 import com.railroad.service.api.*;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
+
+
+/**
+ * @author Stanislav Popovich
+ */
 
 @Service
 public class BusinessServiceImpl extends BaseService implements BusinessService {
-
-    private static final Logger logger = Logger.getLogger(BusinessServiceImpl.class);
-
-
 
     @Autowired
     private StationService stationService;
@@ -42,10 +41,8 @@ public class BusinessServiceImpl extends BaseService implements BusinessService 
     @Autowired
     private UserService userService;
 
-
     @Autowired
     private ScheduleService scheduleService;
-
 
     @Autowired
     private TrainEntityDtoMapper trainEntityDtoMapper;
@@ -62,13 +59,12 @@ public class BusinessServiceImpl extends BaseService implements BusinessService 
     @Autowired
     private RouteService routeService;
 
-
-
-
-
-
+    /**
+     * Save new station and new way that merged this station with other station
+     * @param wayDto wayDto
+     */
     @Override
-    public void saveStationAndWay(WayDto wayDto) {
+    public void saveStationAndWay(WayDto wayDto) throws RailroadDaoException {
         StationDto stationDto = new StationDto();
         stationDto.setName(wayDto.getFirstStation());
         stationService.save(stationDto);
@@ -76,11 +72,17 @@ public class BusinessServiceImpl extends BaseService implements BusinessService 
 
     }
 
+    /**
+     * Getting schedule for selected station and departure date
+     * @param station station
+     * @param date departure date
+     * @return List of TrainScheduleDto
+     */
     @Override
-    public List<TrainScheduleDto> getTrainsFromSchedule(String station, Date date) {
+    public List<TrainScheduleDto> getTrainsFromSchedule(String station, Date date) throws RailroadDaoException {
         //getting schedules for station on departing date
         List<ScheduleEntity> stationSchedule = scheduleService.
-                getSchedulesByStationNameAndDepartDate(station, date);
+                getScheduleByStationAndDepartDate(station, date);
         List<TrainScheduleDto> trainScheduleDtos = new ArrayList<>();
         for(ScheduleEntity scheduleEntity: stationSchedule){
             trainScheduleDtos.add(trainEntityDtoMapper.trainEntityToTrainScheduleDto(scheduleEntity.getTrainEntity()));
@@ -88,41 +90,64 @@ public class BusinessServiceImpl extends BaseService implements BusinessService 
         return trainScheduleDtos;
     }
 
+
+    /**
+     * Getting not actual tickets for current user
+     * @return List of TicketDtos
+     */
     @Override
     @Transactional
-    public List<TicketDto> getNotActualTickets() {
+    public List<TicketDto> getNotActualTickets() throws RailroadDaoException {
         //getting current User
         UserEntity currentUser = userService.getCurrentUser();
         return ticketService.getNotActualTickets(currentUser);
     }
 
+    /**
+     * Getting actual tickets for current user account
+     * @return List of TicketDtos
+     */
     @Override
     @Transactional
-    public List<TicketDto> getActualTickets() {
+    public List<TicketDto> getActualTickets() throws RailroadDaoException {
         UserEntity currentUser = userService.getCurrentUser();
         return ticketService.getActualTickets(currentUser);
     }
 
+    /**
+     * Getting passengers of current user account
+     * @return List of PassengerDtos
+     */
     @Transactional
     @Override
-    public List<PassengerDto> getPassengersOfCurrentUser() {
+    public List<PassengerDto> getPassengersOfCurrentUser() throws RailroadDaoException {
         UserEntity currentUser = userService.getCurrentUser();
         List<PassengerDto> passengers = passengerEntityDtoMapper.passengerEntitiesToPassengerDtos(currentUser.getPassengerEntities());
         return passengers;
     }
 
+    /**
+     * Getting not actual tickets of selected passenger
+     * @param passengerDto passengerDto
+     * @return List of TicketDtos
+     */
     @Transactional
     @Override
-    public List<TicketDto> getPassengerNotActualTickets(PassengerDto passengerDto) {
+    public List<TicketDto> getPassengerNotActualTickets(PassengerDto passengerDto) throws RailroadDaoException {
         UserEntity currentUser = userService.getCurrentUser();
         PassengerEntity passengerEntity = passengerService.
                 findPassengerByNameAndBirthDate(passengerEntityDtoMapper.passengerDtoToEntity(passengerDto));
         return ticketService.getPassengerNotActualTickets(currentUser, passengerEntity);
     }
 
+    /**
+     * Getting departure dates of selected train
+     * @param trainNumber train number
+     * @return  List of Strings
+     */
     @Override
-    public List<String> getDepartDatesForTrain(Integer trainNumber) {
-        TrainEntity trainEntity = trainService.findTrainEntityByNumber(trainNumber);
+    public List<String> getDepartDatesForTrain(Integer trainNumber) throws RailroadDaoException {
+        TrainEntity trainEntity = trainService.findTrainByNumber(trainNumber);
         List<Date> dates = scheduleService.getDepartDatesForTrain(trainEntity);
         List<String> strDates = new ArrayList<>();
         for(Date date: dates){
@@ -131,11 +156,16 @@ public class BusinessServiceImpl extends BaseService implements BusinessService 
         return strDates;
     }
 
+    /**
+     * Delete train from schedule
+     * @param trainNumber train number
+     * @param departingDate departure date
+     */
     @Transactional
     @Override
-    public void removeTrainFromSchedule(Integer trainNumber, String departingDate) {
+    public void removeTrainFromSchedule(Integer trainNumber, String departingDate) throws RailroadDaoException {
         Date departDate = getDate(departingDate, "yyyy-MM-dd");
-        TrainEntity train = trainService.findTrainEntityByNumber(trainNumber);
+        TrainEntity train = trainService.findTrainByNumber(trainNumber);
         List<TicketEntity> tickets = ticketService.getTicketsByTrainAndDepartDate(train, departDate);
         for(TicketEntity ticket: tickets){
             // send emails
@@ -144,45 +174,101 @@ public class BusinessServiceImpl extends BaseService implements BusinessService 
         scheduleService.removeSchedulesByTrainAndDepartDate(train, departDate);
     }
 
+    /**
+     * Getting schedule for train on date
+     * @param trainNumber train number
+     * @param departDate departure date
+     * @return
+     */
     @Transactional
     @Override
-    public ScheduleUpdateDto getScheduleUpdateDtosByTrainAdnDate(Integer trainNumber, Date departDate) {
-        TrainEntity train = trainService.findTrainEntityByNumber(trainNumber);
+    public ScheduleUpdateDto getScheduleUpdateDtosByTrainAdnDate(Integer trainNumber, Date departDate) throws RailroadDaoException {
+        TrainEntity train = trainService.findTrainByNumber(trainNumber);
         return scheduleService.getScheduleByTrainAndDepartDate(train, departDate);
     }
 
+    /**
+     * Getting all passenger that bought tickets on train
+     * @param trainNumber train number
+     * @param departDate departure date
+     * @return List of PassengerDto
+     */
     @Transactional
     @Override
-    public List<PassengerDto> getTrainPassengers(Integer trainNumber, Date departDate) {
-        TrainEntity trainEntity = trainService.findTrainEntityByNumber(trainNumber);
+    public List<PassengerDto> getTrainPassengers(Integer trainNumber, Date departDate) throws RailroadDaoException {
+        TrainEntity trainEntity = trainService.findTrainByNumber(trainNumber);
         List<PassengerEntity> passengers = ticketService.getTrainPassengers(trainEntity, departDate);
         return passengerEntityDtoMapper.passengerEntitiesToPassengerDtos(passengers);
     }
 
+    /**
+     * Getting actual schedule for sending message to scoreboard
+     * @return List of ScheduleMessageInfoDto
+     */
     @Override
     @Transactional
-    public List<ScheduleMessageInfoDto> getActualSchedule() {
+    public List<ScheduleMessageInfoDto> getActualSchedule() throws RailroadDaoException {
         return scheduleService.getActualSchedule(new Date());
     }
 
+    /**
+     * Checking that passenger have already bought ticket
+     * @param globalTrainsTicketDto tickets
+     * @param passengerDto passenger
+     * @return number of ticket
+     */
     @Transactional
     @Override
-    public boolean isPassengerAlreadyBoughtTicket(TrainTicketDto trainTicketDto, PassengerDto passengerDto) {
+    public int isPassengerAlreadyBoughtTicket(GlobalTrainsTicketDto globalTrainsTicketDto, PassengerDto passengerDto) throws RailroadDaoException {
+        List<TrainTicketDto> tickets = getTrainTickets(globalTrainsTicketDto);
+
         PassengerEntity passengerEntity = passengerEntityDtoMapper.passengerDtoToEntity(passengerDto);
         if(!passengerService.isAlreadyExist(passengerEntity)){
-            return false;
+           return 0;
         }
         passengerEntity = passengerService.findPassengerByNameAndBirthDate(passengerEntity);
-        TrainEntity trainEntity = trainService.findTrainEntityByNumber(trainTicketDto.getNumber());
-        ScheduleEntity scheduleEntity = scheduleService.
-                findScheduleByTrainAndDepartDate(trainEntity, getDate(trainTicketDto.getDepartDate(), "dd-MM-yyyy HH:mm"));
-
-        return ticketService.isPassengerAlreadyBoughtTicket(passengerEntity, trainEntity, scheduleEntity.getDepartDateFromFirstStation());
+        for(int i = 0; i < tickets.size(); i++){
+            TrainEntity trainEntity = trainService.findTrainByNumber(tickets.get(i).getNumber());
+            ScheduleEntity scheduleEntity = scheduleService.
+                    findScheduleByTrainAndDepartDate(trainEntity,
+                            getDate(tickets.get(i).getDepartDate(), "dd-MM-yyyy HH:mm"));
+            if(ticketService.isPassengerAlreadyBoughtTicket(passengerEntity,
+                    trainEntity, scheduleEntity.getDepartDateFromFirstStation())){
+                return i + 1;
+            }
+        }
+        return 0;
     }
 
+    /**
+     * Parsing globalTrainsTicketDto
+     * @param globalTrainsTicketDto tickets
+     * @return List of TrainTicketDto
+     */
+    private List<TrainTicketDto> getTrainTickets(GlobalTrainsTicketDto globalTrainsTicketDto){
+        List<TrainTicketDto> tickets = new ArrayList<>();
+        TrainTransferTicketDto firstTransfer = globalTrainsTicketDto.getToTrain();
+        tickets.add(firstTransfer.getFirstTrain());
+        if(firstTransfer.getSecondTrain() != null){
+            tickets.add(firstTransfer.getSecondTrain());
+        }
+        if(globalTrainsTicketDto.getReturnTrain() != null){
+            tickets.add(globalTrainsTicketDto.getReturnTrain().getFirstTrain());
+            if(globalTrainsTicketDto.getReturnTrain().getSecondTrain() != null){
+                tickets.add(globalTrainsTicketDto.getReturnTrain().getSecondTrain());
+            }
+        }
+        return tickets;
+    }
+
+    /**
+     * Saving train to db
+     * @param trainDto train
+     * @return error array
+     */
     @Transactional
     @Override
-    public boolean[][] saveTrain(TrainDto trainDto) {
+    public boolean[][] saveTrain(TrainDto trainDto) throws RailroadDaoException {
         boolean [][] error = new boolean[2][2];
         error[0][0] = checkLength(trainDto.getNumber());
         error[0][1] = checkLength(trainDto.getSeats());
@@ -190,7 +276,7 @@ public class BusinessServiceImpl extends BaseService implements BusinessService 
             return error;
         }
         error[1][0] = trainAlreadyExist(trainDto.getNumber());
-        error[1][1] = chechRouteExist(trainDto.getStations());
+        error[1][1] = checkRouteExist(trainDto.getStations());
         if(!error[1][0] || !error[1][1]){
             return error;
         }
@@ -198,30 +284,50 @@ public class BusinessServiceImpl extends BaseService implements BusinessService 
         return error;
     }
 
+    /**
+     * Getting passenger actual tickets
+     * @param passengerDto passenger
+     * @return List of TicketDtos
+     */
     @Transactional
     @Override
-    public List<TicketDto> getPassengerActualTickets(PassengerDto passengerDto) {
+    public List<TicketDto> getPassengerActualTickets(PassengerDto passengerDto) throws RailroadDaoException {
         UserEntity currentUser = userService.getCurrentUser();
         PassengerEntity passengerEntity = passengerService.
                 findPassengerByNameAndBirthDate(passengerEntityDtoMapper.passengerDtoToEntity(passengerDto));
         return ticketService.getPassengerActualTickets(currentUser, passengerEntity);
     }
 
-    private boolean checkLength(Integer trainDtoFiels){
-        if(trainDtoFiels.toString().length() > 4){
+    /**
+     * Checking length of train number or counts of seats
+     * @param trainDtoFields train number or train seats
+     * @return boolean
+     */
+    private boolean checkLength(Integer trainDtoFields){
+        if(trainDtoFields.toString().length() > 4){
             return false;
         }
         return true;
     }
 
-    private boolean trainAlreadyExist(Integer trainNumber){
-        if(trainService.trainAlreadyExist(trainNumber)){
+    /**
+     * Checking that train already exist in db
+     * @param trainNumber train number
+     * @return boolean
+     */
+    private boolean trainAlreadyExist(Integer trainNumber) throws RailroadDaoException {
+        if(trainService.isAlreadyExist(trainNumber)){
             return false;
         }
         return true;
     }
 
-    private boolean chechRouteExist(List<String> stations){
+    /**
+     * Checking that route exist
+     * @param stations stations
+     * @return boolean
+     */
+    private boolean checkRouteExist(List<String> stations) throws RailroadDaoException {
         List<RouteDto> routes = routeService.getAllRoutes(stations.get(0), stations.get(stations.size() - 1));
         for(RouteDto routeDto: routes){
             int count = 0;
@@ -239,11 +345,4 @@ public class BusinessServiceImpl extends BaseService implements BusinessService 
         }
         return false;
     }
-
-
-
-
-
-
-
 }

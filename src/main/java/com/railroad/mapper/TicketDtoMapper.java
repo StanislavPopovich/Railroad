@@ -2,7 +2,7 @@ package com.railroad.mapper;
 
 import com.railroad.dto.passenger.PassengerDto;
 import com.railroad.dto.ticket.TicketDto;
-import com.railroad.dto.train.TrainTicketDto;
+import com.railroad.dto.ticket.TrainTicketDto;
 import com.railroad.entity.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

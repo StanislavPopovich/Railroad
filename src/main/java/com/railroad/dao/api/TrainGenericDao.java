@@ -2,6 +2,7 @@ package com.railroad.dao.api;
 
 import com.railroad.entity.StationEntity;
 import com.railroad.entity.TrainEntity;
+import com.railroad.exceptions.RailroadDaoException;
 
 import java.util.List;
 
@@ -13,22 +14,14 @@ import java.util.List;
  */
 public interface TrainGenericDao extends GenericDao<TrainEntity, Long> {
 
-    /**
-     * Returns entity from db by number
-     * @param trainNumber
-     * @return train
-     */
-    TrainEntity findTrainByNumber(Integer trainNumber);
+    TrainEntity findTrainByNumber(Integer trainNumber) throws RailroadDaoException;
 
-    /**
-     * Returns all number of trains from db
-     * @return list of trains numbers
-     */
-    List<Integer> getAllTrainsNumbers();
+    List<Integer> getAllTrainsNumbers() throws RailroadDaoException;
 
+    Long getCountTrains(Integer trainNumber) throws RailroadDaoException;
 
-    Long getCountTrains(Integer trainNumber);
+    List<TrainEntity> getAllByDepartStation(StationEntity departStation) throws RailroadDaoException;
 
-    List<TrainEntity> getAllByDepartStation(StationEntity departStation);
-    List<TrainEntity> getAllByDepartAndArrivalStation(StationEntity departStation, StationEntity arrivalStation);
+    List<Long> getTrainsIdByDepartAndArrivalStations(StationEntity departStation, StationEntity arrivalStation) throws RailroadDaoException;
+
 }

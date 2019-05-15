@@ -1,12 +1,11 @@
 package com.railroad.controller;
 import com.railroad.dto.passenger.PassengerDto;
 import com.railroad.dto.ticket.TicketDto;
-import com.railroad.dto.train.GlobalTrainsTicketDto;
-import com.railroad.dto.train.TrainTicketDto;
+import com.railroad.dto.ticket.GlobalTrainsTicketDto;
+import com.railroad.exceptions.RailroadDaoException;
 import com.railroad.service.api.BusinessService;
+import com.railroad.service.api.BuyTicketService;
 import com.railroad.service.api.TicketService;
-import com.railroad.service.impl.BuyTicketService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -23,8 +22,6 @@ import java.util.List;
 @SessionAttributes({"trainTicket","passenger"})
 public class TicketController {
 
-    private static final Logger logger = Logger.getLogger(TicketController.class);
-
     @Autowired
     private BusinessService businessService;
 
@@ -37,7 +34,7 @@ public class TicketController {
     @GetMapping(value = "ticket/buy")
     public String getSuccessBuyTicketPage(@ModelAttribute("trainTicket") GlobalTrainsTicketDto globalTrainsTicketDto,
                                           @ModelAttribute("passenger") PassengerDto passengerDto,
-                                          Model model){
+                                          Model model) throws RailroadDaoException {
         model.addAttribute("trainTicket", globalTrainsTicketDto);
         model.addAttribute("passenger", passengerDto);
         buyTicketService.saveTicket(globalTrainsTicketDto, passengerDto);
@@ -51,16 +48,10 @@ public class TicketController {
     }
 
     @PostMapping(value = "ticket/delete")
-    public String deleteTicket(@ModelAttribute("ticket")TicketDto ticketDto){
+    public String deleteTicket(@ModelAttribute("ticket")TicketDto ticketDto) throws RailroadDaoException {
         ticketService.removeTicketByNumber(ticketDto.getNumber());
         return "redirect:/railroad/user";
     }
-
-
-   /* @GetMapping(value = "ticket/all")
-    public String getTicketsPage(){
-        return "ticketsPage";
-    }*/
 
     @PostMapping(value = "passenger/tickets")
     public String getPassengerTickets(@ModelAttribute("currentPassenger") PassengerDto passengerDto, Model model){
@@ -70,15 +61,14 @@ public class TicketController {
     }
 
     @PostMapping(value = "/passenger/tickets/actual")
-    public @ResponseBody List<TicketDto> getPassengerActualTickets(@RequestBody PassengerDto passengerDto){
+    public @ResponseBody List<TicketDto> getPassengerActualTickets(@RequestBody PassengerDto passengerDto) throws RailroadDaoException {
        return businessService.getPassengerActualTickets(passengerDto);
     }
 
     @PostMapping(value = "passenger/tickets/not-actual")
-    public @ResponseBody List<TicketDto> getPassengerNotActualTickets(@RequestBody PassengerDto passengerDto){
+    public @ResponseBody List<TicketDto> getPassengerNotActualTickets(@RequestBody PassengerDto passengerDto) throws RailroadDaoException {
         return businessService.getPassengerNotActualTickets(passengerDto);
     }
-
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {

@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 /**
- * Simple JavaBean domain object that represents UserEntity
+ * Simple JavaBean domain object that represents User
  *
  * @author Stanislav Popovich
  * @version 1.0

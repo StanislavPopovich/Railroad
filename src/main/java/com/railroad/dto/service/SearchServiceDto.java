@@ -3,7 +3,11 @@ package com.railroad.dto.service;
 
 import lombok.Data;
 
-import java.util.Date;
+/**
+ * Data transfer object that represent data which user is inserting in system for searching trains
+ *
+ * @author Stanislav Popovich
+ */
 
 @Data
 public class SearchServiceDto {

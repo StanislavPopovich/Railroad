@@ -4,6 +4,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
+/**
+ * @author Stanislav Popovich
+ */
+
 public abstract class BaseService {
 
 
@@ -25,6 +30,11 @@ public abstract class BaseService {
         return null;
     }
 
+    /**
+     * Getting empty matrix
+     * @param size size of matrix
+     * @return array
+     */
     public int[][] getEmptyMatrix(int size){
         int[][] matrix = new int[size][size];
         for(int row = 0; row< matrix.length; row++){

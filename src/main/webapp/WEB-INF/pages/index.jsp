@@ -16,18 +16,18 @@
             <h1>Tickets search</h1>
             <form:form method="POST" cssClass="form" modelAttribute="searchData" action="/railroad/trains">
                 <div class="wrapper_dropdown">
-                    <small>From</small>
+                    <small><spring:message code="from"/></small>
                     <div class="wrapper_dropdown_in js-dropdown">
-                        <span class="dropdown_value dropdown">Select station</span>
+                        <span class="dropdown_value dropdown"><spring:message code="selectStation"/></span>
                         <input id="depart_station" class="js-dropdown_value dropdownCheck" type="text" name="departStation">
                         <ul id="from_stations">
                         </ul>
                     </div>
                 </div>
                 <div class="wrapper_dropdown">
-                    <small>To</small>
+                    <small><spring:message code="to"/></small>
                     <div class="wrapper_dropdown_in js-dropdown">
-                        <span class="dropdown_value dropdown">Select station</span>
+                        <span class="dropdown_value dropdown"><spring:message code="selectStation"/></span>
                         <input id="arrival_station" class="js-dropdown_value dropdownCheck" type="text" name="arrivalStation">
                         <ul id="to_stations">
                         </ul>

@@ -1,47 +1,9 @@
 $(document).ready(function () {
-    var local = "en";
-    var findTableText = {
-        ru: {
-            userName: "Пользователь",
-            userRole: "Роль",
-            userNotFound: "Пользователи не найдены",
-            editButton: "Изменить",
-            deleteButton: "Удалить",
-            trainNumber: "Номер поезда",
-            seats: "Количество мест",
-            timeWay: "Время в пути",
-            route: "Маршрут",
-            trainsNotFound: "Поезда не найдены",
-            upcomingTrips: "ПРЕДСТОЯЩИЕ ПОЕЗДКИ",
-            haveNotTrips: "У вас нет предстоящих поезок"
-        },
-        en: {
-            userName: "User name",
-            userRole: "Role",
-            userNotFound: "Users not found",
-            editButton: "Edit",
-            deleteButton: "Delete",
-            trainNumber: "Train number",
-            seats: "Seats",
-            timeWay: "Time",
-            route: "Route",
-            trainsNotFound: "Trains is not found",
-            upcomingTrips: "FORTHCOMING TRIPS",
-            haveNotTrips: "You haven't upcoming trips",
-            trainTrips: "TRAIN",
-            routeTrips: "ROUTE",
-            departDateTrips: "DEPARTING DATE",
-            details: "Details",
-            return: "Return",
-            allOrders: "ALL ORDERS",
-            completedTrips: "COMPLETED TRIPS",
-            depart: "From",
-            arrival: "To"
-        }
-    };
+    window.locale = "en";
 
     //getting all trains from db and render content
     function getAllTrains(){
+        let currentLocale = window.locale;
         $.ajax({
             url : '/railroad/trains/get-all',
             type : "GET",
@@ -49,7 +11,7 @@ $(document).ready(function () {
             success: function (data) {
                 let  markup = '';
                 if(data.length === 0){
-                    markup+= '<h1>' + findTableText[local].trainsNotFound + '</h1>'
+                    markup+= '<h1>' +  message[currentLocale].trainsNotFound + '</h1>'
                 }
                 for(let i = 0; i < data.length; i++){
                     let item = '';
@@ -57,32 +19,31 @@ $(document).ready(function () {
                         '    <div class="wrapper_item">' +
                         '        <div class="train">' +
                         '            <div class="img"><img src="/resources/img/train.svg"></div>' +
-                        '            <div class="trainNumber_1">№' + data[i].number + '</div>' +
+                        '            <div class="trainNumber_1">' +  message[currentLocale].trainNumberSymbol +
+                        data[i].number + '</div>' +
                         '        </div>' +
                         '    </div>' +
                         '    <div class="wrapper_item">' +
                         '        <div class="wrapper_rout">';
 
                                     item+='<div class="route">' +
-                                '                <div class="label"><span>From</span></div>' +
+                                '                <div class="label"><span>' + message[currentLocale].from + '</span></div>' +
                                 '                <div class="departStation_1">' + data[i].stations[0] + '</div>' +
                                 '            </div>' +
                                 '            <div class="arrow_right"></div>';
 
                                     item+='<div class="route">' +
-                                '                <div class="label"><span>To</span></div>' +
+                                '                <div class="label"><span>' + message[currentLocale].to + '</span></div>' +
                                 '                <div class="arrivalStation_1">' + data[i].stations[data[i].stations.length - 1] + '</div>' +
                                 '            </div>';
-
-
                         item+='</div></div>';
 
                         item+=' <div class="number_tickets">' +
-                            '        <div class="label"><span>Number of tickets</span></div>' +
+                            '        <div class="label"><span>' + message[currentLocale].numberOfTickets + '</span></div>' +
                             '        <div>' + data[i].seats + '</div>' +
                             '    </div>' +
                                 '<div class="btn_details">' +
-                                '   <div class="btn btn_blue">Details</div>' +
+                                '   <div class="btn btn_blue">' + message[currentLocale].details + '</div>' +
                                 '</div>' +
                         '</div>';
                     markup += item;
@@ -117,7 +78,6 @@ $(document).ready(function () {
 
     function getSelectedTrain(trainNumber) {
         let train = {"trainNumber": trainNumber };
-
         $.ajax({
             url : '/railroad/train/by-number',
             type : "POST",
@@ -129,18 +89,19 @@ $(document).ready(function () {
     }
 
     function createModalTrain(train) {
+        let currentLocale = window.locale;
         let markup = "<div class='wrapper_modal'>" +
             "        <div class='close'></div>" +
             "        <div class='modal_content'>" +
             "            <div>" +
-            "                <div>Train number:</div>" +
+            "                <div>" + message[currentLocale].trainNumberTrainModal + "</div>" +
             "                <div>" + train.number + "</div>" +
             "            </div>" +
             "            <div>" +
-            "                <div>Number of seats:</div>" +
+            "                <div>" + message[currentLocale].numberOfSeatsTrainModal + "</div>" +
             "                <div>" + train.seats + "</div>" +
             "            </div>" +
-            "            <div>Stations:</div>" +
+            "            <div>" + message[currentLocale].stationsTrainModal + "</div>" +
             "            <div>";
                 for(let i =0; i < train.stations.length; i++){
                     markup += "<div class='station'>"+ train.stations[i] + "</div>";

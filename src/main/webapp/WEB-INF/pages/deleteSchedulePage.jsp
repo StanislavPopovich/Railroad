@@ -13,22 +13,23 @@
         <div id="" class="wrap wrapper-flex">
             <div id="search_menu" class="left_menu type_black">
                 <div>
-                    <div class="title">Delete train from schedule</div>
+                    <div class="title"><spring:message code="deleteSchedulePageCaption"/></div>
                     <div class="wrapper_dropdown">
                         <div class="wrapper_dropdown_in js-dropdown">
-                            <span class="dropdown_value dropdown">Train number</span>
+                            <span class="dropdown_value dropdown"><spring:message code="trainNumber"/></span>
                             <input id="train_number" class="js-dropdown_value dropdownCheck" type="text" name="departStation">
                             <ul id="train_numbers"></ul>
                         </div>
                     </div>
                     <div class="wrapper_dropdown">
                         <div class="wrapper_dropdown_in js-dropdown">
-                            <span class="dropdown_value dropdown">Train dates</span>
+                            <span class="dropdown_value dropdown"><spring:message code="trainDates"/><</span>
                             <input id="train_date" class="js-dropdown_value dropdownCheck" type="text" name="arrivalStation">
                             <ul id="train_dates"></ul>
                         </div>
                     </div>
-                    <button class="btn btn_blue" id="btn_train_number_delete" type="submit" disabled="true">Delete</button>
+                    <button class="btn btn_blue" id="btn_train_number_delete" type="submit" disabled="true">
+                        <spring:message code="delete"/></button>
                 </div>
             </div>
             <div class="content content_type-schedule">
@@ -41,6 +42,7 @@
 </section>
 <jsp:include page="footer.jsp"/>
 <script type="text/javascript" src="/resources/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/resources/js/message.js"></script>
 <script type="text/javascript" src="/resources/js/generalFunctions.js"></script>
 <script type="text/javascript" src="/resources/js/scheduleHandler.js"></script>
 <script type="text/javascript" src="/resources/js/validator.js"></script>

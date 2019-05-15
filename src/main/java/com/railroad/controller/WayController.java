@@ -1,6 +1,7 @@
 package com.railroad.controller;
 
 import com.railroad.dto.way.WayDto;
+import com.railroad.exceptions.RailroadDaoException;
 import com.railroad.service.api.StationService;
 import com.railroad.service.api.WayService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,6 @@ public class WayController {
     @Autowired
     private StationService stationService;
 
-
-    @GetMapping(value = "/way/all")
-    public String showAllWays(Model model){
-        model.addAttribute("ways", wayService.getAllWayDtos());
-        return "waysPage";
-    }
-
     @GetMapping(value = "/way/add")
     public String addWayPage(Model model){
         model.addAttribute("exist", false);
@@ -41,7 +35,7 @@ public class WayController {
 
     @PostMapping(value = "/way/add")
     public String addWayPage(@Valid @ModelAttribute("wayForm") WayDto wayDto, BindingResult bindingResult,
-                             Model model){
+                             Model model) throws RailroadDaoException {
         if(bindingResult.hasErrors()){
             return "addWayPage";
         }

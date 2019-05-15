@@ -1,5 +1,7 @@
 package com.railroad.dao.api;
 
+import com.railroad.exceptions.RailroadDaoException;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -10,39 +12,14 @@ import java.util.List;
  * @author Stanislav Popovich
  */
 public interface GenericDao<T, ID extends Serializable> {
-    /**
-     * Saves entity to db
-     *
-     * @param entity
-     */
-    void save(T entity);
 
-    /**
-     * Removes entity in db
-     *
-     * @param entity
-     */
-    void remove(T entity);
+    void save(T entity) throws RailroadDaoException;
 
-    /**
-     * Returns entity by id
-     *
-     * @param id id
-     * @return Entity with selected id
-     */
-    T getById(ID id);
+    void remove(T entity) throws RailroadDaoException;
 
-    /**
-     * Returns all entities from db
-     *
-     * @return full list of entities from DB
-     */
-    List<T> getAll();
+    T getById(ID id) throws RailroadDaoException;
 
-    /**
-     * Updates entity to db
-     *
-     * @param entity
-     */
-    void update(T entity);
+    List<T> getAll() throws RailroadDaoException;
+
+    void update(T entity) throws RailroadDaoException;
 }

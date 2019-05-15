@@ -1,46 +1,9 @@
 $(document).ready(function () {
-    let local = "en";
-    let findTableText = {
-        ru: {
-            userName: "Пользователь",
-            userRole: "Роль",
-            userNotFound: "Пользователи не найдены",
-            editButton: "Изменить",
-            deleteButton: "Удалить",
-            trainNumber: "Номер поезда",
-            seats: "Количество мест",
-            timeWay: "Время в пути",
-            route: "Маршрут",
-            trainsNotFound: "Поезда не найдены",
-            upcomingTrips: "ПРЕДСТОЯЩИЕ ПОЕЗДКИ",
-            haveNotTrips: "У вас нет предстоящих поезок"
-        },
-        en: {
-            userName: "User name",
-            userRole: "Role",
-            userNotFound: "Users not found",
-            editButton: "Edit",
-            deleteButton: "Delete",
-            trainNumber: "Train number",
-            seats: "Seats",
-            timeWay: "Time",
-            route: "Route",
-            trainsNotFound: "Trains is not found",
-            upcomingTrips: "UPCOMING TRIPS",
-            haveNotUpcomingTrips: "You haven't upcoming trips",
-            haveNotCompletedTrips: "You haven't completed trips",
-            trainTrips: "TRAIN",
-            routeTrips: "ROUTE",
-            departDateTrips: "DEPARTING DATE",
-            details: "Details",
-            return: "Return",
-            allOrders: "ALL ORDERS",
-            completedTrips: "COMPLETED TRIPS"
-        }
-    };
+    window.locale = "en";
 
     //    Start page for User
     function getStartUserPage(){
+        let currentLocale = window.locale;
         $.ajax({
             url : '/railroad/user/get-actual-tickets',
             type : "GET",
@@ -48,7 +11,7 @@ $(document).ready(function () {
             success: function (data) {
                 let  markup = '';
                 if(data.length === 0){
-                    markup+= '<div class="not_found">' + findTableText[local].haveNotUpcomingTrips + '</div>';
+                    markup+= '<div class="not_found">' + message[currentLocale].haveNotUpcomingTrips + '</div>';
                 }else{
                     markup += getAllTickets(data, "upcoming");
                     markup += '</div>';
@@ -94,6 +57,7 @@ $(document).ready(function () {
     }
 
     function getCompletedTrips(){
+        let currentLocale = window.locale;
         $.ajax({
             url : '/railroad/user/get-not-actual-tickets',
             type : "GET",
@@ -101,7 +65,7 @@ $(document).ready(function () {
             success: function (data) {
                 let  markup = '';
                 if(data.length === 0){
-                    markup+= '<div class="not_found">' + findTableText[local].haveNotCompletedTrips + '</div>';
+                    markup+= '<div class="not_found">' + message[currentLocale].haveNotCompletedTrips + '</div>';
                 }else{
                     markup += getAllTickets(data, "completed");
                     markup += '</div>';
@@ -182,6 +146,7 @@ $(document).ready(function () {
     }
 
     function getAllTickets(data, typeOfTicket) {
+        let currentLocale = window.locale;
         let markup = '';
         for(let i = 0; i < data.length;i++){
             markup += '<div class="item">' +
@@ -199,9 +164,9 @@ $(document).ready(function () {
                 '<div class="label"><span>Departure date</span></div>' +
                 '<div class="date_depart_1">' + data[i].trainTicketDto.departDate + '</div></div></div>';
 
-            markup += '<div class="wrapper_btn"><div class="btn btn_more btn_blue">' + findTableText[local].details + '</div></div>';
+            markup += '<div class="wrapper_btn"><div class="btn btn_more btn_blue">' + message[currentLocale].details + '</div></div>';
             if(typeOfTicket === "upcoming"){
-                markup +='<div class="wrapper_btn"><div class="btn btn_return btn_blue">' + findTableText[local].return + '</div></div>';
+                markup +='<div class="wrapper_btn"><div class="btn btn_return btn_blue">' + message[currentLocale].return + '</div></div>';
             }
 
             markup += '<input type="hidden" class="trainTicketDto_arrivalDate" value="' + data[i].trainTicketDto.arrivalDate + '">' +

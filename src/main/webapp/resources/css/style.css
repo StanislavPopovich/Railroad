@@ -140,6 +140,7 @@ img {
     background-color: rgba(25, 24, 24, 0.09);
     transition: all 0.3s ease-in-out;
 }
+.header_menu li a.active,
 .header_menu li a:hover {
     background-color: rgba(25, 24, 24, 0.3);
 }
@@ -606,7 +607,9 @@ img {
 #b_button,
 #upcoming,
 #completed,
-#btn_train_date_select {
+#btn_train_date_select,
+#return_ticket,
+#buy_ticket {
     background-color: rgba(0, 142, 255, 0.51);
 }
 #add_train_to_schedule.active,
@@ -617,7 +620,9 @@ img {
 #b_button.active,
 #upcoming.active,
 #completed.active,
-#btn_train_date_select.active {
+#btn_train_date_select.active,
+#return_ticket.active,
+#buy_ticket.active {
     background-color: #00b8ff;
 }
 .content_type-schedule {

@@ -3,6 +3,7 @@ package com.railroad.service.impl;
 import com.railroad.dao.api.StationGenericDao;
 import com.railroad.dao.api.TrainGenericDao;
 import com.railroad.dto.train.TrainDto;
+import com.railroad.exceptions.RailroadDaoException;
 import com.railroad.mapper.TrainEntityDtoMapper;
 import com.railroad.entity.StationEntity;
 import com.railroad.entity.TrainEntity;
@@ -12,6 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+
+/**
+ * @author Stanislav Popovich
+ */
 
 @Service
 public class TrainServiceImpl implements TrainService {
@@ -28,11 +33,11 @@ public class TrainServiceImpl implements TrainService {
 
 
     /**
-     * The method send train in dao layer
-     * @param trainDto
+     * Saving a new entity to database
+     * @param trainDto train data transfer object
      */
     @Override
-    public void save(TrainDto trainDto) {
+    public void save(TrainDto trainDto) throws RailroadDaoException {
         TrainEntity trainEntity = trainDtoMapper.trainDtoToTrainEntity(trainDto);
         List<StationEntity> stations = new ArrayList<>();
         for (String station : trainDto.getStations()) {
@@ -41,8 +46,14 @@ public class TrainServiceImpl implements TrainService {
         trainEntity.setStationEntities(stations);
         trainGenericDao.save(trainEntity);
     }
+
+    /**
+     * Checking exist train in database by number
+     * @param trainNumber train's number
+     * @return true or false
+     */
     @Override
-    public boolean trainAlreadyExist(Integer trainNumber){
+    public boolean isAlreadyExist(Integer trainNumber) throws RailroadDaoException {
         if(trainGenericDao.getCountTrains(trainNumber) > 0){
            return true;
         }
@@ -50,135 +61,43 @@ public class TrainServiceImpl implements TrainService {
     }
 
     /**
-     * The method returns all trains
-     *
-     * @return
+     * Getting list data transfer objects of all trains
+     * @return List of TrainDto
      */
     @Override
     @Transactional
-    public List<TrainDto> getAll() {
+    public List<TrainDto> getAll() throws RailroadDaoException {
         return trainDtoMapper.trainEntitiesToTrainDto(trainGenericDao.getAll());
     }
 
+
+    /**
+     * Finding train by number
+     * @param trainNumber train's number
+     * @return TrainEntity from database
+     */
     @Override
-    public TrainEntity findTrainEntityByNumber(Integer trainNumber) {
+    public TrainEntity findTrainByNumber(Integer trainNumber) throws RailroadDaoException {
         return trainGenericDao.findTrainByNumber(trainNumber);
     }
 
+    /**
+     * Getting train data transfer object by number
+     * @param trainNumber train's number
+     * @return TrainDto
+     */
     @Transactional
     @Override
-    public TrainDto getTrainDtoByNumber(Integer trainNumber) {
+    public TrainDto getTrainDtoByNumber(Integer trainNumber) throws RailroadDaoException {
         return trainDtoMapper.trainEntityToTrainDto(trainGenericDao.findTrainByNumber(trainNumber));
     }
 
+    /**
+     * Getting all trains number from database
+     * @return List of Integer
+     */
     @Override
-    public List<Integer> getAllTrainsNumbers() {
+    public List<Integer> getAllTrainsNumbers() throws RailroadDaoException {
         return trainGenericDao.getAllTrainsNumbers();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*public Set<List<TrainDto>> getTrainsWithOneTransfer(String startStation, String destStation) {
-        List<String> routes = wayService.getAllRoutes(startStation, destStation);
-        Set<List<TrainDto>> allTrainsWithOneTransfer = new HashSet<>();
-        for (String route : routes) {
-            String[] stationsId = route.split(",");
-            if (stationsId.length != 2) {
-                for (int i = 0; i < stationsId.length - 1; i++) {
-                    if (i != stationsId.length - 1) {
-                        List<TrainDto> firstTrains = getTrainsWithoutDestStation(new Long(stationsId[i]),
-                                new Long(stationsId[i]) + 1L, destStation);
-                        if (firstTrains.size() != 0) {
-                            for (TrainDto trainDto : firstTrains) {
-                                for (TrainDto secondTrainDto : getNextTrains(trainDto, destStation)) {
-                                    if (secondTrainDto != null) {
-                                        allTrainsWithOneTransfer.add(getVariantTrainsWithOneTransfer(trainDto, secondTrainDto));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return allTrainsWithOneTransfer;
-    }*/
-
-    /*private List<TrainDto> getVariantTrainsWithOneTransfer(TrainDto firstTrain, TrainDto secondTrain) {
-        List<TrainDto> targetTrains = new ArrayList<>();
-        targetTrains.add(firstTrain);
-        targetTrains.add(secondTrain);
-        return targetTrains;
-    }*/
-
-    /**
-     * The method returns trains that contain the path passing through start station and destination station
-     *
-     * @param startStationId
-     * @param endStationId
-     * @return list of trains
-     */
-   /* private List<TrainDto> getTrainsByStationsId(Long startStationId, Long endStationId) {
-        return getTrainsByName(stationDao.getById(startStationId).getName(), stationDao.getById(endStationId).getName());
-    }*/
-
-    /**
-     * The method returns all trains which passing through by start station
-     *
-     * @param startStationId
-     * @param endStationId
-     * @param destStation
-     * @return list of trains
-     */
-    /*private List<TrainDto> getTrainsWithoutDestStation(Long startStationId, Long endStationId, String destStation) {
-        List<TrainDto> allTrains = getTrainsByStationsId(startStationId, endStationId);
-        List<TrainDto> resTrains = new ArrayList<>();
-        for (TrainDto trainDto : allTrains) {
-            if (!trainDto.getStations().contains(destStation)) {
-                resTrains.add(trainDto);
-            }
-        }
-        return resTrains;
-    }*/
-
-    /**
-     * The method returns all trains which passing through by start station and destination station
-     *
-     * @param startStation
-     * @param destStation
-     * @return list of trains
-     */
-    /*private List<TrainDto> getTrainsByName(String startStation, String destStation) {
-        *//*Long startStationId = stationDao.findByStationName(startStation).getId();
-        Long destStationId = stationDao.findByStationName(destStation).getId();*//*
-        StationEntity stationEntity = stationDao.findByStationName(startStation);
-        StationEntity startStation2 = stationDao.findByStationName(destStation);
-        List<TrainDto> trains = trainDtoMapper.trainEntitiesToTrainDto(trainGenericDao.
-                getTrainsByStations(stationEntity, startStation2));
-        List<TrainDto> resultTrains = new ArrayList<>();
-        for (TrainDto trainDto : trains) {
-            if (trainDto.getStations().indexOf(startStation) < trainDto.getStations().indexOf(destStation)) {
-                resultTrains.add(trainDto);
-            }
-        }
-        return resultTrains;
-    }*/
-
 }

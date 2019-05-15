@@ -5,8 +5,6 @@ import javax.validation.ConstraintValidatorContext;
 
 public class BirthDay implements ConstraintValidator<ValidBirthDay, String> {
 
-
-
     @Override
     public void initialize(final ValidBirthDay annotation) {
 
