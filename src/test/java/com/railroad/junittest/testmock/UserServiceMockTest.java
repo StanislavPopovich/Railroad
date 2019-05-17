@@ -2,6 +2,7 @@ package com.railroad.junittest.testmock;
 
 import com.railroad.dao.api.UserGenericDao;
 import com.railroad.entity.UserEntity;
+import com.railroad.exceptions.RailroadDaoException;
 import com.railroad.mapper.UserEntityDtoMapper;
 import com.railroad.service.impl.UserServiceImpl;
 import org.junit.Before;
@@ -44,14 +45,14 @@ public class UserServiceMockTest {
     }
 
     @Test
-    public void testGetAll(){
+    public void testGetAll() throws RailroadDaoException {
         when(userDao.getAll()).thenReturn(new ArrayList<UserEntity>());
         userService.getAll();
         verify(userDtoMapper).userEntitiesToUserDtos(userDao.getAll());
     }
 
     @Test
-    public void testIsAlreadyExist(){
+    public void testIsAlreadyExist() throws RailroadDaoException {
         when(userDao.getCountUserBuUserName(user.getUserName())).thenReturn(1L);
         userService.isAlreadyExist(user.getUserName());
         verify(userDao).getCountUserBuUserName(user.getUserName());

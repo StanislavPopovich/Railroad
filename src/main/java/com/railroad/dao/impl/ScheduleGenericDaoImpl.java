@@ -244,5 +244,23 @@ public class ScheduleGenericDaoImpl extends BaseGenericDao<ScheduleEntity, Long>
         return count;
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public Long isScheduleExistByTrainAndDay(TrainEntity trainEntity, Date departDate) throws RailroadDaoException {
+        Long count;
+        try{
+            count = (Long) entityManager.createQuery("select count(s) from ScheduleEntity s " +
+                    "where s.departDate > :startDay and s.departDate < :endDay and s.trainEntity= :train").
+                    setParameter("startDay", departDate).
+                    setParameter("endDay", new LocalDate(departDate).plusDays(1).toDate()).
+                    setParameter("train", trainEntity).
+                    getSingleResult();
+        }catch (Exception e){
+            logger.warn("Exception in ScheduleGenericDaoImpl - isScheduleExistByTrainAndDay().");
+            throw new RailroadDaoException(e);
+        }
+        return count;
+    }
+
 
 }

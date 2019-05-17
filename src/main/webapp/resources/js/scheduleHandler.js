@@ -144,9 +144,57 @@ $(document).ready(function () {
                     }
                 }
             })
+            setTimeout(function () {
+                selectDataInputs("schedule");
+            },1000);
+
         }
 
     }
+
+    function  selectDataInputs(id) {
+        let schedule = document.getElementById(id);
+        if(schedule){
+            let inputs =  schedule.querySelectorAll("input");
+            for(let i = 0; i < inputs.length; i++){
+                inputs[i].addEventListener("input", checkRegex, false);
+            }
+        }
+    }
+
+    function checkRegex(event) {
+        let input = event.target;
+        let val = input.value;
+        let reg = /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/;
+        let reg1 = /[a-zA-Z]/;
+        input.value = val.replace(reg, '');
+        input.value = val.replace(reg1, '');
+
+        if (event.inputType === "deleteContentBackward") {
+
+        } else {
+            if(val.length === 4){
+                input.value = val + "-"
+            }
+            if(val.length === 7){
+                input.value = val + "-"
+            }
+            if(val.length === 10){
+                input.value = val + " "
+            }
+            if(val.length === 13){
+                input.value = val + ":"
+            }
+            if(val.length > 16){
+                input.value =  val.substring(0, val.length - 1);
+            }
+        }
+
+
+
+    }
+
+
 
     function getScheduleItem(event, buttonId, method) {
         let current = event.target;
@@ -256,11 +304,28 @@ $(document).ready(function () {
             data : JSON.stringify(scheduleTrainDto),
             contentType: 'application/json',
             success: function (data) {
-
+                if(data){
+                    window.location.href = "/railroad/schedule";
+                }
+                else{
+                    messageError("schedule", "This train already exist in schedule on this date")
+                }
             }
         });
-        window.location.href = "/railroad/schedule";
+
     }
+
+    function messageError(id, message){
+        let content = document.getElementById(id);
+        let backError = content.querySelector(".back_error");
+
+        if(content){
+            if(backError === null){
+                content.insertAdjacentHTML("afterBegin", '<div class="back_error"><span>' + message + '</span></div>');
+            }
+        }
+    }
+
 
 
     /*Edit page*/
@@ -290,6 +355,8 @@ $(document).ready(function () {
             updateContentEdit();
         }
     });
+
+
 
     function updateContent(){
 
@@ -376,6 +443,9 @@ $(document).ready(function () {
                         }
                     }
                 })
+                setTimeout(function () {
+                    selectDataInputs("updateSchedule");
+                },1000)
             }
         } else if (url[url.length - 1] === "delete"){
             let btnTrainNumberDelete = document.getElementById("btn_train_number_delete");
@@ -407,11 +477,17 @@ $(document).ready(function () {
             data : JSON.stringify(scheduleUpdateDto),
             contentType: 'application/json',
             success: function (data) {
-
+                if(data){
+                    window.location.href = "/railroad/schedule";
+                }
+                else{
+                    messageError("updateSchedule", "This train already exist in schedule on this date")
+                }
             }
         });
-        window.location.href = "/railroad/schedule";
     }
+
+
 
 
    /*For delete page*/

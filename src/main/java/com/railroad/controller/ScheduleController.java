@@ -56,9 +56,14 @@ public class ScheduleController {
 
 
     @PostMapping(value = "/schedule/add")
-    public void addTrainToSchedule(@RequestBody ScheduleTrainDto scheduleTrainDto) throws RailroadDaoException {
-        scheduleService.save(scheduleTrainDto);
-        tableService.updateSchedule();
+    public @ResponseBody boolean addTrainToSchedule(@RequestBody ScheduleTrainDto scheduleTrainDto) throws RailroadDaoException {
+        if(!businessService.isTrainAlreadyExistsInSchedule(scheduleTrainDto)){
+            scheduleService.save(scheduleTrainDto);
+            tableService.updateSchedule();
+            return true;
+        }else{
+           return false;
+        }
     }
 
     @PostMapping(value = "/schedule/get-train")
@@ -74,9 +79,14 @@ public class ScheduleController {
     }
 
     @PostMapping(value = "/schedule/update")
-    public void updateSchedule(@RequestBody ScheduleUpdateDto scheduleUpdateDto) throws RailroadDaoException {
-        scheduleService.updateSchedule(scheduleUpdateDto);
-        tableService.updateSchedule();
+    public @ResponseBody boolean updateSchedule(@RequestBody ScheduleUpdateDto scheduleUpdateDto) throws RailroadDaoException {
+        if(!businessService.isTrainAlreadyExistsInSchedule(scheduleUpdateDto)){
+            scheduleService.updateSchedule(scheduleUpdateDto);
+            tableService.updateSchedule();
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @GetMapping(value = "/schedule/delete")

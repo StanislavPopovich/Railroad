@@ -219,6 +219,12 @@ public class ScheduleServiceImpl extends BaseService implements ScheduleService 
         return scheduleDao.getTrainsNumberFromSchedule();
     }
 
+    @Override
+    public Long getScheduleByTrainAndDepartDay(TrainEntity trainEntity, Date departDay) throws RailroadDaoException {
+        return scheduleDao.isScheduleExistByTrainAndDay(trainEntity, departDay);
+    }
+
+
     /**
      * Getting new Schedule Entities for train
      * @param scheduleTrainDto scheduleDto for selected train

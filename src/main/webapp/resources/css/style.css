@@ -611,6 +611,7 @@ img {
 #return_ticket,
 #buy_ticket {
     background-color: rgba(0, 142, 255, 0.51);
+    transition: all 0.3s ease-out;
 }
 #add_train_to_schedule.active,
 #change_train_schedule.active,
@@ -623,6 +624,11 @@ img {
 #btn_train_date_select.active,
 #return_ticket.active,
 #buy_ticket.active {
+    background-color: #00b8ff;
+}
+
+#upcoming:hover,
+#completed:hover {
     background-color: #00b8ff;
 }
 .content_type-schedule {
@@ -1067,4 +1073,42 @@ img {
 }
 .modal_content .station:nth-child(even){
     background-color: white;
+}
+
+.back_message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.back_message .message {
+    display: flex;
+    padding: 50px;
+    flex-direction: column;
+    text-align: center;
+    font-size: 20px;
+    line-height: 1.5;
+    justify-content: center;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.46);
+    border-radius: 5px;
+}
+
+.back_message .message_1 {
+    width: 670px;
+}
+
+.back_message .message_2 {
+    width: 565px;
+}
+
+.back_message span {
+    display: block;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    background-color: rgba(255, 255, 255, 0.53);
+    border-radius: 3px;
 }

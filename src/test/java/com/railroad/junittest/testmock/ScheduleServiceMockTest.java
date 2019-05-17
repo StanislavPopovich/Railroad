@@ -3,6 +3,7 @@ package com.railroad.junittest.testmock;
 import com.railroad.dao.api.ScheduleGenericDao;
 import com.railroad.entity.ScheduleEntity;
 import com.railroad.entity.TrainEntity;
+import com.railroad.exceptions.RailroadDaoException;
 import com.railroad.mapper.ScheduleEntityDtoMapper;
 import com.railroad.service.impl.ScheduleServiceImpl;
 import org.junit.Before;
@@ -52,14 +53,14 @@ public class ScheduleServiceMockTest {
     }
 
     @Test
-    public void testGetAll(){
+    public void testGetAll() throws RailroadDaoException {
         when(scheduleDao.getAll()).thenReturn(new ArrayList<ScheduleEntity>());
         scheduleService.getAll();
         verify(scheduleMapper).scheduleEntitiesToScheduleDtos(scheduleDao.getAll());
     }
 
     @Test
-    public void testFindScheduleByTrainAndDepartDate(){
+    public void testFindScheduleByTrainAndDepartDate() throws RailroadDaoException {
         when(scheduleDao.findScheduleByTrainAndDepartDate(schedule.getTrainEntity(), schedule.getDepartDate())).
                 thenReturn(schedule);
         scheduleService.findScheduleByTrainAndDepartDate(schedule.getTrainEntity(), schedule.getDepartDate());
@@ -67,7 +68,7 @@ public class ScheduleServiceMockTest {
     }
 
     @Test
-    public void testFindScheduleByTrainAndArrivalDate(){
+    public void testFindScheduleByTrainAndArrivalDate() throws RailroadDaoException {
         when(scheduleDao.findScheduleByTrainAndArrivalDate(schedule.getTrainEntity(), schedule.getArrivalDate())).
                 thenReturn(schedule);
         scheduleService.findScheduleByTrainAndArrivalDate(schedule.getTrainEntity(), schedule.getArrivalDate());
@@ -75,7 +76,7 @@ public class ScheduleServiceMockTest {
     }
 
     @Test
-    public void testFindSchedulesForTrain(){
+    public void testFindSchedulesForTrain() throws RailroadDaoException {
         when(scheduleDao.findSchedulesForTrain(schedule.getTrainEntity(), schedule.getDepartDateFromFirstStation())).
                 thenReturn(new ArrayList<ScheduleEntity>());
         scheduleService.findSchedulesForTrain(schedule.getTrainEntity(), schedule.getDepartDateFromFirstStation());
@@ -83,7 +84,7 @@ public class ScheduleServiceMockTest {
     }
 
     @Test
-    public void testGetDepartDatesForTrain(){
+    public void testGetDepartDatesForTrain() throws RailroadDaoException {
         when(scheduleDao.getDepartDatesForTrain(schedule.getTrainEntity())).
                 thenReturn(new ArrayList<Date>());
         scheduleService.getDepartDatesForTrain(schedule.getTrainEntity());
@@ -91,7 +92,7 @@ public class ScheduleServiceMockTest {
     }
 
     @Test
-    public void testGetScheduleByTrainAndStationAndDate(){
+    public void testGetScheduleByTrainAndStationAndDate() throws RailroadDaoException {
         when(scheduleDao.getScheduleByTrainAndStationAndDate(schedule.getTrainEntity(), schedule.getStationEntity(),
                 schedule.getDepartDate())).
                 thenReturn(schedule);
@@ -102,7 +103,7 @@ public class ScheduleServiceMockTest {
     }
 
     @Test
-    public void testGetTrainsNumberFromSchedule(){
+    public void testGetTrainsNumberFromSchedule() throws RailroadDaoException {
         when(scheduleDao.getTrainsNumberFromSchedule()).
                 thenReturn(new ArrayList<Integer>());
         scheduleService.getTrainsNumberFromSchedule();

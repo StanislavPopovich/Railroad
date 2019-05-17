@@ -3,6 +3,8 @@ package com.railroad.service.impl;
 import com.railroad.dao.api.ScheduleGenericDao;
 import com.railroad.dao.api.StationGenericDao;
 import com.railroad.dao.api.TrainGenericDao;
+import com.railroad.dto.ticket.GlobalTrainsTicketDto;
+import com.railroad.dto.ticket.TrainTicketDto;
 import com.railroad.dto.train.TrainTargetDto;
 import com.railroad.dto.train.TrainTransferTargetDto;
 import com.railroad.exceptions.RailroadDaoException;
@@ -282,6 +284,52 @@ public class SearchTrainServiceImpl extends BaseService implements SearchTrainSe
         return trains;
     }
 
+    @Override
+    public boolean trainIsActual(String departDate) {
+        return checkDepartDate(getDate(departDate, "dd-MM-yyy HH:mm"));
+    }
+    @Transactional
+    @Override
+    public boolean vacantTicketsIsExists(GlobalTrainsTicketDto globalTrainsTicketDto) throws RailroadDaoException {
+        int[] tickets = new int[4];
+        tickets[0] = getCountTicketByTrainDto(globalTrainsTicketDto.getToTrain().getFirstTrain());
+        tickets[1] = getCountTicketByTrainDto(globalTrainsTicketDto.getToTrain().getSecondTrain());
+        if(globalTrainsTicketDto.getReturnTrain() != null){
+            tickets[2] = getCountTicketByTrainDto(globalTrainsTicketDto.getReturnTrain().getFirstTrain());
+            tickets[3] = getCountTicketByTrainDto(globalTrainsTicketDto.getReturnTrain().getSecondTrain());
+        }else{
+            tickets[2] = -1;
+            tickets[3] = -1;
+        }
+        System.out.println("\n");
+        for(int i = 0; i < tickets.length; i++){
+            System.out.println(tickets[i]);
+        }
+        for(int i = 0; i < tickets.length; i++){
+            if( tickets[i] == 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private int getCountTicketByTrainDto(TrainTicketDto trainTicketDto) throws RailroadDaoException {
+        if(trainTicketDto != null){
+            TrainEntity train = trainService.findTrainByNumber(trainTicketDto.getNumber());
+            Date departDate = getDate(trainTicketDto.getDepartDate(), "dd-MM-yyyy HH:mm");
+            ScheduleEntity schedule = scheduleService.findScheduleByTrainAndDepartDate(train, departDate);
+            List<StationEntity> trainStations = train.getStationEntities();
+            int indexOfDepartStation = geiIndexOfStation(trainStations, trainTicketDto.getDepartStation());
+            int indexOfArrivalStation = geiIndexOfStation(trainStations, trainTicketDto.getArrivalStation());
+            List<ScheduleEntity> trainSchedule = getScheduleForTrainInOrder(train,
+                    schedule.getDepartDateFromFirstStation());
+            int ticket =  getCountTickets(trainSchedule, train, indexOfDepartStation, indexOfArrivalStation);
+
+            return train.getSeats() - ticket;
+        }
+        return -1;
+    }
+
     /**
      * Getting index of station in route
      * @param trainStations route of train
@@ -382,4 +430,5 @@ public class SearchTrainServiceImpl extends BaseService implements SearchTrainSe
         }
         return ticketMatrix;
     }
+
 }

@@ -31,4 +31,5 @@ public interface ScheduleGenericDao extends GenericDao<ScheduleEntity, Long> {
 
     Long isExistTrainInScheduleByDate(TrainEntity trainEntity, Date date) throws RailroadDaoException;
 
+    Long isScheduleExistByTrainAndDay(TrainEntity trainEntity, Date departDate) throws RailroadDaoException;
 }

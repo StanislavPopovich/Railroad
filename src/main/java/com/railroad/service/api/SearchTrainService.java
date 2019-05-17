@@ -1,5 +1,6 @@
 package com.railroad.service.api;
 
+import com.railroad.dto.ticket.GlobalTrainsTicketDto;
 import com.railroad.dto.train.TrainTargetDto;
 import com.railroad.dto.train.TrainTransferTargetDto;
 import com.railroad.exceptions.RailroadDaoException;
@@ -16,4 +17,8 @@ public interface SearchTrainService {
     List<TrainTargetDto> getDirectTrains(String departStation, String arrivalStation, Date departDate) throws RailroadDaoException;
 
     List<TrainTransferTargetDto> getTransferTrains(String departStation, String arrivalStation, Date departDate) throws RailroadDaoException;
+
+    boolean trainIsActual(String departDate);
+
+    boolean vacantTicketsIsExists(GlobalTrainsTicketDto globalTrainsTicketDto) throws RailroadDaoException;
 }

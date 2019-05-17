@@ -43,5 +43,6 @@ public interface ScheduleService {
 
     List<Integer> getTrainsNumberFromSchedule() throws RailroadDaoException;
 
+    Long getScheduleByTrainAndDepartDay(TrainEntity trainEntity, Date departDay) throws RailroadDaoException;
 
 }

@@ -2,6 +2,7 @@ package com.railroad.service.impl;
 import com.railroad.dto.passenger.PassengerDto;
 import com.railroad.dto.route.RouteDto;
 import com.railroad.dto.schedule.ScheduleMessageInfoDto;
+import com.railroad.dto.schedule.ScheduleTrainDto;
 import com.railroad.dto.schedule.ScheduleUpdateDto;
 import com.railroad.dto.station.StationDto;
 import com.railroad.dto.ticket.GlobalTrainsTicketDto;
@@ -28,6 +29,7 @@ import java.util.*;
 
 @Service
 public class BusinessServiceImpl extends BaseService implements BusinessService {
+
 
     @Autowired
     private StationService stationService;
@@ -282,6 +284,35 @@ public class BusinessServiceImpl extends BaseService implements BusinessService 
         }
         trainService.save(trainDto);
         return error;
+    }
+
+    @Transactional
+    @Override
+    public boolean isTrainAlreadyExistsInSchedule(ScheduleTrainDto scheduleTrainDto) throws RailroadDaoException {
+        TrainEntity train = trainService.findTrainByNumber(scheduleTrainDto.getNumber());
+        List<Date> departDates = new ArrayList<>();
+        for(String depart: scheduleTrainDto.getDepartDates()){
+            departDates.add(getDate(depart.split(" ")[0], "yyyy-MM-dd"));
+        }
+        for(Date date: departDates){
+            if(scheduleService.getScheduleByTrainAndDepartDay(train, date) > 0){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isTrainAlreadyExistsInSchedule(ScheduleUpdateDto scheduleUpdateDto) throws RailroadDaoException {
+        ScheduleTrainDto scheduleTrainDto = new ScheduleTrainDto();
+        scheduleTrainDto.setNumber(scheduleUpdateDto.getNumber());
+        scheduleTrainDto.setDepartDates(scheduleUpdateDto.getDepartDates());
+        if(scheduleUpdateDto.getOldDepartDateFromFirstStation().split(" ")[0].
+                equals(scheduleUpdateDto.getDepartDates().get(0).split(" ")[0])){
+            return false;
+        }else {
+            return isTrainAlreadyExistsInSchedule(scheduleTrainDto);
+        }
     }
 
     /**

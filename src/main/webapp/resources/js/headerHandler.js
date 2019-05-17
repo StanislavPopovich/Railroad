@@ -1,9 +1,8 @@
 
 (function(){
     let url = window.location.pathname;
-    console.log(url);
     let headerMenu = document.querySelector(".header_menu");
-    console.log(headerMenu);
+
     if(headerMenu){
         let urls = headerMenu.querySelectorAll("a");
 
@@ -13,7 +12,6 @@
             if(currentUrl === url){
                 currentRef.classList.add("active");
             }
-            console.log(currentUrl);
         }
     }
 }());

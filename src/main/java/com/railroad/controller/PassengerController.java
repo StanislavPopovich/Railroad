@@ -4,6 +4,7 @@ import com.railroad.dto.passenger.PassengerDto;
 import com.railroad.dto.ticket.GlobalTrainsTicketDto;
 import com.railroad.exceptions.RailroadDaoException;
 import com.railroad.service.api.BusinessService;
+import com.railroad.service.api.SearchTrainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,6 +27,7 @@ public class PassengerController {
 
     @Autowired
     private BusinessService businessService;
+
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {

@@ -4,6 +4,7 @@ import com.railroad.dao.api.TrainGenericDao;
 import com.railroad.dto.train.TrainDto;
 import com.railroad.entity.TrainEntity;
 import com.railroad.entity.UserEntity;
+import com.railroad.exceptions.RailroadDaoException;
 import com.railroad.mapper.TrainEntityDtoMapper;
 import com.railroad.service.impl.TrainServiceImpl;
 import com.railroad.service.impl.UserServiceImpl;
@@ -48,35 +49,35 @@ public class TrainServiceMockTest {
 
 
     @Test
-    public void testIsAlreadyExist(){
+    public void testIsAlreadyExist() throws RailroadDaoException {
         when(trainDao.getCountTrains(trainEntity.getNumber())).thenReturn(1L);
         trainService.isAlreadyExist(trainEntity.getNumber());
         verify(trainDao).getCountTrains(trainEntity.getNumber());
     }
 
     @Test
-    public void testGetAll(){
+    public void testGetAll() throws RailroadDaoException {
         when(trainDao.getAll()).thenReturn(new ArrayList<TrainEntity>());
         trainService.getAll();
         verify(mapper).trainEntitiesToTrainDto(trainDao.getAll());
     }
 
     @Test
-    public void testFindTrainByNumber(){
+    public void testFindTrainByNumber() throws RailroadDaoException {
         when(trainDao.findTrainByNumber(trainEntity.getNumber())).thenReturn(trainEntity);
         trainService.findTrainByNumber(trainEntity.getNumber());
         verify(trainDao).findTrainByNumber(trainEntity.getNumber());
     }
 
     @Test
-    public void testFindTrainDtoByNumber(){
+    public void testFindTrainDtoByNumber() throws RailroadDaoException {
         when(trainDao.findTrainByNumber(trainEntity.getNumber())).thenReturn(trainEntity);
         trainService.getTrainDtoByNumber(trainEntity.getNumber());
         verify(mapper).trainEntityToTrainDto(trainEntity);
     }
 
     @Test
-    public void testGetAllTrainsNumbers(){
+    public void testGetAllTrainsNumbers() throws RailroadDaoException {
         when(trainDao.getAllTrainsNumbers()).thenReturn(new ArrayList<Integer>());
         trainService.getAllTrainsNumbers();
         verify(trainDao).getAllTrainsNumbers();

@@ -5,6 +5,7 @@ import com.railroad.dto.ticket.GlobalTrainsTicketDto;
 import com.railroad.exceptions.RailroadDaoException;
 import com.railroad.service.api.BusinessService;
 import com.railroad.service.api.BuyTicketService;
+import com.railroad.service.api.SearchTrainService;
 import com.railroad.service.api.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -31,10 +32,21 @@ public class TicketController {
     @Autowired
     private BuyTicketService buyTicketService;
 
+    @Autowired
+    private SearchTrainService searchTrainService;
+
     @GetMapping(value = "ticket/buy")
     public String getSuccessBuyTicketPage(@ModelAttribute("trainTicket") GlobalTrainsTicketDto globalTrainsTicketDto,
                                           @ModelAttribute("passenger") PassengerDto passengerDto,
                                           Model model) throws RailroadDaoException {
+        if(!searchTrainService.trainIsActual(globalTrainsTicketDto.getToTrain().getFirstTrain().getDepartDate())){
+            model.addAttribute("trainsDepartTimeError", true);
+            return "errorBuyTicketPage";
+        }
+        if(!searchTrainService.vacantTicketsIsExists(globalTrainsTicketDto)){
+            model.addAttribute("trainsTicketError", true);
+            return "errorBuyTicketPage";
+        }
         model.addAttribute("trainTicket", globalTrainsTicketDto);
         model.addAttribute("passenger", passengerDto);
         buyTicketService.saveTicket(globalTrainsTicketDto, passengerDto);

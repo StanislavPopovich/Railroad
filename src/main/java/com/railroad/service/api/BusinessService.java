@@ -1,6 +1,7 @@
 package com.railroad.service.api;
 import com.railroad.dto.passenger.PassengerDto;
 import com.railroad.dto.schedule.ScheduleMessageInfoDto;
+import com.railroad.dto.schedule.ScheduleTrainDto;
 import com.railroad.dto.schedule.ScheduleUpdateDto;
 import com.railroad.dto.ticket.GlobalTrainsTicketDto;
 import com.railroad.dto.ticket.TicketDto;
@@ -46,6 +47,10 @@ public interface BusinessService {
     int isPassengerAlreadyBoughtTicket(GlobalTrainsTicketDto globalTrainsTicketDto, PassengerDto passengerDto) throws RailroadDaoException;
 
     boolean[][] saveTrain(TrainDto trainDto) throws RailroadDaoException;
+
+    boolean isTrainAlreadyExistsInSchedule(ScheduleTrainDto scheduleTrainDto) throws RailroadDaoException;
+
+    boolean isTrainAlreadyExistsInSchedule(ScheduleUpdateDto scheduleUpdateDto) throws RailroadDaoException;
 
 
 
